@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 export const usePlayerCardStore = defineStore('playerCard', {
   state: () => ({
-    hand: ['minor-1', 'minor-2', 'minor-1', 'minor-2', 'minor-1', 'minor-2', 'minor-2', 'minor-1', 'minor-2', 'minor-2', 'minor-1', 'minor-2'] as string[],
+    hand: [] as string[],
     discard: [] as string[],
     play: [] as string[],
     used: [] as string[],
@@ -20,12 +20,18 @@ export const usePlayerCardStore = defineStore('playerCard', {
     take(card: string) {
       this.hand.push(card)
     },
+    setHand(cards: string[]) {
+      this.hand = [...cards]
+    },
     playCard(card: string) {
       this.hand = this.hand.filter(c => c !== card)
       this.play.push(card)
     },
     putCardInDiscard(card: string) {
-      this.hand = this.hand.filter(c => c !== card)
+      const index = this.hand.indexOf(card)
+      if (index > -1) {
+        this.hand.splice(index, 1)
+      }
       this.discard.push(card)
     },
     addToPlay(card: string) {

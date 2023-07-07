@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import GameCard from './GameCard.vue'
 import { useSwipe } from '@vueuse/core';
 defineProps({
@@ -23,7 +23,7 @@ const { lengthY } = useSwipe(
   },
   onSwipeEnd() {
     if ( cardheight.value && (Math.abs(lengthY.value) / cardheight.value) >= 0.5) {
-      if (lengthY.value > 0) {
+      if (lengthY.value > 0 && cardEl.value) {
         emit('swipeUp')
         return
       }
@@ -37,6 +37,9 @@ const { lengthY } = useSwipe(
       opacity.value = 1
     }
   },
+})
+onMounted(() => {
+  console.log(1)
 })
 </script>
 <template>

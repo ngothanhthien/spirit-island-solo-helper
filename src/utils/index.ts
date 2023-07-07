@@ -33,3 +33,11 @@ export const shuffle = (array: Array<string | number>) => {
   }
   return shuffled
 }
+
+export const generateTestCards = (type: string, n: number) => {
+  const cards = []
+  for (let i = 0; i < n; i++) {
+    cards.push(`${type}-${i}`)
+  }
+  return cards
+}

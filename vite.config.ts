@@ -15,6 +15,7 @@ export default defineConfig({
         description: 'My Awesome App description',
         theme_color: '#ffffff',
         orientation: 'landscape-primary',
+        display: 'fullscreen',
         icons: [
           {
             src: 'pwa-192x192.png',
