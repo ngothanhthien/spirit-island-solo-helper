@@ -1,3 +1,4 @@
+import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -13,6 +14,7 @@ export default defineConfig({
         short_name: 'MyApp',
         description: 'My Awesome App description',
         theme_color: '#ffffff',
+        orientation: 'landscape-primary',
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -40,4 +42,9 @@ export default defineConfig({
       }
     })
   ],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  }
 })
