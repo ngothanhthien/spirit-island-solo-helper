@@ -33,4 +33,5 @@ export const useMajorDeckStore = defineStore('majorDeck', {
       this.revealCard = null
     },
   },
+  persist: true,
 })

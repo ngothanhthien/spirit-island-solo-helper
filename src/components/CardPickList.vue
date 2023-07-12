@@ -34,7 +34,7 @@ function finish() {
   })
   cardPick.deck.filter((card) => !picked.value.includes(card)).forEach((card) => {
     if (cardPick.type === 'minor') {
-      minorDeck.putToDiscard(card)
+      minorDeck.addToDiscard(card)
     }
   })
   picked.value = []

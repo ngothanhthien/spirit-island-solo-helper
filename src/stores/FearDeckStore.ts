@@ -83,4 +83,5 @@ export const useFearDeckStore = defineStore('fearDeck', {
       this.showing = []
     }
   },
+  persist: true,
 })

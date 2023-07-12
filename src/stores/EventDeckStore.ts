@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import { EVENT_CARDS } from "@/constant"
 import { shuffle } from "@/utils"
-export const useEventDeckStore = defineStore('event', {
+export const useEventDeckStore = defineStore('eventDeck', {
   state: () => ({
     draw: [] as string[],
     discard: [] as string[],
@@ -41,4 +41,5 @@ export const useEventDeckStore = defineStore('event', {
       return this.draw[this.draw.length - 1]
     },
   },
+  persist: true,
 })

@@ -33,4 +33,5 @@ export const useMinorDeckStore = defineStore('minorDeck', {
       this.revealCard = null
     },
   },
+  persist: true,
 })

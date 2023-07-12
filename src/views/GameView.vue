@@ -9,7 +9,6 @@ const ControlArea = defineAsyncComponent(() => import('@/components/ControlArea.
 const ModalDiscardCommon = defineAsyncComponent(() => import('@/components/ModalDiscardCommon.vue'))
 const CardZoomModal = defineAsyncComponent(() => import('@/components/CardZoomModal.vue'))
 
-import { generateTestCards } from '@/utils'
 
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useMinorDeckStore } from '@/stores/MinorDeckStore'
@@ -45,7 +44,6 @@ onMounted(() => {
         event.preventDefault();
     }
   }, { passive: false })
-  test()
 })
 
 function putFromHandToDiscard(cardId: string) {
@@ -77,9 +75,6 @@ function switchMenu(menu: number) {
     const length = Object.keys(MENU_2).length
     currentMenu2.value = (currentMenu2.value + 1) % length
   }
-}
-function test() {
-  playerCard.setHand(generateTestCards('minor', 5))
 }
 </script>
 

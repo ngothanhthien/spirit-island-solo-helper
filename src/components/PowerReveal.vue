@@ -23,10 +23,10 @@ function putToDiscard() {
   const card = minorDeck.revealCard || majorDeck.revealCard as string
 
   if (powerType.value === 'major') {
-    majorDeck.putToDiscard(card)
+    majorDeck.addToDiscard(card)
     majorDeck.clearReveal()
   } else if (powerType.value === 'minor') {
-    minorDeck.putToDiscard(card)
+    minorDeck.addToDiscard(card)
     minorDeck.clearReveal()
   }
   logStore.add(`Discard: ${getCard(card)?.name}`, 'success')

@@ -10,14 +10,16 @@ import router from '@/router'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
+import { useMinorDeckStore } from '@/stores/MinorDeckStore'
+import { useMajorDeckStore } from '@/stores/MajorDeckStore'
 
 const MAX_SPIRIT = 4
 
 const gameOption = useGameOptionStore()
 const eventDeck = useEventDeckStore()
 const fearDeck = useFearDeckStore()
-const minorDeck = useFearDeckStore()
-const majorDeck = useFearDeckStore()
+const minorDeck = useMinorDeckStore()
+const majorDeck = useMajorDeckStore()
 const playerCard = usePlayerCardStore()
 
 const numberSpirit = ref<undefined | number>()
@@ -133,7 +135,8 @@ function startGame() {
     for (let i = 0; i < cards.length; i++) {
       hand.push(`unique${spiritIndex}-${i}`)
     }
-    playerCard.setHand(hand, playerIndex)
+    playerCard.changeCurrent(playerIndex)
+    playerCard.setHand(hand)
   })
 
   router.push('/game')

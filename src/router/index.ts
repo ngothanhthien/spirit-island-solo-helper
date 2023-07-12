@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import SetupView from '@/views/SetupView.vue'
 
+function lazyLoad(view: string) {
+  return () => import(`@/views/${view}.vue`)
+}
 const routes = [
   {
     path: '/',
@@ -8,11 +11,11 @@ const routes = [
   },
   {
     path: '/game',
-    component: import('@/views/GameView.vue'),
+    component: lazyLoad('GameView'),
   },
   {
     path: '/testing',
-    component: () => import('@/views/TestView.vue')
+    component: lazyLoad('TestingView')
   },
   {
     path: '/:catchAll(.*)',

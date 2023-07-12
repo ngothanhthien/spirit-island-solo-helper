@@ -1,8 +1,10 @@
 import { EVENT_CARDS, MAJOR_CARDS, MINOR_CARDS, SPIRIT } from "@/constant"
 
 export const getCardImage = (name: string, path: string) => {
-  return `/img/${path}/${name.toLowerCase().replace(/ /g, "_").replace('-', '').replace(',', '').replace(/'/g, '')}.webp`
+  const sanitized = name.toLowerCase().replace(/[-',]/g, '').replace(/\s/g, '_');
+  return `/img/${path}/${sanitized}.webp`;
 }
+
 export const getCard = (id: string) => {
   const [type, index] = id.split('-')
   if (type.startsWith('unique')) {

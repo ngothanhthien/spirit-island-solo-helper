@@ -9,4 +9,5 @@ export const useGameStateStore = defineStore('gameState', {
   actions: {
 
   },
+  persist: true,
 })

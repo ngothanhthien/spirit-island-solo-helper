@@ -31,15 +31,15 @@ function putUnderTwoTopCard() {
 }
 
 watch(() => eventDeck.draw, () => {
-  eventDeck.hide()
+  // eventDeck.hide()
 }, { deep: true })
 </script>
 
 <template>
-  <card-reveal @click-outside="eventDeck.hide()" :card="(eventDeck.current as string)">
+  <!-- <card-reveal @click-outside="eventDeck.hide()" :card="(eventDeck.current as string)">
     <template #button>
       <base-button @click="discardEvent">Discard Event</base-button>
       <base-button button-style="secondary" @click="putUnderTwoTopCard()">Put under two card</base-button>
     </template>
-  </card-reveal>
+  </card-reveal> -->
 </template>
