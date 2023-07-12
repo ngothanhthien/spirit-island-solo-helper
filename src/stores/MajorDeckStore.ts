@@ -14,7 +14,7 @@ export const useMajorDeckStore = defineStore('majorDeck', {
       const shuffled = shuffle(unShuffle)
       this.draw = shuffled.map(i => `major-${i}`)
     },
-    putToDiscard(card: string) {
+    addToDiscard(card: string) {
       this.discard.push(card)
     },
     forget(card: string) {

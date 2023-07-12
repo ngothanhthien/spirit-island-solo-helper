@@ -14,7 +14,7 @@ export const useMinorDeckStore = defineStore('minorDeck', {
       const shuffled = shuffle(unShuffle)
       this.draw = shuffled.map(i => `minor-${i}`)
     },
-    putToDiscard(card: string) {
+    addToDiscard(card: string) {
       this.discard.push(card)
     },
     forget(card: string) {

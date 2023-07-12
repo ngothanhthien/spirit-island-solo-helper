@@ -26,10 +26,25 @@ const slightLeft = computed(() => {
 </script>
 
 <template>
-  <div ref="handEl" class="flex">
-    <card-item v-for="card in cards" key="card" :card="card"
-      @swipe-down="$emit('swipe-down', card)"
+  <transition-group name="list" tag="div" ref="handEl" class="flex" appear>
+    <card-item v-for="card in cards" :key="card" :card="card" @swipe-down="$emit('swipe-down', card)"
       @swipe-up="$emit('swipe-up', card)"
       :style="`width: ${cardWidth}px;--l: ${slightLeft}px; --ml: ${slightLeft * (-1)}px;`" />
-  </div>
+  </transition-group>
 </template>
+<style>
+.list-enter-from {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.list-enter-to {
+  opacity: 1;
+  transform: translateX(0);
+}
+.list-leave-to, .list-leave-from {
+  opacity: 0;
+}
+.list-leave-active {
+  position: absolute;
+}
+</style>

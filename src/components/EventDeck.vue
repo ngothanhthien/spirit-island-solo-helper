@@ -1,29 +1,47 @@
 <script setup lang="ts">
-import CardDeck from '@/components/base/CardDeck.vue'
-import BaseButton from '@/components/base/BaseButton.vue'
+import { Teleport, ref } from 'vue'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
-import { useLogStore } from '@/stores/LogStore';
-import { getCard } from '@/utils';
+import CardReveal from '@/components/base/CardReveal.vue'
+import BaseButton from '@/components/base/BaseButton.vue'
+import IconDiscardPile from '@/components/icon/IconDiscardPile.vue'
+import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
 
 const eventDeck = useEventDeckStore()
-const logStore = useLogStore()
+const currentEvent = ref<string | null>(null)
+const modalDiscard = useModalDiscardStore()
 
-function revealEvent() {
-  const revealedEvent = eventDeck.reveal()
-  if (!revealedEvent) {
-    logStore.add('No event card left', 'error')
+function discardEvent() {
+  eventDeck.popEvent()
+  currentEvent.value = null
+}
+function putUnderTwoTopCard() {
+  eventDeck.putUnderTwoTopCard()
+  currentEvent.value = null
+}
+function showDiscardPile() {
+  if (eventDeck.discard.length === 0) {
     return
   }
-  logStore.add(`Event revealed: ${getCard(revealedEvent)?.name}`, 'success')
-}
-function shuffleEventDeck() {
-  eventDeck.shuffle()
-  logStore.add('Event deck shuffled', 'success')
+  modalDiscard.setDeck(eventDeck.discard, 'common')
 }
 </script>
 
 <template>
-  <card-deck type="event" :shuffle="shuffleEventDeck" :discard="eventDeck.discard">
-    <base-button @click="revealEvent">Reveal Event</base-button>
-  </card-deck>
+  <div class="inline-block relative h-full">
+    <div class="inline-block h-full relative">
+      <img class="rounded-lg h-full" :src="`/img/card-back/event.webp`" alt="Event card back`">
+      <button class="inline-block bg-gray-900/20 hover:bg-gray-900/30 rounded absolute bottom-1 right-1 text-white z-10">
+        <icon-discard-pile @click="showDiscardPile" class="w-8 h-8" />
+      </button>
+    </div>
+    <div @click.self="currentEvent = eventDeck.reveal()" class="absolute flex flex-col h-full w-full justify-center items-center top-0 space-y-4"></div>
+    <teleport to="#modal">
+      <card-reveal v-if="currentEvent" :card="currentEvent">
+        <template #button>
+          <base-button @click="discardEvent">Discard Event</base-button>
+          <base-button button-style="secondary" @click="putUnderTwoTopCard">Put under two card</base-button>
+        </template>
+      </card-reveal>
+    </teleport>
+  </div>
 </template>

@@ -9,6 +9,23 @@ export const useCardZoomStore = defineStore('cardZoom', {
     }, 
     deck: [] as string[],
   }),
+  getters: {
+    isShow: (state) => state.current !== null,
+    canNext: (state) => {
+      if (state.current) {
+        const index = state.deck.indexOf(state.current)
+        return index < state.deck.length - 1
+      }
+      return false
+    },
+    canPrevious: (state) => {
+      if (state.current) {
+        const index = state.deck.indexOf(state.current)
+        return index > 0
+      }
+      return false
+    },
+  },
   actions: {
     next() {
       if (this.current) {

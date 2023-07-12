@@ -33,6 +33,12 @@ export const shuffle = (array: Array<string | number>) => {
   }
   return shuffled
 }
+export const removeCard = (array: string[], card: string) => {
+  const index = array.indexOf(card)
+  if (index > -1) {
+    array.splice(index, 1)
+  }
+}
 
 export const generateTestCards = (type: string, n: number) => {
   const cards = []

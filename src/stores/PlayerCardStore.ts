@@ -1,4 +1,5 @@
-import { defineStore } from "pinia";
+import { defineStore } from "pinia"
+import { removeCard } from "@/utils"
 
 export const usePlayerCardStore = defineStore('playerCard', {
   state: () => ({
@@ -17,25 +18,36 @@ export const usePlayerCardStore = defineStore('playerCard', {
       this.play = []
       this.used = []
     },
-    take(card: string) {
-      this.hand.push(card)
-    },
     setHand(cards: string[]) {
       this.hand = [...cards]
     },
+    take(card: string) {
+      this.hand.push(card)
+    },
     playCard(card: string) {
-      this.hand = this.hand.filter(c => c !== card)
+      removeCard(this.hand, card)
       this.play.push(card)
     },
     putCardInDiscard(card: string) {
-      const index = this.hand.indexOf(card)
-      if (index > -1) {
-        this.hand.splice(index, 1)
-      }
+      removeCard(this.hand, card)
       this.discard.push(card)
+    },
+    returnCardFromPlay(card: string) {
+      removeCard(this.play, card)
+      this.hand.push(card)
+    },
+    removeCardFromPlay(card: string) {
+      removeCard(this.play, card)
+    },
+    toggleUseCard(card: string) {
+      if (this.used.includes(card)) {
+        removeCard(this.used, card)
+      } else {
+        this.used.push(card)
+      }
     },
     addToPlay(card: string) {
       this.play.push(card)
-    }
+    },
   },
 })

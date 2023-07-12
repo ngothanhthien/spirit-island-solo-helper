@@ -5,7 +5,6 @@ export const useEventDeckStore = defineStore('event', {
   state: () => ({
     draw: [] as string[],
     discard: [] as string[],
-    current: null as string | null,
   }),
   actions: {
     newDeck() {
@@ -39,12 +38,7 @@ export const useEventDeckStore = defineStore('event', {
       }
     },
     reveal() {
-      const cardId = this.draw[this.draw.length - 1]
-      this.current = this.draw[this.draw.length - 1]
-      return cardId
+      return this.draw[this.draw.length - 1]
     },
-    hide() {
-      this.current = null
-    }
   },
 })

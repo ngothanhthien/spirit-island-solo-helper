@@ -1836,7 +1836,7 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     description: '6 Fear. Destroy all Invaders. -If you have- 2 Sun, 2 Moon, 4 Water, 4 Earth: Destroy the board containing target land and everything on that board. All destroyed Blight is removed from the game instead of being returned to the Blight Card.',
   },
 ]
-export const EVENT_CARDS: Array<{name: string}> = [
+export const EVENT_CARDS: Array<{ name: string }> = [
   { "name": "bureaucrats_adjust_funding" },
   { "name": "cities_rise" },
   { "name": "civic_engagement" },
@@ -1887,45 +1887,1230 @@ export const EVENT_CARDS: Array<{name: string}> = [
 export const FEAR_CARDS: Array<{
   name: string
 }> = [
-  {name: 'angry_mobs'},
-  {name: 'avoid_the_dahan'},
-  {name: 'belief_takes_root'},
-  {name: 'beset_by_many_troubles'},
-  {name: 'communities_in_disarray'},
-  {name: 'dahan_attack'},
-  {name: 'dahan_enheartened'},
-  {name: 'dahan_on_their_guard'},
-  {name: 'dahan_raid'},
-  {name: 'dahan_reclaim_fishing_grounds'},
-  {name: 'dahan_threaten'},
-  {name: 'demoralized'},
-  {name: 'depart_the_dangerous_land'},
-  {name: 'depopulation'},
-  {name: 'discord'},
-  {name: 'emigration_accelerates'},
-  {name: 'explorers_are_reluctant'},
-  {name: 'fear_of_the_unseen'},
-  {name: 'flee_from_dangerous_lands'},
-  {name: 'flee_the_pestilent_land'},
-  {name: 'immigration_slows'},
-  {name: 'isolation'},
-  {name: 'mimic_the_dahan'},
-  {name: 'nerves_fray'},
-  {name: 'overseas_trade_seem_safer'},
-  {name: 'panic'},
-  {name: 'panicked_by_wild_beasts'},
-  {name: 'plan_for_departure'},
-  {name: 'quarantine'},
-  {name: 'retreat'},
-  {name: 'scapegoats'},
-  {name: 'seek_safety'},
-  {name: 'sense_of_dread'},
-  {name: 'spreading_timidity'},
-  {name: 'tall_tales_of_savagery'},
-  {name: 'theological_strife'},
-  {name: 'too_many_monsters'},
-  {name: 'trade_suffers'},
-  {name: 'tread_carefully'},
-  {name: 'unrest'},
-  {name: 'wary_of_the_interior'},
+    { name: 'angry_mobs' },
+    { name: 'avoid_the_dahan' },
+    { name: 'belief_takes_root' },
+    { name: 'beset_by_many_troubles' },
+    { name: 'communities_in_disarray' },
+    { name: 'dahan_attack' },
+    { name: 'dahan_enheartened' },
+    { name: 'dahan_on_their_guard' },
+    { name: 'dahan_raid' },
+    { name: 'dahan_reclaim_fishing_grounds' },
+    { name: 'dahan_threaten' },
+    { name: 'demoralized' },
+    { name: 'depart_the_dangerous_land' },
+    { name: 'depopulation' },
+    { name: 'discord' },
+    { name: 'emigration_accelerates' },
+    { name: 'explorers_are_reluctant' },
+    { name: 'fear_of_the_unseen' },
+    { name: 'flee_from_dangerous_lands' },
+    { name: 'flee_the_pestilent_land' },
+    { name: 'immigration_slows' },
+    { name: 'isolation' },
+    { name: 'mimic_the_dahan' },
+    { name: 'nerves_fray' },
+    { name: 'overseas_trade_seem_safer' },
+    { name: 'panic' },
+    { name: 'panicked_by_wild_beasts' },
+    { name: 'plan_for_departure' },
+    { name: 'quarantine' },
+    { name: 'retreat' },
+    { name: 'scapegoats' },
+    { name: 'seek_safety' },
+    { name: 'sense_of_dread' },
+    { name: 'spreading_timidity' },
+    { name: 'tall_tales_of_savagery' },
+    { name: 'theological_strife' },
+    { name: 'too_many_monsters' },
+    { name: 'trade_suffers' },
+    { name: 'tread_carefully' },
+    { name: 'unrest' },
+    { name: 'wary_of_the_interior' },
+  ]
+export const SPIRIT: Array<object> = [
+  {
+    "name": "Lightning's Swift Strike",
+    "cards": [
+      {
+        "name": "Harbingers of the Lightning",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Fire",
+          "Air"
+        ],
+        "description": "Push up to 2 Dahan. 1 Fear if you pushed any Dahan into a land with Town / City"
+      },
+      {
+        "name": "Lightning's Boon",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Fire",
+          "Air"
+        ],
+        "description": "Target Spirit may use up to 2 Slow Powers as if they were Fast Powers this turn"
+      },
+      {
+        "name": "Shatter Homesteads",
+        "cost": 2,
+        "speed": "Slow",
+        "elements": [
+          "Fire",
+          "Air"
+        ],
+        "description": "1 Fear. Destroy 1 Town."
+      },
+      {
+        "name": "Raging Storm",
+        "cost": 3,
+        "speed": "Slow",
+        "elements": [
+          "Fire",
+          "Air",
+          "Water"
+        ],
+        "description": "1 Damage to each Invader."
+      }
+    ]
+  },
+  {
+    "name": "River Surges In Sunlight",
+    "cards": [
+      {
+        "name": "Boon of Vigor",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Water",
+          "Plant"
+        ],
+        "description": "If you target yourself, gain 1 Energy. If you target another Spirit, they gain 1 Energy per Power Card they played this turn."
+      },
+      {
+        "name": "River's Bounty",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Sun",
+          "Water",
+          "Animal"
+        ],
+        "description": "Gather up to 2 Dahan. If there are now at least 2 Dahan, add 1 Dahan and gain 1 Energy."
+      },
+      {
+        "name": "Wash Away",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Water",
+          "Earth"
+        ],
+        "description": "Push up to 3 Explorer / Town"
+      },
+      {
+        "name": "Flash Floods",
+        "cost": 2,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Water"
+        ],
+        "description": "1 Damage. If target land is Coastal, +1 Damage."
+      }
+    ]
+  },
+  {
+    "name": "Shadows Flicker Like Flame",
+    "cards": [
+      {
+        "name": "Concealing Shadows",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Air"
+        ],
+        "description": "1 Fear. Dahan take no damage from Ravaging Invaders this turn."
+      },
+      {
+        "name": "Favors Called Due",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Air",
+          "Animal"
+        ],
+        "description": "Gather up to 4 Dahan. If Invaders are present and Dahan now outnumber them, 3 Fear."
+      },
+      {
+        "name": "Mantle of Dread",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Fire",
+          "Air"
+        ],
+        "description": "2 Fear. Target Spirit may Push 1 Explorer and 1 Town from a land where it has Presence."
+      },
+      {
+        "name": "Crops Wither and Fade",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Fire",
+          "Plant"
+        ],
+        "description": "2 Fear. Replace 1 Town with 1 Explorer. -or- Replace 1 City with 1 Town."
+      }
+    ]
+  },
+  {
+    "name": "Thunderspeaker",
+    "cards": [
+      {
+        "name": "Voice of Thunder",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Sun",
+          "Air"
+        ],
+        "description": "Push up to 4 Dahan. -or- If Invaders are Present, 2 Fear."
+      },
+      {
+        "name": "Words of Warning",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Air",
+          "Animal"
+        ],
+        "description": "Defend 3. During Ravage, Dahan in target land deal damage simultaneously with Invaders."
+      },
+      {
+        "name": "Sudden Ambush",
+        "cost": 2,
+        "speed": "Fast",
+        "elements": [
+          "Fire",
+          "Air",
+          "Animal"
+        ],
+        "description": "You may Gather 1 Dahan. Each Dahan destroys 1 Explorer."
+      },
+      {
+        "name": "Manifestation of Power and Glory",
+        "cost": 3,
+        "speed": "Slow",
+        "elements": [
+          "Sun",
+          "Fire",
+          "Air"
+        ],
+        "description": "1 Fear. Each Dahan deals damage equal to the number of your Presence in target land."
+      }
+    ]
+  },
+  {
+    "name": "Ocean's Hungry Grasp",
+    "cards": [
+      {
+        "name": "Call of the Deeps",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Air",
+          "Water"
+        ],
+        "description": "Gather 1 Explorer. If target land is the Ocean, you may Gather another Explorer."
+      },
+      {
+        "name": "Swallow the Land-Dwellers",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Water",
+          "Earth"
+        ],
+        "description": "Drown 1 Explorer, 1 Town, and 1 Dahan."
+      },
+      {
+        "name": "Grasping Tide",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Water"
+        ],
+        "description": "2 Fear. Defend 4."
+      },
+      {
+        "name": "Tidal Boon",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Water",
+          "Earth"
+        ],
+        "description": "Target Spirit gains 2 Energy and may Push 1 Town and up to 2 Dahan from one of their lands. If Dahan are pushed to your ocean, you may move them to any Coastal land instead of Drowning them."
+      }
+    ]
+  },
+  {
+    "name": "Bringer Of Dreams And Nightmares",
+    "cards": [
+      {
+        "name": "Call on Midnight's Dream",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Animal"
+        ],
+        "description": "If target land has Dahan, gain a Major Power. If you Forget this Power, gain Energy equal to Dahan and you may play the Major Power immediately, paying its cost. -or- If Invaders are present, 2 Fear."
+      },
+      {
+        "name": "Dreams of the Dahan",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Air"
+        ],
+        "description": "Gather up to 2 Dahan. -or- If target land has Town / City, 1 Fear for each Dahan, to a maximum of 3 Fear."
+      },
+      {
+        "name": "Predatory Nightmares",
+        "cost": 2,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Fire",
+          "Earth",
+          "Animal"
+        ],
+        "description": "2 Damage. Push up to 2 Dahan. (When your powers would destroy Invaders, instead they generate Fear and/or Push those Invaders.)"
+      },
+      {
+        "name": "Dread Apparitions",
+        "cost": 2,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Air"
+        ],
+        "description": "When Powers generate Fear in target land, Defend 1 per Fear. 1 Fear. (Fear from To Dream a Thousand Deaths counts. Fear from destroying Town / City does not.)"
+      }
+    ]
+  },
+  {
+    "name": "A Spread Of Rampant Green",
+    "cards": [
+      {
+        "name": "Fields Choked with Growth",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Sun",
+          "Water",
+          "Plant"
+        ],
+        "description": "Push 1 Town. -or- Push 3 Dahan"
+      },
+      {
+        "name": "Stem the Flow of Fresh Water",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Water",
+          "Plant"
+        ],
+        "description": "1 Damage to 1 Town / City. If target land is Mountain / Sands, instead, 1 Damage to each Town / City."
+      },
+      {
+        "name": "Gift of Proliferation",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Plant"
+        ],
+        "description": "Target Spirit adds 1 Presence up to 1 Range from their Presence."
+      },
+      {
+        "name": "Overgrow in a Night",
+        "cost": 2,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Plant"
+        ],
+        "description": "Add 1 Presence. -or- If target land has your Presence and Invaders, 3 Fear."
+      }
+    ]
+  },
+  {
+    "name": "Sharp Fangs Behind The Leaves",
+    "cards": [
+      {
+        "name": "Too Near the Jungle",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Plant",
+          "Animal"
+        ],
+        "description": "1 Fear. Destroy 1 Explorer."
+      },
+      {
+        "name": "Prey on the Builders",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Fire",
+          "Animal"
+        ],
+        "description": "You may Gather 1 Beasts. If target land has Beasts, Invaders do not Build there this turn."
+      },
+      {
+        "name": "Teeth Gleam from Darkness",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Plant",
+          "Animal"
+        ],
+        "description": "1 Fear. Add 1 Beasts. -or- If target land has both Beasts and Invaders: 3 Fear."
+      },
+      {
+        "name": "Terrifying Chase",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Sun",
+          "Animal"
+        ],
+        "description": "Push 2 Explorer / Town / Dahan. Push another 2 Explorer / Town / Dahan per Beasts in target land. If you Pushed any Invaders, 2 Fear."
+      }
+    ]
+  },
+  {
+    "name": "Heart Of The Wildfire",
+    "cards": [
+      {
+        "name": "Flame's Fury",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Fire",
+          "Plant"
+        ],
+        "description": "Target Spirit gains 1 Energy. Target Spirit does +1 Damage with each Damage dealing Power they use this turn. (Powers which damage multiple lands or each Invader only get 1 extra damage total. Repeated Powers keep the +1 boost. Destroy effects don't get any bonus.)"
+      },
+      {
+        "name": "Threatening Flames",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Fire",
+          "Plant"
+        ],
+        "description": "2 Fear. Push 1 Explorer / Town per Terror Level from target land to adjacent lands without your Presence. If there are no such adjacent lands, +2 Fear."
+      },
+      {
+        "name": "Flash-Fires",
+        "cost": 2,
+        "speed": "Slow",
+        "elements": [
+          "Fire",
+          "Air"
+        ],
+        "description": "1 Fear. 1 Damage. -If you have- 2 Air: This Power is Fast."
+      },
+      {
+        "name": "Asphyxiating Smoke",
+        "cost": 2,
+        "speed": "Slow",
+        "elements": [
+          "Fire",
+          "Air",
+          "Plant"
+        ],
+        "description": "1 Fear. Destroy 1 Town. Push 1 Dahan."
+      }
+    ]
+  },
+  {
+    "name": "Grinning Trickster Stirs Up Trouble",
+    "cards": [
+      {
+        "name": "Unexpected Tigers",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Fire",
+          "Animal"
+        ],
+        "description": "1 Fear if Invaders are present. If you can gather 1 Beasts, do so, then push 1 Explorer. Otherwise, add 1 Beasts."
+      },
+      {
+        "name": "Impersonate Authority",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Sun",
+          "Air",
+          "Animal"
+        ],
+        "description": "Add 1 Strife."
+      },
+      {
+        "name": "Incite the Mob",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Fire",
+          "Air",
+          "Animal"
+        ],
+        "description": "1 Invader with Strife deals Damage to other Invaders (not to each Invader). 1 Fear per Invader this Power Destroyed."
+      },
+      {
+        "name": "Overenthusiastic Arson",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Fire",
+          "Air"
+        ],
+        "description": "Destroy 1 Town. Discard the top card of the Minor Power Deck. If it provides Fire: 1 Fear, 2 Damage, and add 1 Blight."
+      }
+    ]
+  },
+  {
+    "name": "Shroud Of Silent Mist",
+    "cards": [
+      {
+        "name": "Flowing and Silent Forms Dart By",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Air",
+          "Water"
+        ],
+        "description": "2 Fear if Invaders are present. When Presence in target land would be Destroyed, its owner may, if possible, instead Push that Presence. You may Gather 1 Presence / Sacred Site of another Spirit (with their permission)."
+      },
+      {
+        "name": "The Fog Closes In",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Air",
+          "Water"
+        ],
+        "description": "For each adjacent land with your Presence, 1 Damage to a different Invader. Push 2 Dahan."
+      },
+      {
+        "name": "Unnerving Pall",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Air",
+          "Animal"
+        ],
+        "description": "1 Fear. Up to 3 damaged Invaders do not participate in Ravage. -or- 1 Fear. Defend 1 per Presence you have in target land (when this Power is used)."
+      },
+      {
+        "name": "Dissolving Vapors",
+        "cost": 2,
+        "speed": "Slow",
+        "elements": [
+          "Air",
+          "Water"
+        ],
+        "description": "1 Fear. 1 Damage to each Invader. 1 Damage to each Dahan."
+      }
+    ]
+  },
+  {
+    "name": "Vengeance As A Burning Plague",
+    "cards": [
+      {
+        "name": "Fiery Vengeance",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Fire"
+        ],
+        "description": "Cost to Use: Target Spirit Removes 1 of their Destroyed Presence from the game. 1 Fear and 1 Damage in one of target Spirit's lands. (This is your Power, so Blight counts as Badlands, even if target is another Spirit.)"
+      },
+      {
+        "name": "Plaguebearers",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Fire",
+          "Water",
+          "Animal"
+        ],
+        "description": "1 Fear if Invaders are present. For each Disease, Push 2 Explorer / Town / Dahan. 1 Disease may move with each Pushed piece."
+      },
+      {
+        "name": "Fetid Breath Spreads Infection",
+        "cost": 2,
+        "speed": "Slow",
+        "elements": [
+          "Air",
+          "Water",
+          "Animal"
+        ],
+        "description": "1 Fear. Add 1 Disease."
+      },
+      {
+        "name": "Strike Low with Sudden Fevers",
+        "cost": 2,
+        "speed": "Fast",
+        "elements": [
+          "Fire",
+          "Air",
+          "Earth",
+          "Animal"
+        ],
+        "description": "1 Fear. Invaders skip Ravage Actions."
+      }
+    ]
+  },
+  {
+    "name": "Fractured Days Split The Sky",
+    "cards": [
+      {
+        "name": "The Past Returns Again",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Moon"
+        ],
+        "description": "Cost to Use: N Time, and Spirits jointly pay N Energy (where N = # of players). Swap the top card of the Invader Deck with a card in the Invader discard that is within 1 Invader Stage of it. (The discarded card stays face-down. You can't swap cards that don't exist.)"
+      },
+      {
+        "name": "Absolute Stasis",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Air",
+          "Earth"
+        ],
+        "description": "Cost to Use: 1 Time. Until the end of the Slow phase, target land and everything in it cease to exist for all purposes except checking victory/defeat. (You cannot target into, out of, or through where the land was.) This cannot target an Ocean even if Oceans are in play."
+      },
+      {
+        "name": "Pour Time Sideways",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Air",
+          "Water"
+        ],
+        "description": "Cost to Use: 3 Time. Move 1 of your Presence to a different land with your Presence. On the board moved from: During the Invader Phase, Resolve Invader and \"Each board / Each land...\" Actions one fewer time. On the board moved to: During the Invader Phase, Resolve Invader and \"Each board / Each Land...\" Actions one more time."
+      },
+      {
+        "name": "Blur the Arc of Years",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Moon",
+          "Air"
+        ],
+        "description": "If no Dahan / Invaders are present: Remove 1 Blight. If invaders are present: they Build, then Ravage. If Dahan are present: Add 1 Dahan. Push up to 2 Dahan. You may repeat this power (once) on the same land by spending 1 Time."
+      }
+    ]
+  },
+  {
+    "name": "Shifting Memory Of Ages",
+    "cards": [
+      {
+        "name": "Elemental Teachings",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Air",
+          "Earth"
+        ],
+        "description": "Prepare 1 Element Marker. Discard up to 3 Element Markers. Target Spirit gains those Elements. (They can be any combination of Elements - the same or different.)"
+      },
+      {
+        "name": "Share Secrets of Survival",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Air",
+          "Earth"
+        ],
+        "description": "Each time Dahan would be Destroyed in target land, Destroy 2 fewer Dahan. -or- Gather up to 2 Dahan.  -If you have- 3 Air: You may do both."
+      },
+      {
+        "name": "Study the Invaders' Fears",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Air",
+          "Animal"
+        ],
+        "description": "2 Fear. Turn the top card of the Fear Deck face-up."
+      },
+      {
+        "name": "Boon of Ancient Memories",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Water",
+          "Earth",
+          "Plant"
+        ],
+        "description": "If you target yourself, gain a Minor Power. Otherwise: Target Spirit gains a Power Card. If it's a Major Power, they may pay 2 Energy instead of Forgetting a Power Card."
+      }
+    ]
+  },
+  {
+    "name": "Starlight Seeks Its Form",
+    "cards": [
+      {
+        "name": "Gather the Scattered Light of Stars",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Moon"
+        ],
+        "description": "At end of turn after discarding: Reclaim up to 2 cards to your hand. You may then Forget a Unique Power Card to Reclaim up to 3 additional cards."
+      },
+      {
+        "name": "Shape the Self Anew",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Moon"
+        ],
+        "description": "Gain a Minor Power. You may Forget this Power Card to gain 3 Energy.  -If you have- 4 Moon: You may gain a Major Power instead of a Minor Power."
+      },
+      {
+        "name": "Boon of Reimagining",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Moon"
+        ],
+        "description": "Target Spirit may Forget a Power Card from hand or discard. If they do, they draw 6 Minor Power Cards and gain 2 of them. If you target another Spirit, they gain 1 Energy."
+      },
+      {
+        "name": "Peace of the Nighttime Sky",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Moon"
+        ],
+        "description": "If the Terror Level is 1, Invaders do not Ravage in target land this turn. You may Repeat this Power. If you do, Forget this Power Card and Gain 1 Moon."
+      }
+    ]
+  },
+  {
+    "name": "Stone's Unyielding Defiance",
+    "cards": [
+      {
+        "name": "Jagged Shards Push from the Earth",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Fire",
+          "Earth"
+        ],
+        "description": "Add 1 Badlands. Push up to 2 Dahan."
+      },
+      {
+        "name": "Stubborn Solidity",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Earth",
+          "Animal"
+        ],
+        "description": "Defend 1 per Dahan. Dahan in target land cannot be changed. (When they would be Damaged, Destroyed, Removed, Replaced, or moved, instead don't)"
+      },
+      {
+        "name": "Scarred and Stony Land",
+        "cost": 2,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Earth"
+        ],
+        "description": "2 Damage. Add 1 Badlands. Remove 1 Blight in target land from the game. (It goes to the box, not the Blight Card.)"
+      },
+      {
+        "name": "Plows Shatter on Rocky Ground",
+        "cost": 2,
+        "speed": "Slow",
+        "elements": [
+          "Earth"
+        ],
+        "description": "1 Damage to each Town / City. Push up to 1 Town. -or- Destroy 1 Town."
+      }
+    ]
+  },
+  {
+    "name": "Lure Of The Deep Wilderness",
+    "cards": [
+      {
+        "name": "Gift of the Untamed Wild",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Fire",
+          "Air",
+          "Plant"
+        ],
+        "description": "Target Spirit chooses to either: add 1 Wilds to one of their lands. -or- Replace 1 of their Presence with 1 Disease."
+      },
+      {
+        "name": "Perils of the Deepest Island",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Plant",
+          "Animal"
+        ],
+        "description": "1 Fear. Add 1 Badlands. Add 1 Beasts within 1 Range. Push up to 2 Dahan."
+      },
+      {
+        "name": "Swallowed by the Wilderness",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Fire",
+          "Air",
+          "Plant",
+          "Animal"
+        ],
+        "description": "2 Fear. 1 Damage per Beasts / Disease / Wilds / Badlands. (Count max. 5 tokens.)"
+      },
+      {
+        "name": "Softly Beckon Ever Inward",
+        "cost": 2,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Air"
+        ],
+        "description": "Gather up to 2 Explorer. Gather up to 2 Town. Gather up to 2 Beasts. Gather up to 2 Dahan."
+      }
+    ]
+  },
+  {
+    "name": "Many Minds Move As One",
+    "cards": [
+      {
+        "name": "Pursue with Scratches, Pecks, and Stings",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Fire",
+          "Air",
+          "Animal"
+        ],
+        "description": "1 Fear. For each Beasts past the first, Push 1 Explorer / Town."
+      },
+      {
+        "name": "A Dreadful Tide of Scurrying Flesh",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Air",
+          "Water",
+          "Animal"
+        ],
+        "description": "Remove up to half (round down) of Beasts in target land. For each Beasts Removed, 2 Fear and skip one Invader Action."
+      },
+      {
+        "name": "Boon of Swarming Bedevilment",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Air",
+          "Water",
+          "Animal"
+        ],
+        "description": "For the rest of this turn, each of target Spirit's Presence grants Defend 1 in its land. Target Spirit may Push up to 1 of their Presence."
+      },
+      {
+        "name": "Guide the Way on Feathered Wings",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Air",
+          "Animal"
+        ],
+        "description": "Move 1 Beasts up to two lands. As it moves, up to 2 Dahan may move with it, for part or all of the way. (The Beasts / Dahan may move to an adjacent land and then back.)"
+      },
+      {
+        "name": "Ever-Multiplying Swarm",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Fire",
+          "Earth",
+          "Animal"
+        ],
+        "description": "Add 2 Beasts."
+      }
+    ]
+  },
+  {
+    "name": "Downpour Drenches The World",
+    "cards": [
+      {
+        "name": "Unbearable Deluge",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Air",
+          "Water",
+          "Earth"
+        ],
+        "description": "1 fear. Push 2 Dahan. Defend 3. If target land is Wetland, Isolate it."
+      },
+      {
+        "name": "Foundations Sink into Mud",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Water",
+          "Earth"
+        ],
+        "description": "2 damage to Town. If target land is Wetland, you may instead deal 1 Damage to each Town / City."
+      },
+      {
+        "name": "Gift of Abundance",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Air",
+          "Water",
+          "Plant"
+        ],
+        "description": "Target Spirit either gains 2 Energy, or may Repeat one Power Card this turn by paying its cost. Either you or target Spirit may add 1 Destroyed Presence to a Wetland where you have Presence."
+      },
+      {
+        "name": "Dark Skies Loose a Stinging Rain",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Air",
+          "Water"
+        ],
+        "description": "Isolate target land. Push up to 1 Explorer and up to 2 Dahan."
+      }
+    ]
+  },
+  {
+    "name": "Finder Of Paths Unseen",
+    "cards": [
+      {
+        "name": "Traveler's Boon",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Air",
+          "Water"
+        ],
+        "description": "Target spirit moves up to 3 of their Presence to one of your lands. They may move up to 1 Invader, 1 Dahan and 1 Beasts along with their Presence. (Total, not for each Presence.)"
+      },
+      {
+        "name": "Paths Tied by Nature",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Sun",
+          "Air",
+          "Earth",
+          "Plant"
+        ],
+        "description": "Move up to 2 Invaders / Dahan / Presence / Beasts to a land within 2 Range that has the same terrain."
+      },
+      {
+        "name": "A Circuitous and Wending Journey",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Air"
+        ],
+        "description": "Push up to half (round up) of Invaders from target land. Do likewise (separately) for Dahan, Presence, and Beasts."
+      },
+      {
+        "name": "Offer Passage Between Worlds",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Moon",
+          "Air"
+        ],
+        "description": "Move up to 4 Dahan between target land and one of your lands. -or- The next time Dahan would be Destroyed in target land, Destroy 2 fewer Dahan."
+      },
+      {
+        "name": "Ways of Shore and Heartland",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Air",
+          "Water",
+          "Earth"
+        ],
+        "description": "Push up to 2 Invaders / Dahan / Presence / Beasts to a land that is also Coastal / Inland (whichever the target land is.)"
+      },
+      {
+        "name": "Aid from the Spirit-Speakers",
+        "cost": 2,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Fire",
+          "Air",
+          "Animal"
+        ],
+        "description": "For each Dahan, you may move 1 Invader / Dahan / Presence / Beasts to a land within 2 Range that has Dahan."
+      }
+    ]
+  },
+  {
+    "name": "Vital Strength Of The Earth",
+    "cards": [
+      {
+        "name": "Draw of the Fruitful Earth",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Earth",
+          "Plant",
+          "Animal"
+        ],
+        "description": "Gather up to 2 Explorer. Gather up to 2 Dahan."
+      },
+      {
+        "name": "Guard the Healing Land",
+        "cost": 3,
+        "speed": "Fast",
+        "elements": [
+          "Water",
+          "Earth",
+          "Plant"
+        ],
+        "description": "Remove 1 Blight. Defend 4."
+      },
+      {
+        "name": "A Year of Perfect Stillness",
+        "cost": 3,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Earth"
+        ],
+        "description": "Invaders skip all Actions in target land this turn."
+      },
+      {
+        "name": "Rituals of Destruction",
+        "cost": 3,
+        "speed": "Slow",
+        "elements": [
+          "Sun",
+          "Moon",
+          "Fire",
+          "Earth",
+          "Plant"
+        ],
+        "description": "2 Damage. If target land has at least 3 Dahan, +3 Damage and 2 Fear."
+      }
+    ]
+  },
+  {
+    "name": "Keeper Of The Forbidden Wilds",
+    "cards": [
+      {
+        "name": "Regrow from Roots",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Water",
+          "Earth",
+          "Plant"
+        ],
+        "description": "If there are 2 Blight or fewer in target land, remove 1 Blight."
+      },
+      {
+        "name": "Boon of Growing Power",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Sun",
+          "Moon",
+          "Plant"
+        ],
+        "description": "Target Spirit gains a Power Card. If you target another Spirit, they also gain 1 Energy."
+      },
+      {
+        "name": "Sacrosanct Wilderness",
+        "cost": 2,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Earth",
+          "Plant"
+        ],
+        "description": "Push 2 Dahan. 2 Damage per Wilds in target land. -or- Add 1 Wilds."
+      },
+      {
+        "name": "Towering Wrath",
+        "cost": 3,
+        "speed": "Slow",
+        "elements": [
+          "Sun",
+          "Fire",
+          "Plant"
+        ],
+        "description": "2 Fear. For each of your SacredSite in / adjacent to target land, 2 Damage. Destroy all Dahan."
+      }
+    ]
+  },
+  {
+    "name": "Serpent Slumbering Beneath The Island",
+    "cards": [
+      {
+        "name": "Gift of the Primordial Deeps",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Earth"
+        ],
+        "description": "Target Spirit gains a Minor Power. Target Spirit chooses to either: Play it immediately by paying its cost. -or- Gain 1 Moon and 1 Earth."
+      },
+      {
+        "name": "Gift of Flowing Power",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Fire",
+          "Water"
+        ],
+        "description": "Target Spirit gains 1 Energy. Target Spirit chooses to either: Play another Power Card by paying its cost. -or- Gain 1 Fire and 1 Water."
+      },
+      {
+        "name": "Elemental Aegis",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Fire",
+          "Water",
+          "Earth"
+        ],
+        "description": "Defend 2 in target land and all adjacent lands. For every Presence on your \"Deep Slumber\" track, Defend 1 in target land and all adjacent lands."
+      },
+      {
+        "name": "Absorb Essence",
+        "cost": 2,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Fire",
+          "Water",
+          "Earth"
+        ],
+        "description": "Gain 3 Energy. Move 1 of target Spirit's Presence from the board to your \"Deep Slumber\" track. Absorbed Presence cannot be returned to play. Target Spirit gains 1 Any and 1 Energy."
+      }
+    ]
+  },
+  {
+    "name": "Volcano Looming High",
+    "cards": [
+      {
+        "name": "Lava Flows",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Fire",
+          "Earth"
+        ],
+        "description": "Add 1 Badlands and 1 Wilds. -or- 1 Damage."
+      },
+      {
+        "name": "Exaltation of Molten Stone",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Fire",
+          "Earth"
+        ],
+        "description": "Split 1 Energy per Fire you have between yourself and target Spirit, as evenly as possible. Target Spirit gains +1 Range with their powers that originate from a Mountain."
+      },
+      {
+        "name": "Rain of Ash",
+        "cost": 2,
+        "speed": "Slow",
+        "elements": [
+          "Fire",
+          "Air",
+          "Earth"
+        ],
+        "description": "2 Fear if Invaders are present. Push 2 Dahan and 2 Explorer / Town to land(s) without your Presence."
+      },
+      {
+        "name": "Pyroclastic Bombardment",
+        "cost": 3,
+        "speed": "Fast",
+        "elements": [
+          "Fire",
+          "Air",
+          "Earth"
+        ],
+        "description": "1 Damage to each Town / City / Dahan. 1 Damage. 1 Damage to Dahan."
+      }
+    ]
+  }
 ]
+
+export const MAP = ["A", "B", "C", "D", "E", "F"]

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import GameCard from './GameCard.vue'
 import { useSwipe } from '@vueuse/core';
 defineProps({
@@ -18,7 +18,6 @@ const { lengthY } = useSwipe(
   onSwipe() {
     if (cardheight.value) {
       top.value = -lengthY.value
-      opacity.value = 1.1 - (Math.abs(lengthY.value) / cardheight.value)
     }
   },
   onSwipeEnd() {
@@ -34,30 +33,24 @@ const { lengthY } = useSwipe(
     }
     else {
       top.value = 0
-      opacity.value = 1
     }
   },
-})
-onMounted(() => {
-  console.log(1)
 })
 </script>
 <template>
   <div ref="cardEl"
-    :style="`top: ${top}px; opacity: ${opacity}; transition: 0.4s ease-out;`"
+    :style="`top: ${top}px;`"
     class="cs-card left-0 relative shadow-lg shadow-stone-600 rounded-xl overflow-hidden flex-grow-0 flex-shrink-0 flex">
     <game-card :id="card" />
   </div>
 </template>
 <style scoped>
-.cs-card {
-  transition: 0.4s ease-out;
-}
-
 .cs-card:not(:first-child) {
   margin-left: var(--ml);
 }
-
+.cs-card {
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out, left 0.4s ease-out;
+}
 .cs-card:hover {
   transform: translateY(-10px);
 }
