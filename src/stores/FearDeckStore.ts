@@ -33,7 +33,10 @@ export const useFearDeckStore = defineStore('fearDeck', {
     },
   },
   actions: {
-    newDeck() {
+    newDeck(fearStage?: number[]) {
+      if (fearStage) {
+        this.fearStage = [...fearStage]
+      }
       const unShuffle = Array.from(Array(FEAR_CARDS.length).keys())
       const shuffled = shuffle(unShuffle)
       const fearDeck = []
@@ -44,7 +47,7 @@ export const useFearDeckStore = defineStore('fearDeck', {
           fearDeck.push(`fear-${card}`)
         }
       }
-      this.draw = fearDeck.map(i => `fear-${i}`)
+      this.draw = [...fearDeck]
     },
     shuffle() {
       this.draw = shuffle(this.draw) as string[]

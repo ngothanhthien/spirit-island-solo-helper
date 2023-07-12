@@ -1929,7 +1929,10 @@ export const FEAR_CARDS: Array<{
     { name: 'unrest' },
     { name: 'wary_of_the_interior' },
   ]
-export const SPIRIT: Array<object> = [
+export const SPIRIT: Array<{
+  name: string,
+  cards: Array<PowerCard>
+}> = [
   {
     "name": "Lightning's Swift Strike",
     "cards": [
@@ -3112,5 +3115,54 @@ export const SPIRIT: Array<object> = [
     ]
   }
 ]
-
+export const ADVERSARY = [
+  {
+    title: 'Prussia',
+    fear: [
+      [3, 3, 3],
+      [3, 3, 3],
+      [3, 3, 3],
+      [3, 4, 3],
+      [4, 4, 3],
+      [4, 4, 3],
+      [4, 4, 4],
+    ],
+    difficultly: [1, 2, 4, 6, 7, 8, 9],
+    invaders: [
+      '111222233333',
+      '111222233333',
+      '111322223333',
+      '11322223333',
+      '1132223333',
+      '132223333',
+      '32223333',
+    ],
+    img: 'prussia',
+    extraObject: [],
+  },
+  {
+    title: 'England',
+    fear: [
+      [3, 3, 3],
+      [3, 4, 3],
+      [4, 4, 3],
+      [4, 5, 4],
+      [4, 5, 5],
+      [4, 5, 5],
+      [4, 5, 4],
+    ],
+    difficultly: [1, 3, 4, 6, 7, 9, 11],
+    invaders: [
+      '111222233333',
+      '111222233333',
+      '111222233333',
+      '111222233333',
+      '111222233333',
+      '111222233333',
+      '111222233333',
+    ],
+    img: 'england',
+    extraObject: [],
+  },
+]
 export const MAP = ["A", "B", "C", "D", "E", "F"]

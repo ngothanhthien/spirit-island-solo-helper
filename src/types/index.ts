@@ -8,3 +8,9 @@ export interface PowerCard {
 export type Speed = 'Slow' | 'Fast'
 export type Element = 'Fire' | 'Air' | 'Earth' | 'Water' | 'Sun' | 'Animal' | 'Moon' | 'Plant' | ''
 export type CardListStatus = 'pick-power' | 'view-discard' | ''
+export interface Player {
+  hand: string[]
+  discard: string[]
+  play: string[]
+  used: string[]
+}

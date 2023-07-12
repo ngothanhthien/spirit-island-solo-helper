@@ -1,10 +1,17 @@
-import { EVENT_CARDS, MAJOR_CARDS, MINOR_CARDS } from "@/constant"
+import { EVENT_CARDS, MAJOR_CARDS, MINOR_CARDS, SPIRIT } from "@/constant"
 
 export const getCardImage = (name: string, path: string) => {
   return `/img/${path}/${name.toLowerCase().replace(/ /g, "_").replace('-', '').replace(',', '').replace(/'/g, '')}.webp`
 }
 export const getCard = (id: string) => {
   const [type, index] = id.split('-')
+  if (type.startsWith('unique')) {
+    const spiritIndex = Number(type.match(/\d+/g))
+    return {
+      path: 'powers',
+      ...SPIRIT[spiritIndex].cards[parseInt(index)]
+    }
+  }
   switch (type) {
     case 'major':
       return {

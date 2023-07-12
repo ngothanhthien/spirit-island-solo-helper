@@ -1,53 +1,70 @@
-import { defineStore } from "pinia"
-import { removeCard } from "@/utils"
+import { defineStore } from 'pinia'
+import { removeCard } from '@/utils'
+import type { Player } from '@/types'
+
+function createPlayer(): Player {
+  return {
+    hand: [],
+    discard: [],
+    play: [],
+    used: [],
+  }
+}
 
 export const usePlayerCardStore = defineStore('playerCard', {
   state: () => ({
-    hand: [] as string[],
-    discard: [] as string[],
-    play: [] as string[],
-    used: [] as string[],
+    players: [] as Player[],
   }),
   actions: {
-    reclaim() {
-      this.hand = [...this.hand, ...this.discard]
-      this.discard = []
+    addPlayer() {
+      this.players.push(createPlayer())
+      return this.players.length - 1
     },
-    cleanUp() {
-      this.discard = [...this.discard, ...this.play]
-      this.play = []
-      this.used = []
+    reclaim(index: number) {
+      this.players[index].hand = [
+        ...this.players[index].hand,
+        ...this.players[index].discard,
+      ]
+      this.players[index].discard = []
     },
-    setHand(cards: string[]) {
-      this.hand = [...cards]
+    cleanUp(index: number) {
+      this.players[index].discard = [
+        ...this.players[index].discard,
+        ...this.players[index].play,
+      ]
+      this.players[index].play = []
+      this.players[index].used = []
     },
-    take(card: string) {
-      this.hand.push(card)
+    setHand(cards: string[], index: number) {
+      this.players[index].hand = [...cards]
     },
-    playCard(card: string) {
-      removeCard(this.hand, card)
-      this.play.push(card)
+    take(card: string, index: number) {
+      this.players[index].hand.push(card)
     },
-    putCardInDiscard(card: string) {
-      removeCard(this.hand, card)
-      this.discard.push(card)
+    playCard(card: string, index: number) {
+      removeCard(this.players[index].hand, card)
+      this.players[index].play.push(card)
     },
-    returnCardFromPlay(card: string) {
-      removeCard(this.play, card)
-      this.hand.push(card)
+    putCardInDiscard(card: string, index: number) {
+      removeCard(this.players[index].hand, card)
+      this.players[index].discard.push(card)
     },
-    removeCardFromPlay(card: string) {
-      removeCard(this.play, card)
+    returnCardFromPlay(card: string, index: number) {
+      removeCard(this.players[index].play, card)
+      this.players[index].hand.push(card)
     },
-    toggleUseCard(card: string) {
-      if (this.used.includes(card)) {
-        removeCard(this.used, card)
+    removeCardFromPlay(card: string, index: number) {
+      removeCard(this.players[index].play, card)
+    },
+    toggleUseCard(card: string, index: number) {
+      if (this.players[index].used.includes(card)) {
+        removeCard(this.players[index].used, card)
       } else {
-        this.used.push(card)
+        this.players[index].used.push(card)
       }
     },
-    addToPlay(card: string) {
-      this.play.push(card)
+    addToPlay(card: string, index: number) {
+      this.players[index].play.push(card)
     },
   },
 })
