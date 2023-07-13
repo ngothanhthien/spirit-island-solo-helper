@@ -6,16 +6,24 @@ function lazyLoad(view: string) {
 }
 const routes = [
   {
-    path: '/',
+    path: '/setup',
     component: SetupView,
+    name: 'SetupView'
+  },
+  {
+    path: '/',
+    component: lazyLoad('HomeView'),
+    name: 'HomeView'
   },
   {
     path: '/game',
     component: lazyLoad('GameView'),
+    name: 'GameView'
   },
   {
     path: '/testing',
-    component: lazyLoad('TestingView')
+    component: lazyLoad('TestView'),
+    name: 'TestView'
   },
   {
     path: '/:catchAll(.*)',

@@ -31,6 +31,9 @@ export const useFearDeckStore = defineStore('fearDeck', {
     canShowEarned(state) {
       return state.earned.length > 0
     },
+    isAvailable(state) {
+      return state.draw.length > 0
+    },
   },
   actions: {
     newDeck(fearStage?: number[]) {

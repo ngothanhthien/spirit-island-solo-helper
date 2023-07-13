@@ -8,6 +8,11 @@ export const useMajorDeckStore = defineStore('majorDeck', {
     forget: [] as string[],
     revealCard: null as string | null,
   }),
+  getters: {
+    isAvailable(state) {
+      return state.draw.length > 0
+    },
+  },
   actions: {
     newDeck() {
       const unShuffle = Array.from(Array(MAJOR_CARDS.length).keys())

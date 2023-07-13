@@ -139,7 +139,7 @@ function startGame() {
     playerCard.setHand(hand)
   })
 
-  router.push('/game')
+  router.push({ name: 'GameView' })
 }
 
 watch(numberSpirit, randomSetup)

@@ -18,6 +18,8 @@ import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
 
 import { onMounted } from 'vue'
 import { useCardZoomStore } from '@/stores/CardZoomStore'
+import { useFearDeckStore } from '@/stores/FearDeckStore'
+import router from '@/router'
 
 const MENU_1 = {
   PLAY: 0,
@@ -35,8 +37,11 @@ const majorDeck = useMajorDeckStore()
 const eventDeck = useEventDeckStore()
 const modalDiscard = useModalDiscardStore()
 const cardZoom = useCardZoomStore()
+const fearDeck = useFearDeckStore()
 
-eventDeck.newDeck()
+if (!eventDeck.isAvailable || !minorDeck.isAvailable || !majorDeck.isAvailable || !fearDeck.isAvailable) {
+  router.push({ name: 'HomeView' })
+}
 
 onMounted(() => {
   window.addEventListener('touchmove', function (event) {

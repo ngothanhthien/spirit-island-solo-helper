@@ -6,6 +6,11 @@ export const useEventDeckStore = defineStore('eventDeck', {
     draw: [] as string[],
     discard: [] as string[],
   }),
+  getters: {
+    isAvailable(state) {
+      return state.draw.length > 0
+    },
+  },
   actions: {
     newDeck() {
       const unShuffle = Array.from(Array(EVENT_CARDS.length).keys())

@@ -8,6 +8,11 @@ export const useMinorDeckStore = defineStore('minorDeck', {
     forget: [] as string[],
     revealCard: null as string | null,
   }),
+  getters: {
+    isAvailable(state) {
+      return state.draw.length > 0
+    },
+  },
   actions: {
     newDeck() {
       const unShuffle = Array.from(Array(MINOR_CARDS.length).keys())
