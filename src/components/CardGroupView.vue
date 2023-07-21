@@ -2,12 +2,15 @@
 import { computed, ref } from 'vue';
 import { useElementSize } from '@vueuse/core'
 import CardItem from './base/CardItem.vue'
+import { useCardZoomStore } from '@/stores/CardZoomStore';
 const CARD_RATIO = 5 / 7
 const DEFAULT_OVERLAP = 20
 interface CardGroupViewProps {
   cards: Array<string>
+  from: 'play' | 'hand'
 }
 const props = defineProps<CardGroupViewProps>()
+const cardZoom = useCardZoomStore()
 const cardWidth = computed(() => {
   return viewHeight.value * CARD_RATIO - 8
 })
@@ -31,6 +34,7 @@ const slightLeft = computed(() => {
       @swipe-up="$emit('swipe-up', card)"
       :style="`width: ${cardWidth}px;--l: ${slightLeft}px; --ml: ${slightLeft * (-1)}px;`"
       :on-hand="true"
+      @click="cardZoom.setZoom(card, cards, from)"
     />
   </transition-group>
 </template>

@@ -32,7 +32,7 @@ function reveal() {
         v-if="powerDeck.canShowDiscardPile"
         class="inline-block bg-gray-900/20 hover:bg-gray-900/30 rounded absolute bottom-1 right-1 text-white z-10"
       >
-        <icon-grave @click="modalDiscard.setDeck(powerDeck.discard, 'power')" class="w-8 h-8" />
+        <icon-grave @click="modalDiscard.setDeck(powerDeck.discard)" class="w-8 h-8" />
       </button>
       <button
         class="inline-block bg-gray-900/20 hover:bg-gray-900/30 rounded absolute top-1 right-1 text-white z-10"

@@ -1,23 +1,38 @@
+import { removeCard } from "@/utils";
 import { defineStore } from "pinia";
 
 export const useModalDiscardStore = defineStore('modalDiscard', {
   state: () => ({
     deck: [] as string[],
-    type: '' as 'power' | 'common' | '',
   }),
   getters: {
     getDeck(state) {
       return state.deck.reverse()
     },
+
+    getType(state) {
+      if (state.deck.length === 0) {
+        return null
+      }
+
+      const card = state.deck[0]
+      const type = card.split('-')[0]
+      if (type === 'major' || type === 'minor') {
+        return 'power'
+      }
+      
+      return 'common'
+    },
   },
   actions: {
-    setDeck(deck: string[], type: 'power' | 'common') {
+    setDeck(deck: string[]) {
       this.deck = [...deck]
-      this.type = type
+    },
+    removeFromModal(card: string) {
+      removeCard(this.deck, card)
     },
     reset() {
       this.deck = []
-      this.type = ''
     },
   },
 })

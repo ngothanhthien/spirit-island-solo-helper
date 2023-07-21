@@ -30,6 +30,9 @@ function createDeckStore(name: string) {
       addToDiscard(card: string) {
         this.discard.push(card)
       },
+      removeFromDiscard(card: string) {
+        removeCard(this.discard, card)
+      },
       forget(card: string) {
         this.forget.push(card)
       },

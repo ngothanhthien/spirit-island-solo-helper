@@ -4,7 +4,7 @@ export const useCardZoomStore = defineStore('cardZoom', {
   state: () => ({
     current: null as null | string,
     waiting: {} as {
-      target: 'pick' | 'discard' | null,
+      from: 'pick' | 'discard' | 'hand' | 'play' | null,
       card: string | null
     }, 
     deck: [] as string[],
@@ -39,26 +39,30 @@ export const useCardZoomStore = defineStore('cardZoom', {
         this.current = this.deck[index - 1] || this.deck[this.deck.length - 1]
       }
     },
-    setZoom(card: string, deck: string[], target: 'pick' | 'discard') {
+    setZoom(card: string, deck: string[], from: 'pick' | 'discard' | 'hand' | 'play') {
       this.current = card
       this.deck = [...deck]
-      this.waiting.target = target
+      this.waiting.from = from
     },
     reset() {
       this.current = null
+      this.waiting = {
+        from: null,
+        card: null
+      }
       this.deck = []
     },
     setWaiting(card: string) {
       this.waiting = {
         card,
-        target: this.waiting.target
+        from: this.waiting.from
       }
     },
     getWaiting() {
       const card = this.waiting.card
       this.waiting = {
         card: null,
-        target: null
+        from: null
       }
       return card
     }

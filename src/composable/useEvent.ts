@@ -17,17 +17,17 @@ export default function () {
       eventDeck.putUnderTwoTopCard()
       currentEvent.value = null
     }
-    function showDiscardPile() {
-      if(eventDeck.canShowDiscardPile) {
-        modalDiscard.setDeck(eventDeck.discard, 'common')
-      }
-    }
+    // function showDiscardPile() {
+    //   if(eventDeck.canShowDiscardPile) {
+    //     modalDiscard.setDeck(eventDeck.discard, 'common')
+    //   }
+    // }
     function revealEvent() {
       currentEvent.value = eventDeck.reveal()
     }
 
     return {
-        showDiscardPile,
+        // showDiscardPile,
         discardEvent,
         putUnderTwoTopCard,
         currentEvent,

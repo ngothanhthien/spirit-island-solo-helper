@@ -1,15 +1,23 @@
 <script setup lang="ts">
-import { defineAsyncComponent, ref } from 'vue'
+import { defineAsyncComponent, ref, watch } from 'vue'
 import CardGroupView from '@/components/CardGroupView.vue'
 import { IconCards, IconAlbum, IconAdjustments, IconX } from '@tabler/icons-vue'
 import ElementTrack from '@/components/ElementTrack.vue'
 import CardReveal from '@/components/base/CardReveal.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 
-const PowerDeckComponent = defineAsyncComponent(() => import('@/components/PowerDeck.vue'))
-const ModalDiscardCommon = defineAsyncComponent(() => import('@/components/ModalDiscardCommon.vue'))
-const CardZoomModal = defineAsyncComponent(() => import('@/components/CardZoomModal.vue'))
-const PowerPick = defineAsyncComponent(() => import('@/components/PowerPick.vue'))
+const PowerDeckComponent = defineAsyncComponent(
+  () => import('@/components/PowerDeck.vue'),
+)
+const ModalDiscardPower = defineAsyncComponent(
+  () => import('@/components/ModalDiscardPower.vue'),
+)
+const CardZoomModal = defineAsyncComponent(
+  () => import('@/components/CardZoomModal.vue'),
+)
+const PowerPick = defineAsyncComponent(
+  () => import('@/components/PowerPick.vue'),
+)
 
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
@@ -19,9 +27,9 @@ import { useGameStateStore } from '@/stores/GameStateStore'
 import { onMounted } from 'vue'
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
+import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 import router from '@/router'
 import useEvent from '@/composable/useEvent'
-import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 import { useElementSize } from '@vueuse/core'
 
 const MENU_1 = {
@@ -45,20 +53,30 @@ const gameState = useGameStateStore()
 const minorDeck = usePowerDeckStore('minor')
 const majorDeck = usePowerDeckStore('major')
 
-const { putUnderTwoTopCard, discardEvent, revealEvent, currentEvent } = useEvent()
+const { putUnderTwoTopCard, discardEvent, revealEvent, currentEvent } =
+  useEvent()
 const menuControlEl = ref<HTMLElement | null>(null)
 const { width: powerPickSize } = useElementSize(menuControlEl)
 
-if (!eventDeck.isAvailable || !minorDeck.isAvailable || !majorDeck.isAvailable || !fearDeck.isAvailable) {
+if (
+  !eventDeck.isAvailable ||
+  !minorDeck.isAvailable ||
+  !majorDeck.isAvailable ||
+  !fearDeck.isAvailable
+) {
   router.push({ name: 'HomeView' })
 }
 
 onMounted(() => {
-  window.addEventListener('touchmove', function (event) {
-    if (document.body.scrollTop === 0) {
-        event.preventDefault();
-    }
-  }, { passive: false })
+  window.addEventListener(
+    'touchmove',
+    function (event) {
+      if (document.body.scrollTop === 0) {
+        event.preventDefault()
+      }
+    },
+    { passive: false },
+  )
 })
 
 function putFromHandToDiscard(cardId: string) {
@@ -78,7 +96,6 @@ function forgetCard(cardId: string) {
   playerCard.forgetCard(cardId)
 }
 
-
 function switchMenu(menu: number) {
   if (menu === 1) {
     const length = Object.keys(MENU_1).length
@@ -91,23 +108,23 @@ function switchMenu(menu: number) {
 
 function nextPhase() {
   gameState.nextPhase()
-  switch(gameState.currentPhaseName) {
-  case 'Event':
-    if (gameState.currentRound === 1) {
-      eventDeck.popEvent()
-      nextPhase()
-    } else {
-      revealEvent()
-    }
-    break;
-  case 'Fear':
-    break;
-  default:
+  switch (gameState.currentPhaseName) {
+    case 'Event':
+      if (gameState.currentRound === 1) {
+        eventDeck.popEvent()
+        nextPhase()
+      } else {
+        revealEvent()
+      }
+      break
+    case 'Fear':
+      break
+    default:
   }
 }
 
 function resetPicking() {
-  playerCard.picking.forEach(card => {
+  playerCard.picking.forEach((card) => {
     const [type] = card.split('-')
     if (type === 'minor') {
       minorDeck.addToDiscard(card)
@@ -127,45 +144,114 @@ function addPowerToPicking() {
   const card = usePowerDeckStore(type).reveal()
   playerCard.addToPicking(card)
 }
+
+watch(
+  () => cardZoom.waiting.card,
+  (cardId) => {
+    if (cardId) {
+      if (cardZoom.waiting.from === 'discard') {
+        playerCard.take(cardId)
+        const [type] = cardId.split('-')
+        usePowerDeckStore(type).removeFromDiscard(cardId)
+
+        modalDiscard.removeFromModal(cardId)
+      }
+
+      if (cardZoom.waiting.from === 'hand') {
+        playerCard.playCard(cardId)
+      }
+
+      if (cardZoom.waiting.from === 'play') {
+        playerCard.returnCardFromPlay(cardId)
+      }
+
+      cardZoom.reset()
+    }
+  },
+)
 </script>
 
 <template>
   <div class="relative h-screen bg-gray-100 flex flex-col overflow-hidden">
     <div class="h-screen flex flex-col">
-      <div id="game-header" class="h-8 bg-orange-800 flex items-center z-40 text-white w-full">
+      <div
+        id="game-header"
+        class="h-8 bg-orange-800 flex items-center z-40 text-white w-full"
+      >
         <button class="bg-orange-900 px-2 py-1">Exit game</button>
         <div class="flex items-center h-full px-3">
           <div>Cost: {{ playerCard.energyCost }}</div>
           <element-track class="ml-3" />
         </div>
-        <button class="ml-auto bg-orange-900 px-2 py-1" @click="nextPhase()">{{ gameState.currentPhaseName }} phase</button>
+        <button class="ml-auto bg-orange-900 px-2 py-1" @click="nextPhase()">
+          {{ gameState.currentPhaseName }} phase
+        </button>
       </div>
       <div id="game-area" class="flex h-screen">
         <div id="game-showing-area" class="grid grid-rows-2 grid-cols-1 w-full">
           <div id="game-showing-top" class="bg-neutral-100 py-2 flex px-2">
-            <card-group-view v-if="currentMenu1 === MENU_1.PLAY" @swipe-down="putFromDiscardToHand" @swipe-up="forgetCard" class="w-full" :cards="playerCard.play" />
-            <div ref="menuControlEl" v-if="currentMenu1 === MENU_1.CONTROL" class="flex items-stretch relative w-full">
+            <card-group-view
+              v-if="currentMenu1 === MENU_1.PLAY"
+              from="play"
+              @swipe-down="putFromDiscardToHand"
+              @swipe-up="forgetCard"
+              class="w-full"
+              :cards="playerCard.play"
+            />
+            <div
+              ref="menuControlEl"
+              v-if="currentMenu1 === MENU_1.CONTROL"
+              class="flex items-stretch relative w-full"
+            >
               <div v-if="!playerCard.isPicking" class="space-x-2">
                 <power-deck-component deck="minor" />
                 <power-deck-component deck="major" />
               </div>
               <template v-if="playerCard.isPicking">
-                <power-pick :picking="playerCard.picking" :container-length="powerPickSize" @swipe-down="pickCard" @add-power="addPowerToPicking" />
-                <icon-x class="w-7 h-7 absolute -right-2 -top-2 text-blue-900" @click="resetPicking" />
+                <power-pick
+                  :picking="playerCard.picking"
+                  :container-length="powerPickSize"
+                  @swipe-down="pickCard"
+                  @add-power="addPowerToPicking"
+                />
+                <icon-x
+                  class="w-7 h-7 absolute -right-2 -top-2 text-blue-900"
+                  @click="resetPicking"
+                />
               </template>
             </div>
           </div>
-          <div id="game-showing-bottom" class="bg-stone-300 flex pt-2 px-2 row-auto">
-            <card-group-view @swipe-down="putFromHandToDiscard" @swipe-up="putFromHandToPlay" class="w-full" :cards="playerCard.hand" />
+          <div
+            id="game-showing-bottom"
+            class="bg-stone-300 flex pt-2 px-2 row-auto"
+          >
+            <card-group-view
+              from="hand"
+              @swipe-down="putFromHandToDiscard"
+              @swipe-up="putFromHandToPlay"
+              class="w-full"
+              :cards="playerCard.hand"
+            />
           </div>
         </div>
-        <div id="game-control-right-bar" class="ml-auto grid grid-rows-2 text-white relative x-40">
+        <div
+          id="game-control-right-bar"
+          class="ml-auto grid grid-rows-2 text-white relative x-40"
+        >
           <div class="bg-neutral-700 px-2 flex items-center">
             <transition name="switch" mode="out-in">
-              <icon-album @click="switchMenu(1)" v-if="currentMenu1 === MENU_1.PLAY" class="w-8 h-8" />
+              <icon-album
+                @click="switchMenu(1)"
+                v-if="currentMenu1 === MENU_1.PLAY"
+                class="w-8 h-8"
+              />
             </transition>
             <transition name="switch" mode="out-in">
-              <icon-adjustments @click="switchMenu(1)" v-if="currentMenu1 === MENU_1.CONTROL" class="w-8 h-8" />
+              <icon-adjustments
+                @click="switchMenu(1)"
+                v-if="currentMenu1 === MENU_1.CONTROL"
+                class="w-8 h-8"
+              />
             </transition>
           </div>
           <div class="flex items-center bg-stone-900 px-2">
@@ -175,12 +261,15 @@ function addPowerToPicking() {
       </div>
     </div>
     <div id="modal">
-      <modal-discard-common v-if="modalDiscard.type === 'common'" />
+      <!-- <modal-discard-common v-if="modalDiscard.type === 'common'" /> -->
+      <modal-discard-power v-if="modalDiscard.getType === 'power'" />
       <card-zoom-modal v-if="cardZoom.isShow" />
       <card-reveal v-if="currentEvent" :card="currentEvent">
         <template #button>
           <base-button @click="discardEvent">Discard Event</base-button>
-          <base-button button-style="secondary" @click="putUnderTwoTopCard">Put under two card</base-button>
+          <base-button button-style="secondary" @click="putUnderTwoTopCard"
+            >Put under two card</base-button
+          >
         </template>
       </card-reveal>
     </div>
@@ -200,7 +289,8 @@ function addPowerToPicking() {
   opacity: 0;
   transform: translateX(-30px);
 }
-.switch-enter-to, .switch-leave-from {
+.switch-enter-to,
+.switch-leave-from {
   opacity: 1;
   transform: translateX(0px);
 }
