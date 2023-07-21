@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { defineAsyncComponent, ref, watch } from 'vue'
+import { computed, defineAsyncComponent, ref, watch } from 'vue'
 import CardGroupView from '@/components/CardGroupView.vue'
 import { IconCards, IconAlbum, IconAdjustments, IconX } from '@tabler/icons-vue'
 import ElementTrack from '@/components/ElementTrack.vue'
 import CardReveal from '@/components/base/CardReveal.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
+import { getSpiritAvatar } from '@/utils'
 
 const PowerDeckComponent = defineAsyncComponent(
   () => import('@/components/PowerDeck.vue'),
@@ -28,6 +29,7 @@ import { onMounted } from 'vue'
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
+import { useGameOptionStore } from '@/stores/GameOptionStore'
 import router from '@/router'
 import useEvent from '@/composable/useEvent'
 import { useElementSize } from '@vueuse/core'
@@ -52,6 +54,7 @@ const fearDeck = useFearDeckStore()
 const gameState = useGameStateStore()
 const minorDeck = usePowerDeckStore('minor')
 const majorDeck = usePowerDeckStore('major')
+const gameOption = useGameOptionStore()
 
 const { putUnderTwoTopCard, discardEvent, revealEvent, currentEvent } =
   useEvent()
@@ -144,7 +147,6 @@ function addPowerToPicking() {
   const card = usePowerDeckStore(type).reveal()
   playerCard.addToPicking(card)
 }
-
 watch(
   () => cardZoom.waiting.card,
   (cardId) => {
@@ -188,7 +190,10 @@ watch(
         </button>
       </div>
       <div id="game-area" class="flex h-screen">
-        <div id="game-showing-area" class="grid grid-rows-2 grid-cols-1 w-full">
+        <div
+          id="game-showing-area"
+          class="grid grid-rows-2 grid-cols-1 w-full relative"
+        >
           <div id="game-showing-top" class="bg-neutral-100 py-2 flex px-2">
             <card-group-view
               v-if="currentMenu1 === MENU_1.PLAY"
@@ -231,6 +236,20 @@ watch(
               @swipe-up="putFromHandToPlay"
               class="w-full"
               :cards="playerCard.hand"
+            />
+          </div>
+          <div
+            v-for="(spirit, index) in gameOption.spirits"
+            :key="`spirit-${spirit}`"
+            :style="`bottom: ${index * 64 + 4}px;`"
+            :class="[playerCard.current === index ? 'border-orange-800' : 'border-gray-800 opacity-60']"
+            class="absolute w-14 h-14 rounded-full right-2 border-2 overflow-hidden"
+            @click="playerCard.changeCurrent(index)"
+          >
+            <img
+              :src="`/img/spirit_avatar/${getSpiritAvatar(spirit)}`"
+              alt="Spirit avatar"
+              class="h-full max-w-max"
             />
           </div>
         </div>

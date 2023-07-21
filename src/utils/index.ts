@@ -59,3 +59,8 @@ export const generateTestCards = (type: string, n: number) => {
   }
   return cards
 }
+
+export const getSpiritAvatar = (id: number) => {
+  const name = SPIRIT[id].name
+  return name.replace(/'/g, "").replace(/[\s']/g, "_") + "_small.webp"
+}

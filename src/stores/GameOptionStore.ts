@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ADVERSARY } from "@/constant";
+import { ADVERSARY, SPIRIT } from "@/constant";
 
 export const useGameOptionStore = defineStore("gameOption", {
   state: () => ({
@@ -12,7 +12,7 @@ export const useGameOptionStore = defineStore("gameOption", {
   getters: {
     fearSetup(state) {
       return ADVERSARY[state.adversary as number].fear[state.adversaryLevel];
-    },
+    }
   },
   actions: {
     setSetupState(option: {
