@@ -2,7 +2,7 @@ import { EVENT_CARDS, MAJOR_CARDS, MINOR_CARDS, SPIRIT } from "@/constant"
 
 export const getCardImage = (name: string, path: string) => {
   const sanitized = name.toLowerCase().replace(/[-',]/g, '').replace(/\s/g, '_');
-  return `/img/${path}/${sanitized}.webp`;
+  return `/img/${path}/${sanitized}_x300.webp`;
 }
 
 export const getCard = (id: string) => {
