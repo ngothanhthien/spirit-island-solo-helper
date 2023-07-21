@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, defineAsyncComponent, ref, watch } from 'vue'
+import { defineAsyncComponent, ref, watch } from 'vue'
 import CardGroupView from '@/components/CardGroupView.vue'
 import { IconCards, IconAlbum, IconAdjustments, IconX } from '@tabler/icons-vue'
 import ElementTrack from '@/components/ElementTrack.vue'
@@ -180,7 +180,7 @@ watch(
         id="game-header"
         class="h-8 bg-orange-800 flex items-center z-40 text-white w-full"
       >
-        <button class="bg-orange-900 px-2 py-1">Exit game</button>
+        <button class="bg-orange-900 px-2 py-1" @click="router.push({name: 'HomeView'})">Exit game</button>
         <div class="flex items-center h-full px-3">
           <div>Cost: {{ playerCard.energyCost }}</div>
           <element-track class="ml-3" />
@@ -241,7 +241,7 @@ watch(
           <div
             v-for="(spirit, index) in gameOption.spirits"
             :key="`spirit-${spirit}`"
-            :style="`bottom: ${index * 64 + 4}px;`"
+            :style="`top: ${index * 64 + 4}px;`"
             :class="[playerCard.current === index ? 'border-orange-800' : 'border-gray-800 opacity-60']"
             class="absolute w-14 h-14 rounded-full right-2 border-2 overflow-hidden"
             @click="playerCard.changeCurrent(index)"
