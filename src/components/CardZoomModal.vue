@@ -2,8 +2,7 @@
 import { computed, ref } from 'vue'
 import GameCard from '@/components/base/GameCard.vue'
 import BaseButton from './base/BaseButton.vue'
-import IconCaretRight from '@/components/icon/IconCaretRight.vue'
-import IconCaretLeft from '@/components/icon/IconCaretLeft.vue'
+import { IconCaretRight, IconCaretLeft } from '@tabler/icons-vue'
 import { onClickOutside } from '@vueuse/core';
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 const content = ref<HTMLElement | null>(null)

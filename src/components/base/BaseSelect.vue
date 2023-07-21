@@ -6,7 +6,7 @@ import {
   ListboxOptions,
   ListboxOption,
 } from "@headlessui/vue";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
+import { IconCheck, IconSelector } from "@tabler/icons-vue";
 import { useVModel } from "@vueuse/core";
 
 const props = defineProps({
@@ -43,7 +43,7 @@ const selectedOption = computed(() => {
         <span
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
         >
-          <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+          <icon-selector class="h-5 w-5 text-gray-400" aria-hidden="true" />
         </span>
       </ListboxButton>
 
@@ -79,7 +79,7 @@ const selectedOption = computed(() => {
                 v-if="selected"
                 class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
               >
-                <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                <icon-check class="h-5 w-5" aria-hidden="true" />
               </span>
             </li>
           </ListboxOption>

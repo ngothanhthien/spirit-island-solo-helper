@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { removeCard } from '@/utils'
-import type { Player } from '@/types'
+import type { Element, Player, PowerCard } from '@/types'
+import { getCard } from '@/utils'
 
 function createPlayer(): Player {
   return {
@@ -8,6 +9,8 @@ function createPlayer(): Player {
     discard: [],
     play: [],
     used: [],
+    picking: [],
+    forget: [],
   }
 }
 
@@ -28,9 +31,52 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     used(state) {
       return state.players[state.current].used
+    },
+    picking(state) {
+      return state.players[state.current].picking
+    },
+    forget(state) {
+      return state.players[state.current].forget
+    },
+    isPicking(state) {
+      return state.players[state.current].picking.length > 0
+    },
+    getTypePicking(state) {
+      const card = state.players[state.current].picking[0]
+      return card.split('-')[0]
+    },
+    elements(state) {
+      const elements: { [key in Element]?: number } = {}
+      state.players[state.current].play.forEach((id) => {
+        const card = getCard(id) as PowerCard
+        if (card) {
+          card.elements.forEach((element) => {
+            if (!elements[element]) {
+              elements[element] = 1
+            } else {
+              elements[element] = elements[element] as number + 1
+            }
+          })
+        }
+      })
+      return elements
+    },
+    energyCost(state) {
+      let cost = 0
+      state.players[state.current].play.forEach((id) => {
+        const card = getCard(id) as PowerCard
+        if (card) {
+          cost += card.cost
+        }
+      })
+      return cost
     }
   },
   actions: {
+    reset() {
+      this.current = 0
+      this.players = []
+    },
     addPlayer() {
       this.players.push(createPlayer())
       return this.players.length - 1
@@ -84,6 +130,19 @@ export const usePlayerCardStore = defineStore('playerCard', {
     addToPlay(card: string) {
       this.players[this.current].play.push(card)
     },
+    forgetCard(card: string) {
+      this.players[this.current].forget.push(card)
+    },
+    addToPicking(card: string) {
+      this.players[this.current].picking.push(card)
+    },
+    takeCardFromPicking(card: string) {
+      removeCard(this.players[this.current].picking, card)
+      this.players[this.current].hand.push(card)
+    },
+    resetPicking() {
+      this.players[this.current].picking = []
+    }
   },
   persist: true,
 })

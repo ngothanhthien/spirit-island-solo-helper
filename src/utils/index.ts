@@ -31,7 +31,10 @@ export const getCard = (id: string) => {
         ...EVENT_CARDS[parseInt(index)]
       }
     default:
-      return null
+      return {
+        path: 'default',
+        name: 'default',
+      }
   }
 }
 export const shuffle = (array: Array<string | number>) => {

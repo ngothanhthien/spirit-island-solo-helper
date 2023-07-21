@@ -6,11 +6,13 @@ export interface PowerCard {
   description: string
 }
 export type Speed = 'Slow' | 'Fast'
-export type Element = 'Fire' | 'Air' | 'Earth' | 'Water' | 'Sun' | 'Animal' | 'Moon' | 'Plant' | ''
+export type Element = 'Fire' | 'Air' | 'Earth' | 'Water' | 'Sun' | 'Animal' | 'Moon' | 'Plant'
 export type CardListStatus = 'pick-power' | 'view-discard' | ''
 export interface Player {
   hand: string[]
   discard: string[]
   play: string[]
   used: string[]
+  picking: string[]
+  forget: string[]
 }

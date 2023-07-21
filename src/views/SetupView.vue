@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 import BaseSelect from '@/components/base/BaseSelect.vue'
 import BaseCounter from '@/components/base/BaseCounter.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
@@ -10,17 +9,17 @@ import router from '@/router'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
-import { useMinorDeckStore } from '@/stores/MinorDeckStore'
-import { useMajorDeckStore } from '@/stores/MajorDeckStore'
+import { IconRefresh } from '@tabler/icons-vue'
+import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 
 const MAX_SPIRIT = 4
 
 const gameOption = useGameOptionStore()
 const eventDeck = useEventDeckStore()
 const fearDeck = useFearDeckStore()
-const minorDeck = useMinorDeckStore()
-const majorDeck = useMajorDeckStore()
 const playerCard = usePlayerCardStore()
+const majorDeck = usePowerDeckStore('major')
+const minorDeck = usePowerDeckStore('minor')
 
 const numberSpirit = ref<undefined | number>()
 const spiritOptions = computed(() => {
@@ -125,9 +124,10 @@ function startGame() {
   }
 
   eventDeck.newDeck()
-  minorDeck.newDeck()
   majorDeck.newDeck()
+  minorDeck.newDeck()
   fearDeck.newDeck(gameOption.fearSetup)
+  playerCard.reset()
   spirits.value.forEach((spiritIndex) => {
     const { cards } = SPIRIT[spiritIndex]
     const hand = []
@@ -167,7 +167,7 @@ watch(numberSpirit, randomSetup)
             <div
               class="bg-gray-800 hover:bg-gray-800/90 transition rounded-full p-1 text-white mt-3"
             >
-              <arrow-path-icon
+              <icon-refresh
                 class="w-4 h-4"
                 @click="randomSpiritAndMap(n - 1)"
               />
@@ -181,7 +181,7 @@ watch(numberSpirit, randomSetup)
         <div
           class="bg-gray-800 hover:bg-gray-800/90 transition rounded-full p-1 text-white self-start mt-3"
         >
-          <arrow-path-icon class="w-4 h-4" @click="randomAdversary" />
+          <icon-refresh class="w-4 h-4" @click="randomAdversary" />
         </div>
         <div>
           <base-select
@@ -214,3 +214,4 @@ watch(numberSpirit, randomSetup)
     </div>
   </div>
 </template>
+@/stores/PowerDeckStore

@@ -29,7 +29,9 @@ const slightLeft = computed(() => {
   <transition-group name="list" tag="div" ref="handEl" class="flex" appear>
     <card-item v-for="card in cards" :key="card" :card="card" @swipe-down="$emit('swipe-down', card)"
       @swipe-up="$emit('swipe-up', card)"
-      :style="`width: ${cardWidth}px;--l: ${slightLeft}px; --ml: ${slightLeft * (-1)}px;`" />
+      :style="`width: ${cardWidth}px;--l: ${slightLeft}px; --ml: ${slightLeft * (-1)}px;`"
+      :on-hand="true"
+    />
   </transition-group>
 </template>
 <style>

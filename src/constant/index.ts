@@ -292,9 +292,7 @@ export const MINOR_CARDS: Array<PowerCard> = [
     name: 'Gift of Nature\'s Connection',
     cost: 0,
     speed: 'Fast',
-    elements: [
-      '',
-    ],
+    elements: [],
     description: 'Target Spirit gains either 2 Energy or 2 of a single Element (their choice). If you target another Spirit, you gain an Element of your choice.',
   },
   {
@@ -477,9 +475,7 @@ export const MINOR_CARDS: Array<PowerCard> = [
     name: 'Elemental Boon',
     cost: 1,
     speed: 'Fast',
-    elements: [
-      '',
-    ],
+    elements: [],
     description: 'Target Spirit gains 3 different Elements of their choice. If you target another Spirit, you also gain the chosen Elements.',
   },
   {
@@ -1769,19 +1765,19 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     ],
     description: 'Remove up to 3 Blight and up to 3 Health worth of Invaders.  -If you have- 3 Moon, 2 Water, 3 Earth, 2 Plant: (Max. 1x/game) Add a random new Island Board next to target board. Ignore its Setup icons; add 2 Beasts, 2 Wilds, 2 Badlands and up to 2 Presence (from any Spirits) anywhere on it. From now on, Build cards and "Each board / Each land" Adversary Actions skip 1 Board.',
   },
-  {
-    name: 'Transform to a Murderous Darkness',
-    cost: 6,
-    speed: 'Slow',
-    elements: [
-      'Moon',
-      'Fire',
-      'Air',
-      'Water',
-      'Plant',
-    ],
-    description: 'Target Spirit may choose one of their Sacred Sites. In that land: Replace all their Presence with Badlands; the replaced Presence leave the game. Push any number of those Badlands. 3 Fear. 3 Damage per Presence replaced. -If you have- 3 Moon, 2 Fire, 2 Air: 1 Damage in an adjacent land. 1 Damage in an adjacent land.',
-  },
+  // {
+  //   name: 'Transform to a Murderous Darkness',
+  //   cost: 6,
+  //   speed: 'Slow',
+  //   elements: [
+  //     'Moon',
+  //     'Fire',
+  //     'Air',
+  //     'Water',
+  //     'Plant',
+  //   ],
+  //   description: 'Target Spirit may choose one of their Sacred Sites. In that land: Replace all their Presence with Badlands; the replaced Presence leave the game. Push any number of those Badlands. 3 Fear. 3 Damage per Presence replaced. -If you have- 3 Moon, 2 Fire, 2 Air: 1 Damage in an adjacent land. 1 Damage in an adjacent land.',
+  // },
   {
     name: 'Irresistible Call',
     cost: 6,
@@ -1818,9 +1814,7 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     name: 'Draw Towards a Consuming Void',
     cost: 8,
     speed: 'Slow',
-    elements: [
-      '',
-    ],
+    elements: [],
     description: 'Gather 1 Explorer, Town, City, Dahan, Presence, and Beasts from each adjacent land. 4 Fear. 15 Damage. 5 Damage to Dahan. Destroy 1 Presence from each Spirit. Remove 2 Beasts. -If you have- If you have no other power cards in play: Any number of times: Forget a Minor Power, a Major Power, and a Unique Power to perform the above effects again.',
   },
   {
@@ -3166,3 +3160,4 @@ export const ADVERSARY = [
   },
 ]
 export const MAP = ["A", "B", "C", "D", "E", "F"]
+export const PHASE_ENUM = ['Grow', 'Play Power', 'Fast Power', 'Blight', 'Event', 'Invader Action', 'Time Passed']

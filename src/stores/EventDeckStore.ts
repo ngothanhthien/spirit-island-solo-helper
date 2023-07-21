@@ -10,6 +10,9 @@ export const useEventDeckStore = defineStore('eventDeck', {
     isAvailable(state) {
       return state.draw.length > 0
     },
+    canShowDiscardPile(state) {
+      return state.discard.length > 0
+    }
   },
   actions: {
     newDeck() {

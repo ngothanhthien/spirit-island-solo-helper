@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
 import { ref, useSlots } from 'vue'
-import IconClose from '@/components/icon/IconClose.vue'
+import { IconX } from '@tabler/icons-vue'
 interface BaseModalProps {
   showCloseIcon?: boolean
   isHeightFixed?: boolean
@@ -29,7 +29,7 @@ onClickOutside(modalEl, (e) => {
     <div ref="modalEl" :class="{ 'h-[90%]': isHeightFixed }" class="w-[80%] max-h-[90%] overflow-hidden flex flex-col">
       <div class="bg-gray-900 text-white py-2 px-4 text-lg relative rounded-t-md">
         <slot name="header" />
-        <icon-close v-if="showCloseIcon" class="absolute right-4 top-3 cursor-pointer hover:opacity-70 transition"
+        <icon-x v-if="showCloseIcon" class="absolute right-4 top-3 cursor-pointer hover:opacity-70 transition"
           @click="emit('close')" />
       </div>
       <div :class="{

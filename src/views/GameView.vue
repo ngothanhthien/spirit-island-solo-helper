@@ -1,25 +1,28 @@
 <script setup lang="ts">
 import { defineAsyncComponent, ref } from 'vue'
 import CardGroupView from '@/components/CardGroupView.vue'
-import IconCards from '@/components/icon/IconCards.vue'
-import IconPlay from '@/components/icon/IconPlay.vue'
-import IconControl from '@/components/icon/IconControl.vue'
+import { IconCards, IconAlbum, IconAdjustments, IconX } from '@tabler/icons-vue'
+import ElementTrack from '@/components/ElementTrack.vue'
+import CardReveal from '@/components/base/CardReveal.vue'
+import BaseButton from '@/components/base/BaseButton.vue'
 
-const ControlArea = defineAsyncComponent(() => import('@/components/ControlArea.vue'))
+const PowerDeckComponent = defineAsyncComponent(() => import('@/components/PowerDeck.vue'))
 const ModalDiscardCommon = defineAsyncComponent(() => import('@/components/ModalDiscardCommon.vue'))
 const CardZoomModal = defineAsyncComponent(() => import('@/components/CardZoomModal.vue'))
-
+const PowerPick = defineAsyncComponent(() => import('@/components/PowerPick.vue'))
 
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
-import { useMinorDeckStore } from '@/stores/MinorDeckStore'
-import { useMajorDeckStore } from '@/stores/MajorDeckStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
+import { useGameStateStore } from '@/stores/GameStateStore'
 
 import { onMounted } from 'vue'
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import router from '@/router'
+import useEvent from '@/composable/useEvent'
+import { usePowerDeckStore } from '@/stores/PowerDeckStore'
+import { useElementSize } from '@vueuse/core'
 
 const MENU_1 = {
   PLAY: 0,
@@ -29,15 +32,22 @@ const MENU_2 = {
   HAND: 0,
   SPIRIT: 1,
 }
+
 const currentMenu1 = ref(MENU_1.PLAY)
 const currentMenu2 = ref(MENU_2.HAND)
+
 const playerCard = usePlayerCardStore()
-const minorDeck = useMinorDeckStore()
-const majorDeck = useMajorDeckStore()
 const eventDeck = useEventDeckStore()
 const modalDiscard = useModalDiscardStore()
 const cardZoom = useCardZoomStore()
 const fearDeck = useFearDeckStore()
+const gameState = useGameStateStore()
+const minorDeck = usePowerDeckStore('minor')
+const majorDeck = usePowerDeckStore('major')
+
+const { putUnderTwoTopCard, discardEvent, revealEvent, currentEvent } = useEvent()
+const menuControlEl = ref<HTMLElement | null>(null)
+const { width: powerPickSize } = useElementSize(menuControlEl)
 
 if (!eventDeck.isAvailable || !minorDeck.isAvailable || !majorDeck.isAvailable || !fearDeck.isAvailable) {
   router.push({ name: 'HomeView' })
@@ -54,24 +64,21 @@ onMounted(() => {
 function putFromHandToDiscard(cardId: string) {
   playerCard.putCardInDiscard(cardId)
 }
+
 function putFromHandToPlay(cardId: string) {
   playerCard.playCard(cardId)
 }
+
 function putFromDiscardToHand(cardId: string) {
   playerCard.returnCardFromPlay(cardId)
 }
+
 function forgetCard(cardId: string) {
-  const [type] = cardId.split('-')
-  if (type === 'minor') {
-    minorDeck.addToDiscard(cardId)
-  } else if (type === 'major') {
-    majorDeck.addToDiscard(cardId)
-  }
-  else {
-    //error
-  }
   playerCard.removeCardFromPlay(cardId)
+  playerCard.forgetCard(cardId)
 }
+
+
 function switchMenu(menu: number) {
   if (menu === 1) {
     const length = Object.keys(MENU_1).length
@@ -81,45 +88,101 @@ function switchMenu(menu: number) {
     currentMenu2.value = (currentMenu2.value + 1) % length
   }
 }
+
+function nextPhase() {
+  gameState.nextPhase()
+  switch(gameState.currentPhaseName) {
+  case 'Event':
+    if (gameState.currentRound === 1) {
+      eventDeck.popEvent()
+      nextPhase()
+    } else {
+      revealEvent()
+    }
+    break;
+  case 'Fear':
+    break;
+  default:
+  }
+}
+
+function resetPicking() {
+  playerCard.picking.forEach(card => {
+    const [type] = card.split('-')
+    if (type === 'minor') {
+      minorDeck.addToDiscard(card)
+    } else if (type === 'major') {
+      majorDeck.addToDiscard(card)
+    }
+  })
+  playerCard.resetPicking()
+}
+
+function pickCard(cardId: string) {
+  playerCard.takeCardFromPicking(cardId)
+}
+
+function addPowerToPicking() {
+  const type = playerCard.getTypePicking
+  const card = usePowerDeckStore(type).reveal()
+  playerCard.addToPicking(card)
+}
 </script>
 
 <template>
   <div class="relative h-screen bg-gray-100 flex flex-col overflow-hidden">
-    <div class="grow flex h-screen">
-      <!-- <div class="w-14 bg-stone-500">
-        <div class="p-1">
-          <img class="w-full rounded" :src="`/img/card-back/event.webp`" alt="Event card back`">
+    <div class="h-screen flex flex-col">
+      <div id="game-header" class="h-8 bg-orange-800 flex items-center z-40 text-white w-full">
+        <button class="bg-orange-900 px-2 py-1">Exit game</button>
+        <div class="flex items-center h-full px-3">
+          <div>Cost: {{ playerCard.energyCost }}</div>
+          <element-track class="ml-3" />
         </div>
-        <div class="p-1">
-          <img class="w-full rounded" :src="`/img/card-back/fear.webp`" alt="Fear card back`">
-        </div>
-      </div> -->
-      <div class="grid grid-rows-2 grid-cols-1 w-full">
-        <div class="bg-neutral-100 flex py-2 px-2">
-          <card-group-view v-if="currentMenu1 === MENU_1.PLAY" @swipe-down="putFromDiscardToHand" @swipe-up="forgetCard" class="w-full" :cards="playerCard.play" />
-          <control-area v-if="currentMenu1 === MENU_1.CONTROL" class="w-full" />
-        </div>
-        <div class="bg-stone-300 flex pt-2 px-2">
-          <card-group-view @swipe-down="putFromHandToDiscard" @swipe-up="putFromHandToPlay" class="w-full" :cards="playerCard.hand" />
-        </div>
+        <button class="ml-auto bg-orange-900 px-2 py-1" @click="nextPhase()">{{ gameState.currentPhaseName }} phase</button>
       </div>
-      <div class="ml-auto grid grid-rows-2 text-white relative x-40">
-        <div class="bg-neutral-700 px-2 flex items-center">
-          <transition name="switch" mode="out-in">
-            <icon-play @click="switchMenu(1)" v-if="currentMenu1 === MENU_1.PLAY" class="w-8 h-8" />
-          </transition>
-          <transition name="switch" mode="out-in">
-            <icon-control @click="switchMenu(1)" v-if="currentMenu1 === MENU_1.CONTROL" class="w-8 h-8" />
-          </transition>
+      <div id="game-area" class="flex h-screen">
+        <div id="game-showing-area" class="grid grid-rows-2 grid-cols-1 w-full">
+          <div id="game-showing-top" class="bg-neutral-100 py-2 flex px-2">
+            <card-group-view v-if="currentMenu1 === MENU_1.PLAY" @swipe-down="putFromDiscardToHand" @swipe-up="forgetCard" class="w-full" :cards="playerCard.play" />
+            <div ref="menuControlEl" v-if="currentMenu1 === MENU_1.CONTROL" class="flex items-stretch relative w-full">
+              <div v-if="!playerCard.isPicking" class="space-x-2">
+                <power-deck-component deck="minor" />
+                <power-deck-component deck="major" />
+              </div>
+              <template v-if="playerCard.isPicking">
+                <power-pick :picking="playerCard.picking" :container-length="powerPickSize" @swipe-down="pickCard" @add-power="addPowerToPicking" />
+                <icon-x class="w-7 h-7 absolute -right-2 -top-2 text-blue-900" @click="resetPicking" />
+              </template>
+            </div>
+          </div>
+          <div id="game-showing-bottom" class="bg-stone-300 flex pt-2 px-2 row-auto">
+            <card-group-view @swipe-down="putFromHandToDiscard" @swipe-up="putFromHandToPlay" class="w-full" :cards="playerCard.hand" />
+          </div>
         </div>
-        <div class="flex items-center bg-stone-900 px-2">
-          <icon-cards class="w-8 h-8" />
+        <div id="game-control-right-bar" class="ml-auto grid grid-rows-2 text-white relative x-40">
+          <div class="bg-neutral-700 px-2 flex items-center">
+            <transition name="switch" mode="out-in">
+              <icon-album @click="switchMenu(1)" v-if="currentMenu1 === MENU_1.PLAY" class="w-8 h-8" />
+            </transition>
+            <transition name="switch" mode="out-in">
+              <icon-adjustments @click="switchMenu(1)" v-if="currentMenu1 === MENU_1.CONTROL" class="w-8 h-8" />
+            </transition>
+          </div>
+          <div class="flex items-center bg-stone-900 px-2">
+            <icon-cards class="w-8 h-8" />
+          </div>
         </div>
       </div>
     </div>
     <div id="modal">
       <modal-discard-common v-if="modalDiscard.type === 'common'" />
       <card-zoom-modal v-if="cardZoom.isShow" />
+      <card-reveal v-if="currentEvent" :card="currentEvent">
+        <template #button>
+          <base-button @click="discardEvent">Discard Event</base-button>
+          <base-button button-style="secondary" @click="putUnderTwoTopCard">Put under two card</base-button>
+        </template>
+      </card-reveal>
     </div>
   </div>
 </template>
