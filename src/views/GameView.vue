@@ -22,6 +22,9 @@ const PowerPick = defineAsyncComponent(
 const PowerDiscard = defineAsyncComponent(
   () => import('@/components/PowerDiscard.vue'),
 )
+const ModalForgetPower = defineAsyncComponent(
+  () => import('@/components/ModalForgetPower.vue'),
+)
 
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
@@ -65,6 +68,7 @@ const menuControlEl = ref<HTMLElement | null>(null)
 const { width: powerPickSize } = useElementSize(menuControlEl)
 
 const isShowDiscard = ref(false)
+const isShowModalForgetPower = ref(false)
 
 if (
   !eventDeck.isAvailable ||
@@ -87,6 +91,11 @@ onMounted(() => {
   )
 })
 
+function toggleDiscard() {
+  isShowDiscard.value = !isShowDiscard.value
+  currentMenu1.value = MENU_1.PLAY
+}
+
 function putFromHandToDiscard(cardId: string) {
   playerCard.putCardInDiscard(cardId)
 }
@@ -97,11 +106,6 @@ function putFromHandToPlay(cardId: string) {
 
 function putFromPlayToHand(cardId: string) {
   playerCard.returnCardFromPlay(cardId)
-}
-
-function forgetCard(cardId: string) {
-  playerCard.removeCardFromPlay(cardId)
-  playerCard.forgetCard(cardId)
 }
 
 function switchMenu(menu: number) {
@@ -153,24 +157,57 @@ function addPowerToPicking() {
   playerCard.addToPicking(card)
 }
 
+function reclaimOneCard(card: string) {
+  playerCard.reclaimOneCard(card)
+  isShowDiscard.value = false
+  currentMenu2.value = MENU_2.HAND
+}
+
+function returnCardFromForget(card: string) {
+  playerCard.returnCardFromForget(card)
+  isShowModalForgetPower.value = false
+  currentMenu2.value = MENU_2.HAND
+}
+
 watch(
   () => cardZoom.waiting.card,
   (cardId) => {
     if (cardId) {
-      if (cardZoom.waiting.from === 'discard') {
-        playerCard.take(cardId)
-        const [type] = cardId.split('-')
-        usePowerDeckStore(type).removeFromDiscard(cardId)
+      switch (cardZoom.waiting.from) {
+        case 'discard':
+          playerCard.take(cardId)
+          const [type] = cardId.split('-')
+          usePowerDeckStore(type).removeFromDiscard(cardId)
+          modalDiscard.removeFromModal(cardId)
+          break
 
-        modalDiscard.removeFromModal(cardId)
-      }
+        case 'player-discard':
+          playerCard.reclaimOneCard(cardId)
+          isShowDiscard.value = false
+          currentMenu2.value = MENU_2.HAND
+          break
 
-      if (cardZoom.waiting.from === 'hand') {
-        playerCard.playCard(cardId)
-      }
+        case 'player-discard-forget':
+          playerCard.forgetCardFromDiscard(cardId)
+          break
 
-      if (cardZoom.waiting.from === 'play') {
-        playerCard.returnCardFromPlay(cardId)
+        case 'hand':
+          playerCard.playCard(cardId)
+          break
+
+        case 'forget':
+          returnCardFromForget(cardId)
+          break
+
+        case 'pick':
+          playerCard.takeCardFromPicking(cardId)
+          break
+
+        case 'play':
+          playerCard.returnCardFromPlay(cardId)
+          break
+
+        default:
       }
 
       cardZoom.reset()
@@ -186,7 +223,12 @@ watch(
         id="game-header"
         class="h-10 bg-orange-800 flex items-center z-40 text-white w-full"
       >
-        <button class="bg-orange-900 px-2 py-1" @click="router.push({name: 'HomeView'})">Exit game</button>
+        <button
+          class="bg-orange-900 px-2 py-1"
+          @click="router.push({ name: 'HomeView' })"
+        >
+          Exit game
+        </button>
         <div class="flex items-center h-full px-3">
           <div>Cost: {{ playerCard.energyCost }}</div>
           <element-track class="ml-3" />
@@ -200,12 +242,17 @@ watch(
           id="game-showing-area"
           class="grid grid-rows-2 grid-cols-1 w-full relative"
         >
-          <div ref="menuControlEl" id="game-showing-top" class="bg-neutral-100 my-2 flex px-2 relative">
+          <div
+            ref="menuControlEl"
+            id="game-showing-top"
+            class="bg-neutral-100 my-2 flex px-2 relative"
+          >
             <template v-if="currentMenu1 === MENU_1.PLAY">
-              <power-discard v-if="isShowDiscard"
+              <power-discard
+                v-if="isShowDiscard"
                 :discard="playerCard.discard"
                 :container-length="powerPickSize"
-                @swipe-down="playerCard.reclaimOneCard"
+                @swipe-down="reclaimOneCard"
                 @swipe-up="playerCard.forgetCardFromDiscard"
               />
               <card-group-view
@@ -220,7 +267,10 @@ watch(
               v-if="currentMenu1 === MENU_1.CONTROL"
               class="flex items-stretch relative w-full"
             >
-              <div v-if="!playerCard.isPicking" class="space-x-2 absolute h-full">
+              <div
+                v-if="!playerCard.isPicking"
+                class="space-x-2 absolute h-full"
+              >
                 <power-deck-component deck="minor" />
                 <power-deck-component deck="major" />
               </div>
@@ -232,13 +282,14 @@ watch(
                   @add-power="addPowerToPicking"
                 />
                 <icon-x
-                  class="w-7 h-7 absolute -right-2 -top-2 text-blue-900 z-50" style="stroke-width: 3px;"
+                  class="w-7 h-7 absolute -right-2 -top-2 text-blue-900 z-50"
+                  style="stroke-width: 3px"
                   @click="resetPicking"
                 />
               </template>
             </div>
           </div>
-          
+
           <div
             id="game-showing-bottom"
             class="bg-stone-300 flex px-2 row-auto relative"
@@ -253,20 +304,43 @@ watch(
             />
             <div
               v-if="currentMenu2 === MENU_2.CONTROL"
-              class="flex flex-col relative w-32 space-y-2 mt-2 ml-auto"
+              class="w-full flex items-center justify-end space-x-4"
             >
-              <base-button class="h-fit w-full" button-style="secondary">Time Passed</base-button>
-              <base-button class="h-fit w-full" button-style="secondary">Reclaim All</base-button>
-              <base-button class="h-fit w-full" button-style="secondary" @click="isShowDiscard = !isShowDiscard">{{ isShowDiscard ? 'Show Play' : 'Show Discard' }}</base-button>
+              <div class="flex flex-col relative w-32 space-y-2 mt-2">
+                <base-button
+                  class="h-fit w-full"
+                  button-style="secondary"
+                  :disabled="playerCard.forget.length === 0"
+                  @click="isShowModalForgetPower = true"
+                  >{{ 'Show Forget' }}</base-button
+                >
+              </div>
+              <div class="flex flex-col relative w-32 space-y-2 mt-2">
+                <base-button class="h-fit w-full" button-style="secondary"
+                  >Time Passed</base-button
+                >
+                <base-button class="h-fit w-full" button-style="secondary"
+                  >Reclaim All</base-button
+                >
+                <base-button
+                  class="h-fit w-full"
+                  button-style="secondary"
+                  @click="toggleDiscard"
+                  >{{ isShowDiscard ? 'Show Play' : 'Show Discard' }}</base-button
+                >
+              </div>
             </div>
           </div>
-
 
           <div
             v-for="(spirit, index) in gameOption.spirits"
             :key="`spirit-${spirit}`"
             :style="`top: ${index * 64 + 4}px;`"
-            :class="[playerCard.current === index ? 'border-orange-800' : 'border-gray-800 opacity-60']"
+            :class="[
+              playerCard.current === index
+                ? 'border-orange-800'
+                : 'border-gray-800 opacity-60',
+            ]"
             class="absolute w-14 h-14 rounded-full right-2 border-2 overflow-hidden"
             @click="playerCard.changeCurrent(index)"
           >
@@ -277,7 +351,6 @@ watch(
             />
           </div>
         </div>
-
 
         <div
           id="game-control-right-bar"
@@ -301,7 +374,11 @@ watch(
           </div>
           <div class="flex items-center bg-stone-900 px-2">
             <transition name="switch" mode="out-in">
-              <icon-cards v-if="currentMenu2 === MENU_2.HAND" @click="switchMenu(2)" class="w-8 h-8" />
+              <icon-cards
+                v-if="currentMenu2 === MENU_2.HAND"
+                @click="switchMenu(2)"
+                class="w-8 h-8"
+              />
             </transition>
             <transition name="switch" mode="out-in">
               <icon-adjustments
@@ -312,13 +389,11 @@ watch(
             </transition>
           </div>
         </div>
-
-
       </div>
     </div>
     <div id="modal">
-      <!-- <modal-discard-common v-if="modalDiscard.type === 'common'" /> -->
       <modal-discard-power v-if="modalDiscard.getType === 'power'" />
+      <modal-forget-power v-if="isShowModalForgetPower" @close="isShowModalForgetPower = false" @take-back="returnCardFromForget" />
       <card-zoom-modal v-if="cardZoom.isShow" />
       <card-reveal v-if="currentEvent" :card="currentEvent">
         <template #button>

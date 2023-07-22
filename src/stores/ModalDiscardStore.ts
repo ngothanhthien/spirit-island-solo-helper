@@ -17,7 +17,7 @@ export const useModalDiscardStore = defineStore('modalDiscard', {
 
       const card = state.deck[0]
       const type = card.split('-')[0]
-      if (type === 'major' || type === 'minor') {
+      if (type === 'major' || type === 'minor' || type.includes('unique')) {
         return 'power'
       }
       

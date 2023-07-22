@@ -143,6 +143,11 @@ export const usePlayerCardStore = defineStore('playerCard', {
       removeCard(player.discard, card)
       player.forget.push(card)
     },
+    returnCardFromForget(card: string) {
+      const player = this.players[this.current]
+      removeCard(player.forget, card)
+      player.hand.push(card)
+    },
     addToPicking(card: string) {
       this.players[this.current].picking.push(card)
     },

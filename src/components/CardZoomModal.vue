@@ -18,6 +18,18 @@ const isPowerCard = computed(() => {
 onClickOutside(content, () => {
   cardZoom.reset()
 })
+
+const cardZoomClass = computed(() => {
+  if (!isPowerCard.value) {
+    return 'h-full'
+  }
+
+  if (cardZoom.waiting.from?.includes('player-discard')) {
+    return 'h-[80%]'
+  }
+
+  return 'h-[90%]'
+})
 </script>
 
 <template>
@@ -42,16 +54,24 @@ onClickOutside(content, () => {
         />
       </button>
       <div class="flex flex-col items-center">
-        <game-card :id="(cardZoom.current as string)" :class="[isPowerCard ? 'h-[90%]' : 'h-full']" />
-        <base-button
-          v-if="isPowerCard"
-          button-style="secondary"
-          @click="cardZoom.setWaiting(cardZoom.current as string)"
-          class="mt-1"
-        >
-          <span class="px-2">{{ cardZoom.waiting.from === 'hand' ? 'Play' : 'Take' }}</span>
-        </base-button
-      >
+        <div v-if="cardZoom.waiting.from?.includes('player-discard')" class="w-24">
+          <base-button button-style="secondary" class="mb-1 w-full" @click="cardZoom.setWaiting('player-discard-forget')">
+            Forget
+          </base-button>
+        </div>
+        <game-card :id="(cardZoom.current as string)" :class="cardZoomClass" />
+        <div v-if="isPowerCard" class="w-24">
+          <base-button
+            button-style="secondary"
+            @click="cardZoom.setWaiting()"
+            class="mt-1 w-full"
+          >
+            <span v-if="cardZoom.waiting.from === 'hand'" class="px-2">Play</span>
+            <span v-if="['discard', 'play', 'pick'].includes(cardZoom.waiting.from as string)" class="px-2">Take</span>
+            <span v-if="cardZoom.waiting.from?.includes('player-discard')" class="px-2">Reclaim</span>
+            <span v-if="cardZoom.waiting.from === 'forget'" class="px-2">Take Back</span>
+          </base-button>
+        </div>
       </div>
       <button
         v-if="cardZoom.canNext"

@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
 
+type ZoomFrom = 'pick' | 'discard' | 'hand' | 'play' | 'forget' | 'player-discard' | 'player-discard-forget'
 export const useCardZoomStore = defineStore('cardZoom', {
   state: () => ({
     current: null as null | string,
     waiting: {} as {
-      from: 'pick' | 'discard' | 'hand' | 'play' | null,
+      from: ZoomFrom | null,
       card: string | null
     }, 
     deck: [] as string[],
@@ -39,7 +40,7 @@ export const useCardZoomStore = defineStore('cardZoom', {
         this.current = this.deck[index - 1] || this.deck[this.deck.length - 1]
       }
     },
-    setZoom(card: string, deck: string[], from: 'pick' | 'discard' | 'hand' | 'play') {
+    setZoom(card: string, deck: string[], from: ZoomFrom) {
       this.current = card
       this.deck = [...deck]
       this.waiting.from = from
@@ -52,10 +53,10 @@ export const useCardZoomStore = defineStore('cardZoom', {
       }
       this.deck = []
     },
-    setWaiting(card: string) {
+    setWaiting(from: ZoomFrom | null = null) {
       this.waiting = {
-        card,
-        from: this.waiting.from
+        card: this.current,
+        from: from || this.waiting.from
       }
     },
     getWaiting() {
