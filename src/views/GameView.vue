@@ -184,38 +184,45 @@ watch(
   (cardId) => {
     if (cardId) {
       switch (cardZoom.waiting.from) {
-        case 'discard':
+        case 'discard': {
           playerCard.take(cardId)
           const [type] = cardId.split('-')
           usePowerDeckStore(type).removeFromDiscard(cardId)
           modalDiscard.removeFromModal(cardId)
           break
+        }
 
-        case 'player-discard':
+        case 'player-discard': {
           playerCard.reclaimOneCard(cardId)
           isShowDiscard.value = false
           currentMenu2.value = MENU_2.HAND
           break
+        }
 
-        case 'player-discard-forget':
+        case 'player-discard-forget': {
           playerCard.forgetCardFromDiscard(cardId)
           break
+        }
 
-        case 'hand':
+        case 'hand': {
           playerCard.playCard(cardId)
           break
+        }
 
-        case 'forget':
+        case 'forget': {
           returnCardFromForget(cardId)
           break
+        }
 
-        case 'pick':
+        case 'pick': {
           playerCard.takeCardFromPicking(cardId)
           break
+        }
 
-        case 'play':
+        case 'play': {
           playerCard.returnCardFromPlay(cardId)
           break
+        }
 
         default:
       }
@@ -243,22 +250,30 @@ watch(
           <div>Cost: {{ playerCard.energyCost }}</div>
           <element-track class="ml-3" />
         </div>
-        <button class="ml-auto bg-orange-900 px-2 h-full" @click="nextPhase()">
+        <button
+          class="ml-auto bg-orange-900 px-2 h-full"
+          @click="nextPhase()"
+        >
           {{ gameState.currentPhaseName }} phase
         </button>
       </div>
-      <div id="game-area" class="flex h-screen">
+      <div
+        id="game-area"
+        class="flex h-screen"
+      >
         <div
           id="game-showing-area"
           class="grid grid-rows-2 grid-cols-1 w-full relative"
         >
           <div
-            ref="menuControlEl"
             id="game-showing-top"
+            ref="menuControlEl"
             class="bg-neutral-100 my-2 flex px-2 relative"
           >
             <template v-if="currentMenu1 === MENU_1.PLAY">
-              <div class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0">
+              <div
+                class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0"
+              >
                 <span v-if="isShowDiscard">Player Discard</span>
                 <span v-else>Player Play</span>
               </div>
@@ -272,9 +287,9 @@ watch(
               <card-group-view
                 v-else
                 from="play"
+                :cards="playerCard.play"
                 @swipe-down="putFromPlayToHand"
                 @swipe-up="playerCard.putFromPlayToDiscard"
-                :cards="playerCard.play"
               />
             </template>
             <div
@@ -309,12 +324,12 @@ watch(
             class="bg-stone-300 flex px-2 row-auto relative"
           >
             <card-group-view
+              v-if="currentMenu2 === MENU_2.HAND"
               from="hand"
-              @swipe-down="putFromHandToDiscard"
-              @swipe-up="putFromHandToPlay"
               :cards="playerCard.hand"
               class="pt-2"
-              v-if="currentMenu2 === MENU_2.HAND"
+              @swipe-down="putFromHandToDiscard"
+              @swipe-up="putFromHandToPlay"
             />
             <div
               v-if="currentMenu2 === MENU_2.CONTROL"
@@ -326,22 +341,34 @@ watch(
                   button-style="secondary"
                   :disabled="playerCard.forget.length === 0"
                   @click="isShowModalForgetPower = true"
-                  >{{ 'Show Forget' }}</base-button
                 >
+                  {{ 'Show Forget' }}
+                </base-button>
               </div>
               <div class="flex flex-col relative w-32 space-y-2 mt-2">
-                <base-button @click="timePassed" class="h-fit w-full" button-style="secondary"
-                  >Time Passed</base-button
+                <base-button
+                  class="h-fit w-full"
+                  button-style="secondary"
+                  @click="timePassed"
                 >
-                <base-button class="h-fit w-full" button-style="secondary" @click="reclaimAll"
-                  >Reclaim All</base-button
+                  Time Passed
+                </base-button>
+                <base-button
+                  class="h-fit w-full"
+                  button-style="secondary"
+                  @click="reclaimAll"
                 >
+                  Reclaim All
+                </base-button>
                 <base-button
                   class="h-fit w-full"
                   button-style="secondary"
                   @click="toggleDiscard"
-                  >{{ isShowDiscard ? 'Show Play' : 'Show Discard' }}</base-button
                 >
+                  {{
+                    isShowDiscard ? 'Show Play' : 'Show Discard'
+                  }}
+                </base-button>
               </div>
             </div>
           </div>
@@ -362,7 +389,7 @@ watch(
               :src="`/img/spirit_avatar/${getSpiritAvatar(spirit)}`"
               alt="Spirit avatar"
               class="h-full max-w-max"
-            />
+            >
           </div>
         </div>
 
@@ -371,34 +398,46 @@ watch(
           class="ml-auto grid grid-rows-2 text-white relative x-40"
         >
           <div class="bg-neutral-700 px-2 flex items-center">
-            <transition name="switch" mode="out-in">
+            <transition
+              name="switch"
+              mode="out-in"
+            >
               <icon-album
-                @click="switchMenu(1)"
                 v-if="currentMenu1 === MENU_1.PLAY"
                 class="w-8 h-8"
+                @click="switchMenu(1)"
               />
             </transition>
-            <transition name="switch" mode="out-in">
+            <transition
+              name="switch"
+              mode="out-in"
+            >
               <icon-adjustments
-                @click="switchMenu(1)"
                 v-if="currentMenu1 === MENU_1.CONTROL"
                 class="w-8 h-8"
+                @click="switchMenu(1)"
               />
             </transition>
           </div>
           <div class="flex items-center bg-stone-900 px-2">
-            <transition name="switch" mode="out-in">
+            <transition
+              name="switch"
+              mode="out-in"
+            >
               <icon-cards
                 v-if="currentMenu2 === MENU_2.HAND"
-                @click="switchMenu(2)"
                 class="w-8 h-8"
+                @click="switchMenu(2)"
               />
             </transition>
-            <transition name="switch" mode="out-in">
+            <transition
+              name="switch"
+              mode="out-in"
+            >
               <icon-adjustments
                 v-if="currentMenu2 === MENU_2.CONTROL"
-                @click="switchMenu(2)"
                 class="w-8 h-8"
+                @click="switchMenu(2)"
               />
             </transition>
           </div>
@@ -407,14 +446,26 @@ watch(
     </div>
     <div id="modal">
       <modal-discard-power v-if="modalDiscard.getType === 'power'" />
-      <modal-forget-power v-if="isShowModalForgetPower" @close="isShowModalForgetPower = false" @take-back="returnCardFromForget" />
+      <modal-forget-power
+        v-if="isShowModalForgetPower"
+        @close="isShowModalForgetPower = false"
+        @take-back="returnCardFromForget"
+      />
       <card-zoom-modal v-if="cardZoom.isShow" />
-      <card-reveal v-if="currentEvent" :card="currentEvent">
+      <card-reveal
+        v-if="currentEvent"
+        :card="currentEvent"
+      >
         <template #button>
-          <base-button @click="discardEvent">Discard Event</base-button>
-          <base-button button-style="secondary" @click="putUnderTwoTopCard"
-            >Put under two card</base-button
+          <base-button @click="discardEvent">
+            Discard Event
+          </base-button>
+          <base-button
+            button-style="secondary"
+            @click="putUnderTwoTopCard"
           >
+            Put under two card
+          </base-button>
         </template>
       </card-reveal>
     </div>
@@ -425,6 +476,7 @@ watch(
   transition: all 0.3s ease;
   position: absolute;
 }
+
 .switch-enter-active {
   transition: all 0.3s ease;
 }
@@ -434,6 +486,7 @@ watch(
   opacity: 0;
   transform: translateX(-30px);
 }
+
 .switch-enter-to,
 .switch-leave-from {
   opacity: 1;

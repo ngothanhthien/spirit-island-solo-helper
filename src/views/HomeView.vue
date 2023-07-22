@@ -5,6 +5,7 @@ import { computed } from 'vue'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
+import ClearCacheButtonVue from '@/components/ClearCacheButton.vue'
 
 const eventDeck = useEventDeckStore()
 const fearDeck = useFearDeckStore()
@@ -22,24 +23,27 @@ const canContinue = computed(() => {
 </script>
 
 <template>
-  <div
-    class="bg-gradient-to-r from-slate-200 to-slate-500 h-screen flex items-center justify-center"
-  >
-  <div class="flex flex-col space-y-3 w-40">
-      <div class="text-center">Version 0.1.0</div>
+  <div class="bg-gradient-to-r from-slate-200 to-slate-500 h-screen flex items-center justify-center">
+    <div class="flex flex-col space-y-3 w-40">
+      <div class="text-center">
+        Version 0.1.1
+      </div>
       <base-button
-      class="w-full"
-      button-style="secondary"
-      @click="router.push({ name: 'SetupView' })"
-      >New game</base-button
+        class="w-full"
+        button-style="secondary"
+        @click="router.push({ name: 'SetupView' })"
       >
+        New game
+      </base-button>
       <base-button
-      class="w-full"
-      button-style="secondary"
-      :disabled="!canContinue"
-      @click="router.push({ name: 'GameView' })"
-        >Continue</base-button
+        class="w-full"
+        button-style="secondary"
+        :disabled="!canContinue"
+        @click="router.push({ name: 'GameView' })"
       >
+        Continue
+      </base-button>
+      <ClearCacheButtonVue />
     </div>
   </div>
 </template>

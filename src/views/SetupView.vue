@@ -148,9 +148,13 @@ watch(numberSpirit, randomSetup)
   <div
     class="bg-gradient-to-r from-orange-400 to-orange-600 pt-2 px-4 h-screen"
   >
-    <base-button @click="randomSetup" button-style="secondary" class="mb-2"
-      >Re-Random</base-button
+    <base-button
+      button-style="secondary"
+      class="mb-2"
+      @click="randomSetup"
     >
+      Re-Random
+    </base-button>
     <div class="space-x-2 grid grid-cols-12">
       <div class="col-span-8">
         <base-select
@@ -159,10 +163,14 @@ watch(numberSpirit, randomSetup)
           :options="spiritOptions"
           default-label="Number Spirits"
         />
-        <div v-if="numberSpirit" class="mt-4">
+        <div
+          v-if="numberSpirit"
+          class="mt-4"
+        >
           <div
-            class="flex space-x-2 space-y-2 items-center"
             v-for="n in numberSpirit"
+            :key="`spirit-${n}`"
+            class="flex space-x-2 space-y-2 items-center"
           >
             <div
               class="bg-gray-800 hover:bg-gray-800/90 transition rounded-full p-1 text-white mt-3"
@@ -172,7 +180,9 @@ watch(numberSpirit, randomSetup)
                 @click="randomSpiritAndMap(n - 1)"
               />
             </div>
-            <div class="text-xl">{{ MAP[islands[n - 1]] }}:</div>
+            <div class="text-xl">
+              {{ MAP[islands[n - 1]] }}:
+            </div>
             <div>{{ SPIRIT[spirits[n - 1]].name }}</div>
           </div>
         </div>
@@ -181,7 +191,10 @@ watch(numberSpirit, randomSetup)
         <div
           class="bg-gray-800 hover:bg-gray-800/90 transition rounded-full p-1 text-white self-start mt-3"
         >
-          <icon-refresh class="w-4 h-4" @click="randomAdversary" />
+          <icon-refresh
+            class="w-4 h-4"
+            @click="randomAdversary"
+          />
         </div>
         <div>
           <base-select
@@ -191,7 +204,10 @@ watch(numberSpirit, randomSetup)
             :options="adversaryOption"
             default-label="Adversary"
           />
-          <div v-if="adversary || adversary === 0" class="mt-2 text-gray-700">
+          <div
+            v-if="adversary || adversary === 0"
+            class="mt-2 text-gray-700"
+          >
             <div>Adversary level:</div>
             <base-counter
               v-model="adversaryLevel"
@@ -205,12 +221,13 @@ watch(numberSpirit, randomSetup)
     </div>
     <div class="flex justify-center mt-4">
       <base-button
-        @click="startGame"
         :disabled="!canStartGame"
         button-style="primary"
         class="mt-4"
-        >Start Game</base-button
+        @click="startGame"
       >
+        Start Game
+      </base-button>
     </div>
   </div>
 </template>

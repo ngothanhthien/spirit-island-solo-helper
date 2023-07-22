@@ -23,14 +23,24 @@ const playerCard = usePlayerCardStore()
     </template>
     <template #body>
       <div class="flex flex-wrap m-0.5">
-        <div v-for="card in playerCard.forget" :key="`forget-${card}`" class="w-1/4 p-1">
-            <game-card
-              :id="card"
-              @click="cardZoom.setZoom(card, playerCard.forget, 'forget')"
-            />
-            <div class="flex justify-center w-full">
-                <base-button button-style="secondary" class="mt-1" @click="$emit('takeBack', card)">Take Back</base-button>
-            </div>
+        <div
+          v-for="card in playerCard.forget"
+          :key="`forget-${card}`"
+          class="w-1/4 p-1"
+        >
+          <game-card
+            :id="card"
+            @click="cardZoom.setZoom(card, playerCard.forget, 'forget')"
+          />
+          <div class="flex justify-center w-full">
+            <base-button
+              button-style="secondary"
+              class="mt-1"
+              @click="$emit('takeBack', card)"
+            >
+              Take Back
+            </base-button>
+          </div>
         </div>
       </div>
     </template>

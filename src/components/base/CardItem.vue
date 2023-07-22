@@ -50,10 +50,12 @@ const { lengthY } = useSwipe(
 })
 </script>
 <template>
-  <div ref="cardEl"
+  <div
+    ref="cardEl"
     :style="`top: ${top}px;`"
     :class="{'cs-card': onHand}"
-    class="cs-transition left-0 relative shadow-lg shadow-stone-600 rounded-xl overflow-hidden flex-grow-0 flex-shrink-0 flex w-fit">
+    class="cs-transition left-0 relative shadow-lg shadow-stone-600 rounded-xl overflow-hidden flex-grow-0 flex-shrink-0 flex w-fit"
+  >
     <game-card :id="card" />
   </div>
 </template>

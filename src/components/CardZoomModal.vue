@@ -46,37 +46,63 @@ const cardZoomClass = computed(() => {
     >
       <button
         v-if="cardZoom.canPrevious"
-        @click="cardZoom.previous()"
         class="flex items-center text-white group"
+        @click="cardZoom.previous()"
       >
         <icon-caret-left
           class="w-9 h-9 p-1 mr-2 bg-slate-900 rounded-full group-hover:bg-slate-700 transition"
         />
       </button>
       <div class="flex flex-col items-center">
-        <div v-if="cardZoom.waiting.from?.includes('player-discard')" class="w-24">
-          <base-button button-style="secondary" class="mb-1 w-full" @click="cardZoom.setWaiting('player-discard-forget')">
+        <div
+          v-if="cardZoom.waiting.from?.includes('player-discard')"
+          class="w-24"
+        >
+          <base-button
+            button-style="secondary"
+            class="mb-1 w-full"
+            @click="cardZoom.setWaiting('player-discard-forget')"
+          >
             Forget
           </base-button>
         </div>
-        <game-card :id="(cardZoom.current as string)" :class="cardZoomClass" class="rounded-xl" />
-        <div v-if="isPowerCard" class="w-24">
+        <game-card
+          :id="(cardZoom.current as string)"
+          :class="cardZoomClass"
+          class="rounded-xl"
+        />
+        <div
+          v-if="isPowerCard"
+          class="w-24"
+        >
           <base-button
             button-style="secondary"
-            @click="cardZoom.setWaiting()"
             class="mt-1 w-full"
+            @click="cardZoom.setWaiting()"
           >
-            <span v-if="cardZoom.waiting.from === 'hand'" class="px-2">Play</span>
-            <span v-if="['discard', 'play', 'pick'].includes(cardZoom.waiting.from as string)" class="px-2">Take</span>
-            <span v-if="cardZoom.waiting.from?.includes('player-discard')" class="px-2">Reclaim</span>
-            <span v-if="cardZoom.waiting.from === 'forget'" class="px-2">Take Back</span>
+            <span
+              v-if="cardZoom.waiting.from === 'hand'"
+              class="px-2"
+            >Play</span>
+            <span
+              v-if="['discard', 'play', 'pick'].includes(cardZoom.waiting.from as string)"
+              class="px-2"
+            >Take</span>
+            <span
+              v-if="cardZoom.waiting.from?.includes('player-discard')"
+              class="px-2"
+            >Reclaim</span>
+            <span
+              v-if="cardZoom.waiting.from === 'forget'"
+              class="px-2"
+            >Take Back</span>
           </base-button>
         </div>
       </div>
       <button
         v-if="cardZoom.canNext"
-        @click="cardZoom.next()"
         class="flex items-center text-white group"
+        @click="cardZoom.next()"
       >
         <icon-caret-right
           class="w-9 h-9 p-1 ml-2 group-hover:bg-slate-700 transition bg-slate-900 rounded-full"

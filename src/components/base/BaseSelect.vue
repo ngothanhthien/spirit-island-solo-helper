@@ -12,6 +12,7 @@ import { useVModel } from "@vueuse/core";
 const props = defineProps({
   modelValue: {
     type: [String, Number],
+    default: undefined,
   },
   options: {
     type: Array<{
@@ -26,13 +27,16 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(["update:modelValue"]);
-const selected = useVModel(props, "modelValue", emit);
+const selectedModal = useVModel(props, "modelValue", emit);
 const selectedOption = computed(() => {
-  return props.options.find((option) => option.value === selected.value);
+  return props.options.find((option) => option.value === selectedModal.value);
 });
 </script>
 <template>
-  <Listbox v-model="selected" class="inline-block">
+  <Listbox
+    v-model="selectedModal"
+    class="inline-block"
+  >
     <div class="relative mt-1">
       <ListboxButton
         class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
@@ -43,7 +47,10 @@ const selectedOption = computed(() => {
         <span
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
         >
-          <icon-selector class="h-5 w-5 text-gray-400" aria-hidden="true" />
+          <icon-selector
+            class="h-5 w-5 text-gray-400"
+            aria-hidden="true"
+          />
         </span>
       </ListboxButton>
 
@@ -56,8 +63,8 @@ const selectedOption = computed(() => {
           class="z-30 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
         >
           <ListboxOption
-            v-slot="{ active, selected }"
             v-for="item in options"
+            v-slot="{ active, selected }"
             :key="item.label"
             :value="item.value"
             as="template"
@@ -73,13 +80,15 @@ const selectedOption = computed(() => {
                   selected ? 'font-medium' : 'font-normal',
                   'block truncate',
                 ]"
-                >{{ item.label }}</span
-              >
+              >{{ item.label }}</span>
               <span
                 v-if="selected"
                 class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
               >
-                <icon-check class="h-5 w-5" aria-hidden="true" />
+                <icon-check
+                  class="h-5 w-5"
+                  aria-hidden="true"
+                />
               </span>
             </li>
           </ListboxOption>

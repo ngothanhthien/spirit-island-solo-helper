@@ -1,15 +1,27 @@
 <template>
-    <div class="inline-block text-stone-700 shadow-md">
-      <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
-        <button @click="counter--" :disabled="counter === min" class=" bg-white h-full px-2 rounded-l disabled:text-gray-400">
-          <icon-minus class="w-4 h-4 mx-auto" />
-        </button>
-        <input v-model="counter" type="number" class="outline-none focus:outline-none text-center w-full bg-white flex items-center">
-      <button @click="counter++" :disabled="counter === max" class="bg-white h-full px-2 rounded-r disabled:text-gray-400">
+  <div class="inline-block text-stone-700 shadow-md">
+    <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+      <button
+        :disabled="counter === min"
+        class=" bg-white h-full px-2 rounded-l disabled:text-gray-400"
+        @click="counter--"
+      >
+        <icon-minus class="w-4 h-4 mx-auto" />
+      </button>
+      <input
+        v-model="counter"
+        type="number"
+        class="outline-none focus:outline-none text-center w-full bg-white flex items-center"
+      >
+      <button
+        :disabled="counter === max"
+        class="bg-white h-full px-2 rounded-r disabled:text-gray-400"
+        @click="counter++"
+      >
         <icon-plus class="w-4 h-4 mx-auto" />
       </button>
-      </div>
     </div>
+  </div>
 </template>
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core'

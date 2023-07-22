@@ -23,6 +23,7 @@ const modalDiscard = useModalDiscardStore()
         <game-card
           v-for="card in modalDiscard.deck"
           :id="card"
+          :key="card"
           class="w-1/6 px-0.5 py-0.5"
           @click="cardZoom.setZoom(card, modalDiscard.getDeck, 'discard')"
         />

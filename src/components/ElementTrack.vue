@@ -11,7 +11,11 @@ const playerCard = usePlayerCardStore()
       :key="key"
       class="flex items-center space-x-0.5"
     >
-      <img class="h-5" :src="`/img/elements/${key.toLocaleLowerCase()}.webp`" :alt="`${key} element`" />
+      <img
+        class="h-5"
+        :src="`/img/elements/${key.toLocaleLowerCase()}.webp`"
+        :alt="`${key} element`"
+      >
       {{ value }}
     </div>
   </div>
