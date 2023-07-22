@@ -178,7 +178,7 @@ watch(
     <div class="h-screen flex flex-col">
       <div
         id="game-header"
-        class="h-8 bg-orange-800 flex items-center z-40 text-white w-full"
+        class="h-10 bg-orange-800 flex items-center z-40 text-white w-full"
       >
         <button class="bg-orange-900 px-2 py-1" @click="router.push({name: 'HomeView'})">Exit game</button>
         <div class="flex items-center h-full px-3">
@@ -194,13 +194,12 @@ watch(
           id="game-showing-area"
           class="grid grid-rows-2 grid-cols-1 w-full relative"
         >
-          <div id="game-showing-top" class="bg-neutral-100 py-2 flex px-2">
+          <div id="game-showing-top" class="bg-neutral-100 my-2 flex px-2 relative">
             <card-group-view
               v-if="currentMenu1 === MENU_1.PLAY"
               from="play"
               @swipe-down="putFromDiscardToHand"
               @swipe-up="forgetCard"
-              class="w-full"
               :cards="playerCard.play"
             />
             <div
@@ -208,7 +207,7 @@ watch(
               v-if="currentMenu1 === MENU_1.CONTROL"
               class="flex items-stretch relative w-full"
             >
-              <div v-if="!playerCard.isPicking" class="space-x-2">
+              <div v-if="!playerCard.isPicking" class="space-x-2 absolute h-full">
                 <power-deck-component deck="minor" />
                 <power-deck-component deck="major" />
               </div>
@@ -220,7 +219,7 @@ watch(
                   @add-power="addPowerToPicking"
                 />
                 <icon-x
-                  class="w-7 h-7 absolute -right-2 -top-2 text-blue-900"
+                  class="w-7 h-7 absolute -right-2 -top-2 text-blue-900 z-50" style="stroke-width: 3px;"
                   @click="resetPicking"
                 />
               </template>
@@ -228,16 +227,18 @@ watch(
           </div>
           <div
             id="game-showing-bottom"
-            class="bg-stone-300 flex pt-2 px-2 row-auto"
+            class="bg-stone-300 flex px-2 row-auto relative"
           >
             <card-group-view
               from="hand"
               @swipe-down="putFromHandToDiscard"
               @swipe-up="putFromHandToPlay"
-              class="w-full"
               :cards="playerCard.hand"
+              class="pt-2"
             />
           </div>
+
+
           <div
             v-for="(spirit, index) in gameOption.spirits"
             :key="`spirit-${spirit}`"

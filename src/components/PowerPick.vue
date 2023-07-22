@@ -2,7 +2,8 @@
 import { computed, ref } from 'vue'
 import cardItem from '@/components/base/CardItem.vue'
 import { IconPlus } from '@tabler/icons-vue'
-import { useElementSize, useSwipe } from '@vueuse/core';
+import { useElementSize, useSwipe } from '@vueuse/core'
+import { CARD_RATIO } from '@/constant';
 
 const props = defineProps<{
   picking: string[],
@@ -11,7 +12,10 @@ const props = defineProps<{
 defineEmits(['swipeDown', 'addPower'])
 
 const powerPickEl = ref<HTMLElement | null>()
-const { width: powerPickSize } = useElementSize(powerPickEl)
+const { width: powerPickSize, height: cardHeight } = useElementSize(powerPickEl)
+const cardWidth = computed(() => {
+  return cardHeight.value * CARD_RATIO
+})
 const pos = ref(0)
 let startX = 0
 const viewBox = computed(() => {
@@ -42,11 +46,11 @@ const { lengthX } = useSwipe(
         pos.value = -viewBox.value
       }
     }
-  })
+})
 </script>
 
 <template>
-    <div ref="powerPickEl" class="flex h-36 flex-shrink-0 space-x-2 relative" :style="`left: ${pos}px;`">
+    <div ref="powerPickEl" class="flex h-full flex-shrink-0 space-x-2 absolute" :style="`left: ${pos}px;`">
       <card-item
         v-for="card in picking"
         :key="card"
@@ -56,7 +60,8 @@ const { lengthX } = useSwipe(
       />
       <button
         key="button-add-power"
-        class="flex items-center justify-center w-24 border-2 border-orange-800 hover:border-orange-700 text-orange-900 hover:text-orange-700 rounded-xl"
+        :style="`width: ${cardWidth}px;`"
+        class="flex items-center justify-center border-2 border-orange-800 hover:border-orange-700 text-orange-900 hover:text-orange-700 rounded-xl"
         @click="$emit('addPower')"
       >
         <icon-plus class="w-16 h-16" :style="{ 'stroke-width': '1px' }" />

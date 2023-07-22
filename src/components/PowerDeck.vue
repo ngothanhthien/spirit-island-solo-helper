@@ -21,7 +21,7 @@ function reveal() {
 </script>
 
 <template>
-  <div class="inline-block relative h-36">
+  <div class="inline-block relative h-full">
     <div class="inline-block h-full relative">
       <img
         class="rounded-lg h-full"

@@ -2,8 +2,9 @@
 import { computed, ref } from 'vue';
 import { useElementSize } from '@vueuse/core'
 import CardItem from './base/CardItem.vue'
-import { useCardZoomStore } from '@/stores/CardZoomStore';
-const CARD_RATIO = 5 / 7
+import { useCardZoomStore } from '@/stores/CardZoomStore'
+import { CARD_RATIO } from '@/constant';
+
 const DEFAULT_OVERLAP = 20
 interface CardGroupViewProps {
   cards: Array<string>
@@ -12,7 +13,7 @@ interface CardGroupViewProps {
 const props = defineProps<CardGroupViewProps>()
 const cardZoom = useCardZoomStore()
 const cardWidth = computed(() => {
-  return viewHeight.value * CARD_RATIO - 8
+  return viewHeight.value * CARD_RATIO
 })
 const handEl = ref(null)
 const { width: viewWidth, height: viewHeight } = useElementSize(handEl)
@@ -29,10 +30,10 @@ const slightLeft = computed(() => {
 </script>
 
 <template>
-  <transition-group name="list" tag="div" ref="handEl" class="flex" appear>
+  <transition-group name="list" tag="div" ref="handEl" class="flex w-full absolute h-full" appear>
     <card-item v-for="card in cards" :key="card" :card="card" @swipe-down="$emit('swipe-down', card)"
       @swipe-up="$emit('swipe-up', card)"
-      :style="`width: ${cardWidth}px;--l: ${slightLeft}px; --ml: ${slightLeft * (-1)}px;`"
+      :style="`--l: ${slightLeft}px; --ml: ${slightLeft * (-1)}px;`"
       :on-hand="true"
       @click="cardZoom.setZoom(card, cards, from)"
     />
@@ -48,7 +49,7 @@ const slightLeft = computed(() => {
   transform: translateX(0);
 }
 .list-leave-to, .list-leave-from {
-  opacity: 0;
+  display: none;
 }
 .list-leave-active {
   position: absolute;

@@ -3161,3 +3161,4 @@ export const ADVERSARY = [
 ]
 export const MAP = ["A", "B", "C", "D", "E", "F"]
 export const PHASE_ENUM = ['Grow', 'Play Power', 'Fast Power', 'Blight', 'Event', 'Invader Action', 'Time Passed']
+export const CARD_RATIO = 5 / 7
