@@ -19,10 +19,3 @@
     max-age=31536000,
     immutable
     '''
-[[headers]]
-  for = "/img/*"
-  [headers.values]
-    cache-control = '''
-    max-age=31536000,
-    immutable
-    '''

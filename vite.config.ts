@@ -9,6 +9,10 @@ export default defineConfig({
     vue(), 
     VitePWA({
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+      registerType: 'autoUpdate',
+      workbox: {
+        globPatterns: ['**/*.{js,css,html}', 'img/**/*.webp']
+      },
       manifest: {
         name: 'My Awesome App',
         short_name: 'MyApp',
@@ -40,7 +44,7 @@ export default defineConfig({
             purpose: 'maskable'
           }
         ]
-      }
+      },
     })
   ],
   resolve: {
