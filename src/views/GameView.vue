@@ -118,6 +118,16 @@ function switchMenu(menu: number) {
   }
 }
 
+function timePassed() {
+  playerCard.cleanUp()
+  currentMenu2.value = MENU_2.HAND
+}
+
+function reclaimAll() {
+  playerCard.reclaim()
+  currentMenu2.value = MENU_2.HAND
+}
+
 function nextPhase() {
   gameState.nextPhase()
   switch (gameState.currentPhaseName) {
@@ -248,6 +258,10 @@ watch(
             class="bg-neutral-100 my-2 flex px-2 relative"
           >
             <template v-if="currentMenu1 === MENU_1.PLAY">
+              <div class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0">
+                <span v-if="isShowDiscard">Player Discard</span>
+                <span v-else>Player Play</span>
+              </div>
               <power-discard
                 v-if="isShowDiscard"
                 :discard="playerCard.discard"
@@ -316,10 +330,10 @@ watch(
                 >
               </div>
               <div class="flex flex-col relative w-32 space-y-2 mt-2">
-                <base-button class="h-fit w-full" button-style="secondary"
+                <base-button @click="timePassed" class="h-fit w-full" button-style="secondary"
                   >Time Passed</base-button
                 >
-                <base-button class="h-fit w-full" button-style="secondary"
+                <base-button class="h-fit w-full" button-style="secondary" @click="reclaimAll"
                   >Reclaim All</base-button
                 >
                 <base-button
