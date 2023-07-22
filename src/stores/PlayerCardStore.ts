@@ -43,7 +43,7 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     getTypePicking(state) {
       const card = state.players[state.current].picking[0]
-      return card.split('-')[0]
+      return card?.split('-')[0]
     },
     elements(state) {
       const elements: { [key in Element]?: number } = {}

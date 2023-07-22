@@ -234,7 +234,7 @@ watch(
         class="h-10 bg-orange-800 flex items-center z-40 text-white w-full"
       >
         <button
-          class="bg-orange-900 px-2 py-1"
+          class="bg-orange-900 px-2 h-full"
           @click="router.push({ name: 'HomeView' })"
         >
           Exit game
@@ -243,7 +243,7 @@ watch(
           <div>Cost: {{ playerCard.energyCost }}</div>
           <element-track class="ml-3" />
         </div>
-        <button class="ml-auto bg-orange-900 px-2 py-1" @click="nextPhase()">
+        <button class="ml-auto bg-orange-900 px-2 h-full" @click="nextPhase()">
           {{ gameState.currentPhaseName }} phase
         </button>
       </div>

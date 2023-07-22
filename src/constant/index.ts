@@ -1103,7 +1103,20 @@ export const MINOR_CARDS: Array<PowerCard> = [
     ],
     description: 'Defend 4. Push up to 1 Blight. -If you have- 2 Sun: 1 Fear',
   },
+  {
+    name: 'Roiling Bog And Snagging Thorn',
+    cost: 0,
+    speed: 'Fast',
+    elements: [
+      'Moon',
+      'Fire',
+      'Water',
+      'Plant',
+    ],
+    description: '',
+  }
 ]
+
 export const MAJOR_CARDS: Array<PowerCard> = [
   {
     name: 'The Trees and Stones Speak of War',
@@ -1828,6 +1841,144 @@ export const MAJOR_CARDS: Array<PowerCard> = [
       'Earth',
     ],
     description: '6 Fear. Destroy all Invaders. -If you have- 2 Sun, 2 Moon, 4 Water, 4 Earth: Destroy the board containing target land and everything on that board. All destroyed Blight is removed from the game instead of being returned to the Blight Card.',
+  },
+  {
+    name: 'Bargain Of Coursing Paths',
+    cost: 2,
+    speed: 'Fast',
+    elements: [
+      'Moon',
+      'Air',
+      'Water',
+      'Earth',
+    ],
+    description: '',
+  },
+  {
+    name: 'Flocking Red-Talons',
+    cost: 3,
+    speed: 'Fast',
+    elements: [
+      'Air',
+      'Water',
+      'Plant',
+      'Animal',
+    ],
+    description: '',
+  },
+  {
+    name: 'Rumbling Earthquakes',
+    cost: 6,
+    speed: 'Slow',
+    elements: [
+      'Fire',
+      'Earth',
+    ],
+    description: '',
+  },
+  {
+    name: 'Exaltation Of The Incandescent Sky',
+    cost: 7,
+    speed: 'Fast',
+    elements: [
+      'Sun',
+      'Fire',
+      'Air',
+      'Water'
+    ],
+    description: '',
+  },
+  {
+    name: 'Bombard With Boulders And Stinging Seeds',
+    cost: 2,
+    speed: 'Slow',
+    elements: [
+      'Air',
+      'Earth',
+      'Plant',
+    ],
+    description: '',
+  },
+  {
+    name: 'Fragments Of Yesteryear',
+    cost: 7,
+    speed: 'Slow',
+    elements: [
+      'Sun',
+      'Moon',
+    ],
+    description: '',
+  },
+  {
+    name: 'Inspire The Release Of Stolen Lands',
+    cost: 4,
+    speed: 'Slow',
+    elements: [
+      'Sun',
+      'Water',
+      'Plant',
+      'Animal',
+    ],
+    description: '',
+  },
+  {
+    name: 'Plague Ships Sail To Distant Ports',
+    cost: 4,
+    speed: 'Fast',
+    elements: [
+      'Fire',
+      'Air',
+      'Water',
+      'Animal',
+    ],
+    description: '',
+  },
+  {
+    name: 'Ravaged Undergrowth Slithers Back To Life',
+    cost: 3,
+    speed: 'Slow',
+    elements: [
+      'Water',
+      'Plant',
+      'Animal',
+    ],
+    description: '',
+  },
+  {
+    name: 'Solidify Echoes Of Majesty Past',
+    cost: 4,
+    speed: 'Fast',
+    elements: [
+      'Sun',
+      'Moon',
+      'Air',
+      'Earth',
+    ],
+    description: '',
+  },
+  {
+    name: 'Transformative Sacrifice',
+    cost: 3,
+    speed: 'Fast',
+    elements: [
+      'Moon',
+      'Fire',
+      'Water',
+      'Plant',
+    ],
+    description: '',
+  },
+  {
+    name: 'Unearth A Beast Of Wrathful Stone',
+    cost: 5,
+    speed: 'Fast',
+    elements: [
+      'Moon',
+      'Fire',
+      'Earth',
+      'Animal',
+    ],
+    description: '',
   },
 ]
 export const EVENT_CARDS: Array<{ name: string }> = [

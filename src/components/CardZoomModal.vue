@@ -59,7 +59,7 @@ const cardZoomClass = computed(() => {
             Forget
           </base-button>
         </div>
-        <game-card :id="(cardZoom.current as string)" :class="cardZoomClass" />
+        <game-card :id="(cardZoom.current as string)" :class="cardZoomClass" class="rounded-xl" />
         <div v-if="isPowerCard" class="w-24">
           <base-button
             button-style="secondary"
