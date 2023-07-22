@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineAsyncComponent, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import CardGroupView from '@/components/CardGroupView.vue'
 import { IconCards, IconAlbum, IconAdjustments, IconX } from '@tabler/icons-vue'
 import ElementTrack from '@/components/ElementTrack.vue'
@@ -7,24 +7,12 @@ import CardReveal from '@/components/base/CardReveal.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 import { getSpiritAvatar } from '@/utils'
 
-const PowerDeckComponent = defineAsyncComponent(
-  () => import('@/components/PowerDeck.vue'),
-)
-const ModalDiscardPower = defineAsyncComponent(
-  () => import('@/components/ModalDiscardPower.vue'),
-)
-const CardZoomModal = defineAsyncComponent(
-  () => import('@/components/CardZoomModal.vue'),
-)
-const PowerPick = defineAsyncComponent(
-  () => import('@/components/PowerPick.vue'),
-)
-const PowerDiscard = defineAsyncComponent(
-  () => import('@/components/PowerDiscard.vue'),
-)
-const ModalForgetPower = defineAsyncComponent(
-  () => import('@/components/ModalForgetPower.vue'),
-)
+import PowerDeckComponent from '@/components/PowerDeck.vue';
+import ModalDiscardPower from '@/components/ModalDiscardPower.vue';
+import CardZoomModal from '@/components/CardZoomModal.vue';
+import PowerPick from '@/components/PowerPick.vue';
+import PowerDiscard from '@/components/PowerDiscard.vue';
+import ModalForgetPower from '@/components/ModalForgetPower.vue';
 
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
