@@ -5,7 +5,6 @@ import { computed } from 'vue'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
-import ClearCacheButtonVue from '@/components/ClearCacheButton.vue'
 
 const eventDeck = useEventDeckStore()
 const fearDeck = useFearDeckStore()
@@ -26,7 +25,7 @@ const canContinue = computed(() => {
   <div class="bg-gradient-to-r from-slate-200 to-slate-500 h-screen flex items-center justify-center">
     <div class="flex flex-col space-y-3 w-40">
       <div class="text-center">
-        Version 0.1.3
+        Version 0.1.4
       </div>
       <base-button
         class="w-full"
@@ -43,7 +42,6 @@ const canContinue = computed(() => {
       >
         Continue
       </base-button>
-      <ClearCacheButtonVue />
     </div>
   </div>
 </template>
