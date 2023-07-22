@@ -17,11 +17,11 @@
     "@vueuse/core": "^10.2.1",
     "pinia": "^2.1.4",
     "pinia-plugin-persistedstate": "^3.1.0",
-    "sharp": "^0.32.4",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
+    "sharp": "^0.32.4",
     "@tsconfig/node18": "^2.0.1",
     "@types/node": "^18.16.17",
     "@vite-pwa/assets-generator": "^0.0.3",

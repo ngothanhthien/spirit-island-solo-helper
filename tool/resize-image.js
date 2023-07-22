@@ -19,7 +19,7 @@ fs.readdir(directoryPath, async (err, files) => {
     } 
 
     for (const file of files) {
-        if(path.extname(file) === ".jpg" || path.extname(file) === ".png" || path.extname(file) === ".webp") {
+        if(path.extname(file) === ".jpg" || path.extname(file) === ".jpeg" || path.extname(file) === ".png" || path.extname(file) === ".webp") {
             const filePath = path.join(directoryPath, file);
             const fileNameWithoutExt = path.basename(file, path.extname(file));
             const outputFilePath = path.join(outputDirectoryPath, fileNameWithoutExt + '_x300.webp');
