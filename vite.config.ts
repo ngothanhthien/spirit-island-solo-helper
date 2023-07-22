@@ -11,7 +11,7 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{js,css,html}', 'img/**/*.webp']
+        globPatterns: ['**/*.{js,css,html,webp}']
       },
       manifest: {
         name: 'My Awesome App',
