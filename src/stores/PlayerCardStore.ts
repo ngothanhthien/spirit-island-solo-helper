@@ -89,6 +89,11 @@ export const usePlayerCardStore = defineStore('playerCard', {
       player.hand = [...player.hand, ...player.discard]
       player.discard = []
     },
+    reclaimOneCard(card: string) {
+      const player = this.players[this.current]
+      removeCard(player.discard, card)
+      player.hand.push(card)
+    },
     cleanUp() {
       const player = this.players[this.current]
       player.discard = [...player.discard, ...player.play]
@@ -133,6 +138,11 @@ export const usePlayerCardStore = defineStore('playerCard', {
     forgetCard(card: string) {
       this.players[this.current].forget.push(card)
     },
+    forgetCardFromDiscard(card: string) {
+      const player = this.players[this.current]
+      removeCard(player.discard, card)
+      player.forget.push(card)
+    },
     addToPicking(card: string) {
       this.players[this.current].picking.push(card)
     },
@@ -142,6 +152,11 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     resetPicking() {
       this.players[this.current].picking = []
+    },
+    putFromPlayToDiscard(card: string) {
+      const player = this.players[this.current]
+      removeCard(player.play, card)
+      player.discard.push(card)
     }
   },
   persist: true,

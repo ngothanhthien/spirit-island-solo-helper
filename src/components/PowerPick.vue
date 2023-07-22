@@ -1,52 +1,22 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, toRefs } from 'vue'
 import cardItem from '@/components/base/CardItem.vue'
 import { IconPlus } from '@tabler/icons-vue'
-import { useElementSize, useSwipe } from '@vueuse/core'
+import { useElementSize } from '@vueuse/core'
 import { CARD_RATIO } from '@/constant';
+import useDragToScroll from '@/composable/useDragToScroll';
 
 const props = defineProps<{
   picking: string[],
   containerLength: number,
 }>()
+const { containerLength } = toRefs(props)
 defineEmits(['swipeDown', 'addPower'])
 
 const powerPickEl = ref<HTMLElement | null>()
-const { width: powerPickSize, height: cardHeight } = useElementSize(powerPickEl)
-const cardWidth = computed(() => {
-  return cardHeight.value * CARD_RATIO
-})
-const pos = ref(0)
-let startX = 0
-const viewBox = computed(() => {
-  return powerPickSize.value - props.containerLength + 20
-})
-const { lengthX } = useSwipe(
-  powerPickEl, {
-    onSwipeStart(e: TouchEvent) {
-      if (viewBox.value < 0) {
-        return
-      }
-      startX = pos.value
-    },
-    onSwipe(e: TouchEvent) {
-      if (viewBox.value < 0) {
-        return
-      }
-      pos.value = startX - lengthX.value
-    },
-    onSwipeEnd(e: TouchEvent) {
-      if (viewBox.value < 0) {
-        return
-      }
-      if (pos.value > 0) {
-        pos.value = 0
-      }
-      if (pos.value < -viewBox.value) {
-        pos.value = -viewBox.value
-      }
-    }
-})
+const { height: cardHeight } = useElementSize(powerPickEl)
+const cardWidth = computed(() => cardHeight.value * CARD_RATIO)
+const { pos } = useDragToScroll(powerPickEl, containerLength)
 </script>
 
 <template>

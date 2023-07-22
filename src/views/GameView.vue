@@ -19,6 +19,9 @@ const CardZoomModal = defineAsyncComponent(
 const PowerPick = defineAsyncComponent(
   () => import('@/components/PowerPick.vue'),
 )
+const PowerDiscard = defineAsyncComponent(
+  () => import('@/components/PowerDiscard.vue'),
+)
 
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
@@ -40,7 +43,7 @@ const MENU_1 = {
 }
 const MENU_2 = {
   HAND: 0,
-  SPIRIT: 1,
+  CONTROL: 1,
 }
 
 const currentMenu1 = ref(MENU_1.PLAY)
@@ -60,6 +63,8 @@ const { putUnderTwoTopCard, discardEvent, revealEvent, currentEvent } =
   useEvent()
 const menuControlEl = ref<HTMLElement | null>(null)
 const { width: powerPickSize } = useElementSize(menuControlEl)
+
+const isShowDiscard = ref(false)
 
 if (
   !eventDeck.isAvailable ||
@@ -90,7 +95,7 @@ function putFromHandToPlay(cardId: string) {
   playerCard.playCard(cardId)
 }
 
-function putFromDiscardToHand(cardId: string) {
+function putFromPlayToHand(cardId: string) {
   playerCard.returnCardFromPlay(cardId)
 }
 
@@ -147,6 +152,7 @@ function addPowerToPicking() {
   const card = usePowerDeckStore(type).reveal()
   playerCard.addToPicking(card)
 }
+
 watch(
   () => cardZoom.waiting.card,
   (cardId) => {
@@ -194,16 +200,23 @@ watch(
           id="game-showing-area"
           class="grid grid-rows-2 grid-cols-1 w-full relative"
         >
-          <div id="game-showing-top" class="bg-neutral-100 my-2 flex px-2 relative">
-            <card-group-view
-              v-if="currentMenu1 === MENU_1.PLAY"
-              from="play"
-              @swipe-down="putFromDiscardToHand"
-              @swipe-up="forgetCard"
-              :cards="playerCard.play"
-            />
+          <div ref="menuControlEl" id="game-showing-top" class="bg-neutral-100 my-2 flex px-2 relative">
+            <template v-if="currentMenu1 === MENU_1.PLAY">
+              <power-discard v-if="isShowDiscard"
+                :discard="playerCard.discard"
+                :container-length="powerPickSize"
+                @swipe-down="playerCard.reclaimOneCard"
+                @swipe-up="playerCard.forgetCardFromDiscard"
+              />
+              <card-group-view
+                v-else
+                from="play"
+                @swipe-down="putFromPlayToHand"
+                @swipe-up="playerCard.putFromPlayToDiscard"
+                :cards="playerCard.play"
+              />
+            </template>
             <div
-              ref="menuControlEl"
               v-if="currentMenu1 === MENU_1.CONTROL"
               class="flex items-stretch relative w-full"
             >
@@ -225,6 +238,7 @@ watch(
               </template>
             </div>
           </div>
+          
           <div
             id="game-showing-bottom"
             class="bg-stone-300 flex px-2 row-auto relative"
@@ -235,7 +249,16 @@ watch(
               @swipe-up="putFromHandToPlay"
               :cards="playerCard.hand"
               class="pt-2"
+              v-if="currentMenu2 === MENU_2.HAND"
             />
+            <div
+              v-if="currentMenu2 === MENU_2.CONTROL"
+              class="flex flex-col relative w-32 space-y-2 mt-2 ml-auto"
+            >
+              <base-button class="h-fit w-full" button-style="secondary">Time Passed</base-button>
+              <base-button class="h-fit w-full" button-style="secondary">Reclaim All</base-button>
+              <base-button class="h-fit w-full" button-style="secondary" @click="isShowDiscard = !isShowDiscard">{{ isShowDiscard ? 'Show Play' : 'Show Discard' }}</base-button>
+            </div>
           </div>
 
 
@@ -254,6 +277,8 @@ watch(
             />
           </div>
         </div>
+
+
         <div
           id="game-control-right-bar"
           class="ml-auto grid grid-rows-2 text-white relative x-40"
@@ -275,9 +300,20 @@ watch(
             </transition>
           </div>
           <div class="flex items-center bg-stone-900 px-2">
-            <icon-cards class="w-8 h-8" />
+            <transition name="switch" mode="out-in">
+              <icon-cards v-if="currentMenu2 === MENU_2.HAND" @click="switchMenu(2)" class="w-8 h-8" />
+            </transition>
+            <transition name="switch" mode="out-in">
+              <icon-adjustments
+                v-if="currentMenu2 === MENU_2.CONTROL"
+                @click="switchMenu(2)"
+                class="w-8 h-8"
+              />
+            </transition>
           </div>
         </div>
+
+
       </div>
     </div>
     <div id="modal">
