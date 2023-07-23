@@ -17,7 +17,7 @@
       onMounted(() => {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker
-            .register('/service-worker.js')
+            .register('/sw.js')
             .then((registration) => {
               registration.addEventListener('updatefound', () => {
                 updateAvailable.value = true
