@@ -29,7 +29,7 @@ const canContinue = computed(() => {
     <div class="flex flex-col space-y-3 w-40">
       <update-app />
       <div class="text-center">
-        Version 0.1.4
+        Version 0.1.5
       </div>
       <base-button
         class="w-full"
