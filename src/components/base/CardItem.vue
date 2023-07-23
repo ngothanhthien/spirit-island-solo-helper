@@ -15,16 +15,16 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
-  onHand: {
-    type: Boolean,
-    default: false
+  left: {
+    type: Number,
+    default: 0
   }
 })
 const emit = defineEmits(['swipeUp', 'swipeDown'])
 const cardEl = ref<HTMLElement | null>(null)
 const top = ref(0)
 const cardHeight = computed(() => cardEl.value?.offsetHeight)
-const { lengthY } = useSwipe(
+const { lengthY, isSwiping } = useSwipe(
   cardEl, {
   onSwipe() {
     if (cardHeight.value) {
@@ -52,23 +52,15 @@ const { lengthY } = useSwipe(
 <template>
   <div
     ref="cardEl"
-    :style="`top: ${top}px;`"
-    :class="{'cs-card': onHand}"
-    class="cs-transition left-0 relative shadow-lg shadow-stone-600 rounded-xl overflow-hidden flex-grow-0 flex-shrink-0 flex w-fit"
+    :style="`top: ${top}px; left: ${left}px;`"
+    :class="{'z-[9999]': isSwiping}"
+    class="cs-transition relative shadow-lg shadow-stone-600 rounded-xl overflow-hidden flex-grow-0 flex-shrink-0 flex w-fit"
   >
     <game-card :id="card" />
   </div>
 </template>
 <style scoped>
-.cs-card:not(:first-child) {
-  margin-left: var(--ml);
-}
 .cs-transition {
   transition: opacity 0.4s ease-out, transform 0.4s ease-out, left 0.4s ease-out;
-}
-
-.cs-card:hover~.cs-card {
-  position: relative;
-  left: var(--l);
 }
 </style>

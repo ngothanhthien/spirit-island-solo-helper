@@ -22,22 +22,29 @@ const { style } = useDragToScroll(powerPickEl, props.containerLength)
 </script>
 
 <template>
-    <div ref="powerPickEl" class="flex h-full flex-shrink-0 space-x-2 absolute" :style="style">
-      <card-item
-        v-for="card in picking"
-        :key="card"
-        :card="card"
-        :can-swipe-up="false"
-        @swipe-down="$emit('swipeDown', card)"
-        @click="cardZoom.setZoom(card, picking, 'pick')"
+  <div
+    ref="powerPickEl"
+    class="flex h-full flex-shrink-0 space-x-2 absolute"
+    :style="style"
+  >
+    <card-item
+      v-for="card in picking"
+      :key="card"
+      :card="card"
+      :can-swipe-up="false"
+      @swipe-down="$emit('swipeDown', card)"
+      @click="cardZoom.setZoom(card, picking, 'pick')"
+    />
+    <button
+      key="button-add-power"
+      :style="`width: ${cardWidth}px;`"
+      class="flex items-center justify-center border-2 border-orange-800 hover:border-orange-700 text-orange-900 hover:text-orange-700 rounded-xl"
+      @click="$emit('addPower')"
+    >
+      <icon-plus
+        class="w-16 h-16"
+        :style="{ 'stroke-width': '1px' }"
       />
-      <button
-        key="button-add-power"
-        :style="`width: ${cardWidth}px;`"
-        class="flex items-center justify-center border-2 border-orange-800 hover:border-orange-700 text-orange-900 hover:text-orange-700 rounded-xl"
-        @click="$emit('addPower')"
-      >
-        <icon-plus class="w-16 h-16" :style="{ 'stroke-width': '1px' }" />
-      </button>
-    </div>
+    </button>
+  </div>
 </template>

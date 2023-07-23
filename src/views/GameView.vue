@@ -84,10 +84,6 @@ function toggleDiscard() {
   currentMenu1.value = MENU_1.PLAY
 }
 
-function putFromHandToDiscard(cardId: string) {
-  playerCard.putCardInDiscard(cardId)
-}
-
 function putFromHandToPlay(cardId: string) {
   playerCard.playCard(cardId)
 }
@@ -142,6 +138,7 @@ function resetPicking() {
       majorDeck.addToDiscard(card)
     }
   })
+  currentMenu1.value = MENU_1.PLAY
   playerCard.resetPicking()
 }
 
@@ -316,7 +313,7 @@ watch(
               from="hand"
               :cards="playerCard.hand"
               class="pt-2"
-              @swipe-down="putFromHandToDiscard"
+              @swipe-down="playerCard.forgetCardFromHand"
               @swipe-up="putFromHandToPlay"
             />
             <div
@@ -351,6 +348,7 @@ watch(
                 <base-button
                   class="h-fit w-full"
                   button-style="secondary"
+                  :disabled="!isShowDiscard && playerCard.discard.length === 0"
                   @click="toggleDiscard"
                 >
                   {{

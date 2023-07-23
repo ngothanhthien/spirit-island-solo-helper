@@ -11,6 +11,7 @@ interface CardGroupViewProps {
   from: 'play' | 'hand'
 }
 const props = defineProps<CardGroupViewProps>()
+defineEmits(['swipeDown', 'swipeUp'])
 const cardZoom = useCardZoomStore()
 const cardWidth = computed(() => {
   return viewHeight.value * CARD_RATIO
@@ -30,11 +31,20 @@ const slightLeft = computed(() => {
 </script>
 
 <template>
-  <transition-group name="list" tag="div" ref="handEl" class="flex w-full absolute h-full" appear>
-    <card-item v-for="card in cards" :key="card" :card="card" @swipe-down="$emit('swipe-down', card)"
-      @swipe-up="$emit('swipe-up', card)"
-      :style="`--l: ${slightLeft}px; --ml: ${slightLeft * (-1)}px;`"
-      :on-hand="true"
+  <transition-group
+    ref="handEl"
+    name="list"
+    tag="div"
+    class="flex w-full absolute h-full"
+    appear
+  >
+    <card-item
+      v-for="(card, index) in cards"
+      :key="card"
+      :card="card"
+      :left="slightLeft * (-1) * (index)"
+      @swipe-down="$emit('swipeDown', card)"
+      @swipe-up="$emit('swipeUp', card)"
       @click="cardZoom.setZoom(card, cards, from)"
     />
   </transition-group>

@@ -135,8 +135,10 @@ export const usePlayerCardStore = defineStore('playerCard', {
     addToPlay(card: string) {
       this.players[this.current].play.push(card)
     },
-    forgetCard(card: string) {
-      this.players[this.current].forget.push(card)
+    forgetCardFromHand(card: string) {
+      const player = this.players[this.current]
+      removeCard(player.hand, card)
+      player.forget.push(card)
     },
     forgetCardFromDiscard(card: string) {
       const player = this.players[this.current]

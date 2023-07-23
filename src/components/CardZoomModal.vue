@@ -44,7 +44,7 @@ const cardZoomClass = computed(() => {
       }"
       class="h-[90%] flex"
     >
-      <button
+      <div
         v-if="cardZoom.canPrevious"
         class="flex items-center text-white group"
         @click="cardZoom.previous()"
@@ -52,7 +52,7 @@ const cardZoomClass = computed(() => {
         <icon-caret-left
           class="w-9 h-9 p-1 mr-2 bg-slate-900 rounded-full group-hover:bg-slate-700 transition"
         />
-      </button>
+      </div>
       <div class="flex flex-col items-center">
         <div
           v-if="cardZoom.waiting.from?.includes('player-discard')"
@@ -99,7 +99,7 @@ const cardZoomClass = computed(() => {
           </base-button>
         </div>
       </div>
-      <button
+      <div
         v-if="cardZoom.canNext"
         class="flex items-center text-white group"
         @click="cardZoom.next()"
@@ -107,7 +107,7 @@ const cardZoomClass = computed(() => {
         <icon-caret-right
           class="w-9 h-9 p-1 ml-2 group-hover:bg-slate-700 transition bg-slate-900 rounded-full"
         />
-      </button>
+      </div>
     </div>
   </div>
 </template>

@@ -14,10 +14,10 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,webp}']
       },
       manifest: {
-        name: 'My Awesome App',
-        short_name: 'MyApp',
-        description: 'My Awesome App description',
-        theme_color: '#ffffff',
+        name: 'Spirit Island Companion App',
+        short_name: 'Spirit Island',
+        description: 'Spirit Island Companion App',
+        theme_color: '#0f172a',
         orientation: 'landscape-primary',
         display: 'fullscreen',
         icons: [
