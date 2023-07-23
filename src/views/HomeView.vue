@@ -5,7 +5,7 @@ import { computed } from 'vue'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
-// import useUpdateApp from '@/composable/useUpdateApp'
+import UpdateApp from '@/components/UpdateApp.vue'
 // import { IconRefresh } from '@tabler/icons-vue'
 
 const eventDeck = useEventDeckStore()
@@ -22,20 +22,12 @@ const canContinue = computed(() => {
   )
 })
 
-// const { updateAvailable, updateServiceWorker } = useUpdateApp()
 </script>
 
 <template>
   <div class="bg-gradient-to-r from-slate-200 to-slate-500 h-screen flex items-center justify-center">
     <div class="flex flex-col space-y-3 w-40">
-      <!-- <div
-        v-if="updateAvailable"
-        class="flex space-x-2 items-center justify-center font-semibold text-stone-900"
-        @click="updateServiceWorker"
-      >
-        <div>Update Available</div>
-        <icon-refresh class="w-5 h-5" />
-      </div> -->
+      <update-app />
       <div class="text-center">
         Version 0.1.4
       </div>
