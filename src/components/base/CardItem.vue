@@ -2,18 +2,10 @@
 import { computed, ref } from 'vue'
 import GameCard from './GameCard.vue'
 import { useSwipe } from '@vueuse/core';
-const props = defineProps({
+defineProps({
   card: {
     type: String,
     required: true
-  },
-  canSwipeUp: {
-    type: Boolean,
-    default: true
-  },
-  canSwipeDown: {
-    type: Boolean,
-    default: true
   },
   left: {
     type: Number,
@@ -33,13 +25,11 @@ const { lengthY, isSwiping } = useSwipe(
   },
   onSwipeEnd() {
     if ( cardHeight.value && (Math.abs(lengthY.value) / cardHeight.value) >= 0.5) {
-      if (lengthY.value > 0 && cardEl.value && props.canSwipeUp) {
+      if (lengthY.value > 0 && cardEl.value) {
         emit('swipeUp')
-        return
       }
-      if (lengthY.value < 0 && cardEl.value && props.canSwipeDown) {
+      if (lengthY.value < 0 && cardEl.value) {
         emit('swipeDown')
-        return
       }
       top.value = 0
     }

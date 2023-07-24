@@ -11,6 +11,7 @@ function createPlayer(): Player {
     used: [],
     picking: [],
     forget: [],
+    energy: 0,
   }
 }
 
@@ -70,7 +71,10 @@ export const usePlayerCardStore = defineStore('playerCard', {
         }
       })
       return cost
-    }
+    },
+    energy(state) {
+      return state.players[state.current].energy
+    },
   },
   actions: {
     reset() {
@@ -108,9 +112,13 @@ export const usePlayerCardStore = defineStore('playerCard', {
       this.players[this.current].hand.push(card)
     },
     playCard(card: string) {
+      const cardData = getCard(card) as PowerCard
       const player = this.players[this.current]
-      removeCard(player.hand, card)
-      player.play.push(card)
+      if (cardData.cost <= player.energy) {
+        player.energy -= cardData.cost
+        removeCard(player.hand, card)
+        player.play.push(card)
+      }
     },
     putCardInDiscard(card: string) {
       const player = this.players[this.current]
@@ -119,6 +127,8 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     returnCardFromPlay(card: string) {
       const player = this.players[this.current]
+      const cardData = getCard(card) as PowerCard
+      player.energy += cardData.cost
       removeCard(player.play, card)
       player.hand.push(card)
     },
@@ -173,7 +183,18 @@ export const usePlayerCardStore = defineStore('playerCard', {
       const player = this.players[this.current]
       removeCard(player.play, card)
       player.discard.push(card)
-    }
+    },
+    setEnergy(energy: number) {
+      this.players[this.current].energy = energy
+    },
+    addEnergy() {
+      this.players[this.current].energy++
+    },
+    reduceEnergy() {
+      if(this.players[this.current].energy > 0) {
+        this.players[this.current].energy--
+      }
+    },
   },
   persist: true,
 })

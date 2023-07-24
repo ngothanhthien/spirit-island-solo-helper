@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import CardGroupView from '@/components/CardGroupView.vue'
-import { IconCards, IconAlbum, IconAdjustments, IconX } from '@tabler/icons-vue'
+import { IconCards, IconAlbum, IconAdjustments, IconX, IconPlus, IconMinus } from '@tabler/icons-vue'
 import ElementTrack from '@/components/ElementTrack.vue'
 import CardReveal from '@/components/base/CardReveal.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 import { getSpiritAvatar } from '@/utils'
+import AdversaryModal from '@/components/AdversaryModal.vue'
 
 import PowerDeckComponent from '@/components/PowerDeck.vue';
 import ModalDiscardPower from '@/components/ModalDiscardPower.vue';
@@ -57,6 +58,9 @@ const { width: powerPickSize } = useElementSize(menuControlEl)
 
 const isShowDiscard = ref(false)
 const isShowModalForgetPower = ref(false)
+const isShowAdversary = ref(false)
+
+const energyJustChanged = ref(0)
 
 if (
   !eventDeck.isAvailable ||
@@ -230,6 +234,18 @@ watch(
     }
   },
 )
+watch(
+  () => playerCard.energy,
+  (value, oldValue) => {
+    energyJustChanged.value += (value - oldValue)
+  },
+)
+watch(currentMenu2, () => {
+  energyJustChanged.value = 0
+})
+watch(() => playerCard.current, () => {
+  energyJustChanged.value = 0
+})
 </script>
 
 <template>
@@ -245,8 +261,16 @@ watch(
         >
           Exit game
         </button>
-        <div class="flex items-center h-full px-3">
-          <div>Cost: {{ playerCard.energyCost }}</div>
+        <div class="flex items-center h-full pr-3">
+          <button
+            class="h-full px-2 flex items-center"
+            @click="playerCard.addEnergy"
+          >
+            Energy: {{ playerCard.energy }} <span
+              v-if="energyJustChanged !== 0"
+              class="text-xs ml-1"
+            >(<span v-if="energyJustChanged > 0">+</span>{{ energyJustChanged }})</span>
+          </button>
           <element-track class="ml-3" />
         </div>
         <button
@@ -344,6 +368,35 @@ watch(
               v-if="currentMenu2 === MENU_2.CONTROL"
               class="w-full flex items-center justify-end space-x-4"
             >
+              <div class="px-2">
+                <div class="font-semibold text-orange-900 text-lg mr-2">
+                  Energy<span
+                    v-if="energyJustChanged !== 0"
+                    class="text-gray-500 ml-1 text-sm"
+                  ><span v-if="energyJustChanged > 0">+</span>{{ energyJustChanged }}</span>
+                </div>
+                <div class="flex flex-row h-10 w-24 rounded-lg relative bg-transparent mt-1">
+                  <button
+                    class=" bg-white h-full px-2 rounded-l text-gray-400"
+                    @click="playerCard.reduceEnergy"
+                  >
+                    <icon-minus class="w-4 h-4 mx-auto" />
+                  </button>
+                  <input
+                    type="number"
+                    :value="playerCard.energy"
+                    class="outline-none focus:outline-none text-center w-full bg-white flex items-center text-orange-700 font-semibold text-lg"
+                    @change="playerCard.setEnergy(Number(($event.target as HTMLInputElement).value))"
+                  >
+                  <button
+                    class="bg-white h-full px-2 rounded-r text-gray-400"
+                    @click="playerCard.addEnergy"
+                  >
+                    <icon-plus class="w-4 h-4 mx-auto" />
+                  </button>
+                </div>
+              </div>
+              <div class="grow" />
               <div class="flex flex-col relative w-32 space-y-2 mt-2">
                 <base-button
                   class="h-fit w-full"
@@ -351,7 +404,15 @@ watch(
                   :disabled="playerCard.forget.length === 0"
                   @click="isShowModalForgetPower = true"
                 >
-                  {{ 'Show Forget' }}
+                  Show Forget
+                </base-button>
+                <base-button
+                  v-if="gameOption.adversary !== undefined"
+                  class="h-fit w-full"
+                  button-style="secondary"
+                  @click="isShowAdversary = true"
+                >
+                  Adversary
                 </base-button>
               </div>
               <div class="flex flex-col relative w-32 space-y-2 mt-2">
@@ -478,6 +539,10 @@ watch(
           </base-button>
         </template>
       </card-reveal>
+      <adversary-modal
+        v-if="isShowAdversary"
+        @close="isShowAdversary = false"
+      />
     </div>
   </div>
 </template>

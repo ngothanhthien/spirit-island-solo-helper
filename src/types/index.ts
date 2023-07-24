@@ -15,4 +15,27 @@ export interface Player {
   used: string[]
   picking: string[]
   forget: string[]
+  energy: number
+}
+export interface Adversary {
+  title: string;
+  fear: number[][];
+  difficultly: number[];
+  // invaders: string[];
+  id: string;
+  detail: {
+    title: string;
+    loss: {
+      name: string | null;
+      text: string;
+    };
+    escalation: {
+      name: string;
+      text: string;
+    };
+    levelText: Array<{
+      name: string;
+      text: string;
+    }>;
+  };
 }
