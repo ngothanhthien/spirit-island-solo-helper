@@ -126,7 +126,7 @@ function startGame() {
   eventDeck.newDeck()
   majorDeck.newDeck()
   minorDeck.newDeck()
-  fearDeck.newDeck(gameOption.fearSetup)
+  fearDeck.newDeck(gameOption.fearSetup, numberSpirit.value as number)
   playerCard.reset()
   spirits.value.forEach((spiritIndex) => {
     const { cards } = SPIRIT[spiritIndex]

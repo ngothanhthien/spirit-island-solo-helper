@@ -9,7 +9,7 @@ const __dirname = dirname(__filename)
 
 const directoryPath = path.resolve(
   __dirname,
-  'D:\\stuff\\app\\original\\card-back',
+  'D:\\stuff\\app\\original\\powers',
 )
 const outputDirectoryPath = path.join(directoryPath, 'resized')
 
@@ -32,13 +32,13 @@ fs.readdir(directoryPath, async (err, files) => {
       const fileNameWithoutExt = path.basename(file, path.extname(file))
       const outputFilePath = path.join(
         outputDirectoryPath,
-        fileNameWithoutExt + '.webp',
+        fileNameWithoutExt + '_x300.webp',
       )
 
       try {
         await sharp(filePath)
           .resize(300)
-          .webp({ quality: 80 }) // Convert to WebP and compress the image
+          .webp({ quality: 100 }) // Convert to WebP and compress the image
           .toFile(outputFilePath)
 
         console.log(

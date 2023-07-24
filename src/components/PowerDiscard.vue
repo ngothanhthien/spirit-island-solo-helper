@@ -16,14 +16,18 @@ const { style } = useDragToScroll(discardEl, props.containerLength)
 </script>
 
 <template>
-  <div ref="discardEl" :style="style" class="flex h-full flex-shrink-0 space-x-2 absolute z-10 pl-2">
+  <div
+    ref="discardEl"
+    :style="style"
+    class="flex h-full flex-shrink-0 space-x-2 absolute z-10 pl-2"
+  >
     <card-item
       v-for="card in discard"
       :key="card"
       :card="card"
+      class="opacity-80"
       @swipe-down="$emit('swipeDown', card)"
       @swipe-up="$emit('swipeUp', card)"
-      class="opacity-80"
       @click="cardZoom.setZoom(card, discard, 'player-discard')"
     />
   </div>

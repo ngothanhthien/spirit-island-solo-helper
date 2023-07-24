@@ -36,9 +36,11 @@ export const useFearDeckStore = defineStore('fearDeck', {
     },
   },
   actions: {
-    newDeck(fearStage?: number[]) {
+    newDeck(fearStage?: number[], numberSpirit?: number) {
       if (fearStage) {
         this.fearStage = [...fearStage]
+      } else {
+        this.fearStage = [3, 3, 3]
       }
       const unShuffle = Array.from(Array(FEAR_CARDS.length).keys())
       const shuffled = shuffle(unShuffle)
@@ -51,6 +53,14 @@ export const useFearDeckStore = defineStore('fearDeck', {
         }
       }
       this.draw = [...fearDeck]
+      this.earned = []
+      this.showing = []
+      this.currentFear = 0
+      if (numberSpirit) {
+        this.maxFear = numberSpirit * 2
+      } else {
+        this.maxFear = 4
+      }
     },
     shuffle() {
       this.draw = shuffle(this.draw) as string[]

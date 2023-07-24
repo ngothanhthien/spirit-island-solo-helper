@@ -16,7 +16,9 @@ const modalDiscard = useModalDiscardStore()
     @click-out-side="modalDiscard.reset()"
   >
     <template #header>
-      <div>Minor discard</div>
+      <div class="capitalize">
+        {{ modalDiscard.getTypeName }} discard
+      </div>
     </template>
     <template #body>
       <div class="flex flex-wrap m-0.5">

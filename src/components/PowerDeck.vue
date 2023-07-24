@@ -3,7 +3,7 @@ import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore';
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 
-import { IconGrave, IconRefresh } from '@tabler/icons-vue'
+import { IconGrave, IconRefresh, IconDeviceTabletPlus } from '@tabler/icons-vue'
 
 const props = defineProps<{
   deck: 'minor' | 'major'
@@ -30,11 +30,18 @@ function reveal() {
       >
       <button
         v-if="powerDeck.canShowDiscardPile"
-        class="inline-block bg-gray-900/20 hover:bg-gray-900/30 rounded absolute bottom-1 right-1 text-white z-10"
+        class="inline-block bg-gray-900/30 hover:bg-gray-900/40 rounded absolute bottom-1 right-1 text-white z-10"
       >
         <icon-grave
           class="w-8 h-8"
           @click="modalDiscard.setDeck(powerDeck.discard)"
+        />
+      </button>
+      <button class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900/40 hover:bg-gray-900/60 text-white rounded-md">
+        <icon-device-tablet-plus
+          style="stroke-width: 1px;"
+          class="w-16 h-16"
+          @click="reveal"
         />
       </button>
       <button
@@ -46,10 +53,6 @@ function reveal() {
         />
       </button>
     </div>
-    <div
-      class="absolute flex flex-col h-full w-full justify-center items-center top-0 space-y-4"
-      @click.self="reveal"
-    />
   </div>
 </template>
 @/stores/PowerDeckStore

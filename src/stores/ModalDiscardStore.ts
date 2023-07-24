@@ -23,6 +23,11 @@ export const useModalDiscardStore = defineStore('modalDiscard', {
       
       return 'common'
     },
+
+    getTypeName(state) {
+      const card = state.deck[0]
+      return card.split('-')[0]
+    }
   },
   actions: {
     setDeck(deck: string[]) {

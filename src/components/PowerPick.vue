@@ -11,7 +11,7 @@ const props = defineProps<{
   picking: string[],
   containerLength: number,
 }>()
-defineEmits(['swipeDown', 'addPower'])
+defineEmits(['swipeDown', 'addPower', 'swipeUp'])
 
 const cardZoom = useCardZoomStore()
 
@@ -31,8 +31,8 @@ const { style } = useDragToScroll(powerPickEl, props.containerLength)
       v-for="card in picking"
       :key="card"
       :card="card"
-      :can-swipe-up="false"
       @swipe-down="$emit('swipeDown', card)"
+      @swipe-up="$emit('swipeUp', card)"
       @click="cardZoom.setZoom(card, picking, 'pick')"
     />
     <button

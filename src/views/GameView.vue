@@ -84,8 +84,22 @@ function toggleDiscard() {
   currentMenu1.value = MENU_1.PLAY
 }
 
-function putFromHandToPlay(cardId: string) {
-  playerCard.playCard(cardId)
+function handSwipeUp(cardId: string) {
+  if (playerCard.isPicking && currentMenu1.value === MENU_1.CONTROL) {
+    playerCard.putCardToPicking(cardId)
+  } else {
+    playerCard.playCard(cardId)
+  }
+}
+
+function powerPickSwipeUp(cardId: string) {
+  const type = cardId.split('-')[0]
+  if (type === 'minor' || type === 'major') {
+    usePowerDeckStore(type).addToDraw(cardId)
+  } else {
+    playerCard.putCardToPicking(cardId)
+  }
+  playerCard.removeCardFromPicking(cardId)
 }
 
 function putFromPlayToHand(cardId: string) {
@@ -293,6 +307,7 @@ watch(
                   :picking="playerCard.picking"
                   :container-length="powerPickSize"
                   @swipe-down="pickCard"
+                  @swipe-up="powerPickSwipeUp"
                   @add-power="addPowerToPicking"
                 />
                 <icon-x
@@ -308,14 +323,23 @@ watch(
             id="game-showing-bottom"
             class="bg-stone-300 flex px-2 row-auto relative"
           >
-            <card-group-view
-              v-if="currentMenu2 === MENU_2.HAND"
-              from="hand"
-              :cards="playerCard.hand"
-              class="pt-2"
-              @swipe-down="playerCard.forgetCardFromHand"
-              @swipe-up="putFromHandToPlay"
-            />
+            <template v-if="currentMenu2 === MENU_2.HAND">
+              <card-group-view
+                from="hand"
+                :cards="playerCard.hand"
+                class="pt-2"
+                @swipe-down="playerCard.forgetCardFromHand"
+                @swipe-up="handSwipeUp"
+              />
+              <base-button
+                v-show="playerCard.hand.length === 0 && playerCard.play.length === 0 && playerCard.discard.length > 0"
+                button-style="secondary"
+                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                @click="reclaimAll"
+              >
+                Reclaim All
+              </base-button>
+            </template>
             <div
               v-if="currentMenu2 === MENU_2.CONTROL"
               class="w-full flex items-center justify-end space-x-4"
@@ -362,7 +386,7 @@ watch(
           <div
             v-for="(spirit, index) in gameOption.spirits"
             :key="`spirit-${spirit}`"
-            :style="`top: ${index * 64 + 4}px;`"
+            :style="`top: ${index * 64 + 24}px;`"
             :class="[
               playerCard.current === index
                 ? 'border-orange-800'

@@ -26,15 +26,18 @@ function createDeckStore(name: string) {
         const unShuffle = Array.from(Array(name === 'minor' ? MINOR_CARDS.length : MAJOR_CARDS.length).keys())
         const shuffled = shuffle(unShuffle)
         this.draw = shuffled.map(i => `${name}-${i}`)
+        this.discard = []
+        this.forget = []
+      },
+      addToDraw(card: string) {
+        this.draw.push(card)
+        this.shuffle()
       },
       addToDiscard(card: string) {
         this.discard.push(card)
       },
       removeFromDiscard(card: string) {
         removeCard(this.discard, card)
-      },
-      forget(card: string) {
-        this.forget.push(card)
       },
       shuffle() {
         this.draw = shuffle(this.draw) as string[]

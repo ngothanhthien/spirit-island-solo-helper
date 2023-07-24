@@ -15,19 +15,19 @@ export default function (
   })
 
   const { lengthX } = useSwipe(el, {
-    onSwipeStart(e: TouchEvent) {
+    onSwipeStart() {
       if (viewBox.value < 0) {
         return
       }
       startX = pos.value
     },
-    onSwipe(e: TouchEvent) {
+    onSwipe() {
       if (viewBox.value < 0) {
         return
       }
       pos.value = startX - lengthX.value
     },
-    onSwipeEnd(e: TouchEvent) {
+    onSwipeEnd() {
       if (pos.value > 0) {
         pos.value = 0
       }

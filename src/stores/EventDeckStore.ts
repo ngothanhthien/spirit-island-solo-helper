@@ -19,6 +19,7 @@ export const useEventDeckStore = defineStore('eventDeck', {
       const unShuffle = Array.from(Array(EVENT_CARDS.length).keys())
       const shuffled = shuffle(unShuffle)
       this.draw = shuffled.map(i => `event-${i}`)
+      this.discard = []
     },
     popEvent () {
       const popped = this.draw.pop()

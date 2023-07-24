@@ -95,10 +95,11 @@ export const usePlayerCardStore = defineStore('playerCard', {
       player.hand.push(card)
     },
     cleanUp() {
-      const player = this.players[this.current]
-      player.discard = [...player.discard, ...player.play]
-      player.play = []
-      player.used = []
+      this.players.forEach((player) => {
+        player.discard = [...player.discard, ...player.play]
+        player.play = []
+        player.used = []
+      })
     },
     setHand(cards: string[]) {
       this.players[this.current].hand = [...cards]
@@ -156,6 +157,14 @@ export const usePlayerCardStore = defineStore('playerCard', {
     takeCardFromPicking(card: string) {
       removeCard(this.players[this.current].picking, card)
       this.players[this.current].hand.push(card)
+    },
+    putCardToPicking(card: string) {
+      const player = this.players[this.current]
+      removeCard(player.hand, card)
+      player.picking.push(card)
+    },
+    removeCardFromPicking(card: string) {
+      removeCard(this.players[this.current].picking, card)
     },
     resetPicking() {
       this.players[this.current].picking = []

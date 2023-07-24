@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onClickOutside } from '@vueuse/core'
+import { onClickOutside, useScroll, useSwipe } from '@vueuse/core'
 import { ref, useSlots } from 'vue'
 import { IconX } from '@tabler/icons-vue'
 interface BaseModalProps {
@@ -19,6 +19,13 @@ const backgroundEl = ref<HTMLElement | null>(null)
 onClickOutside(modalEl, (e) => {
   if (e.target === backgroundEl.value) {
     emit('clickOutSide')
+  }
+})
+const modalContentEl = ref<HTMLElement | null>()
+const { y } = useScroll(modalContentEl)
+const { lengthY } = useSwipe(modalContentEl, {
+  onSwipe() {
+    y.value += lengthY.value / 5
   }
 })
 </script>
@@ -42,6 +49,7 @@ onClickOutside(modalEl, (e) => {
         />
       </div>
       <div
+        ref="modalContentEl"
         :class="{
           'overflow-x-auto': isOverFlowX,
           'rounded-b-md': !slots.footer,
