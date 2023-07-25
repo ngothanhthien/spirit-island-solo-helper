@@ -8,6 +8,11 @@
     margin: 0;
   }
 }
+body {
+  /* Prevent chrome from pull-to-refresh effect */
+  overscroll-behavior-y: none;
+}
+
 ::-webkit-scrollbar-track{
   background-color: #F5F5F5;
   border-radius: 10px;
