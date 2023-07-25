@@ -32,13 +32,12 @@ fs.readdir(directoryPath, async (err, files) => {
       const fileNameWithoutExt = path.basename(file, path.extname(file))
       const outputFilePath = path.join(
         outputDirectoryPath,
-        fileNameWithoutExt + '_x300.webp',
+        fileNameWithoutExt + '.webp',
       )
 
       try {
         await sharp(filePath)
-          .resize(300)
-          .webp({ quality: 100 }) // Convert to WebP and compress the image
+          .resize(450)
           .toFile(outputFilePath)
 
         console.log(

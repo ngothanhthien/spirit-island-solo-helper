@@ -2027,7 +2027,7 @@ export const EVENT_CARDS: Array<{ name: string }> = [
   { "name": "tightknit_communities" },
   { "name": "urban_development" },
   { "name": "wellprepared_explorers" },
-  { "name": "wounded_lands_attract_explorers" }
+  // { "name": "wounded_lands_attract_explorers" }
 ]
 export const FEAR_CARDS: Array<{
   name: string
