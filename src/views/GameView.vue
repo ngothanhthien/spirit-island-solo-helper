@@ -11,7 +11,6 @@ import {
   IconBolt,
 } from '@tabler/icons-vue'
 import ElementTrack from '@/components/ElementTrack.vue'
-import CardReveal from '@/components/base/CardReveal.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 import { getSpiritAvatar } from '@/utils'
 import AdversaryModal from '@/components/AdversaryModal.vue'
@@ -22,7 +21,7 @@ import ModalDiscardCommon from '@/components/ModalDiscardCommon.vue'
 import FearIcon from '@/components/icons/FearIcon.vue'
 import ModalEarnedFear from '@/components/ModalEarnedFear.vue'
 import ModalFearReveal from '@/components/ModalFearReveal.vue'
-import ModalFearDeck from '@/components/ModalFearDeck.vue'
+// import ModalFearDeck from '@/components/ModalFearDeck.vue'
 
 import PowerDeckComponent from '@/components/PowerDeck.vue'
 import ModalDiscardPower from '@/components/ModalDiscardPower.vue'
@@ -42,7 +41,6 @@ import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import router from '@/router'
-import useEvent from '@/composable/useEvent'
 import { useElementSize } from '@vueuse/core'
 
 const MENU_1 = {
@@ -67,8 +65,6 @@ const minorDeck = usePowerDeckStore('minor')
 const majorDeck = usePowerDeckStore('major')
 const gameOption = useGameOptionStore()
 
-const { putUnderTwoTopCard, discardEvent, revealEvent, currentEvent } =
-  useEvent()
 const menuControlEl = ref<HTMLElement | null>(null)
 const { width: powerPickSize } = useElementSize(menuControlEl)
 
@@ -148,20 +144,20 @@ function reclaimAll() {
 }
 
 function nextPhase() {
-  gameState.nextPhase()
-  switch (gameState.currentPhaseName) {
-    case 'Event':
-      if (gameState.currentRound === 1) {
-        eventDeck.popEvent()
-        nextPhase()
-      } else {
-        revealEvent()
-      }
-      break
-    case 'Fear':
-      break
-    default:
-  }
+  // gameState.nextPhase()
+  // switch (gameState.currentPhaseName) {
+  //   case 'Event':
+  //     if (gameState.currentRound === 1) {
+  //       eventDeck.popEvent()
+  //       nextPhase()
+  //     } else {
+  //       revealEvent()
+  //     }
+  //     break
+  //   case 'Fear':
+  //     break
+  //   default:
+  // }
 }
 
 function resetPicking() {
@@ -604,26 +600,10 @@ watch(() => fearDeck.earned.length, (newValue) => {
         v-if="isShowEarnedFear"
         @close="isShowEarnedFear = false"
       />
-      <modal-fear-deck />
+      <!-- <modal-fear-deck /> -->
       <modal-fear-reveal v-if="fearDeck.currentReveal" />
       <card-zoom-modal v-if="cardZoom.isShow" />
       <event-zoom-modal v-if="eventDeck.reveal" />
-      <card-reveal
-        v-if="currentEvent"
-        :card="currentEvent"
-      >
-        <template #button>
-          <base-button @click="discardEvent">
-            Discard Event
-          </base-button>
-          <base-button
-            button-style="secondary"
-            @click="putUnderTwoTopCard"
-          >
-            Put under two card
-          </base-button>
-        </template>
-      </card-reveal>
       <adversary-modal
         v-if="isShowAdversary"
         @close="isShowAdversary = false"
