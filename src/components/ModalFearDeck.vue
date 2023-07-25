@@ -2,7 +2,7 @@
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import BaseModal from '@/components/base/BaseModal.vue'
 import GameCard from '@/components/base/GameCard.vue'
-import { IconEye, IconPlayerPlay } from '@tabler/icons-vue'
+import { IconEye } from '@tabler/icons-vue'
 
 defineEmits(['close'])
 const fearDeck = useFearDeckStore()
@@ -18,7 +18,7 @@ const fearDeck = useFearDeckStore()
     <template #body>
       <div class="flex space-x-2 mx-1 my-1">
         <template
-          v-for="card in fearDeck.draw"
+          v-for="(card, index) in fearDeck.draw"
           :key="card"
         >
           <div
@@ -29,15 +29,18 @@ const fearDeck = useFearDeckStore()
               :id="card"
               class="w-full"
             />
-            <button
-              class="absolute p-6 text-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900/30 rounded-lg"
-              @click="fearDeck.setReveal(card)"
-            >
-              <icon-player-play
-                style="stroke-width: 1px;"
-                class="w-20 h-20"
-              />
-            </button>
+          </div>
+          <div
+            v-if="index === fearDeck.numberCardNeedToStage2 - 1"
+            class="font-serif text-3xl text-white font-semibold flex items-center bg-stone-900 px-2"
+          >
+            II
+          </div>
+          <div
+            v-if="index === fearDeck.numberCardNeedToStage3 - 1"
+            class="font-serif text-3xl text-white font-semibold flex items-center bg-stone-900 px-2"
+          >
+            III
           </div>
           <div
             v-else
@@ -49,7 +52,7 @@ const fearDeck = useFearDeckStore()
             >
             <button
               class="absolute p-6 text-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900/30 rounded-lg"
-              @click="fearDeck.setReveal(card)"
+              @click="fearDeck.addToShowing(card)"
             >
               <icon-eye
                 style="stroke-width: 1px;"

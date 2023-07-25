@@ -2,7 +2,7 @@
 import { useFearDeckStore } from '@/stores/FearDeckStore';
 import { IconStack2, IconDeviceTabletPlus, IconDeviceTabletOff } from '@tabler/icons-vue'
 
-defineEmits(['showEarnedFear'])
+defineEmits(['showEarnedFear', 'showFearDeck'])
 const fearDeck = useFearDeckStore()
 </script>
 
@@ -13,7 +13,10 @@ const fearDeck = useFearDeckStore()
       alt="Event Card Background"
       class="rounded-lg h-full"
     >
-    <button class="absolute top-0 right-0">
+    <button
+      class="absolute top-0 right-0"
+      @click="$emit('showFearDeck')"
+    >
       <icon-stack2
         class="w-8 h-8 text-white bg-gray-900/30 hover:bg-gray-900/40 rounded"
         style="stroke-width: 1px;"

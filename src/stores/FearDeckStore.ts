@@ -20,15 +20,26 @@ export const useFearDeckStore = defineStore('fearDeck', {
       return state.draw.length
     },
     currentStage(state) {
+      const totalCard = state.draw.length
       const stage_2 = state.fearStage[0] + state.fearStage[1]
       const stage_3 = state.fearStage[0]
-      if (this.totalCard > stage_2) {
+      if (totalCard > stage_2) {
         return 1
       }
-      if (this.totalCard > stage_3) {
+      if (totalCard > stage_3) {
         return 2
       }
       return 3
+    },
+    numberCardNeedToStage2(state) {
+      const totalCard = state.draw.length
+      const stage_2 = state.fearStage[0] + state.fearStage[1]
+      return totalCard - stage_2
+    },
+    numberCardNeedToStage3(state) {
+      const totalCard = state.draw.length
+      const stage_3 = state.fearStage[0]
+      return totalCard - stage_3
     },
     canShowEarned(state) {
       return state.earned.length > 0
@@ -92,6 +103,9 @@ export const useFearDeckStore = defineStore('fearDeck', {
         this.showing.push(this.currentReveal)
       }
       this.currentReveal = null
+    },
+    addToShowing(card: string) {
+      this.showing.push(card)
     },
     markDiscard() {
       if (this.currentReveal) {

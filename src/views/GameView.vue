@@ -21,7 +21,7 @@ import ModalDiscardCommon from '@/components/ModalDiscardCommon.vue'
 import FearIcon from '@/components/icons/FearIcon.vue'
 import ModalEarnedFear from '@/components/ModalEarnedFear.vue'
 import ModalFearReveal from '@/components/ModalFearReveal.vue'
-// import ModalFearDeck from '@/components/ModalFearDeck.vue'
+import ModalFearDeck from '@/components/ModalFearDeck.vue'
 
 import PowerDeckComponent from '@/components/PowerDeck.vue'
 import ModalDiscardPower from '@/components/ModalDiscardPower.vue'
@@ -69,6 +69,7 @@ const isShowDiscard = ref(false)
 const isShowModalForgetPower = ref(false)
 const isShowAdversary = ref(false)
 const isShowEarnedFear = ref(false)
+const isShowFearDeck = ref(false)
 
 const energyJustChanged = ref(0)
 
@@ -278,6 +279,9 @@ watch(() => fearDeck.earned.length, (newValue) => {
               class="text-xs ml-1"
             >(<span v-if="energyJustChanged > 0">+</span>{{ energyJustChanged }})</span>
           </button>
+          <element-track class="ml-3" />
+        </div>
+        <div class="flex ml-auto h-full">
           <button
             class="h-full px-2.5 flex items-center space-x-1 bg-purple-900"
             @click="fearDeck.increaseFear"
@@ -285,14 +289,13 @@ watch(() => fearDeck.earned.length, (newValue) => {
             <div><fear-icon class="w-5 h-5 mb-1 text-white" /></div>
             <div>{{ fearDeck.currentFear }}</div>
           </button>
-          <element-track class="ml-3" />
+          <button
+            class="bg-orange-900 px-2 h-full"
+            @click="nextPhase()"
+          >
+            {{ gameState.currentPhaseName }} phase
+          </button>
         </div>
-        <button
-          class="ml-auto bg-orange-900 px-2 h-full"
-          @click="nextPhase()"
-        >
-          {{ gameState.currentPhaseName }} phase
-        </button>
       </div>
       <div
         id="game-area"
@@ -341,6 +344,7 @@ watch(() => fearDeck.earned.length, (newValue) => {
                 <event-deck-component />
                 <fear-deck-component
                   @show-earned-fear="isShowEarnedFear = true"
+                  @show-fear-deck="isShowFearDeck = true"
                 />
               </div>
               <template v-if="playerCard.isPicking">
@@ -583,7 +587,10 @@ watch(() => fearDeck.earned.length, (newValue) => {
         v-if="isShowEarnedFear"
         @close="isShowEarnedFear = false"
       />
-      <!-- <modal-fear-deck /> -->
+      <modal-fear-deck
+        v-if="isShowFearDeck"
+        @close="isShowFearDeck = false"
+      />
       <modal-fear-reveal v-if="fearDeck.currentReveal" />
       <card-zoom-modal v-if="cardZoom.isShow" />
       <event-zoom-modal v-if="eventDeck.reveal" />
