@@ -37,7 +37,7 @@ function reveal() {
           @click="modalDiscard.setDeck(powerDeck.discard)"
         />
       </button>
-      <button class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900/40 hover:bg-gray-900/60 text-white rounded-md">
+      <button class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900/40 hover:bg-gray-900/60 text-white rounded-md z-10">
         <icon-device-tablet-plus
           style="stroke-width: 1px;"
           class="w-16 h-16"

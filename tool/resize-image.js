@@ -9,7 +9,7 @@ const __dirname = dirname(__filename)
 
 const directoryPath = path.resolve(
   __dirname,
-  'D:\\stuff\\app\\original\\powers',
+  'D:\\stuff\\app\\original\\dumb',
 )
 const outputDirectoryPath = path.join(directoryPath, 'resized')
 
@@ -37,7 +37,9 @@ fs.readdir(directoryPath, async (err, files) => {
 
       try {
         await sharp(filePath)
+          // .linear(1.3)
           .resize(450)
+          // .webp()
           .toFile(outputFilePath)
 
         console.log(

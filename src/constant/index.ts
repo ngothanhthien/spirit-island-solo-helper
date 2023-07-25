@@ -2027,7 +2027,16 @@ export const EVENT_CARDS: Array<{ name: string }> = [
   { "name": "tightknit_communities" },
   { "name": "urban_development" },
   { "name": "wellprepared_explorers" },
-  // { "name": "wounded_lands_attract_explorers" }
+  // { "name": "wounded_lands_attract_explorers" },
+  {'name': 'accumulated_devastation'},
+  {'name': 'an_ominous_dawn'},
+  {'name': 'ethereal_conjunction'},
+  {'name': 'far_off_wars_touch_the_island'},
+  {'name': 'focused_farming'},
+  {'name': 'influx_of_settlers'},
+  {'name': 'search_for_unclaimed_land'},
+  {'name': 'terror_spikes_upwards'},
+  {'name': 'visions_out_of_time'},
 ]
 export const FEAR_CARDS: Array<{
   name: string

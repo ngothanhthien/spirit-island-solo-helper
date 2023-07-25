@@ -123,7 +123,7 @@ function startGame() {
     })
   }
 
-  eventDeck.newDeck()
+  eventDeck.newDeck(gameOption.hasFranceEvent)
   majorDeck.newDeck()
   minorDeck.newDeck()
   fearDeck.newDeck(gameOption.fearSetup, numberSpirit.value as number)

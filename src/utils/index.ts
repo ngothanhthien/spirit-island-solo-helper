@@ -26,6 +26,12 @@ export const getCard = (id: string) => {
         ...MINOR_CARDS[parseInt(index)]
       }
     case 'event':
+      if (index === 'france') {
+        return {
+          path: 'events',
+          name: 'slave_rebellion'
+        }
+      }
       return {
         path: 'events',
         ...EVENT_CARDS[parseInt(index)]

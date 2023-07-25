@@ -7,6 +7,8 @@ import CardReveal from '@/components/base/CardReveal.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 import { getSpiritAvatar } from '@/utils'
 import AdversaryModal from '@/components/AdversaryModal.vue'
+import EventDeckComponent from '@/components/EventDeck.vue'
+import EventZoomModal from '@/components/EventZoomModal.vue'
 
 import PowerDeckComponent from '@/components/PowerDeck.vue';
 import ModalDiscardPower from '@/components/ModalDiscardPower.vue';
@@ -325,6 +327,7 @@ watch(() => playerCard.current, () => {
               >
                 <power-deck-component deck="minor" />
                 <power-deck-component deck="major" />
+                <event-deck-component />
               </div>
               <template v-if="playerCard.isPicking">
                 <power-pick
@@ -523,6 +526,7 @@ watch(() => playerCard.current, () => {
         @take-back="returnCardFromForget"
       />
       <card-zoom-modal v-if="cardZoom.isShow" />
+      <event-zoom-modal v-if="eventDeck.reveal" />
       <card-reveal
         v-if="currentEvent"
         :card="currentEvent"
