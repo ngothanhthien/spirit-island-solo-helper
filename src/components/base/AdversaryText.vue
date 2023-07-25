@@ -18,7 +18,7 @@
       <BlightIcon v-else-if="part === 'Blight.png'" />
       <DahanIcon v-else-if="part === 'Dahan'" />
       <BeastsIcon v-else-if="part === 'Beasts'" />
-      <FearIcon v-else-if="part === 'Fear'" />
+      <FearIcon class="w-4 h-4 -translate-y-0.5" v-else-if="part === 'Fear'" />
       <RangeIcon
         v-else-if="part === 'Rangeicon.png'"
         :num="1"

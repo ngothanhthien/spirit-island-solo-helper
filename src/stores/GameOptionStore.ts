@@ -15,6 +15,9 @@ export const useGameOptionStore = defineStore("gameOption", {
     },
     hasFranceEvent(state) {
       return ADVERSARY[state.adversary as number].id === 'france' && state.adversaryLevel >= 2
+    },
+    hasEngland6(state) {
+      return ADVERSARY[state.adversary as number].id === 'england' && state.adversaryLevel === 6
     }
   },
   actions: {

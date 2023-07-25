@@ -1,12 +1,14 @@
 import { defineStore } from "pinia"
 import { FEAR_CARDS } from "@/constant"
-import { shuffle } from "@/utils"
+import { removeCard, shuffle } from "@/utils"
 export const useFearDeckStore = defineStore('fearDeck', {
   state: () => ({
     draw: [] as string[],
     earned: [] as string[],
     fearStage: [3, 3, 3] as number[],
     showing: [] as string[],
+    discard: [] as string[],
+    currentReveal: null as string | null,
     currentFear: 0,
     maxFear: 0,
   }),
@@ -31,12 +33,15 @@ export const useFearDeckStore = defineStore('fearDeck', {
     canShowEarned(state) {
       return state.earned.length > 0
     },
+    canShowDiscard(state) {
+      return state.discard.length > 0
+    },
     isAvailable(state) {
       return state.draw.length > 0
     },
   },
   actions: {
-    newDeck(fearStage?: number[], numberSpirit?: number) {
+    newDeck(fearStage?: number[], numberSpirit?: number, hasEngland6 = false) {
       if (fearStage) {
         this.fearStage = [...fearStage]
       } else {
@@ -55,11 +60,15 @@ export const useFearDeckStore = defineStore('fearDeck', {
       this.draw = [...fearDeck]
       this.earned = []
       this.showing = []
+      this.discard = []
       this.currentFear = 0
       if (numberSpirit) {
-        this.maxFear = numberSpirit * 2
+        this.maxFear = numberSpirit * 4
       } else {
         this.maxFear = 4
+      }
+      if (hasEngland6) {
+        this.maxFear += numberSpirit || 1
       }
     },
     shuffle() {
@@ -75,8 +84,21 @@ export const useFearDeckStore = defineStore('fearDeck', {
       }
       return card
     },
-    reveal() {
-      return this.earned.shift()
+    setReveal(card: string) {
+      this.currentReveal = card
+    },
+    markShowing() {
+      if (this.currentReveal) {
+        this.showing.push(this.currentReveal)
+      }
+      this.currentReveal = null
+    },
+    markDiscard() {
+      if (this.currentReveal) {
+        removeCard(this.earned, this.currentReveal)
+        this.discard.push(this.currentReveal)
+      }
+      this.currentReveal = null
     },
     earn() {
       const card = this.draw.pop()
@@ -92,8 +114,21 @@ export const useFearDeckStore = defineStore('fearDeck', {
       }
       return card
     },
-    timePass() {
-      this.showing = []
+    increaseFear() {
+      this.currentFear++
+      if (this.currentFear >= this.maxFear) {
+        this.currentFear = 0
+        this.earn()
+        return
+      }
+    },
+    decreaseFear() {
+      this.currentFear--
+      if (this.currentFear <= 0) {
+        this.currentFear = this.maxFear
+        this.unEarn()
+        return
+      }
     }
   },
   persist: true,

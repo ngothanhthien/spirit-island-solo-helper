@@ -2081,7 +2081,14 @@ export const FEAR_CARDS: Array<{
     { name: 'trade_suffers' },
     { name: 'tread_carefully' },
     { name: 'unrest' },
-    { name: 'wary_of_the_interior' },
+    { name: 'dahan_gain_edge' },
+    { name: 'daunted_by_the_dahan' },
+    { name: 'distracted_by_local_troubles' },
+    { name: 'restlessness' },
+    { name: 'seek_company' },
+    { name: 'struggles_over_farmland' },
+    { name: 'supply_chains_abandoned' },
+    { name: 'unsettled' },
   ]
 export const SPIRIT: Array<{
   name: string,

@@ -1,21 +1,35 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import CardGroupView from '@/components/CardGroupView.vue'
-import { IconCards, IconAlbum, IconAdjustments, IconX, IconPlus, IconMinus } from '@tabler/icons-vue'
+import {
+  IconCards,
+  IconAlbum,
+  IconAdjustments,
+  IconX,
+  IconPlus,
+  IconMinus,
+  IconBolt,
+} from '@tabler/icons-vue'
 import ElementTrack from '@/components/ElementTrack.vue'
 import CardReveal from '@/components/base/CardReveal.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 import { getSpiritAvatar } from '@/utils'
 import AdversaryModal from '@/components/AdversaryModal.vue'
 import EventDeckComponent from '@/components/EventDeck.vue'
+import FearDeckComponent from '@/components/FearDeck.vue'
 import EventZoomModal from '@/components/EventZoomModal.vue'
+import ModalDiscardCommon from '@/components/ModalDiscardCommon.vue'
+import FearIcon from '@/components/icons/FearIcon.vue'
+import ModalEarnedFear from '@/components/ModalEarnedFear.vue'
+import ModalFearReveal from '@/components/ModalFearReveal.vue'
+import ModalFearDeck from '@/components/ModalFearDeck.vue'
 
-import PowerDeckComponent from '@/components/PowerDeck.vue';
-import ModalDiscardPower from '@/components/ModalDiscardPower.vue';
-import CardZoomModal from '@/components/CardZoomModal.vue';
-import PowerPick from '@/components/PowerPick.vue';
-import PowerDiscard from '@/components/PowerDiscard.vue';
-import ModalForgetPower from '@/components/ModalForgetPower.vue';
+import PowerDeckComponent from '@/components/PowerDeck.vue'
+import ModalDiscardPower from '@/components/ModalDiscardPower.vue'
+import CardZoomModal from '@/components/CardZoomModal.vue'
+import PowerPick from '@/components/PowerPick.vue'
+import PowerDiscard from '@/components/PowerDiscard.vue'
+import ModalForgetPower from '@/components/ModalForgetPower.vue'
 
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
@@ -61,6 +75,7 @@ const { width: powerPickSize } = useElementSize(menuControlEl)
 const isShowDiscard = ref(false)
 const isShowModalForgetPower = ref(false)
 const isShowAdversary = ref(false)
+const isShowEarnedFear = ref(false)
 
 const energyJustChanged = ref(0)
 
@@ -74,15 +89,15 @@ if (
 }
 
 onMounted(() => {
-  window.addEventListener(
-    'touchmove',
-    function (event) {
-      if (document.body.scrollTop === 0) {
-        event.preventDefault()
-      }
-    },
-    { passive: false },
-  )
+  // window.addEventListener(
+  //   'touchmove',
+  //   function (event) {
+  //     if (document.body.scrollTop === 0) {
+  //       event.preventDefault()
+  //     }
+  //   },
+  //   { passive: false },
+  // )
 })
 
 function toggleDiscard() {
@@ -239,14 +254,22 @@ watch(
 watch(
   () => playerCard.energy,
   (value, oldValue) => {
-    energyJustChanged.value += (value - oldValue)
+    energyJustChanged.value += value - oldValue
   },
 )
 watch(currentMenu2, () => {
   energyJustChanged.value = 0
 })
-watch(() => playerCard.current, () => {
-  energyJustChanged.value = 0
+watch(
+  () => playerCard.current,
+  () => {
+    energyJustChanged.value = 0
+  },
+)
+watch(() => fearDeck.earned.length, (newValue) => {
+  if (newValue === 0) {
+    isShowEarnedFear.value = false
+  }
 })
 </script>
 
@@ -265,13 +288,21 @@ watch(() => playerCard.current, () => {
         </button>
         <div class="flex items-center h-full pr-3">
           <button
-            class="h-full px-2 flex items-center"
+            class="h-full px-2 flex items-center bg-orange-600"
             @click="playerCard.addEnergy"
           >
-            Energy: {{ playerCard.energy }} <span
+            <icon-bolt /> {{ playerCard.energy }}
+            <span
               v-if="energyJustChanged !== 0"
               class="text-xs ml-1"
             >(<span v-if="energyJustChanged > 0">+</span>{{ energyJustChanged }})</span>
+          </button>
+          <button
+            class="h-full px-2.5 flex items-center space-x-1 bg-purple-900"
+            @click="fearDeck.increaseFear"
+          >
+            <div><fear-icon class="w-5 h-5 mb-1 text-white" /></div>
+            <div>{{ fearDeck.currentFear }}</div>
           </button>
           <element-track class="ml-3" />
         </div>
@@ -328,6 +359,9 @@ watch(() => playerCard.current, () => {
                 <power-deck-component deck="minor" />
                 <power-deck-component deck="major" />
                 <event-deck-component />
+                <fear-deck-component
+                  @show-earned-fear="isShowEarnedFear = true"
+                />
               </div>
               <template v-if="playerCard.isPicking">
                 <power-pick
@@ -359,7 +393,11 @@ watch(() => playerCard.current, () => {
                 @swipe-up="handSwipeUp"
               />
               <base-button
-                v-show="playerCard.hand.length === 0 && playerCard.play.length === 0 && playerCard.discard.length > 0"
+                v-show="
+                  playerCard.hand.length === 0 &&
+                    playerCard.play.length === 0 &&
+                    playerCard.discard.length > 0
+                "
                 button-style="secondary"
                 class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                 @click="reclaimAll"
@@ -371,29 +409,64 @@ watch(() => playerCard.current, () => {
               v-if="currentMenu2 === MENU_2.CONTROL"
               class="w-full flex items-center justify-end space-x-4"
             >
-              <div class="px-2">
-                <div class="font-semibold text-orange-900 text-lg mr-2">
-                  Energy<span
-                    v-if="energyJustChanged !== 0"
-                    class="text-gray-500 ml-1 text-sm"
-                  ><span v-if="energyJustChanged > 0">+</span>{{ energyJustChanged }}</span>
+              <div class="space-y-4">
+                <div
+                  id="energy-manual"
+                  class="px-2"
+                >
+                  <div class="font-semibold text-orange-900 text-lg mr-2">
+                    Energy<span
+                      v-if="energyJustChanged !== 0"
+                      class="text-gray-500 ml-1 text-sm"
+                    ><span v-if="energyJustChanged > 0">+</span>{{ energyJustChanged }}</span>
+                  </div>
+                  <div
+                    class="flex flex-row h-10 w-24 rounded-lg relative bg-transparent mt-1"
+                  >
+                    <button
+                      class="bg-white h-full px-2 rounded-l text-gray-400"
+                      @click="playerCard.reduceEnergy"
+                    >
+                      <icon-minus class="w-4 h-4 mx-auto" />
+                    </button>
+                    <input
+                      type="number"
+                      :value="playerCard.energy"
+                      class="outline-none focus:outline-none text-center w-full bg-white flex items-center text-orange-700 font-semibold text-lg"
+                      @change="
+                        playerCard.setEnergy(
+                          Number(($event.target as HTMLInputElement).value),
+                        )
+                      "
+                    >
+                    <button
+                      class="bg-white h-full px-2 rounded-r text-gray-400"
+                      @click="playerCard.addEnergy"
+                    >
+                      <icon-plus class="w-4 h-4 mx-auto" />
+                    </button>
+                  </div>
                 </div>
-                <div class="flex flex-row h-10 w-24 rounded-lg relative bg-transparent mt-1">
+                <div
+                  class="flex justify-center items-center relative bg-transparent mt-1"
+                >
                   <button
-                    class=" bg-white h-full px-2 rounded-l text-gray-400"
-                    @click="playerCard.reduceEnergy"
+                    class="mt-3 h-full p-1 rounded-full text-white bg-gray-900"
+                    @click="fearDeck.decreaseFear"
                   >
                     <icon-minus class="w-4 h-4 mx-auto" />
                   </button>
-                  <input
-                    type="number"
-                    :value="playerCard.energy"
-                    class="outline-none focus:outline-none text-center w-full bg-white flex items-center text-orange-700 font-semibold text-lg"
-                    @change="playerCard.setEnergy(Number(($event.target as HTMLInputElement).value))"
-                  >
+                  <div class="relative">
+                    <fear-icon class="w-14 h-14 mx-auto" />
+                    <div
+                      class="mt-2 absolute top-1/2 -translate-y-1/2 text-lg left-1/2 -translate-x-1/2 px-2 bg-gray-900 text-white rounded-full"
+                    >
+                      {{ fearDeck.currentFear }}
+                    </div>
+                  </div>
                   <button
-                    class="bg-white h-full px-2 rounded-r text-gray-400"
-                    @click="playerCard.addEnergy"
+                    class="mt-3 h-full p-1 rounded-full text-white bg-gray-900"
+                    @click="fearDeck.increaseFear"
                   >
                     <icon-plus class="w-4 h-4 mx-auto" />
                   </button>
@@ -439,9 +512,7 @@ watch(() => playerCard.current, () => {
                   :disabled="!isShowDiscard && playerCard.discard.length === 0"
                   @click="toggleDiscard"
                 >
-                  {{
-                    isShowDiscard ? 'Show Play' : 'Show Discard'
-                  }}
+                  {{ isShowDiscard ? 'Show Play' : 'Show Discard' }}
                 </base-button>
               </div>
             </div>
@@ -454,14 +525,17 @@ watch(() => playerCard.current, () => {
             :class="[
               playerCard.current === index
                 ? 'border-orange-800'
-                : 'border-gray-800 opacity-60',
+                : 'border-gray-800/50',
             ]"
-            class="absolute w-14 h-14 rounded-full right-2 border-2 overflow-hidden"
+            class="absolute w-14 h-14 rounded-full bg-white right-2 border-2 overflow-hidden"
             @click="playerCard.changeCurrent(index)"
           >
             <img
               :src="`/img/spirit_avatar/${getSpiritAvatar(spirit)}`"
               alt="Spirit avatar"
+              :class="[
+                playerCard.current === index ? 'opacity-100' : 'opacity-50',
+              ]"
               class="h-full max-w-max"
             >
           </div>
@@ -519,12 +593,19 @@ watch(() => playerCard.current, () => {
       </div>
     </div>
     <div id="modal">
+      <modal-discard-common v-if="modalDiscard.getType === 'common'" />
       <modal-discard-power v-if="modalDiscard.getType === 'power'" />
       <modal-forget-power
         v-if="isShowModalForgetPower"
         @close="isShowModalForgetPower = false"
         @take-back="returnCardFromForget"
       />
+      <modal-earned-fear
+        v-if="isShowEarnedFear"
+        @close="isShowEarnedFear = false"
+      />
+      <modal-fear-deck />
+      <modal-fear-reveal v-if="fearDeck.currentReveal" />
       <card-zoom-modal v-if="cardZoom.isShow" />
       <event-zoom-modal v-if="eventDeck.reveal" />
       <card-reveal
