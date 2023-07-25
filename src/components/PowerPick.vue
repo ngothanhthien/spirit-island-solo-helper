@@ -4,12 +4,10 @@ import cardItem from '@/components/base/CardItem.vue'
 import { IconPlus } from '@tabler/icons-vue'
 import { useElementSize } from '@vueuse/core'
 import { CARD_RATIO } from '@/constant';
-import useDragToScroll from '@/composable/useDragToScroll';
 import { useCardZoomStore } from '@/stores/CardZoomStore';
 
-const props = defineProps<{
+defineProps<{
   picking: string[],
-  containerLength: number,
 }>()
 defineEmits(['swipeDown', 'addPower', 'swipeUp'])
 
@@ -18,14 +16,15 @@ const cardZoom = useCardZoomStore()
 const powerPickEl = ref<HTMLElement | null>()
 const { height: cardHeight } = useElementSize(powerPickEl)
 const cardWidth = computed(() => cardHeight.value * CARD_RATIO)
-const { style } = useDragToScroll(powerPickEl, props.containerLength)
 </script>
 
 <template>
-  <div
+  <transition-group
     ref="powerPickEl"
-    class="flex h-full flex-shrink-0 space-x-2 absolute"
-    :style="style"
+    name="list"
+    tag="div"
+    appear
+    class="flex h-full flex-shrink-0 space-x-2 absolute powerPickEl pb-96 -mb-96 box-content overflow-x-auto"
   >
     <card-item
       v-for="card in picking"
@@ -38,7 +37,7 @@ const { style } = useDragToScroll(powerPickEl, props.containerLength)
     <button
       key="button-add-power"
       :style="`width: ${cardWidth}px;`"
-      class="flex items-center justify-center border-2 border-orange-800 hover:border-orange-700 text-orange-900 hover:text-orange-700 rounded-xl"
+      class="flex shrink-0 items-center justify-center border-2 border-orange-800 hover:border-orange-700 text-orange-900 hover:text-orange-700 rounded-xl"
       @click="$emit('addPower')"
     >
       <icon-plus
@@ -46,5 +45,15 @@ const { style } = useDragToScroll(powerPickEl, props.containerLength)
         :style="{ 'stroke-width': '1px' }"
       />
     </button>
-  </div>
+  </transition-group>
 </template>
+<style scoped>
+.powerPickEl::-webkit-scrollbar {
+  display: none;
+}
+
+.powerPickEl {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+</style>

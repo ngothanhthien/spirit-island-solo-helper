@@ -35,13 +35,11 @@ import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
 import { useGameStateStore } from '@/stores/GameStateStore'
 
-import { onMounted } from 'vue'
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import router from '@/router'
-import { useElementSize } from '@vueuse/core'
 
 const MENU_1 = {
   PLAY: 0,
@@ -66,7 +64,6 @@ const majorDeck = usePowerDeckStore('major')
 const gameOption = useGameOptionStore()
 
 const menuControlEl = ref<HTMLElement | null>(null)
-const { width: powerPickSize } = useElementSize(menuControlEl)
 
 const isShowDiscard = ref(false)
 const isShowModalForgetPower = ref(false)
@@ -83,18 +80,6 @@ if (
 ) {
   router.push({ name: 'HomeView' })
 }
-
-onMounted(() => {
-  // window.addEventListener(
-  //   'touchmove',
-  //   function (event) {
-  //     if (document.body.scrollTop === 0) {
-  //       event.preventDefault()
-  //     }
-  //   },
-  //   { passive: false },
-  // )
-})
 
 function toggleDiscard() {
   isShowDiscard.value = !isShowDiscard.value
@@ -332,7 +317,6 @@ watch(() => fearDeck.earned.length, (newValue) => {
               <power-discard
                 v-if="isShowDiscard"
                 :discard="playerCard.discard"
-                :container-length="powerPickSize"
                 @swipe-down="reclaimOneCard"
                 @swipe-up="playerCard.forgetCardFromDiscard"
               />
@@ -362,7 +346,6 @@ watch(() => fearDeck.earned.length, (newValue) => {
               <template v-if="playerCard.isPicking">
                 <power-pick
                   :picking="playerCard.picking"
-                  :container-length="powerPickSize"
                   @swipe-down="pickCard"
                   @swipe-up="powerPickSwipeUp"
                   @add-power="addPowerToPicking"
