@@ -57,7 +57,7 @@ const fearArr = computed(() => {
   >
     <div
       ref="adversaryEl"
-      class="grid overflow-hidden absolute rounded-2xl shadow-lg"
+      class="grid overflow-hidden absolute rounded-2xl shadow-lg left-1/2 top-1/2"
       :style="`
         height: ${FIXED_HEIGHT}px;
         width: ${FIXED_WIDTH}px;
@@ -65,7 +65,7 @@ const fearArr = computed(() => {
         grid-template-rows: 6% 17% 7% auto auto auto auto auto auto;
         background: rgb(255, 255, 255);
         line-height: 14pt;
-        transform: scale(${scale}) translate(-35%, -33%);
+        transform: translate(-50%, -50%) scale(${scale}, ${scale});
         transform-origin: center center;
       `"
     >
