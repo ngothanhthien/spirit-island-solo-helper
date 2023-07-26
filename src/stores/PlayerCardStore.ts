@@ -12,9 +12,21 @@ function createPlayer(): Player {
     picking: [],
     forget: [],
     energy: 0,
+    permanentElements: createDefaultElement(),
   }
 }
-
+function createDefaultElement() {
+  return {
+    'Sun': 0,
+    'Moon': 0,
+    'Fire': 0,
+    'Air': 0,
+    'Water': 0,
+    'Earth': 0,
+    'Plant': 0,
+    'Animal': 0,
+  }
+}
 export const usePlayerCardStore = defineStore('playerCard', {
   state: () => ({
     current: 0,
@@ -47,20 +59,22 @@ export const usePlayerCardStore = defineStore('playerCard', {
       return card?.split('-')[0]
     },
     elements(state) {
-      const elements: { [key in Element]?: number } = {}
+      const elements = createDefaultElement()
       state.players[state.current].play.forEach((id) => {
         const card = getCard(id) as PowerCard
         if (card) {
           card.elements.forEach((element) => {
-            if (!elements[element]) {
-              elements[element] = 1
-            } else {
-              elements[element] = elements[element] as number + 1
-            }
+            elements[element]++
           })
         }
       })
+      Object.entries(state.players[state.current].permanentElements).forEach(([key, value]) => {
+        elements[key as Element] += value
+      })
       return elements
+    },
+    permanentElements(state) {
+      return state.players[state.current].permanentElements
     },
     energyCost(state) {
       let cost = 0
@@ -195,6 +209,12 @@ export const usePlayerCardStore = defineStore('playerCard', {
         this.players[this.current].energy--
       }
     },
+    increaseElement(element: Element) {
+      (this.players[this.current].permanentElements[element] as number)++
+    },
+    decreaseElement(element: Element) {
+      (this.players[this.current].permanentElements[element] as number)--
+    }
   },
   persist: true,
 })

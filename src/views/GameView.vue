@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import type { Element } from '@/types'
 import CardGroupView from '@/components/CardGroupView.vue'
 import {
   IconCards,
@@ -77,6 +78,7 @@ const isShowEarnedFear = ref(false)
 const isShowFearDeck = ref(false)
 const showQuickPower = ref(false)
 const isZoomBlightCard = ref(false)
+const modeIncrease = ref(true)
 
 const energyJustChanged = ref(0)
 
@@ -89,8 +91,16 @@ if (
   router.push({ name: 'HomeView' })
 }
 
+function adjustElement(element: Element) {
+  if (modeIncrease.value) {
+    playerCard.increaseElement(element)
+  } else {
+    playerCard.decreaseElement(element)
+  }
+}
+
 function buttonQuickBlightClick() {
-  if (blightDeck.isBlighted) {
+  if (blightDeck.current) {
     isZoomBlightCard.value = true
     return
   }
@@ -292,7 +302,7 @@ watch(() => fearDeck.earned.length, (newValue) => {
     <div class="h-screen flex flex-col">
       <div
         id="game-header"
-        class="h-10 bg-orange-800 flex items-center z-40 text-white w-full"
+        class="h-12 bg-orange-800 flex items-center z-40 text-white w-full"
       >
         <button
           class="bg-orange-900 px-2 h-full"
@@ -570,7 +580,37 @@ watch(() => fearDeck.earned.length, (newValue) => {
                   </button>
                 </div>
               </div>
-              <div class="grow" />
+              <div class="grow">
+                <div
+                  :class="modeIncrease ? 'bg-gray-800' : 'bg-red-800'"
+                  class="w-6 h-6 rounded-full text-white p-1 mb-1 flex items-center"
+                  @click="modeIncrease = !modeIncrease"
+                >
+                  <icon-plus
+                    v-if="modeIncrease"
+                    class="w-full"
+                  />
+                  <icon-minus
+                    v-else
+                    class="w-full"
+                  />
+                </div>
+                <div class="flex select-none max-w-[400px] flex-wrap">
+                  <div
+                    v-for="element in ['Sun', 'Moon', 'Fire', 'Air', 'Water', 'Earth', 'Plant', 'Animal']"
+                    :key="element"
+                    class="flex items-center w-1/4 space-x-0.5 my-1"
+                    @click="adjustElement(element as Element)"
+                  >
+                    <img
+                      class="h-6"
+                      :src="`/img/elements/${element.toLocaleLowerCase()}.webp`"
+                      :alt="`${element} element`"
+                    >
+                    {{ playerCard.permanentElements[element as Element] }}
+                  </div>
+                </div>
+              </div>
               <div class="flex flex-col relative w-32 space-y-2 mt-2">
                 <base-button
                   class="h-fit w-full"

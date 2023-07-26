@@ -6,17 +6,21 @@ const playerCard = usePlayerCardStore()
 
 <template>
   <div class="flex space-x-2 select-none">
-    <div
+    <template
       v-for="(value, key) in playerCard.elements"
       :key="key"
-      class="flex items-center space-x-0.5"
     >
-      <img
-        class="h-5"
-        :src="`/img/elements/${key.toLocaleLowerCase()}.webp`"
-        :alt="`${key} element`"
+      <div
+        v-if="value > 0"
+        class="flex items-center space-x-0.5"
       >
-      {{ value }}
-    </div>
+        <img
+          class="h-5"
+          :src="`/img/elements/${key.toLocaleLowerCase()}.webp`"
+          :alt="`${key} element`"
+        >
+        {{ value }}
+      </div>
+    </template>
   </div>
 </template>

@@ -9,13 +9,14 @@ export type Speed = 'Slow' | 'Fast'
 export type Element = 'Fire' | 'Air' | 'Earth' | 'Water' | 'Sun' | 'Animal' | 'Moon' | 'Plant'
 export type CardListStatus = 'pick-power' | 'view-discard' | ''
 export interface Player {
-  hand: string[]
-  discard: string[]
-  play: string[]
-  used: string[]
-  picking: string[]
-  forget: string[]
-  energy: number
+  hand: string[];
+  discard: string[];
+  play: string[];
+  used: string[];
+  picking: string[];
+  forget: string[];
+  energy: number;
+  permanentElements: { [K in Element]?: number };
 }
 export interface Adversary {
   title: string;
