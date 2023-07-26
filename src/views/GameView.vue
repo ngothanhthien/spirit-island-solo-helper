@@ -22,6 +22,7 @@ import FearIcon from '@/components/icons/FearIcon.vue'
 import ModalEarnedFear from '@/components/ModalEarnedFear.vue'
 import ModalFearReveal from '@/components/ModalFearReveal.vue'
 import ModalFearDeck from '@/components/ModalFearDeck.vue'
+import { OnClickOutside } from '@vueuse/components'
 
 import PowerDeckComponent from '@/components/PowerDeck.vue'
 import ModalDiscardPower from '@/components/ModalDiscardPower.vue'
@@ -29,6 +30,7 @@ import CardZoomModal from '@/components/CardZoomModal.vue'
 import PowerPick from '@/components/PowerPick.vue'
 import PowerDiscard from '@/components/PowerDiscard.vue'
 import ModalForgetPower from '@/components/ModalForgetPower.vue'
+import ModalZoomBlightCard from '@/components/ModalZoomBlightCard.vue'
 
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
@@ -39,6 +41,7 @@ import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
+import { useBlightDeckStore } from '@/stores/BlightDeckStore'
 import router from '@/router'
 
 const MENU_1 = {
@@ -62,6 +65,7 @@ const gameState = useGameStateStore()
 const minorDeck = usePowerDeckStore('minor')
 const majorDeck = usePowerDeckStore('major')
 const gameOption = useGameOptionStore()
+const blightDeck = useBlightDeckStore()
 
 const menuControlEl = ref<HTMLElement | null>(null)
 
@@ -70,6 +74,8 @@ const isShowModalForgetPower = ref(false)
 const isShowAdversary = ref(false)
 const isShowEarnedFear = ref(false)
 const isShowFearDeck = ref(false)
+const showQuickPower = ref(false)
+const isZoomBlightCard = ref(false)
 
 const energyJustChanged = ref(0)
 
@@ -80,6 +86,31 @@ if (
   !fearDeck.isAvailable
 ) {
   router.push({ name: 'HomeView' })
+}
+
+function buttonQuickBlightClick() {
+  if (blightDeck.isBlighted) {
+    isZoomBlightCard.value = true
+    return
+  }
+  blightDeck.turnUp()
+}
+
+function quickShowEarnedFear() {
+  if (fearDeck.earned.length === 0) {
+    return
+  }
+  isShowEarnedFear.value = true
+}
+
+function quickTake(type: 'minor' | 'major') {
+  currentMenu1.value = MENU_1.CONTROL
+  showQuickPower.value = false
+  if (playerCard.isPicking) {
+    return
+  }
+  const card = usePowerDeckStore(type).reveal()
+  playerCard.addToPicking(card)
 }
 
 function toggleDiscard() {
@@ -302,6 +333,83 @@ watch(() => fearDeck.earned.length, (newValue) => {
         class="flex h-screen"
       >
         <div
+          id="game-quick-bar"
+          class="w-14 bg-gray-900 flex flex-col justify-end space-y-4"
+        >
+          <div
+            class="h-14 w-full flex justify-center relative"
+            @click="buttonQuickBlightClick"
+          >
+            <img
+              src="/img/card-back/blight.webp"
+              alt="Card back"
+              class="h-full"
+            >
+          </div>
+          <div
+            class="h-14 w-full flex justify-center"
+            @click="eventDeck.revealEvent"
+          >
+            <img
+              src="/img/card-back/event.webp"
+              alt="Card back"
+              class="h-full"
+            >
+          </div>
+          <div
+            class="h-14 w-full flex justify-center relative"
+            @click="quickShowEarnedFear"
+          >
+            <img
+              src="/img/card-back/fear.webp"
+              alt="Card back"
+              class="h-full"
+            >
+            <div class="text-2xl font-semibold text-white absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+              {{ fearDeck.totalEarned }}
+            </div>
+          </div>
+          <OnClickOutside
+            class="h-14 w-full relative"
+            @trigger="showQuickPower = false"
+          >
+            <div
+              class="relative overflow-hidden h-full"
+              @click="showQuickPower = !showQuickPower"
+            >
+              <img
+                :src="`/img/card-back/minor.webp`"
+                alt="Card back"
+                class="h-full absolute"
+                style="transform: translateY(5px) rotate(-10deg);;"
+              >
+              <img
+                :src="`/img/card-back/major.webp`"
+                alt="Card back"
+                class="h-full absolute"
+                style="transform: translateX(20px) translateY(5px) rotate(10deg);"
+              >
+            </div>
+            <div
+              v-if="showQuickPower"
+              class="bg-gray-900/30 absolute z-20 top-0 right-0 translate-x-full h-full flex px-1"
+            >
+              <img
+                :src="`/img/card-back/minor.webp`"
+                alt="Card back"
+                class="h-full"
+                @click="quickTake('minor')"
+              >
+              <img
+                :src="`/img/card-back/major.webp`"
+                alt="Card back"
+                class="h-full ml-1"
+                @click="quickTake('major')"
+              >
+            </div>
+          </OnClickOutside>
+        </div>
+        <div
           id="game-showing-area"
           class="grid grid-rows-2 grid-cols-1 w-full relative"
         >
@@ -523,10 +631,9 @@ watch(() => fearDeck.earned.length, (newValue) => {
             >
           </div>
         </div>
-
         <div
           id="game-control-right-bar"
-          class="ml-auto grid grid-rows-2 text-white relative x-40"
+          class="ml-auto grid grid-rows-2 text-white relative"
         >
           <div class="bg-neutral-700 px-2 flex items-center">
             <transition
@@ -583,6 +690,10 @@ watch(() => fearDeck.earned.length, (newValue) => {
         @close="isShowModalForgetPower = false"
         @take-back="returnCardFromForget"
       />
+      <!-- <modal-zoom-blight-card
+        v-if="isZoomBlightCard"
+        @close="isZoomBlightCard = false"
+      /> -->
       <modal-earned-fear
         v-if="isShowEarnedFear"
         @close="isShowEarnedFear = false"

@@ -14,6 +14,7 @@ import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 import SpiritDropdown from '@/components/SpiritDropdown.vue'
 import { getSpiritAvatar } from '@/utils'
 import { onClickOutside } from '@vueuse/core'
+import { useBlightDeckStore } from '@/stores/BlightDeckStore'
 
 const MAX_SPIRIT = 4
 
@@ -23,6 +24,7 @@ const fearDeck = useFearDeckStore()
 const playerCard = usePlayerCardStore()
 const majorDeck = usePowerDeckStore('major')
 const minorDeck = usePowerDeckStore('minor')
+const blightDeck = useBlightDeckStore()
 
 const numberSpirit = ref<undefined | number>()
 const spiritOptions = computed(() => {
@@ -131,6 +133,7 @@ function startGame() {
     })
   }
 
+  blightDeck.newDeck()
   eventDeck.newDeck(gameOption.hasFranceEvent)
   majorDeck.newDeck()
   minorDeck.newDeck()

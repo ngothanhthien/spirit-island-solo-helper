@@ -39,3 +39,7 @@ export interface Adversary {
     }>;
   };
 }
+export interface BlightCard {
+  name: string
+  isBlighted: boolean
+}

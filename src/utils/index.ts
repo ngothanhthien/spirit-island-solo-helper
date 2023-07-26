@@ -1,4 +1,4 @@
-import { EVENT_CARDS, MAJOR_CARDS, MINOR_CARDS, SPIRIT, FEAR_CARDS } from "@/constant"
+import { EVENT_CARDS, MAJOR_CARDS, MINOR_CARDS, SPIRIT, FEAR_CARDS, BLIGHT_CARDS } from "@/constant"
 
 export const getCardImage = (name: string, path: string) => {
   const sanitized = name.toLowerCase().replace(/[-',]/g, '').replace(/\s/g, '_');
@@ -40,6 +40,11 @@ export const getCard = (id: string) => {
       return {
         path: 'fears',
         ...FEAR_CARDS[parseInt(index)]
+      }
+    case 'blight':
+      return {
+        path: 'blights',
+        ...BLIGHT_CARDS[parseInt(index)]
       }
     default:
       return {
