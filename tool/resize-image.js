@@ -9,7 +9,7 @@ const __dirname = dirname(__filename)
 
 const directoryPath = path.resolve(
   __dirname,
-  'D:\\stuff\\app\\original\\dumb',
+  'images',
 )
 const outputDirectoryPath = path.join(directoryPath, 'resized')
 

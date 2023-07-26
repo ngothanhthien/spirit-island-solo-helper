@@ -3274,7 +3274,253 @@ export const SPIRIT: Array<{
         "description": "1 Damage to each Town / City / Dahan. 1 Damage. 1 Damage to Dahan."
       }
     ]
-  }
+  },
+  {
+    "name": "Devouring Teeth Lurk Underfoot",
+    "cards": [
+      {
+        "name": "Ferocious Rampage",
+        "cost": 2,
+        "speed": "Slow",
+        "elements": [
+          "Fire",
+          'Animal'
+        ],
+        "description": ""
+      },
+      {
+        "name": "Herd Towards The Lurking Maw",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Water",
+          "Earth",
+          'Animal'
+        ],
+        "description": ''
+      },
+      {
+        "name": "Mark Territory With Scars And Teeth",
+        "cost": 2,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Earth",
+          'Animal'
+        ],
+        "description": ''
+      },
+      {
+        "name": "Gift of Furious Might",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Fire",
+          'Animal'
+        ],
+        "description": ''
+      }
+    ]
+  },
+  {
+    "name": "Fathomless Mud of the Swamp",
+    "cards": [
+      {
+        "name": "Open Shifting Waterways",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Water",
+          'Animal'
+        ],
+        "description": ''
+      },
+      {
+        "name": "Exaltation of Tangled Growth",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Water",
+          "Earth",
+          "Plant"
+        ],
+        "description": ''
+      },
+      {
+        "name": "Foul Vapors And Fetid Muck",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Fire",
+          "Air",
+          "Water",
+          "Earth",
+        ],
+        "description": ''
+      },
+      {
+        "name": "Intractable Thickets and Thorns",
+        "cost": 2,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Water",
+          "Earth",
+          "Plant"
+        ],
+        "description": ""
+      },
+    ]
+  },
+  {
+    "name": "Eyes Watch From the Trees",
+    "cards": [
+      {
+        "name": "Boon of Watchful Guarding",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Earth",
+          "Plant",
+          "Animal"
+        ],
+        "description": ""
+      },
+      {
+        "name": "Mysterious Abductions",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          "Moon",
+          "Fire",
+          "Plant"
+        ],
+        "description": ''
+      },
+      {
+        "name": "Whispered Guidance Through the Night",
+        "cost": 0,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Air",
+          "Plant"
+        ],
+        "description": ''
+      },
+      {
+        "name": "Eerie Noises and Moving Trees",
+        "cost": 2,
+        "speed": "Slow",
+        "elements": [
+          "Moon",
+          "Air",
+          "Plant",
+        ],
+        "description": ''
+      }
+    ]
+  },
+  {
+    "name": "Rising Heat of Stone and Sand",
+    "cards": [
+      {
+        "name": "Call on Herders for Aid",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Sun",
+          'Fire',
+          "Earth",
+          "Animal"
+        ],
+        "description": ""
+      },
+      {
+        "name": "Stinging Sandstorm",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          'Fire',
+          "Air",
+          "Earth",
+        ],
+        "description": ''
+      },
+      {
+        "name": "Sweltering Exhaustion",
+        "cost": 2,
+        "speed": "Fast",
+        "elements": [
+          "Fire",
+          "Air",
+        ],
+        "description": ''
+      },
+      {
+        "name": "Gift of Searing Heat",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Fire",
+          "Air",
+        ],
+        "description": ''
+      }
+    ]
+  },
+  {
+    "name": "Sun-Bright Whirlwind",
+    "cards": [
+      {
+        "name": "Gift of the Sunlit Air",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          'Fire',
+          "Air",
+        ],
+        "description": ""
+      },
+      {
+        "name": "Gift of Wind-Sped Steps",
+        "cost": 1,
+        "speed": "Fast",
+        "elements": [
+          'Sun',
+          "Air",
+          "Animal",
+        ],
+        "description": ''
+      },
+      {
+        "name": "Scatter to the Winds",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": [
+          "Fire",
+          "Air",
+          "Water"
+        ],
+        "description": ''
+      },
+      {
+        "name": "Tempest of Leaves And Branches",
+        "cost": 2,
+        "speed": "Fast",
+        "elements": [
+          "Sun",
+          "Air",
+          "Plant",
+        ],
+        "description": ''
+      }
+    ]
+  },
 ]
 export const ADVERSARY: Array<Adversary> = [
   {
