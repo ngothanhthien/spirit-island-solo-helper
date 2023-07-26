@@ -31,6 +31,7 @@ import PowerPick from '@/components/PowerPick.vue'
 import PowerDiscard from '@/components/PowerDiscard.vue'
 import ModalForgetPower from '@/components/ModalForgetPower.vue'
 import ModalZoomBlightCard from '@/components/ModalZoomBlightCard.vue'
+import GameCard from '@/components/base/GameCard.vue'
 
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
@@ -340,7 +341,13 @@ watch(() => fearDeck.earned.length, (newValue) => {
             class="h-14 w-full flex justify-center relative"
             @click="buttonQuickBlightClick"
           >
+            <game-card
+              v-if="blightDeck.current"
+              :id="blightDeck.current"
+              class="h-full"
+            />
             <img
+              v-else
               src="/img/card-back/blight.webp"
               alt="Card back"
               class="h-full"
@@ -690,10 +697,10 @@ watch(() => fearDeck.earned.length, (newValue) => {
         @close="isShowModalForgetPower = false"
         @take-back="returnCardFromForget"
       />
-      <!-- <modal-zoom-blight-card
+      <modal-zoom-blight-card
         v-if="isZoomBlightCard"
         @close="isZoomBlightCard = false"
-      /> -->
+      />
       <modal-earned-fear
         v-if="isShowEarnedFear"
         @close="isShowEarnedFear = false"
