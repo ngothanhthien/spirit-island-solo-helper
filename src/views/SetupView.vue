@@ -11,6 +11,9 @@ import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { IconRefresh } from '@tabler/icons-vue'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
+import SpiritDropdown from '@/components/SpiritDropdown.vue'
+import { getSpiritAvatar } from '@/utils'
+import { onClickOutside } from '@vueuse/core'
 
 const MAX_SPIRIT = 4
 
@@ -47,6 +50,11 @@ const adversaryOption = computed(() => {
 const adversaryLevel = ref<number>(1)
 const islands = ref<number[]>([])
 const spirits = ref<number[]>([])
+const spiritSelect = ref<number | null>(null)
+const dropDownEl = ref<HTMLElement | null>(null)
+onClickOutside(dropDownEl, () => {
+  spiritSelect.value = null
+}, {ignore: [dropDownEl]})
 
 onMounted(() => {
   if (gameOption.numberSpirit) {
@@ -142,6 +150,11 @@ function startGame() {
   router.push({ name: 'GameView' })
 }
 
+function selectSpirit(newSpirit: number) {
+  spirits.value[spiritSelect.value as number] = newSpirit
+  spiritSelect.value = null
+}
+
 watch(numberSpirit, randomSetup)
 </script>
 <template>
@@ -165,12 +178,12 @@ watch(numberSpirit, randomSetup)
         />
         <div
           v-if="numberSpirit"
-          class="mt-4"
+          class="mt-4 flex flex-wrap"
         >
           <div
             v-for="n in numberSpirit"
             :key="`spirit-${n}`"
-            class="flex space-x-2 space-y-2 items-center"
+            class="flex space-x-2 space-y-2 items-center w-1/2"
           >
             <div
               class="bg-gray-800 hover:bg-gray-800/90 transition rounded-full p-1 text-white mt-3"
@@ -183,7 +196,25 @@ watch(numberSpirit, randomSetup)
             <div class="text-xl">
               {{ MAP[islands[n - 1]] }}:
             </div>
-            <div>{{ SPIRIT[spirits[n - 1]].name }}</div>
+            <div class="relative">
+              <div
+                class="w-14 h-14 rounded-full bg-white right-2 border-2 overflow-hidden"
+                @click="spiritSelect = n - 1"
+              >
+                <img
+                  :src="`/img/spirit_avatar/${getSpiritAvatar(spirits[n - 1])}`"
+                  alt="Spirit avatar"
+                  class="h-full max-w-max"
+                >
+              </div>
+              <spirit-dropdown
+                v-if="spiritSelect === n - 1"
+                :spirits="spirits"
+                class="max-h-40 absolute overflow-y-auto z-10"
+                @close="spiritSelect = null"
+                @select-spirit="selectSpirit"
+              />
+            </div>
           </div>
         </div>
       </div>
