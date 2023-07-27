@@ -600,12 +600,12 @@ watch(() => fearDeck.earned.length, (newValue) => {
                     v-for="element in ['Sun', 'Moon', 'Fire', 'Air', 'Water', 'Earth', 'Plant', 'Animal']"
                     :key="element"
                     class="flex items-center w-1/4 space-x-0.5 my-1"
-                    @click="adjustElement(element as Element)"
                   >
                     <img
                       class="h-6"
                       :src="`/img/elements/${element.toLocaleLowerCase()}.webp`"
                       :alt="`${element} element`"
+                      @click="adjustElement(element as Element)"
                     >
                     {{ playerCard.permanentElements[element as Element] }}
                   </div>

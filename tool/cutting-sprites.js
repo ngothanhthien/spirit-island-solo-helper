@@ -44,6 +44,6 @@ const processDirectory = async (directory, size) => {
 }
 
 // example usage
-processDirectory('images', '2x2'); // For a 2x2 grid of sprites
+processDirectory('images', '2x3'); // For a 2x2 grid of sprites
 // processDirectory('images', '4x4'); // For a 4x4 grid of sprites
 // processDirectory('images', '6x6'); // For a 6x6 grid of sprites, and so on...

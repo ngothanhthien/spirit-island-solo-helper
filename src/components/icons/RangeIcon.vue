@@ -2,7 +2,7 @@
 export default{
     props: {
         num: {
-            type: Number,
+            type: String,
             required: true,
         },
     },
@@ -15,11 +15,9 @@ export default{
       {{ num }}
     </div>
     <svg
-      class="w-10 h-2"
+      class="w-full h-2"
       version="1.0"
       xmlns="http://www.w3.org/2000/svg"
-      width="256.000000pt"
-      height="43.000000pt"
       viewBox="0 0 256.000000 43.000000"
       preserveAspectRatio="xMidYMid meet"
     >

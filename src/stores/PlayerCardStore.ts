@@ -213,7 +213,10 @@ export const usePlayerCardStore = defineStore('playerCard', {
       (this.players[this.current].permanentElements[element] as number)++
     },
     decreaseElement(element: Element) {
-      (this.players[this.current].permanentElements[element] as number)--
+      if(this.players[this.current].permanentElements[element] as number > 0)
+      {
+        (this.players[this.current].permanentElements[element] as number)--
+      }
     }
   },
   persist: true,
