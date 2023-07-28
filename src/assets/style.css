@@ -11,6 +11,7 @@
 body {
   /* Prevent chrome from pull-to-refresh effect */
   overscroll-behavior-y: none;
+  user-select: none;
 }
 
 ::-webkit-scrollbar-track{

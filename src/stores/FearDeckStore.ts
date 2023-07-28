@@ -13,6 +13,9 @@ export const useFearDeckStore = defineStore('fearDeck', {
     maxFear: 0,
   }),
   getters: {
+    drawView(state) {
+      return state.draw.reverse()
+    },
     totalEarned(state) {
       return state.earned.length
     },

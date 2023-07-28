@@ -18,7 +18,7 @@ const fearDeck = useFearDeckStore()
     <template #body>
       <div class="flex space-x-2 mx-1 my-1">
         <template
-          v-for="(card, index) in fearDeck.draw"
+          v-for="(card, index) in fearDeck.drawView"
           :key="card"
         >
           <div
@@ -31,19 +31,18 @@ const fearDeck = useFearDeckStore()
             />
           </div>
           <div
-            v-if="index === fearDeck.numberCardNeedToStage2 - 1"
+            v-if="index === fearDeck.numberCardNeedToStage2"
             class="font-serif text-3xl text-white font-semibold flex items-center bg-stone-900 px-2"
           >
             II
           </div>
           <div
-            v-if="index === fearDeck.numberCardNeedToStage3 - 1"
+            v-if="index === fearDeck.numberCardNeedToStage3"
             class="font-serif text-3xl text-white font-semibold flex items-center bg-stone-900 px-2"
           >
             III
           </div>
           <div
-            v-else
             class="w-1/4 rounded-lg shrink-0 relative"
           >
             <img

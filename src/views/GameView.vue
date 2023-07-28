@@ -15,7 +15,6 @@ import ElementTrack from '@/components/ElementTrack.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 import { getSpiritAvatar } from '@/utils'
 import AdversaryModal from '@/components/AdversaryModal.vue'
-import EventDeckComponent from '@/components/EventDeck.vue'
 import FearDeckComponent from '@/components/FearDeck.vue'
 import EventZoomModal from '@/components/EventZoomModal.vue'
 import ModalDiscardCommon from '@/components/ModalDiscardCommon.vue'
@@ -511,7 +510,6 @@ watch(() => playerCard.current, restoreAspectPos)
               >
                 <power-deck-component deck="minor" />
                 <power-deck-component deck="major" />
-                <event-deck-component />
                 <fear-deck-component
                   @show-earned-fear="isShowEarnedFear = true"
                   @show-fear-deck="isShowFearDeck = true"

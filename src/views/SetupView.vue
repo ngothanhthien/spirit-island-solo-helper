@@ -199,7 +199,7 @@ function startGame() {
   eventDeck.newDeck(gameOption.hasFranceEvent)
   majorDeck.newDeck()
   minorDeck.newDeck()
-  fearDeck.newDeck(gameOption.fearSetup, numberSpirit.value as number)
+  fearDeck.newDeck(gameOption.fearSetup, numberSpirit.value as number, gameOption.hasEngland6)
   playerCard.reset()
   spirits.value.forEach((spiritIndex) => {
     const { cards } = SPIRIT[spiritIndex]
