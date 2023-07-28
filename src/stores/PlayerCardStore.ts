@@ -13,6 +13,8 @@ function createPlayer(): Player {
     forget: [],
     energy: 0,
     permanentElements: createDefaultElement(),
+    showAspect: true,
+    aspectPos: 0,
   }
 }
 function createDefaultElement() {
@@ -50,6 +52,12 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     forget(state) {
       return state.players[state.current].forget
+    },
+    showAspect(state) {
+      return state.players[state.current].showAspect
+    },
+    aspectPos(state) {
+      return state.players[state.current].aspectPos
     },
     isPicking(state) {
       return state.players[state.current].picking.length > 0
@@ -217,6 +225,12 @@ export const usePlayerCardStore = defineStore('playerCard', {
       {
         (this.players[this.current].permanentElements[element] as number)--
       }
+    },
+    toggleShowAspect() {
+      this.players[this.current].showAspect = !this.players[this.current].showAspect
+    },
+    setAspectPos(position: number) {
+      this.players[this.current].aspectPos = position
     }
   },
   persist: true,

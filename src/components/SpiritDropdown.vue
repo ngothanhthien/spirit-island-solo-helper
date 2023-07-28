@@ -10,8 +10,8 @@ defineProps<{
 const emit = defineEmits(['close', 'selectSpirit'])
 
 const dropDownEl = ref<HTMLElement | null>(null)
-onClickOutside(dropDownEl, () => {
-  emit('close')
+onClickOutside(dropDownEl, (e: Event) => {
+  emit('close', e)
 })
 </script>
 

@@ -1,10 +1,12 @@
 import { defineStore } from "pinia";
-import { ADVERSARY } from "@/constant";
+import { ADVERSARY, SPIRIT } from "@/constant";
+import type { Aspect } from "@/types";
 
 export const useGameOptionStore = defineStore("gameOption", {
   state: () => ({
     numberSpirit: undefined as undefined | number,
     spirits: [] as number[],
+    aspects: [] as number[],
     islands: [] as number[],
     adversary: undefined as undefined | number,
     adversaryLevel: 0,
@@ -18,6 +20,16 @@ export const useGameOptionStore = defineStore("gameOption", {
     },
     hasEngland6(state) {
       return ADVERSARY[state.adversary as number].id === 'england' && state.adversaryLevel === 6
+    },
+    aspectsDetail(state) {
+      const spiritsRawAspect = state.spirits.map((spiritIndex) => SPIRIT[spiritIndex].aspects)
+      return state.aspects.map((aspectIndex, index) => {
+        if (aspectIndex === -1) {
+          return null
+        }
+        const aspects = spiritsRawAspect[index] as Aspect[]
+        return aspects[aspectIndex]
+      })
     }
   },
   actions: {
@@ -27,12 +39,14 @@ export const useGameOptionStore = defineStore("gameOption", {
       islands: number[];
       adversary: number;
       adversaryLevel: number;
+      aspects: number[];
     }) {
       this.numberSpirit = option.numberSpirit;
       this.spirits = option.spirits;
       this.islands = option.islands;
       this.adversary = option.adversary;
       this.adversaryLevel = option.adversaryLevel;
+      this.aspects = option.aspects;
     },
   },
   persist: true,

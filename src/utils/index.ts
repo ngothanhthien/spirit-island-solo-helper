@@ -125,3 +125,11 @@ export const getPowerIdByName = (name: string, type?: 'unique' | 'minor-major' |
     }
   }
 }
+
+export const getSpiritById = (id: number) => {
+  return SPIRIT[id]
+}
+
+export const nameToImage = (name: string) => {
+  return name.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '_').toLowerCase() + '.webp'
+}

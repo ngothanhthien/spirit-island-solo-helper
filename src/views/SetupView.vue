@@ -15,6 +15,9 @@ import SpiritDropdown from '@/components/SpiritDropdown.vue'
 import { getSpiritAvatar } from '@/utils'
 import { onClickOutside } from '@vueuse/core'
 import { useBlightDeckStore } from '@/stores/BlightDeckStore'
+import ModalAspect from '@/components/ModalAspect.vue'
+import { IconPencil, IconTrashX } from '@tabler/icons-vue'
+import type { Aspect } from '@/types'
 
 const MAX_SPIRIT = 4
 
@@ -27,6 +30,29 @@ const minorDeck = usePowerDeckStore('minor')
 const blightDeck = useBlightDeckStore()
 
 const numberSpirit = ref<undefined | number>()
+const aspects = ref<Array<number>>([])
+interface AspectOption {
+  label: string
+  value: number
+}
+const aspectsOption = computed(() => {
+  const options: Array<AspectOption[] | null> = []
+  spirits.value.forEach((index) => {
+    const spirit = SPIRIT[index]
+    if (!spirit.aspects) {
+      options.push(null)
+      return
+    }
+    const option = spirit.aspects.map((aspect, i) => {
+      return {
+        label: aspect.title,
+        value: i,
+      }
+    })
+    options.push(option)
+  })
+  return options
+})
 const spiritOptions = computed(() => {
   const options = []
   for (let i = 1; i <= MAX_SPIRIT; i++) {
@@ -37,6 +63,10 @@ const spiritOptions = computed(() => {
   }
   return options
 })
+const currentAspectShowing = ref<null | {
+  aspect: Aspect[]
+  spiritIndex: number
+}>(null)
 
 const adversary = ref<undefined | number>()
 const adversaryOption = computed(() => {
@@ -68,6 +98,31 @@ onMounted(() => {
   randomSetup()
 })
 
+function showSelectAspect(index: number) {
+  const spirit = SPIRIT[spirits.value[index]]
+  if (!spirit.aspects) {
+    return
+  }
+  currentAspectShowing.value = {
+    aspect: spirit.aspects,
+    spiritIndex: index,
+  }
+} 
+function chooseAspect(index: number) {
+  if(!currentAspectShowing.value) {
+    return
+  }
+  aspects.value[currentAspectShowing.value.spiritIndex] = index
+  currentAspectShowing.value = null
+}
+
+function toggleSpiritSelect(value: number) {
+  if (spiritSelect.value === value) {
+    spiritSelect.value = null
+  } else {
+    spiritSelect.value = value
+  }
+}
 function randomSetup() {
   if (numberSpirit.value) {
     islands.value = []
@@ -75,10 +130,15 @@ function randomSetup() {
     for (let i = 0; i < numberSpirit.value; i++) {
       randomSpiritAndMap()
     }
+
+    aspects.value = []
+    for (let i = 0; i < numberSpirit.value; i++) {
+      aspects.value.push(-1)
+    }
+
     randomAdversary()
   }
 }
-
 function randomAdversary() {
   adversary.value = Math.floor(Math.random() * ADVERSARY.length)
 }
@@ -87,6 +147,7 @@ function randomSpiritAndMap(index?: number) {
   if (index !== undefined) {
     islands.value[index] = -1
     spirits.value[index] = -1
+    aspects.value[index] = -1
   }
 
   let island = Math.floor(Math.random() * MAP.length)
@@ -130,6 +191,7 @@ function startGame() {
       adversaryLevel: adversaryLevel.value,
       islands: islands.value,
       spirits: spirits.value,
+      aspects: aspects.value,
     })
   }
 
@@ -146,8 +208,13 @@ function startGame() {
     for (let i = 0; i < cards.length; i++) {
       hand.push(`unique${spiritIndex}-${i}`)
     }
-    playerCard.changeCurrent(playerIndex)
+     playerCard.changeCurrent(playerIndex)
     playerCard.setHand(hand)
+  })
+  gameOption.aspectsDetail.forEach((aspects, playerIndex) => {
+    if (aspects && aspects.setupFunction) {
+      aspects.setupFunction(playerIndex)
+    }
   })
 
   router.push({ name: 'GameView' })
@@ -162,7 +229,7 @@ watch(numberSpirit, randomSetup)
 </script>
 <template>
   <div
-    class="bg-gradient-to-r from-orange-400 to-orange-600 pt-2 px-4 h-screen"
+    class="bg-gradient-to-r from-orange-400 to-orange-600 pt-2 px-4 h-screen relative overflow-hidden"
   >
     <base-button
       button-style="secondary"
@@ -172,22 +239,55 @@ watch(numberSpirit, randomSetup)
       Re-Random
     </base-button>
     <div class="space-x-2 grid grid-cols-12">
-      <div class="col-span-8">
+      <div class="col-span-4 pr-10">
         <base-select
           v-model="numberSpirit"
-          class="w-40"
+          class="w-full"
           :options="spiritOptions"
           default-label="Number Spirits"
         />
-        <div
-          v-if="numberSpirit"
-          class="mt-4 flex flex-wrap"
-        >
+        <div class="flex w-full space-x-2 mt-4">
           <div
-            v-for="n in numberSpirit"
-            :key="`spirit-${n}`"
-            class="flex space-x-2 space-y-2 items-center w-1/2"
+            class="bg-gray-800 hover:bg-gray-800/90 transition rounded-full p-1 text-white self-start mt-3"
           >
+            <icon-refresh
+              class="w-4 h-4"
+              @click="randomAdversary"
+            />
+          </div>
+          <div>
+            <base-select
+              v-model="adversary"
+              class="w-full"
+              item-group-class="w-full"
+              :options="adversaryOption"
+              default-label="Adversary"
+            />
+            <div
+              v-if="adversary || adversary === 0"
+              class="mt-2 text-gray-700"
+            >
+              <div>Adversary level:</div>
+              <base-counter
+                v-model="adversaryLevel"
+                :min="0"
+                :max="6"
+                class="w-full"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        v-if="numberSpirit"
+        class="col-span-8 flex flex-wrap"
+      >
+        <div
+          v-for="n in numberSpirit"
+          :key="`spirit-${n}`"
+          class="w-1/2 px-3 mt-3"
+        >
+          <div class="flex space-x-1 space-y-2 items-center">
             <div
               class="bg-gray-800 hover:bg-gray-800/90 transition rounded-full p-1 text-white mt-3"
             >
@@ -199,10 +299,10 @@ watch(numberSpirit, randomSetup)
             <div class="text-xl">
               {{ MAP[islands[n - 1]] }}:
             </div>
-            <div class="relative">
+            <div class="relative grow">
               <div
                 class="w-14 h-14 rounded-full bg-white right-2 border-2 overflow-hidden"
-                @click="spiritSelect = n - 1"
+                @click="toggleSpiritSelect(n - 1)"
               >
                 <img
                   :src="`/img/spirit_avatar/${getSpiritAvatar(spirits[n - 1])}`"
@@ -214,46 +314,48 @@ watch(numberSpirit, randomSetup)
                 v-if="spiritSelect === n - 1"
                 :spirits="spirits"
                 class="max-h-40 absolute overflow-y-auto z-10"
-                @close="spiritSelect = null"
+                @close.stop="spiritSelect = null"
                 @select-spirit="selectSpirit"
               />
+            </div>
+            <div
+              v-if="aspectsOption[n-1]"
+              class="w-full mt-1"
+            >
+              <div
+                class="flex items-center space-x-1"
+                @click="showSelectAspect(n-1)"
+              >
+                <div>Aspect</div>
+                <div> 
+                  <icon-pencil class="w-4 h-4" />
+                </div>
+              </div>
+              <div class="text-lg font-semibold">
+                <span v-if="aspects[n-1] === -1">
+                  None
+                </span>
+                <div
+                  v-else
+                  class="flex items-center space-x-1"
+                >
+                  <div>
+                    {{ aspectsOption[n-1]?.[aspects[n-1]].label }}
+                  </div> 
+                  <div
+                    class="text-red-800"
+                    @click.stop="aspects[n-1] = -1"
+                  >
+                    <icon-trash-x class="w-5 h-5" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-span-4 flex space-x-2">
-        <div
-          class="bg-gray-800 hover:bg-gray-800/90 transition rounded-full p-1 text-white self-start mt-3"
-        >
-          <icon-refresh
-            class="w-4 h-4"
-            @click="randomAdversary"
-          />
-        </div>
-        <div>
-          <base-select
-            v-model="adversary"
-            class="w-40"
-            item-group-class="w-40"
-            :options="adversaryOption"
-            default-label="Adversary"
-          />
-          <div
-            v-if="adversary || adversary === 0"
-            class="mt-2 text-gray-700"
-          >
-            <div>Adversary level:</div>
-            <base-counter
-              v-model="adversaryLevel"
-              :min="0"
-              :max="6"
-              class="w-32"
-            />
-          </div>
-        </div>
-      </div>
     </div>
-    <div class="flex justify-center mt-4">
+    <div class="flex justify-center absolute w-full bottom-8">
       <base-button
         :disabled="!canStartGame"
         button-style="primary"
@@ -263,6 +365,12 @@ watch(numberSpirit, randomSetup)
         Start Game
       </base-button>
     </div>
+    <modal-aspect
+      v-if="currentAspectShowing"
+      :aspects="currentAspectShowing.aspect"
+      @close="currentAspectShowing = null"
+      @choose="chooseAspect"
+    />
   </div>
 </template>
 @/stores/PowerDeckStore

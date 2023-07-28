@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { Element } from '@/types'
 import CardGroupView from '@/components/CardGroupView.vue'
 import {
@@ -23,6 +23,8 @@ import FearIcon from '@/components/icons/FearIcon.vue'
 import ModalEarnedFear from '@/components/ModalEarnedFear.vue'
 import ModalFearReveal from '@/components/ModalFearReveal.vue'
 import ModalFearDeck from '@/components/ModalFearDeck.vue'
+import AspectPower from '@/components/AspectPower.vue'
+import AspectDetail from '@/components/AspectDetail.vue'
 import { OnClickOutside } from '@vueuse/components'
 
 import PowerDeckComponent from '@/components/PowerDeck.vue'
@@ -37,7 +39,7 @@ import GameCard from '@/components/base/GameCard.vue'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
-import { useGameStateStore } from '@/stores/GameStateStore'
+// import { useGameStateStore } from '@/stores/GameStateStore'
 
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
@@ -45,6 +47,7 @@ import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { useBlightDeckStore } from '@/stores/BlightDeckStore'
 import router from '@/router'
+import { useScroll, watchDebounced } from '@vueuse/core'
 
 const MENU_1 = {
   PLAY: 0,
@@ -63,7 +66,7 @@ const eventDeck = useEventDeckStore()
 const modalDiscard = useModalDiscardStore()
 const cardZoom = useCardZoomStore()
 const fearDeck = useFearDeckStore()
-const gameState = useGameStateStore()
+// const gameState = useGameStateStore()
 const minorDeck = usePowerDeckStore('minor')
 const majorDeck = usePowerDeckStore('major')
 const gameOption = useGameOptionStore()
@@ -76,11 +79,17 @@ const isShowModalForgetPower = ref(false)
 const isShowAdversary = ref(false)
 const isShowEarnedFear = ref(false)
 const isShowFearDeck = ref(false)
+const isShowAspectDetail = ref(false)
 const showQuickPower = ref(false)
 const isZoomBlightCard = ref(false)
 const modeIncrease = ref(true)
 
 const energyJustChanged = ref(0)
+
+const aspectEl = ref<HTMLElement | null>(null)
+const { y: aspectPos } = useScroll(aspectEl, {
+  behavior: 'instant'
+})
 
 if (
   !eventDeck.isAvailable ||
@@ -91,6 +100,7 @@ if (
   router.push({ name: 'HomeView' })
 }
 
+const isHasAspect = computed(() => Boolean(gameOption.aspectsDetail[playerCard.current]))
 function adjustElement(element: Element) {
   if (modeIncrease.value) {
     playerCard.increaseElement(element)
@@ -137,6 +147,11 @@ function handSwipeUp(cardId: string) {
   }
 }
 
+function onCloseModalAdversary() {
+  isShowAdversary.value = false
+  currentMenu2.value = MENU_2.HAND
+}
+
 function powerPickSwipeUp(cardId: string) {
   const type = cardId.split('-')[0]
   if (type === 'minor' || type === 'major') {
@@ -171,22 +186,22 @@ function reclaimAll() {
   currentMenu2.value = MENU_2.HAND
 }
 
-function nextPhase() {
-  // gameState.nextPhase()
-  // switch (gameState.currentPhaseName) {
-  //   case 'Event':
-  //     if (gameState.currentRound === 1) {
-  //       eventDeck.popEvent()
-  //       nextPhase()
-  //     } else {
-  //       revealEvent()
-  //     }
-  //     break
-  //   case 'Fear':
-  //     break
-  //   default:
-  // }
-}
+// function nextPhase() {
+//   // gameState.nextPhase()
+//   // switch (gameState.currentPhaseName) {
+//   //   case 'Event':
+//   //     if (gameState.currentRound === 1) {
+//   //       eventDeck.popEvent()
+//   //       nextPhase()
+//   //     } else {
+//   //       revealEvent()
+//   //     }
+//   //     break
+//   //   case 'Fear':
+//   //     break
+//   //   default:
+//   // }
+// }
 
 function resetPicking() {
   playerCard.picking.forEach((card) => {
@@ -200,7 +215,11 @@ function resetPicking() {
   currentMenu1.value = MENU_1.PLAY
   playerCard.resetPicking()
 }
-
+function manageAspectButtonClick() {
+  playerCard.toggleShowAspect()
+  currentMenu2.value = MENU_2.HAND
+  restoreAspectPos()
+}
 function pickCard(cardId: string) {
   playerCard.takeCardFromPicking(cardId)
 }
@@ -295,6 +314,24 @@ watch(() => fearDeck.earned.length, (newValue) => {
     isShowEarnedFear.value = false
   }
 })
+
+watchDebounced(
+  aspectPos,
+  (pos) => { 
+    playerCard.setAspectPos(pos)
+   },
+  { debounce: 300 },
+)
+
+const aspectLoading = ref(false)
+function restoreAspectPos() {
+  aspectLoading.value = true
+  setTimeout(() => {
+    aspectPos.value = playerCard.aspectPos
+    aspectLoading.value = false
+  }, 100)
+}
+watch(() => playerCard.current, restoreAspectPos)
 </script>
 
 <template>
@@ -331,17 +368,25 @@ watch(() => fearDeck.earned.length, (newValue) => {
             <div><fear-icon class="w-5 h-5 mb-1 text-white" /></div>
             <div>{{ fearDeck.currentFear }}</div>
           </button>
-          <button
+          <div class="px-2">
+            <div class="text-sm">
+              Fear Level
+            </div>
+            <div class="text-center text-lg font-serif">
+              {{ fearDeck.currentStageRoman }}
+            </div>
+          </div>
+          <!-- <button
             class="bg-orange-900 px-2 h-full"
             @click="nextPhase()"
           >
             {{ gameState.currentPhaseName }} phase
-          </button>
+          </button> -->
         </div>
       </div>
       <div
         id="game-area"
-        class="flex h-screen"
+        class="flex flex-1"
       >
         <div
           id="game-quick-bar"
@@ -398,13 +443,13 @@ watch(() => fearDeck.earned.length, (newValue) => {
                 :src="`/img/card-back/minor.webp`"
                 alt="Card back"
                 class="h-full absolute"
-                style="transform: translateY(5px) rotate(-10deg);;"
+                style="transform: rotate(-10deg);;"
               >
               <img
                 :src="`/img/card-back/major.webp`"
                 alt="Card back"
                 class="h-full absolute"
-                style="transform: translateX(20px) translateY(5px) rotate(10deg);"
+                style="transform: translateX(20px) rotate(10deg);"
               >
             </div>
             <div
@@ -428,12 +473,12 @@ watch(() => fearDeck.earned.length, (newValue) => {
         </div>
         <div
           id="game-showing-area"
-          class="grid grid-rows-2 grid-cols-1 w-full relative"
+          class="w-full relative h-full"
         >
           <div
             id="game-showing-top"
             ref="menuControlEl"
-            class="bg-neutral-100 my-2 flex px-2 relative"
+            class="bg-neutral-100 py-2 flex px-2 relative h-1/2"
           >
             <template v-if="currentMenu1 === MENU_1.PLAY">
               <div
@@ -490,28 +535,43 @@ watch(() => fearDeck.earned.length, (newValue) => {
 
           <div
             id="game-showing-bottom"
-            class="bg-stone-300 flex px-2 row-auto relative"
+            class="bg-stone-300 flex px-2 relative h-1/2"
           >
             <template v-if="currentMenu2 === MENU_2.HAND">
-              <card-group-view
-                from="hand"
-                :cards="playerCard.hand"
-                class="pt-2"
-                @swipe-down="playerCard.forgetCardFromHand"
-                @swipe-up="handSwipeUp"
-              />
-              <base-button
-                v-show="
-                  playerCard.hand.length === 0 &&
-                    playerCard.play.length === 0 &&
-                    playerCard.discard.length > 0
-                "
-                button-style="secondary"
-                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                @click="reclaimAll"
+              <div class="flex flex-1 relative">
+                <card-group-view
+                  from="hand"
+                  :cards="playerCard.hand"
+                  class="pt-2"
+                  @swipe-down="playerCard.forgetCardFromHand"
+                  @swipe-up="handSwipeUp"
+                />
+                <base-button
+                  v-show="
+                    playerCard.hand.length === 0 &&
+                      playerCard.play.length === 0 &&
+                      playerCard.discard.length > 0
+                  "
+                  button-style="secondary"
+                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                  @click="reclaimAll"
+                >
+                  Reclaim All
+                </base-button>
+              </div>
+              <div
+                v-if="playerCard.showAspect && isHasAspect"
+                class="w-1/3 relative"
               >
-                Reclaim All
-              </base-button>
+                <div
+                  ref="aspectEl"
+                  class="w-full pl-2 py-2 overflow-y-auto absolute hide-scrollbar h-full"
+                  :class="aspectLoading ? 'opacity-0':''"
+                  @click="isShowAspectDetail = true"
+                >
+                  <aspect-power />
+                </div>
+              </div>
             </template>
             <div
               v-if="currentMenu2 === MENU_2.CONTROL"
@@ -612,6 +672,14 @@ watch(() => fearDeck.earned.length, (newValue) => {
                 </div>
               </div>
               <div class="flex flex-col relative w-32 space-y-2 mt-2">
+                <base-button
+                  v-if="isHasAspect"
+                  button-style="secondary"
+                  class="w-full"
+                  @click="manageAspectButtonClick"
+                >
+                  {{ playerCard.showAspect ? 'Hide' : 'Show' }} Aspect
+                </base-button>
                 <base-button
                   class="h-fit w-full"
                   button-style="secondary"
@@ -754,7 +822,11 @@ watch(() => fearDeck.earned.length, (newValue) => {
       <event-zoom-modal v-if="eventDeck.reveal" />
       <adversary-modal
         v-if="isShowAdversary"
-        @close="isShowAdversary = false"
+        @close="onCloseModalAdversary"
+      />
+      <aspect-detail
+        v-if="isShowAspectDetail"
+        @close="isShowAspectDetail = false"
       />
     </div>
   </div>

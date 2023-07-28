@@ -55,7 +55,7 @@ const canContinue = computed(() => {
         Update Available! <icon-refresh class="w-5 h-5 ml-1" />
       </button> -->
       <div class="text-center">
-        Version 1.3.0
+        Version 1.4.0
       </div>
       <base-button
         class="w-full"

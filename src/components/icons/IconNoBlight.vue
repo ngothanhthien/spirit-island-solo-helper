@@ -1,6 +1,6 @@
 <template>
   <img
-    src="/img/icons/Noblighticon.png"
+    src="/img/icon/Noblighticon.png"
     class="inline-block"
   >
 </template>

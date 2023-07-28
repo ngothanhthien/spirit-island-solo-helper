@@ -1,4 +1,4 @@
-import type { PowerCard, Adversary, BlightCard } from '@/types'
+import type { PowerCard, Adversary, BlightCard, SpiritType } from '@/types'
 import { setupDarkFire, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
 import { setupSparking } from '../utils/setup'
 
@@ -1515,26 +1515,7 @@ export const FEAR_CARDS: Array<{
   { name: 'supply_chains_abandoned' },
   { name: 'unsettled' },
 ]
-export const SPIRIT: Array<{
-  name: string
-  cards: Array<PowerCard>
-  aspects?: Array<{
-    title: string
-    requirements?: string[],
-    setupFunction?: (pos: number) => boolean
-    images?: string[]
-    cards?: {
-        name: string
-        description: string
-        target?: {
-          speed: 'Slow' | 'Fast'
-          range: number | null
-          scaredSite: boolean | null
-          targetLand: 'Another Spirit' | 'Any' | 'no-blight' | 'yourself' | 'Invaders' | 'any-spirit' | 'Coastal' | 'j-w'
-        }
-    }[]
-  }>
-}> = [
+export const SPIRIT: Array<SpiritType> = [
   {
     name: "Lightning's Swift Strike",
     cards: [
@@ -1582,7 +1563,7 @@ export const SPIRIT: Array<{
       },
       {
         title: 'Pandemonium',
-        requirements: ['Replaces Innate Power: Thundering Destruction'],
+        requirements: ['Replaces: Thundering Destruction'],
         cards: [
           {
             name: 'LIGHTNING-TORN SKIES INCITE PANDEMONIUM',
@@ -1598,7 +1579,7 @@ export const SPIRIT: Array<{
       },
       {
         title: 'Wind',
-        requirements: ['Replaces Special Rule: Swiftness of Lightning'],
+        requirements: ['Replaces: Swiftness of Lightning'],
         cards: [
           {
             name: 'WINDS OF RENEWAL',
@@ -1617,8 +1598,7 @@ export const SPIRIT: Array<{
       },
       {
         title: 'Sparking',
-        requirements: ['Replaces Innate Power: Thundering Destruction'],
-        images: ['Sparking', 'Smite the Land with Fulmination'],
+        requirements: ['Replaces: Thundering Destruction'],
         cards: [
           {
             name: 'Gift of the Sparking Sky',
@@ -1692,7 +1672,7 @@ export const SPIRIT: Array<{
       },
       {
         title: 'Travel',
-        requirements: [`Replaces Special Rule: River's Domain`],
+        requirements: [`Replaces: River's Domain`],
         cards: [
           {
             name: `WINDS OF RENEWAL`,
@@ -1706,7 +1686,7 @@ export const SPIRIT: Array<{
       },
       {
         title: 'Haven',
-        requirements: [`Replaces Innate Power: Massive Flooding`],
+        requirements: [`Replaces: Massive Flooding`],
         cards: [
           {
             name: 'CALL TO A SUNLIT HAVEN',
@@ -1775,11 +1755,11 @@ export const SPIRIT: Array<{
             description: `When your Presence is Destroyed, if Invaders are present, 1 Fear per Presence Destroyed there.`
           },
         ],
-        requirements: ['Replaces Special Rule: Shadows of the Dahan'],
+        requirements: ['Replaces: Shadows of the Dahan'],
       },
       {
         title: 'Reach',
-        requirements: ['Replaces Special Rule: Shadows of the Dahan'],
+        requirements: ['Replaces: Shadows of the Dahan'],
         cards: [
           {
             name: 'REACH THROUGH EPHEMERAL SPACE',
@@ -1790,7 +1770,7 @@ export const SPIRIT: Array<{
       },
       {
         title: 'Amorphous',
-        requirements: ['Replaces Special Rule: Shadows of the Dahan'],
+        requirements: ['Replaces: Shadows of the Dahan'],
         cards: [
           {
             name: 'SHADOWS PARTAKE OF AMORPHOUS SPACE',
@@ -1801,7 +1781,7 @@ export const SPIRIT: Array<{
       },
       {
         title: 'Foreboding',
-        requirements: ['Replaces Special Rule: Shadows of the Dahan'],
+        requirements: ['Replaces: Shadows of the Dahan'],
         cards: [
           {
             name: 'STRETCH OUT COILS OF FOREBODING DREAD',
@@ -1820,12 +1800,12 @@ export const SPIRIT: Array<{
       },
       {
         title: 'Dark Fire',
-        requirements: ['Replaces Special Rule: Shadows of the Dahan'],
+        requirements: ['Replaces: Shadows of the Dahan'],
         cards: [
           {
             name: 'DARK AND FIRE AS ONE',
             description: `You gain 1 permanent Fire/Moon.:break:
-            You may treat eachMoonavailable to you as beingFire, or vice versa. (Choose during each Action for each Moon/Fireyou have.) You may discard or Forget Powers that grant Moon to pay for Fire Choice Events, and vice versa.`
+            You may treat each Moon available to you as being Fire, or vice versa. (Choose during each Action for each Moon/Fire you have.) You may discard or Forget Powers that grant Moon to pay for Fire Choice Events, and vice versa.`
           },
           {
             name: 'FRIGHTFUL SHADOWS ELUDE DESTRUCTION',
@@ -1874,7 +1854,7 @@ export const SPIRIT: Array<{
     aspects: [
       {
         title: 'Warrior',
-        requirements: ['Replaces Innate Power: Lead the Furious Assault', 'Setup: Replace 1 of your Presence with your Incarna and 1 Dahan.'],
+        requirements: ['Replaces: Lead the Furious Assault', 'Setup: Replace 1 of your Presence with your Incarna and 1 Dahan.'],
         setupFunction: setupWarrior,
       },
       {
@@ -1919,8 +1899,8 @@ export const SPIRIT: Array<{
     aspects: [
       {
         title: 'Deeps',
-        requirements: [`Replaces Innate Power: POUND SHIPS TO SPLINTERS`,
-      `Replaces Innate Power: OCEAN BREAKS THE SHORE`],
+        requirements: [`Replaces: POUND SHIPS TO SPLINTERS`,
+        `Replaces: OCEAN BREAKS THE SHORE`],
         cards: [
           {
             name: 'WATER EATS AWAY THE DEEP ROOTS OF THE EARTH',
@@ -1947,7 +1927,8 @@ export const SPIRIT: Array<{
               targetLand: 'Coastal',
             }
           }
-        ]
+        ],
+        images: ['Deeps 1', 'Deeps 2'],
       }
     ],
   },
@@ -1990,7 +1971,7 @@ export const SPIRIT: Array<{
     aspects: [
       {
         title: 'Enticing',
-        requirements: [`Replaces Innate Power: Night Terrors`],
+        requirements: [`Replaces: Night Terrors`],
         cards: [
           {
             name: 'ENTICING AND LULLING DREAMS',
@@ -2009,7 +1990,7 @@ export const SPIRIT: Array<{
       },
       {
         title: 'Violence',
-        requirements: [`Replaces Innate Power: Spirits May Yet Dream`],
+        requirements: [`Replaces: Spirits May Yet Dream`],
         cards: [
           {
             name: 'NIGHTMARES OF VIOLENCE AND DEATH',
@@ -2059,7 +2040,7 @@ export const SPIRIT: Array<{
     aspects: [
       {
         title: 'Tangles',
-        requirements: ['Replaces Innate Power: Creepers Tear Into Mortar'],
+        requirements: ['Replaces: Creepers Tear Into Mortar'],
         cards: [
           {
             name: 'Impenetrable Tangles of Greenery',
@@ -2075,14 +2056,13 @@ export const SPIRIT: Array<{
             }
           }
         ],
-        images: ['Tangles', 'Belligerent and Aggressive Crops'],
         setupFunction: setupTangles,
       },
       {
         title: 'Regrowth',
         requirements: [
-          'Replaces Special Rule: STEADY REGENERATION',
-          'Innate Power: ALL ENVELOPING GREEN',
+          'Replaces: STEADY REGENERATION',
+          'Replace: ALL ENVELOPING GREEN',
           'Setup: Take 13 destroy Presence',
         ],
         cards: [
@@ -2157,7 +2137,7 @@ export const SPIRIT: Array<{
         title: 'Encircle',
         requirements: [
           `Replace Special Rule: ALLY OF THE BEAST`,
-          `Replace Innate Power: RANGING HUNT`,
+          `Replace : RANGING HUNT`,
         ],
         cards: [
           {
@@ -2291,7 +2271,7 @@ export const SPIRIT: Array<{
     aspects: [
       {
         title: 'Stranded',
-        requirements: [`Replaces Special Rule: Mists Shift and Flow`],
+        requirements: [`Replaces: Mists Shift and Flow`],
         cards: [
           {
             name: 'Mists Steadily Drift',
@@ -2416,8 +2396,8 @@ export const SPIRIT: Array<{
       {
         title: 'Mentor',
         requirements: [
-          'Replaces Special Rule: LONG AGES OF KNOWLEDGE',
-          'Replaces Innate Power: OBSERVE THE EVER-CHANGING WORLD',
+          'Replaces: LONG AGES OF KNOWLEDGE',
+          'Replaces: OBSERVE THE EVER-CHANGING WORLD',
         ],
         cards: [
           {
@@ -2441,7 +2421,7 @@ export const SPIRIT: Array<{
       },
       {
         title: 'Intensify',
-        requirements: [`Replaces Special Rule: Insights into the World's Nature`],
+        requirements: [`Replaces: Insights into the World's Nature`],
       }
     ]
   },
@@ -2725,7 +2705,7 @@ export const SPIRIT: Array<{
     aspects: [
       {
         'title': 'Resilience',
-        requirements: [`Replaces Special Rule: Earth's Vitality`],
+        requirements: [`Replaces: Earth's Vitality`],
         cards: [
           {
             name: `ANCHOR THE LAND'S RESILIENCE`,
@@ -2735,7 +2715,7 @@ export const SPIRIT: Array<{
       },
       {
         'title': 'Might',
-        requirements: [`Replaces Special Rule: Earth's Vitality`],
+        requirements: [`Replaces: Earth's Vitality`],
         cards: [
           {
             name: `EARTH MOVES WITH VIGOR AND MIGHT`,
@@ -2754,7 +2734,7 @@ export const SPIRIT: Array<{
       },
       {
         'title': 'Nourishing',
-        requirements: [`Replaces Special Rule: Earth's Vitality`],
+        requirements: [`Replaces: Earth's Vitality`],
         cards: [
           {
             name: `FLOURISH WITH NATURE'S STRENGTH`,

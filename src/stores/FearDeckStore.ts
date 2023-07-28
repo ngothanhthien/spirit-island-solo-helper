@@ -31,6 +31,19 @@ export const useFearDeckStore = defineStore('fearDeck', {
       }
       return 3
     },
+    currentStageRoman() {
+      if (this.currentStage === 1) {
+        return 'I'
+      }
+      if (this.currentStage === 2) {
+        return 'II'
+      }
+      if (this.currentStage === 3 && this.draw.length === 0) {
+        return 'Win'
+      }
+      return 'III'
+    },
+
     numberCardNeedToStage2(state) {
       const totalCard = state.draw.length
       const stage_2 = state.fearStage[0] + state.fearStage[1]
@@ -129,6 +142,9 @@ export const useFearDeckStore = defineStore('fearDeck', {
       return card
     },
     increaseFear() {
+      if (this.draw.length === 0) {
+        return
+      }
       this.currentFear++
       if (this.currentFear >= this.maxFear) {
         this.currentFear = 0
@@ -138,7 +154,7 @@ export const useFearDeckStore = defineStore('fearDeck', {
     },
     decreaseFear() {
       this.currentFear--
-      if (this.currentFear <= 0) {
+      if (this.currentFear <= 0 && this.earned.length > 0) {
         this.currentFear = this.maxFear
         this.unEarn()
         return

@@ -24,7 +24,7 @@ const cardWidth = computed(() => cardHeight.value * CARD_RATIO)
     name="list"
     tag="div"
     appear
-    class="flex h-full flex-shrink-0 space-x-2 absolute powerPickEl pb-96 -mb-96 box-content overflow-x-auto"
+    class="flex h-full flex-shrink-0 space-x-2 absolute hide-scrollbar pb-96 -mb-96 box-content overflow-x-auto"
   >
     <card-item
       v-for="card in picking"
@@ -47,13 +47,3 @@ const cardWidth = computed(() => cardHeight.value * CARD_RATIO)
     </button>
   </transition-group>
 </template>
-<style scoped>
-.powerPickEl::-webkit-scrollbar {
-  display: none;
-}
-
-.powerPickEl {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-</style>
