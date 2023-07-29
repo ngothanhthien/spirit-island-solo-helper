@@ -468,7 +468,7 @@ watch(() => eventDeck.reveal, function (newValue) {
                 @click="showPowerDiscard"
               >
                 <icon-layers-off
-                  class="w-10 h-10 text-white"
+                  class="w-9 h-9 text-white"
                   style="stroke-width: 1px;"
                 />
               </div>

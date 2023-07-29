@@ -14,7 +14,7 @@ export const useFearDeckStore = defineStore('fearDeck', {
   }),
   getters: {
     drawView(state) {
-      return state.draw.reverse()
+      return state.draw.slice().reverse()
     },
     totalEarned(state) {
       return state.earned.length
@@ -48,14 +48,16 @@ export const useFearDeckStore = defineStore('fearDeck', {
     },
 
     numberCardNeedToStage2(state) {
-      const totalCard = state.draw.length
-      const stage_2 = state.fearStage[0] + state.fearStage[1]
-      return totalCard - stage_2
+      const totalCard = state.fearStage.reduce((a, b) => a + b, 0)
+      const leftCard = state.draw.length
+      const stage_2 = state.fearStage[0]
+      return stage_2 - (totalCard - leftCard)
     },
     numberCardNeedToStage3(state) {
-      const totalCard = state.draw.length
-      const stage_3 = state.fearStage[0]
-      return totalCard - stage_3
+      const totalCard = state.fearStage.reduce((a, b) => a + b, 0)
+      const leftCard = state.draw.length
+      const stage_3 = state.fearStage[0] + state.fearStage[1]
+      return stage_3 - (totalCard - leftCard)
     },
     canShowEarned(state) {
       return state.earned.length > 0
