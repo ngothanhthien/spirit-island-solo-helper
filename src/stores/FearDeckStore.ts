@@ -133,17 +133,19 @@ export const useFearDeckStore = defineStore('fearDeck', {
       this.currentReveal = null
     },
     earn() {
-      const card = this.draw.pop()
-      if (card) {
-        this.earned.push(card)
+      if (this.draw.length === 0) {
+        return
       }
+      const card = this.draw.pop() as string
+      this.earned.push(card)
       return card
     },
     unEarn() {
-      const card = this.earned.pop()
-      if (card) {
-        this.draw.push(card)
+      if(this.earned.length === 0) {
+        return
       }
+      const card = this.earned.pop() as string
+      this.draw.push(card)
       return card
     },
     increaseFear() {
@@ -162,7 +164,9 @@ export const useFearDeckStore = defineStore('fearDeck', {
       if (this.currentFear <= 0 && this.earned.length > 0) {
         this.currentFear = this.maxFear
         this.unEarn()
-        return
+      }
+      if (this.currentFear < 0) {
+        this.currentFear = 0
       }
     }
   },

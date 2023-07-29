@@ -11,12 +11,12 @@ import {
   IconMinus,
   IconBolt,
   IconLayersOff,
+  IconAlbumOff,
 } from '@tabler/icons-vue'
 import ElementTrack from '@/components/ElementTrack.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 import { getSpiritAvatar } from '@/utils'
 import AdversaryModal from '@/components/AdversaryModal.vue'
-import FearDeckComponent from '@/components/FearDeck.vue'
 import EventZoomModal from '@/components/EventZoomModal.vue'
 import ModalDiscardCommon from '@/components/ModalDiscardCommon.vue'
 import FearIcon from '@/components/icons/FearIcon.vue'
@@ -25,12 +25,12 @@ import ModalFearReveal from '@/components/ModalFearReveal.vue'
 import ModalFearDeck from '@/components/ModalFearDeck.vue'
 import AspectPower from '@/components/AspectPower.vue'
 import AspectDetail from '@/components/AspectDetail.vue'
+import PowerDiscard from '@/components/PowerDiscard.vue'
 import { OnClickOutside } from '@vueuse/components'
 
 import ModalDiscardPower from '@/components/ModalDiscardPower.vue'
 import CardZoomModal from '@/components/CardZoomModal.vue'
 import PowerPick from '@/components/PowerPick.vue'
-import PowerDiscard from '@/components/PowerDiscard.vue'
 import ModalForgetPower from '@/components/ModalForgetPower.vue'
 import ModalZoomBlightCard from '@/components/ModalZoomBlightCard.vue'
 import GameCard from '@/components/base/GameCard.vue'
@@ -51,7 +51,7 @@ import { useScroll, watchDebounced } from '@vueuse/core'
 
 const MENU_1 = {
   PLAY: 0,
-  CONTROL: 1,
+  TAB_2: 1, //discard
 }
 const MENU_2 = {
   HAND: 0,
@@ -76,7 +76,6 @@ const blightDeck = useBlightDeckStore()
 
 const menuControlEl = ref<HTMLElement | null>(null)
 
-const isShowDiscard = ref(false)
 const isShowModalForgetPower = ref(false)
 const isShowAdversary = ref(false)
 const isShowEarnedFear = ref(false)
@@ -131,7 +130,6 @@ function quickShowEarnedFear() {
 }
 
 function quickTake(type: 'minor' | 'major') {
-  currentMenu1.value = MENU_1.CONTROL
   showQuickPower.value = false
   if (playerCard.isPicking) {
     return
@@ -140,17 +138,16 @@ function quickTake(type: 'minor' | 'major') {
   playerCard.addToPicking(card)
 }
 
-function toggleDiscard() {
-  isShowDiscard.value = !isShowDiscard.value
-  currentMenu1.value = MENU_1.PLAY
-}
-
 function handSwipeUp(cardId: string) {
-  if (playerCard.isPicking && currentMenu1.value === MENU_1.CONTROL) {
+  if (playerCard.isPicking && currentMenu1.value === MENU_1.PLAY) {
     playerCard.putCardToPicking(cardId)
-  } else {
-    playerCard.playCard(cardId)
+    return
   }
+  if (currentMenu1.value === MENU_1.TAB_2) {
+    playerCard.putCardInDiscard(cardId)
+    return
+  }
+  playerCard.playCard(cardId)
 }
 
 function onCloseModalAdversary() {
@@ -224,7 +221,6 @@ function addPowerToPicking() {
 
 function reclaimOneCard(card: string) {
   playerCard.reclaimOneCard(card)
-  isShowDiscard.value = false
   currentMenu2.value = MENU_2.HAND
 }
 
@@ -253,7 +249,6 @@ watch(
 
         case 'player-discard': {
           playerCard.reclaimOneCard(cardId)
-          isShowDiscard.value = false
           currentMenu2.value = MENU_2.HAND
           break
         }
@@ -500,39 +495,13 @@ watch(() => eventDeck.reveal, function (newValue) {
               <div
                 class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0"
               >
-                <span v-if="isShowDiscard">Player Discard</span>
+                <span v-if="playerCard.isPicking">Picking Power</span>
                 <span v-else>Player Play</span>
               </div>
-              <power-discard
-                v-if="isShowDiscard"
-                :discard="playerCard.discard"
-                @swipe-down="reclaimOneCard"
-                @swipe-up="playerCard.forgetCardFromDiscard"
-              />
-              <card-group-view
-                v-else
-                from="play"
-                :cards="playerCard.play"
-                @swipe-down="putFromPlayToHand"
-                @swipe-up="playerCard.putFromPlayToDiscard"
-              />
-            </template>
-            <div
-              v-if="currentMenu1 === MENU_1.CONTROL"
-              class="flex items-stretch relative w-full"
-            >
               <div
-                v-if="!playerCard.isPicking"
-                class="space-x-2 absolute h-full"
+                v-if="playerCard.isPicking"
+                class="flex items-stretch relative w-full"
               >
-                <power-deck-component deck="minor" />
-                <power-deck-component deck="major" />
-                <fear-deck-component
-                  @show-earned-fear="isShowEarnedFear = true"
-                  @show-fear-deck="isShowFearDeck = true"
-                />
-              </div>
-              <template v-if="playerCard.isPicking">
                 <power-pick
                   :picking="playerCard.picking"
                   @swipe-down="pickCard"
@@ -544,7 +513,37 @@ watch(() => eventDeck.reveal, function (newValue) {
                   style="stroke-width: 3px"
                   @click="resetPicking"
                 />
-              </template>
+              </div>
+              <card-group-view
+                v-else
+                from="play"
+                :cards="playerCard.play"
+                @swipe-down="putFromPlayToHand"
+                @swipe-up="playerCard.putFromPlayToDiscard"
+              />
+            </template>
+            <div
+              v-if="currentMenu1 === MENU_1.TAB_2"
+              class="flex items-stretch relative w-full"
+            >
+              <div
+                class="space-x-2 absolute h-full w-full"
+              >
+                <!-- <fear-deck-component
+                  @show-earned-fear="isShowEarnedFear = true"
+                  @show-fear-deck="isShowFearDeck = true"
+                /> -->
+                <div
+                  class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0"
+                >
+                  Player Discard
+                </div>
+                <power-discard
+                  :discard="playerCard.discard"
+                  @swipe-down="reclaimOneCard"
+                  @swipe-up="playerCard.forgetCardFromDiscard"
+                />
+              </div>
             </div>
           </div>
 
@@ -592,69 +591,81 @@ watch(() => eventDeck.reveal, function (newValue) {
             </div>
             <div
               v-if="currentMenu2 === MENU_2.CONTROL"
-              class="w-full flex items-center justify-end space-x-4"
+              class="w-full flex items-center justify-end space-x-4 mx-4"
             >
-              <div class="space-y-4">
+              <div class="space-y-3 w-28 flex flex-col h-full overflow-hidden">
                 <div
-                  id="energy-manual"
-                  class="px-2"
+                  class="flex flex-row h-10 w-full rounded-lg relative bg-orange-700 mt-1 text-white"
                 >
-                  <div class="font-semibold text-orange-900 text-lg mr-2">
-                    Energy<span
-                      
-                      class="text-gray-500 ml-1 text-sm"
-                    >+{{ playerCard.energyThisTurn }}</span>
-                  </div>
-                  <div
-                    class="flex flex-row h-10 w-24 rounded-lg relative bg-transparent mt-1"
+                  <button
+                    class="h-full px-2 rounded-l bg-inherit"
+                    @click="playerCard.reduceEnergy"
                   >
-                    <button
-                      class="bg-white h-full px-2 rounded-l text-gray-400"
-                      @click="playerCard.reduceEnergy"
-                    >
-                      <icon-minus class="w-4 h-4 mx-auto" />
-                    </button>
+                    <icon-minus class="w-4 h-4 mx-auto" />
+                  </button>
+                  <div class="bg-orange-700 flex items-center">
                     <input
                       type="number"
                       :value="playerCard.energy"
-                      class="outline-none focus:outline-none text-center w-full bg-white flex items-center text-orange-700 font-semibold text-lg"
+                      class="outline-none focus:outline-none bg-inherit text-center w-full flex items-center font-semibold text-lg"
                       @change="
                         playerCard.setEnergy(
                           Number(($event.target as HTMLInputElement).value),
                         )
                       "
                     >
-                    <button
-                      class="bg-white h-full px-2 rounded-r text-gray-400"
-                      @click="playerCard.addEnergy"
-                    >
-                      <icon-plus class="w-4 h-4 mx-auto" />
-                    </button>
+                    <icon-bolt class="w-10 h-10 -ml-1" />
                   </div>
+                  <button
+                    class="bg-inherit h-full px-2 rounded-r"
+                    @click="playerCard.addEnergy"
+                  >
+                    <icon-plus class="w-4 h-4 mx-auto" />
+                  </button>
                 </div>
                 <div
-                  class="flex justify-center items-center relative bg-transparent mt-1"
+                  class="flex w-full h-10 rounded-lg relative bg-gray-800 mt-1 text-white shrink-0"
                 >
                   <button
-                    class="mt-3 h-full p-1 rounded-full text-white bg-gray-900"
+                    class="h-full px-2 rounded-l bg-inherit"
                     @click="fearDeck.decreaseFear"
                   >
                     <icon-minus class="w-4 h-4 mx-auto" />
                   </button>
-                  <div class="relative">
-                    <fear-icon class="w-14 h-14 mx-auto" />
-                    <div
-                      class="mt-2 absolute top-1/2 -translate-y-1/2 text-lg left-1/2 -translate-x-1/2 px-2 bg-gray-900 text-white rounded-full"
-                    >
-                      {{ fearDeck.currentFear }}
-                    </div>
+                  <div class="flex items-center justify-center font-semibold text-lg w-full">
+                    <div>{{ fearDeck.currentFear }}</div>
+                    <fear-icon class="w-5 h-5 ml-1.5" />
                   </div>
                   <button
-                    class="mt-3 h-full p-1 rounded-full text-white bg-gray-900"
+                    class="bg-inherit h-full px-2 rounded-r"
                     @click="fearDeck.increaseFear"
                   >
                     <icon-plus class="w-4 h-4 mx-auto" />
                   </button>
+                </div>
+                <div class="flex flex-1 items-center space-x-1 justify-center">
+                  <div
+                    class="rounded-full inline-block h-fit bg-purple-900 text-white p-1"
+                    @click="fearDeck.unEarn"
+                  >
+                    <icon-minus class="w-3.5 h-3.5" />
+                  </div>
+                  <div class="h-full w-12 relative flex justify-center">
+                    <img
+                      src="/img/card-back/fear.webp"
+                      alt="Fear Back"
+                      class="absolute h-full"
+                    >
+                    <div class="absolute top-1/2 -translate-y-1/2 text-xl pb-1 font-semibold text-white">
+                      {{ fearDeck.totalEarned }}
+                    </div>
+                  </div>
+                  <div
+                    class="rounded-full inline-block h-fit bg-purple-900 text-white p-1"
+                    @click="fearDeck.earn"
+                  >
+                    <icon-plus class="w-3.5 h-3.5" />
+                  </div>
                 </div>
               </div>
               <div class="grow">
@@ -672,11 +683,11 @@ watch(() => eventDeck.reveal, function (newValue) {
                     class="w-full"
                   />
                 </div>
-                <div class="flex select-none max-w-[400px] flex-wrap">
+                <div class="flex select-none w-20 flex-wrap">
                   <div
                     v-for="element in ['Sun', 'Moon', 'Fire', 'Air', 'Water', 'Earth', 'Plant', 'Animal']"
                     :key="element"
-                    class="flex items-center w-1/4 space-x-0.5 my-1"
+                    class="flex items-center w-1/2 space-x-0.5 my-1"
                   >
                     <img
                       class="h-6"
@@ -729,14 +740,6 @@ watch(() => eventDeck.reveal, function (newValue) {
                 >
                   Reclaim All
                 </base-button>
-                <base-button
-                  class="h-fit w-full"
-                  button-style="secondary"
-                  :disabled="!isShowDiscard && playerCard.discard.length === 0"
-                  @click="toggleDiscard"
-                >
-                  {{ isShowDiscard ? 'Show Play' : 'Show Discard' }}
-                </base-button>
               </div>
             </div>
           </div>
@@ -783,8 +786,8 @@ watch(() => eventDeck.reveal, function (newValue) {
               name="switch"
               mode="out-in"
             >
-              <icon-adjustments
-                v-if="currentMenu1 === MENU_1.CONTROL"
+              <icon-album-off
+                v-if="currentMenu1 === MENU_1.TAB_2"
                 class="w-8 h-8"
                 @click="switchMenu(1)"
               />
