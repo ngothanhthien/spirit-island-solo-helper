@@ -24,6 +24,7 @@ export interface Player {
   picking: string[]
   forget: string[]
   energy: number
+  energyThisTurn: number
   permanentElements: { [K in Element]?: number }
   showAspect: boolean
   aspectPos: number

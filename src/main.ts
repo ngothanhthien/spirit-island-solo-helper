@@ -17,12 +17,8 @@ pinia.use(piniaPluginPersistedstate)
 app.use(pinia)
 app.use(router)
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js').then((registration) => {
-    registration.addEventListener('updatefound', () => {
-      app.config.globalProperties.$swUpdated = true
-    })
-  })
-}
+window.addEventListener('contextmenu', function (e) { 
+  e.preventDefault(); 
+}, false);
 
 app.mount('#app')

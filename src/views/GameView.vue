@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import type { Element } from '@/types'
 import CardGroupView from '@/components/CardGroupView.vue'
 import {
@@ -10,6 +10,7 @@ import {
   IconPlus,
   IconMinus,
   IconBolt,
+  IconLayersOff,
 } from '@tabler/icons-vue'
 import ElementTrack from '@/components/ElementTrack.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
@@ -26,7 +27,6 @@ import AspectPower from '@/components/AspectPower.vue'
 import AspectDetail from '@/components/AspectDetail.vue'
 import { OnClickOutside } from '@vueuse/components'
 
-import PowerDeckComponent from '@/components/PowerDeck.vue'
 import ModalDiscardPower from '@/components/ModalDiscardPower.vue'
 import CardZoomModal from '@/components/CardZoomModal.vue'
 import PowerPick from '@/components/PowerPick.vue'
@@ -45,6 +45,7 @@ import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { useBlightDeckStore } from '@/stores/BlightDeckStore'
+import { useDiscardPowerStore } from '@/stores/PowerDeckStore'
 import router from '@/router'
 import { useScroll, watchDebounced } from '@vueuse/core'
 
@@ -68,8 +69,10 @@ const fearDeck = useFearDeckStore()
 // const gameState = useGameStateStore()
 const minorDeck = usePowerDeckStore('minor')
 const majorDeck = usePowerDeckStore('major')
+const powerDiscardDeck = useDiscardPowerStore()
 const gameOption = useGameOptionStore()
 const blightDeck = useBlightDeckStore()
+
 
 const menuControlEl = ref<HTMLElement | null>(null)
 
@@ -81,9 +84,9 @@ const isShowFearDeck = ref(false)
 const isShowAspectDetail = ref(false)
 const showQuickPower = ref(false)
 const isZoomBlightCard = ref(false)
+const isPingEvent = ref(false)
+const isShowModalDiscardPower = ref(false)
 const modeIncrease = ref(true)
-
-const energyJustChanged = ref(0)
 
 const aspectEl = ref<HTMLElement | null>(null)
 const { y: aspectPos } = useScroll(aspectEl, {
@@ -108,9 +111,13 @@ function adjustElement(element: Element) {
   }
 }
 
+function showPowerDiscard() {
+  isShowModalDiscardPower.value = true
+}
+
 function buttonQuickBlightClick() {
+  isZoomBlightCard.value = true
   if (blightDeck.current) {
-    isZoomBlightCard.value = true
     return
   }
   blightDeck.turnUp()
@@ -185,23 +192,6 @@ function reclaimAll() {
   currentMenu2.value = MENU_2.HAND
 }
 
-// function nextPhase() {
-//   // gameState.nextPhase()
-//   // switch (gameState.currentPhaseName) {
-//   //   case 'Event':
-//   //     if (gameState.currentRound === 1) {
-//   //       eventDeck.popEvent()
-//   //       nextPhase()
-//   //     } else {
-//   //       revealEvent()
-//   //     }
-//   //     break
-//   //   case 'Fear':
-//   //     break
-//   //   default:
-//   // }
-// }
-
 function resetPicking() {
   playerCard.picking.forEach((card) => {
     const [type] = card.split('-')
@@ -221,6 +211,9 @@ function manageAspectButtonClick() {
 }
 function pickCard(cardId: string) {
   playerCard.takeCardFromPicking(cardId)
+  if (playerCard.picking.length === 0) {
+    currentMenu1.value = MENU_1.PLAY
+  }
 }
 
 function addPowerToPicking() {
@@ -240,6 +233,10 @@ function returnCardFromForget(card: string) {
   isShowModalForgetPower.value = false
   currentMenu2.value = MENU_2.HAND
 }
+
+onMounted(() => {
+  restoreAspectPos()
+})
 
 watch(
   () => cardZoom.waiting.card,
@@ -293,21 +290,6 @@ watch(
     }
   },
 )
-watch(
-  () => playerCard.energy,
-  (value, oldValue) => {
-    energyJustChanged.value += value - oldValue
-  },
-)
-watch(currentMenu2, () => {
-  energyJustChanged.value = 0
-})
-watch(
-  () => playerCard.current,
-  () => {
-    energyJustChanged.value = 0
-  },
-)
 watch(() => fearDeck.earned.length, (newValue) => {
   if (newValue === 0) {
     isShowEarnedFear.value = false
@@ -331,6 +313,16 @@ function restoreAspectPos() {
   }, 100)
 }
 watch(() => playerCard.current, restoreAspectPos)
+watch(() => eventDeck.discard.length, function () {
+  setTimeout(() => {
+    isPingEvent.value = false
+  }, 200);
+})
+watch(() => eventDeck.reveal, function (newValue) {
+  if (!newValue) {
+    isPingEvent.value = true
+  }
+})
 </script>
 
 <template>
@@ -353,9 +345,8 @@ watch(() => playerCard.current, restoreAspectPos)
           >
             <icon-bolt /> {{ playerCard.energy }}
             <span
-              v-if="energyJustChanged !== 0"
-              class="text-xs ml-1"
-            >(<span v-if="energyJustChanged > 0">+</span>{{ energyJustChanged }})</span>
+              class="text-xs ml-1 -translate-y-1.5"
+            >+{{ playerCard.energyThisTurn }}</span>
           </button>
           <element-track class="ml-3" />
         </div>
@@ -367,7 +358,10 @@ watch(() => playerCard.current, restoreAspectPos)
             <div><fear-icon class="w-5 h-5 mb-1 text-white" /></div>
             <div>{{ fearDeck.currentFear }}</div>
           </button>
-          <div class="px-2">
+          <div
+            class="px-2"
+            @click="isShowFearDeck = true"
+          >
             <div class="text-sm">
               Fear Level
             </div>
@@ -408,7 +402,7 @@ watch(() => playerCard.current, restoreAspectPos)
             >
           </div>
           <div
-            class="h-14 w-full flex justify-center"
+            class="h-14 w-full flex justify-center relative"
             @click="eventDeck.revealEvent"
           >
             <img
@@ -416,6 +410,19 @@ watch(() => playerCard.current, restoreAspectPos)
               alt="Card back"
               class="h-full"
             >
+            <div
+              v-if="eventDeck.discard.length === 0"
+              class="absolute text-xs font-semibold text-white flex items-center justify-center w-full h-full"
+            >
+              First
+            </div>
+            <span
+              v-if="isPingEvent"
+              class="absolute -top-1 right-0 flex h-3 w-3"
+            >
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-500 opacity-75" />
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-purple-600" />
+            </span>
           </div>
           <div
             class="h-14 w-full flex justify-center relative"
@@ -455,10 +462,20 @@ watch(() => playerCard.current, restoreAspectPos)
               v-if="showQuickPower"
               class="bg-gray-900/30 absolute z-20 top-0 right-0 translate-x-full h-full flex px-1"
             >
+              <div
+                v-if="powerDiscardDeck.discard.length > 0"
+                class="flex items-center justify-center border-2"
+                @click="showPowerDiscard"
+              >
+                <icon-layers-off
+                  class="w-10 h-10 text-white"
+                  style="stroke-width: 1px;"
+                />
+              </div>
               <img
                 :src="`/img/card-back/minor.webp`"
                 alt="Card back"
-                class="h-full"
+                class="h-full ml-1"
                 @click="quickTake('minor')"
               >
               <img
@@ -535,42 +552,44 @@ watch(() => playerCard.current, restoreAspectPos)
             id="game-showing-bottom"
             class="bg-stone-300 flex px-2 relative h-1/2"
           >
-            <template v-if="currentMenu2 === MENU_2.HAND">
-              <div class="flex flex-1 relative">
-                <card-group-view
-                  from="hand"
-                  :cards="playerCard.hand"
-                  class="pt-2"
-                  @swipe-down="playerCard.forgetCardFromHand"
-                  @swipe-up="handSwipeUp"
-                />
-                <base-button
-                  v-show="
-                    playerCard.hand.length === 0 &&
-                      playerCard.play.length === 0 &&
-                      playerCard.discard.length > 0
-                  "
-                  button-style="secondary"
-                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                  @click="reclaimAll"
-                >
-                  Reclaim All
-                </base-button>
-              </div>
-              <div
-                v-if="playerCard.showAspect && isHasAspect"
-                class="w-1/3 relative"
+            <div
+              v-show="currentMenu2 === MENU_2.HAND"
+              class="flex flex-1 relative"
+            >
+              <card-group-view
+                from="hand"
+                :cards="playerCard.hand"
+                class="pt-2"
+                @swipe-down="playerCard.forgetCardFromHand"
+                @swipe-up="handSwipeUp"
+              />
+              <base-button
+                v-show="
+                  playerCard.hand.length === 0 &&
+                    playerCard.play.length === 0 &&
+                    playerCard.discard.length > 0
+                "
+                button-style="secondary"
+                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                @click="reclaimAll"
               >
-                <div
-                  ref="aspectEl"
-                  class="w-full pl-2 py-2 overflow-y-auto absolute hide-scrollbar h-full"
-                  :class="aspectLoading ? 'opacity-0':''"
-                  @click="isShowAspectDetail = true"
-                >
-                  <aspect-power />
-                </div>
+                Reclaim All
+              </base-button>
+            </div>
+            <div
+              v-if="isHasAspect"
+              v-show="currentMenu2 === MENU_2.HAND && playerCard.showAspect"
+              class="w-1/3 relative"
+            >
+              <div
+                ref="aspectEl"
+                class="w-full pl-2 py-2 overflow-y-auto absolute hide-scrollbar h-full"
+                :class="aspectLoading ? 'opacity-0':''"
+                @click="isShowAspectDetail = true"
+              >
+                <aspect-power />
               </div>
-            </template>
+            </div>
             <div
               v-if="currentMenu2 === MENU_2.CONTROL"
               class="w-full flex items-center justify-end space-x-4"
@@ -582,9 +601,9 @@ watch(() => playerCard.current, restoreAspectPos)
                 >
                   <div class="font-semibold text-orange-900 text-lg mr-2">
                     Energy<span
-                      v-if="energyJustChanged !== 0"
+                      
                       class="text-gray-500 ml-1 text-sm"
-                    ><span v-if="energyJustChanged > 0">+</span>{{ energyJustChanged }}</span>
+                    >+{{ playerCard.energyThisTurn }}</span>
                   </div>
                   <div
                     class="flex flex-row h-10 w-24 rounded-lg relative bg-transparent mt-1"
@@ -725,13 +744,14 @@ watch(() => playerCard.current, restoreAspectPos)
           <div
             v-for="(spirit, index) in gameOption.spirits"
             :key="`spirit-${spirit}`"
-            :style="`top: ${index * 64 + 24}px;`"
+            :style="`top: ${(index % 2) * 64 + 24}px;`"
             :class="[
               playerCard.current === index
                 ? 'border-orange-800'
                 : 'border-gray-800/50',
+              index > 1 ? 'right-16 mr-1' : 'right-2'
             ]"
-            class="absolute w-14 h-14 rounded-full bg-white right-2 border-2 overflow-hidden"
+            class="absolute w-14 h-14 rounded-full bg-white border-2 overflow-hidden"
             @click="playerCard.changeCurrent(index)"
           >
             <img
@@ -797,7 +817,10 @@ watch(() => playerCard.current, restoreAspectPos)
     </div>
     <div id="modal">
       <modal-discard-common v-if="modalDiscard.getType === 'common'" />
-      <modal-discard-power v-if="modalDiscard.getType === 'power'" />
+      <modal-discard-power
+        v-if="isShowModalDiscardPower"
+        @close="isShowModalDiscardPower = false"
+      />
       <modal-forget-power
         v-if="isShowModalForgetPower"
         @close="isShowModalForgetPower = false"

@@ -12,6 +12,7 @@ function createPlayer(): Player {
     picking: [],
     forget: [],
     energy: 0,
+    energyThisTurn: 0,
     permanentElements: createDefaultElement(),
     showAspect: true,
     aspectPos: 0,
@@ -84,19 +85,12 @@ export const usePlayerCardStore = defineStore('playerCard', {
     permanentElements(state) {
       return state.players[state.current].permanentElements
     },
-    energyCost(state) {
-      let cost = 0
-      state.players[state.current].play.forEach((id) => {
-        const card = getCard(id) as PowerCard
-        if (card) {
-          cost += card.cost
-        }
-      })
-      return cost
-    },
     energy(state) {
       return state.players[state.current].energy
     },
+    energyThisTurn(state) {
+      return state.players[state.current].energyThisTurn
+    }
   },
   actions: {
     reset() {
@@ -125,6 +119,7 @@ export const usePlayerCardStore = defineStore('playerCard', {
         player.discard = [...player.discard, ...player.play]
         player.play = []
         player.used = []
+        player.energyThisTurn = 0
       })
     },
     setHand(cards: string[]) {
@@ -211,6 +206,7 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     addEnergy() {
       this.players[this.current].energy++
+      this.players[this.current].energyThisTurn++
     },
     reduceEnergy() {
       if(this.players[this.current].energy > 0) {
@@ -231,7 +227,7 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     setAspectPos(position: number) {
       this.players[this.current].aspectPos = position
-    }
+    },
   },
   persist: true,
 })
