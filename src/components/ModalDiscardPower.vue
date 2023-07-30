@@ -4,10 +4,16 @@ import GameCard from '@/components/base/GameCard.vue'
 
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useDiscardPowerStore } from '@/stores/PowerDeckStore';
+import { watch } from 'vue';
 
-defineEmits(['close'])
+const emit = defineEmits(['close'])
 const cardZoom = useCardZoomStore()
 const discardPower = useDiscardPowerStore()
+watch(() => discardPower.discard.length, (length) => {
+  if (length === 0) {
+    emit('close')
+  }
+})
 </script>
 
 <template>

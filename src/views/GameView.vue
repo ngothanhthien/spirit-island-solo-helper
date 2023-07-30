@@ -200,7 +200,6 @@ function resetPicking() {
       majorDeck.addToDiscard(card)
     }
   })
-  currentMenu1.value = MENU_1.PLAY
   playerCard.resetPicking()
 }
 function manageAspectButtonClick() {
@@ -301,15 +300,22 @@ watchDebounced(
   { debounce: 300 },
 )
 
+watch(() => playerCard.isPicking, () => {
+  currentMenu1.value = MENU_1.PLAY
+})
+
 const aspectLoading = ref(false)
 function restoreAspectPos() {
-  aspectLoading.value = true
-  setTimeout(() => {
-    aspectPos.value = playerCard.aspectPos
-    aspectLoading.value = false
-  }, 100)
+  if (currentMenu2.value === MENU_2.HAND && playerCard.showAspect && isHasAspect.value) {
+    aspectLoading.value = true
+    setTimeout(() => {
+      aspectPos.value = playerCard.aspectPos
+      aspectLoading.value = false
+    }, 100)
+  }
 }
 watch(() => playerCard.current, restoreAspectPos)
+watch(() => currentMenu2.value, restoreAspectPos)
 watch(() => eventDeck.discard.length, function () {
   setTimeout(() => {
     isPingEvent.value = false
@@ -553,44 +559,42 @@ watch(() => eventDeck.reveal, function (newValue) {
             id="game-showing-bottom"
             class="bg-stone-300 flex px-2 relative h-1/2"
           >
-            <div
-              v-show="currentMenu2 === MENU_2.HAND"
-              class="flex flex-1 relative"
-            >
-              <card-group-view
-                from="hand"
-                :cards="playerCard.hand"
-                class="pt-2"
-                @swipe-down="playerCard.forgetCardFromHand"
-                @swipe-up="handSwipeUp"
-              />
-              <base-button
-                v-show="
-                  playerCard.hand.length === 0 &&
-                    playerCard.play.length === 0 &&
-                    playerCard.discard.length > 0
-                "
-                button-style="secondary"
-                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                @click="reclaimAll"
-              >
-                Reclaim All
-              </base-button>
-            </div>
-            <div
-              v-if="isHasAspect"
-              v-show="currentMenu2 === MENU_2.HAND && playerCard.showAspect"
-              class="w-1/3 relative"
-            >
-              <div
-                ref="aspectEl"
-                class="w-full pl-2 py-2 overflow-y-auto absolute hide-scrollbar h-full"
-                :class="aspectLoading ? 'opacity-0':''"
-                @click="isShowAspectDetail = true"
-              >
-                <aspect-power />
+            <template v-if="currentMenu2 === MENU_2.HAND">
+              <div class="flex flex-1 relative">
+                <card-group-view
+                  from="hand"
+                  :cards="playerCard.hand"
+                  class="pt-2"
+                  @swipe-down="playerCard.forgetCardFromHand"
+                  @swipe-up="handSwipeUp"
+                />
+                <base-button
+                  v-if="
+                    playerCard.hand.length === 0 &&
+                      playerCard.play.length === 0 &&
+                      playerCard.discard.length > 0
+                  "
+                  button-style="secondary"
+                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                  @click="reclaimAll"
+                >
+                  Reclaim All
+                </base-button>
               </div>
-            </div>
+              <div
+                v-if="isHasAspect && playerCard.showAspect"
+                class="w-1/3 relative"
+              >
+                <div
+                  ref="aspectEl"
+                  class="w-full pl-2 py-2 overflow-y-auto absolute hide-scrollbar h-full"
+                  :class="aspectLoading ? 'opacity-0':''"
+                  @click="isShowAspectDetail = true"
+                >
+                  <aspect-power />
+                </div>
+              </div>
+            </template>
             <div
               v-if="currentMenu2 === MENU_2.CONTROL"
               class="w-full flex items-center justify-end space-x-4 mx-4"

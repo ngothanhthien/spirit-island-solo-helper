@@ -1,5 +1,5 @@
 import type { PowerCard, Adversary, BlightCard, SpiritType } from '@/types'
-import { setupDarkFire, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
+import { setupDarkFire, setupIntensify, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
 import { setupSparking } from '../utils/setup'
 
 export const MINOR_CARDS: Array<PowerCard> = [
@@ -2422,6 +2422,7 @@ export const SPIRIT: Array<SpiritType> = [
       {
         title: 'Intensify',
         requirements: [`Replaces: Insights into the World's Nature`],
+        setupFunction: setupIntensify,
       }
     ]
   },
@@ -3606,7 +3607,7 @@ export const BLIGHT_CARDS: BlightCard[] = [
     isBlighted: true,
   },
   {
-    name: 'Shattered Fragment of Power',
+    name: 'Shattered Fragments of Power',
     isBlighted: true,
   },
   {
