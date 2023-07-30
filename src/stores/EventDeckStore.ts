@@ -14,6 +14,13 @@ export const useEventDeckStore = defineStore('eventDeck', {
     },
     canShowDiscardPile(state) {
       return state.discard.length > 0
+    },
+    revealDetail(state) {
+      const index = state.reveal?.split('-')[1]
+      if (index && index !== 'france') {
+        return EVENT_CARDS[parseInt(index)]
+      }
+      return null
     }
   },
   actions: {

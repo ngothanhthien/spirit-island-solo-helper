@@ -1,6 +1,7 @@
 import type { PowerCard, Adversary, BlightCard, SpiritType } from '@/types'
 import { setupDarkFire, setupIntensify, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
 import { setupSparking } from '../utils/setup'
+import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox } from '@/utils/event'
 
 export const MINOR_CARDS: Array<PowerCard> = [
   {
@@ -1406,7 +1407,7 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     description: '',
   },
 ]
-export const EVENT_CARDS: Array<{ name: string }> = [
+export const EVENT_CARDS: Array<{ name: string, action?: { title: string, fn: () => void }}> = [
   { name: 'bureaucrats_adjust_funding' },
   { name: 'cities_rise' },
   { name: 'civic_engagement' },
@@ -1425,10 +1426,10 @@ export const EVENT_CARDS: Array<{ name: string }> = [
   { name: 'investigation_of_dangers' },
   { name: 'lifes_balance_tilts' },
   { name: 'mapmakers_chart_the_wild' },
-  { name: 'missionaries_arrive' },
-  { name: 'new_species_spread' },
+  { name: 'missionaries_arrive', action: { title: 'Put under top 2 cards', fn: putEventUnderTwo } },
+  { name: 'new_species_spread', action: { title: 'Put under top 2 cards', fn: putEventUnderTwo } },
   { name: 'no_bravery_without_numbers' },
-  { name: 'overconfidence' },
+  { name: 'overconfidence', action: { title: 'Reduce fear', fn: moveBack2FearPerPlayer } },
   { name: 'population_rises' },
   { name: 'promising_farmland' },
   { name: 'provincial_seat' },
@@ -1437,7 +1438,7 @@ export const EVENT_CARDS: Array<{ name: string }> = [
   { name: 'relentless_optimism' },
   { name: 'remnants_of_a_spirits_heart' },
   { name: 'resourceful_populace' },
-  { name: 'rising_interest_in_the_island' },
+  { name: 'rising_interest_in_the_island', action: { title: 'Return top fear to box', fn: returnTopFearToBox } },
   { name: 'sacred_sites_under_threat' },
   { name: 'search_for_new_lands' },
   { name: 'seeking_the_interior' },
@@ -1456,7 +1457,10 @@ export const EVENT_CARDS: Array<{ name: string }> = [
   { name: 'accumulated_devastation' },
   { name: 'an_ominous_dawn' },
   { name: 'ethereal_conjunction' },
-  { name: 'far_off_wars_touch_the_island' },
+  { name: 'far_off_wars_touch_the_island', action: {
+    title: 'Add Fear',
+    fn: addFearToTop,
+  } },
   { name: 'focused_farming' },
   { name: 'influx_of_settlers' },
   { name: 'search_for_unclaimed_land' },

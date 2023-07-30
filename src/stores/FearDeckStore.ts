@@ -3,6 +3,7 @@ import { FEAR_CARDS } from "@/constant"
 import { removeCard, shuffle } from "@/utils"
 export const useFearDeckStore = defineStore('fearDeck', {
   state: () => ({
+    raw: [] as string[],
     draw: [] as string[],
     earned: [] as string[],
     fearStage: [3, 3, 3] as number[],
@@ -92,6 +93,7 @@ export const useFearDeckStore = defineStore('fearDeck', {
           fearDeck.push(`fear-${card}`)
         }
       }
+      this.raw = [...shuffled.map((i) => `fear-${i}`)]
       this.draw = [...fearDeck]
       this.earned = []
       this.showing = []
@@ -174,7 +176,11 @@ export const useFearDeckStore = defineStore('fearDeck', {
       if (this.currentFear < 0) {
         this.currentFear = 0
       }
-    }
+    },
+    addNewFearPool() {
+      const card = this.raw.pop() as string
+      this.draw.push(card)
+    },
   },
   persist: true,
 })

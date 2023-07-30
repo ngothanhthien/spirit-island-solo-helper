@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue';
 import { useEventDeckStore } from '@/stores/EventDeckStore';
 import GameCard from './base/GameCard.vue';
 import BaseButton from './base/BaseButton.vue';
 
 const eventDeck = useEventDeckStore()
+const isRunAction = ref(false)
+watch(() => eventDeck.draw.length, () => {
+  isRunAction.value = false
+})
 </script>
 
 <template>
@@ -34,12 +39,12 @@ const eventDeck = useEventDeckStore()
             Discard
           </base-button>
         </div>
-        <div>
+        <div v-if="eventDeck.revealDetail && eventDeck.revealDetail.action && !isRunAction">
           <base-button
             button-style="secondary"
-            @click="eventDeck.putUnderTwoTopCard"
+            @click="eventDeck.revealDetail.action.fn(); isRunAction = true"
           >
-            Put under 2 top card
+            {{ eventDeck.revealDetail.action.title }}
           </base-button>
         </div>
       </template>
