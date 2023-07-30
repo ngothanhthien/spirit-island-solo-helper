@@ -38,7 +38,6 @@ import GameCard from '@/components/base/GameCard.vue'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
-// import { useGameStateStore } from '@/stores/GameStateStore'
 
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
@@ -66,7 +65,6 @@ const eventDeck = useEventDeckStore()
 const modalDiscard = useModalDiscardStore()
 const cardZoom = useCardZoomStore()
 const fearDeck = useFearDeckStore()
-// const gameState = useGameStateStore()
 const minorDeck = usePowerDeckStore('minor')
 const majorDeck = usePowerDeckStore('major')
 const powerDiscardDeck = useDiscardPowerStore()
@@ -372,12 +370,6 @@ watch(() => eventDeck.reveal, function (newValue) {
               {{ fearDeck.currentStageRoman }}
             </div>
           </div>
-          <!-- <button
-            class="bg-orange-900 px-2 h-full"
-            @click="nextPhase()"
-          >
-            {{ gameState.currentPhaseName }} phase
-          </button> -->
         </div>
       </div>
       <div

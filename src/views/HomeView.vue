@@ -25,7 +25,7 @@ const canContinue = computed(() => {
   <div class="bg-gradient-to-r from-slate-200 to-slate-500 h-screen flex items-center justify-center">
     <div class="flex flex-col space-y-3 w-40">
       <div class="text-center">
-        Version 1.4.4
+        Version 1.4.5
       </div>
       <base-button
         class="w-full"
