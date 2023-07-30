@@ -238,6 +238,12 @@ watch(numberSpirit, randomSetup)
     >
       Re-Random
     </base-button>
+    <button
+      class="mb-2 absolute top-2 right-2"
+      @click="router.push({ name: 'HomeView' })"
+    >
+      Back to Home
+    </button>
     <div class="space-x-2 grid grid-cols-12">
       <div class="col-span-4 pr-10">
         <base-select
