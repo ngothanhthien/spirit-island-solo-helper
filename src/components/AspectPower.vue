@@ -110,7 +110,7 @@ const aspect = computed(() => {
                   Any <spirit-icon class="w-3.5 h-3.5" />
                 </div>
                 <div v-else-if="card.target.targetLand === 'j-w'">
-                  <jungle-wetland-icon class="w-3.5 h-3.5" />
+                  <jungle-wetland-icon class="h-3.5" />
                 </div>
                 <div v-else>
                   {{ card.target.targetLand }}

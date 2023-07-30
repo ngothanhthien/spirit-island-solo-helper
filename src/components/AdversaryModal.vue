@@ -36,7 +36,17 @@ const loss = computed(() => {
   return currentAdversary.value.detail.loss
 })
 const levelDetail = computed(() => {
-  return currentAdversary.value.detail.levelText
+  return currentAdversary.value.detail.levelText.map((detail, index) => {
+    const level = index + 1
+    let isHighlight = false
+    if (level <= gameOption.adversaryLevel && detail.isHighlight) {
+      isHighlight = true
+    }
+    return {
+      ...detail,
+      isHighlight,
+    }
+  })
 })
 const baseDiff = computed(() => {
   return currentAdversary.value.difficultly[0]
@@ -135,7 +145,10 @@ const fearArr = computed(() => {
           Additional Loss Condition
         </div>
         <div>
-          <adversary-text :message="loss" />
+          <adversary-text
+            :message="loss"
+            :is-highlight="loss.name !== null"
+          />
         </div>
       </div>
       <div
@@ -154,7 +167,10 @@ const fearArr = computed(() => {
           <IconEscalation class="w-5 h-5 fill-current mb-0.5" />
         </div>
         <div class="space-x-2">
-          <adversary-text :message="escalation" />
+          <adversary-text
+            :message="escalation"
+            :is-highlight="true"
+          />
         </div>
       </div>
       <div
@@ -219,6 +235,7 @@ const fearArr = computed(() => {
           border-right: 20px solid black;
           border-color: rgb(145, 125, 100);
         "
+        :class="{'text-gray-300':i > gameOption.adversaryLevel}"
       >
         <div class="mx-6 mt-0.5">
           <div
@@ -251,7 +268,10 @@ const fearArr = computed(() => {
               style="grid-column: 3 / -1"
               class="flex items-center"
             >
-              <adversary-text :message="levelDetail[i - 1]" />
+              <adversary-text
+                :message="levelDetail[i - 1]"
+                :is-highlight="levelDetail[i-1].isHighlight"
+              />
             </div>
           </div>
           <div

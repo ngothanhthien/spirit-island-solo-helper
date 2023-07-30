@@ -48,6 +48,7 @@ export interface Adversary {
     levelText: Array<{
       name: string
       text: string
+      isHighlight?: boolean
     }>
   }
 }

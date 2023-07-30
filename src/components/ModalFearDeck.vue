@@ -3,9 +3,11 @@ import { useFearDeckStore } from '@/stores/FearDeckStore'
 import BaseModal from '@/components/base/BaseModal.vue'
 import GameCard from '@/components/base/GameCard.vue'
 import { IconEye } from '@tabler/icons-vue'
+import { useGameOptionStore } from '@/stores/GameOptionStore'
 
 defineEmits(['close'])
 const fearDeck = useFearDeckStore()
+const gameOption = useGameOptionStore()
 </script>
 <template>
   <base-modal
@@ -42,6 +44,20 @@ const fearDeck = useFearDeckStore()
           >
             III
           </div>
+          <template v-if="gameOption.hasRussia5">
+            <img
+              v-if="index === fearDeck.numberCardNeedToStage2Russia"
+              src="/img/card-back/stage2.webp"
+              alt="Invader Stage 2"
+              class="w-1/5 h-fit self-center"
+            >
+            <img
+              v-if="index === fearDeck.numberCardNeedToStage3Russia"
+              src="/img/card-back/stage3.webp"
+              alt="Invader Stage 3"
+              class="w-1/5 h-fit self-center"
+            >
+          </template>
           <div
             class="w-1/4 rounded-lg shrink-0 relative"
           >

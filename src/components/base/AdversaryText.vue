@@ -1,5 +1,8 @@
 <template>
-  <div class="inline-block">
+  <div
+    class="inline-block"
+    :class="{'bg-amber-200': isHighlight}"
+  >
     <span
       v-if="message.name"
       class="mr-1"
@@ -44,6 +47,13 @@
         v-else-if="part === 'Rangeicon.png'"
         num="1"
       />
+      <FastIcon
+        v-else-if="part === 'Fasticon.png'"
+        class="w-6 h-6 -translate-y-2.5 -mb-2"
+      />
+      <template v-else-if="part === ':break:'">
+        <div />
+      </template>
     </template>
   </div>
 </template>
@@ -57,6 +67,7 @@ import DahanIcon from '@/components/icons/DahanIcon.vue'
 import BeastsIcon from '@/components/icons/BeastsIcon.vue'
 import FearIcon from '@/components/icons/FearIcon.vue'
 import RangeIcon from '@/components/icons/RangeIcon.vue'
+import FastIcon from '../icons/FastIcon.vue'
 import { computed } from 'vue'
 
 const props = defineProps({
@@ -64,8 +75,12 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  isHighlight: {
+    type: Boolean,
+    default: false,
+  },
 })
-const iconList = ['Townicon.png', 'Cityicon.png', 'Explorericon.png', 'Blight.png', 'Dahan', 'Beasts', 'Fear', 'Rangeicon.png']
+const iconList = ['Townicon.png', 'Cityicon.png', 'Explorericon.png', 'Blight.png', 'Dahan', 'Beasts', 'Fear', 'Rangeicon.png' ,'Fasticon.png', ':break:']
 const result = computed(() =>
   props.message.text.split(
     new RegExp(`(?<=${iconList.join('|')})|(?=${iconList.join('|')})`),

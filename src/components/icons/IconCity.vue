@@ -5,6 +5,7 @@
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 253.000000 222.000000"
     preserveAspectRatio="xMidYMid meet"
+    fill="currentColor"
   >
     <g
       transform="translate(0.000000,222.000000) scale(0.100000,-0.100000)"

@@ -2068,10 +2068,10 @@ export const SPIRIT: Array<SpiritType> = [
         cards: [
           {
             name: 'Unbelievable Regrowth',
-            description: `2Water3Green This Power may target any terrain.:break:
-            1Water3Green Add 1 Destroy Presence.:break:
-            2Water4Green Add 1 Destroy Presence.:break:
-            3Water5Green Add 1 Destroy Presence to an adjacent land.`,
+            description: `2Water3Plant This Power may target any terrain.:break:
+            1Water3Plant Add 1 Destroy Presence.:break:
+            2Water4Plant Add 1 Destroy Presence.:break:
+            3Water5Plant Add 1 Destroy Presence to an adjacent land.`,
             target: {
               speed: 'Slow',
               range: 1,
@@ -3137,6 +3137,7 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'Indentured Servants Earn Land',
           text: 'Invader Build Cards affect matching lands without Invaders if they are adjacent to at least 2 Townicon.png/Cityicon.png',
+          isHighlight: true,
         },
         {
           name: 'Criminals and Malcontents',
@@ -3153,10 +3154,12 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'Local Autonomy',
           text: 'Townicon.png/Cityicon.png have +1 Health',
+          isHighlight: true,
         },
         {
           name: 'Independent Resolve',
           text: 'During Setup, add an additional Fear to the Fear Pool per player in the game. During any Invader Phase where you resolve no Fear Cards, perform the Build from High Immigration twice. (This has no effect if no card is on the extra Build slot.)',
+          isHighlight: true,
         },
       ],
     },
@@ -3197,10 +3200,12 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'Frontier Explorers',
           text: 'Except during Setup: After Invaders successfully Explore into a land which had no Townicon.png/Cityicon.png, add 1 Explorericon.png there',
+          isHighlight: true,
         },
         {
           name: 'Slave Labor',
           text: 'During Setup, put the "Slave Rebellion" event under the top 3 cards of the Event Deck. After Invaders Build in a land with 2 Explorericon.png or more, replace all but 1 Explorericon.png there with an equal number of Townicon.png',
+          isHighlight: true,
         },
         {
           name: 'Early Plantation',
@@ -3209,14 +3214,17 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'Triangle Trade',
           text: 'Whenever Invaders Build a Coastal Cityicon.png, add 1 Townicon.png to the adjacent land with the fewest Townicon.png',
+          isHighlight: true,
         },
         {
           name: 'Slow-Healing Ecosystem',
           text: 'When you remove Blight.png from the board, put it here instead of onto the Blight Card. As soon as you have 3 Blight.png per player here, move it all back to the Blight Card',
+          isHighlight: true,
         },
         {
           name: 'Persistent Explorers',
           text: 'After resolving an Explore Card, on each board add 1 Explorericon.png to a land without any. Fear Card effects never remove Explorericon.png. If one would, you may instead Push that Explorericon.png',
+          isHighlight: true,
         },
       ],
     },
@@ -3257,6 +3265,7 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'Heavy Mining',
           text: 'If the Invaders do at least 6 Damage to the land during Ravage, add an extra Blight.png. The additional Blight.png does not destroy Presence or cause cascades',
+          isHighlight: true,
         },
         {
           name: 'Population Pressure at Home',
@@ -3265,6 +3274,7 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'Fine Steel for Tools and Guns',
           text: 'Townicon.png deal 3 Damage. Cityicon.png deal 5 Damage',
+          isHighlight: true,
         },
         {
           name: 'Royal Backing',
@@ -3273,6 +3283,7 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'Mining Rush',
           text: 'When Ravaging adds at least 1 Blight.png to a land, also add 1 Townicon.png to an adjacent land without Townicon.png/Cityicon.png. Cascading Blight.png does not cause this effect',
+          isHighlight: true,
         },
         {
           name: 'Prospecting Outpost',
@@ -3317,10 +3328,12 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'Migratory Herders',
           text: 'After the normal Build Step: In each land matching a Build Card, Gather 1 Townicon.png from a land not matching a Build Card. (In board/land order.)',
+          isHighlight: true,
         },
         {
           name: 'More Rural Than Urban',
           text: 'During Setup, on each board, add 1 Townicon.png to land #2 and 1 Townicon.png to the highest-numbered land without Setup symbols. During Play, when Invaders would Build 1 Cityicon.png in an Inland land, they instead Build 2 Townicon.png',
+          isHighlight: true,
         },
         {
           name: 'Fast Spread',
@@ -3329,6 +3342,7 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'Herds Thrive in Verdant Lands',
           text: 'Townicon.png in lands without Blight.png are Durable: they have +2 Health, and "Destroy Townicon.png" effects instead deal 2 Damage (to those Townicon.png only) per Townicon.png they could Destroy. ("Destroy all Townicon.png" works normally.)',
+          isHighlight: true,
         },
         {
           name: 'Wave of Immigration',
@@ -3337,6 +3351,74 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'Far-Flung Herds',
           text: 'Ravages do +2 Damage (total) if any adjacent lands have Townicon.png. (This does not cause lands without Invaders to Ravage.)',
+          isHighlight: true,
+        },
+      ],
+    },
+  },
+  {
+    title: 'Habsburg Mining',
+    fear: [
+      [3, 3, 3],
+      [3, 3, 3],
+      [3, 3, 4],
+      [3, 4, 4],
+      [4, 4, 4],
+      [4, 5, 4],
+      [4, 5, 4],
+    ],
+    difficultly: [1, 3, 4, 5, 7, 9, 10],
+    // invaders: [
+    //   '111222233333',
+    //   '111222233333',
+    //   '111222233333',
+    //   '111222233333',
+    //   '111222233333',
+    //   '111222233333',
+    //   '111222233333',
+    // ],
+    id: 'habsburg-mining',
+    detail: {
+      title: 'Habsburg Mining Expedition',
+      loss: {
+        name: 'Land Stripped Bare',
+        text: 'At the end of the Fasticon.png Phase, the Invaders win if any land has at least 8 total Invaders/Blight.png (combined).',
+      },
+      escalation: {
+        name: 'Mining Tunnels',
+        text: `After Advancing Invader Cards: On each board, Explore in 2 lands whose terrains don't match a Ravage or Build Card (no source required).`,
+      },
+      levelText: [
+        {
+          name: 'Ceaseless Mining',
+          text: `When Blight added by a Ravage Action would cascade, instead Upgrade 1 Explorericon.png/Townicon.png (before Dahan counterattack.):break:
+          Lands with 3 or more Invaders are Mining lands. In Mining lands::break:
+          • Disease and modifiers to Disease affect Ravage Actions as though they were Build Actions.:break:
+          • During the Build Step, Build Cards cause Ravage Actions (instead of Build Actions).`,
+          isHighlight: true,
+        },
+        {
+          name: 'Miners Come From Far and Wide',
+          text: 'Setup: Add 1 Explorericon.png in each land with no Dahan. Add 1 Disease and 1 Cityicon.png in the highest-numbered land with a Townicon.png Setup symbol.',
+        },
+        {
+          name: 'Mining Boom (I)',
+          text: 'After the Build Step, on each board: Choose a land with Explorericon.png. Upgrade 1 Explorericon.png there',
+          isHighlight: true,
+        },
+        {
+          name: 'Untapped Salt Deposits',
+          text: `Setup: Remove the Stage II 'Coastal Lands' card before randomly choosing Stage II cards. Place the 'Salt Deposits' card in place of the 2nd Stage II card.:break:
+          (New Deck Order: 111-2S22-33333, where S is the Salt Deposits card. Escalation ignores S.)`,
+        },
+        {
+          name: 'Mining Boom (II)',
+          text: `Instead of Mining Boom (I), after the Build Step, on each board: Choose a land with Explorericon.png. Build there, then Upgrade 1 Explorericon.png. (Build normally in a Mining land.)`,
+          isHighlight: true,
+        },
+        {
+          name: 'The Empire Ascendant',
+          text: 'Setup and During the Explore Step: On boards with 3 or fewer Blight.png: Add +1 Explorericon.png in each land successfully explored. (Max. 2 lands per board per Explore Card.)',
         },
       ],
     },
@@ -3377,14 +3459,17 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'Hunters Bring Home Shell and Hide',
           text: 'During Setup, on each board, add 1 Beasts and 1 Explorericon.png to the highest-numbered land without Townicon.png/Cityicon.png. During Play, Explorericon.png do +1 Damage. When Ravage adds Blight.png to a land (including cascades), Destroy 1 Beasts in that land',
+          isHighlight: true,
         },
         {
           name: 'A Sense for Impending Disaster',
           text: 'The first time each Action would Destroy Explorericon.png: If possible, 1 of those Explorericon.png is instead Pushed; 1 Fear when you do so',
+          isHighlight: true,
         },
         {
           name: 'Competition Among Hunters',
           text: 'Ravage Cards also match lands with 3 or more Explorericon.png. (If the land already matched the Ravage Card, it still Ravages just once.)',
+          isHighlight: true,
         },
         {
           name: 'Accelerated Exploitation',
@@ -3397,6 +3482,7 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'Pressure for Fast Profit',
           text: 'After the Ravage Step of turn 2+, on each board where it added no Blight.png: In the land with the most Explorericon.png (min. 1), add 1 Explorericon.png and 1 Townicon.png',
+          isHighlight: true,
         },
       ],
     },
@@ -3437,6 +3523,7 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'Trading Port',
           text: 'After Setup, in Coastal lands, Explore Cards add 1 Townicon.png instead of 1 Explorericon.png . "Coastal Lands" Invader cards do this for maximum 2 lands per board',
+          isHighlight: true,
         },
         {
           name: 'Seize Opportunity',
@@ -3445,6 +3532,7 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'Chart the Coastline',
           text: 'In Coastal lands, Build Cards affect lands without Invaders, so long as there is an adjacent Cityicon.png',
+          isHighlight: true,
         },
         {
           name: 'Ambition of a Minor Nation',
@@ -3453,10 +3541,12 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'Runoff and Bilgewater',
           text: "After a Ravage Action adds Blight.png to a Coastal Land, add 1 Blight.png to that board's Ocean (without cascading). Treat the Ocean as a Coastal Wetland for this rule and for Blight.png removal/movement",
+          isHighlight: true,
         },
         {
           name: 'Exports Fuel Inward Growth',
           text: 'After the Ravage step, add 1 Townicon.png to each Inland land that matches a Ravage card and is within Rangeicon.png of Townicon.png/Cityicon.png',
+          isHighlight: true,
         },
       ],
     },

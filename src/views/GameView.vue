@@ -85,6 +85,8 @@ const showQuickPower = ref(false)
 const isZoomBlightCard = ref(false)
 const isPingEvent = ref(false)
 const isShowModalDiscardPower = ref(false)
+const showRussiaStage2 = ref(true)
+const showRussiaStage3 = ref(true)
 const modeIncrease = ref(true)
 
 const aspectEl = ref<HTMLElement | null>(null)
@@ -852,6 +854,50 @@ watch(() => eventDeck.reveal, function (newValue) {
         v-if="isShowAspectDetail"
         @close="isShowAspectDetail = false"
       />
+      <template v-if="gameOption.hasRussia5">
+        <div
+          v-if="showRussiaStage2 && fearDeck.numberCardNeedToStage2Russia === 0"
+          class="absolute w-full h-full top-0 left-0 bg-gray-900/30 z-50 flex justify-center"
+        >
+          <div class="h-full flex flex-col justify-center">
+            <div class="h-[70%] flex justify-center">
+              <img
+                src="/img/card-back/stage2.webp"
+                alt="Russia Invaders Card"
+                class="h-full"
+              >
+            </div>
+            <base-button
+              button-style="secondary"
+              class="mt-2"
+              @click="showRussiaStage2 = false"
+            >
+              Russia: Entrench in the Face of Fear
+            </base-button>
+          </div>
+        </div>
+        <div
+          v-if="showRussiaStage3 && fearDeck.numberCardNeedToStage3Russia === 0"
+          class="absolute w-full h-full top-0 left-0 bg-gray-900/30 z-50 flex justify-center"
+        >
+          <div class="h-full flex flex-col justify-center">
+            <div class="h-[70%] flex justify-center">
+              <img
+                src="/img/card-back/stage2.webp"
+                alt="Russia Invaders Card"
+                class="h-full"
+              >
+            </div>
+            <base-button
+              button-style="secondary"
+              class="mt-2"
+              @click="showRussiaStage3 = false"
+            >
+              Russia: Entrench in the Face of Fear
+            </base-button>
+          </div>
+        </div>
+      </template>
     </div>
   </div>
 </template>

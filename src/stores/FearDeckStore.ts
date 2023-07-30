@@ -46,18 +46,18 @@ export const useFearDeckStore = defineStore('fearDeck', {
       }
       return 'III'
     },
-
-    numberCardNeedToStage2(state) {
+    fearCardLeaving(state) {
       const totalCard = state.fearStage.reduce((a, b) => a + b, 0)
       const leftCard = state.draw.length
-      const stage_2 = state.fearStage[0]
-      return stage_2 - (totalCard - leftCard)
+      return totalCard - leftCard
     },
-    numberCardNeedToStage3(state) {
-      const totalCard = state.fearStage.reduce((a, b) => a + b, 0)
-      const leftCard = state.draw.length
+    numberCardNeedToStage2(state): number {
+      const stage_2 = state.fearStage[0]
+      return stage_2 - this.fearCardLeaving
+    },
+    numberCardNeedToStage3(state): number {
       const stage_3 = state.fearStage[0] + state.fearStage[1]
-      return stage_3 - (totalCard - leftCard)
+      return stage_3 - this.fearCardLeaving
     },
     canShowEarned(state) {
       return state.earned.length > 0
@@ -68,6 +68,12 @@ export const useFearDeckStore = defineStore('fearDeck', {
     isAvailable(state) {
       return state.draw.length > 0
     },
+    numberCardNeedToStage2Russia(): number {
+      return 3 - this.fearCardLeaving
+    },
+    numberCardNeedToStage3Russia(): number {
+      return 7 - this.fearCardLeaving
+    }
   },
   actions: {
     newDeck(fearStage?: number[], numberSpirit?: number, hasEngland6 = false) {
