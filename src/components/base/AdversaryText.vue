@@ -25,7 +25,7 @@
       />
       <explorer-icon
         v-else-if="part === 'Explorericon.png'"
-        class="w-4 h-4 -translate-y-0.5"
+        class="w-4 h-4 -translate-y-0.5 -mr-1"
       />
       <BlightIcon
         v-else-if="part === 'Blight.png'"
@@ -51,6 +51,10 @@
         v-else-if="part === 'Fasticon.png'"
         class="w-6 h-6 -translate-y-2.5 -mb-2"
       />
+      <DiseaseIcon
+        v-else-if="part === 'Disease'"
+        class="w-4 h-4 -translate-y-0.5" 
+      />
       <template v-else-if="part === ':break:'">
         <div />
       </template>
@@ -68,6 +72,7 @@ import BeastsIcon from '@/components/icons/BeastsIcon.vue'
 import FearIcon from '@/components/icons/FearIcon.vue'
 import RangeIcon from '@/components/icons/RangeIcon.vue'
 import FastIcon from '../icons/FastIcon.vue'
+import DiseaseIcon from '../icons/DiseaseIcon.vue'
 import { computed } from 'vue'
 
 const props = defineProps({
@@ -80,7 +85,7 @@ const props = defineProps({
     default: false,
   },
 })
-const iconList = ['Townicon.png', 'Cityicon.png', 'Explorericon.png', 'Blight.png', 'Dahan', 'Beasts', 'Fear', 'Rangeicon.png' ,'Fasticon.png', ':break:']
+const iconList = ['Townicon.png', 'Cityicon.png', 'Explorericon.png', 'Blight.png', 'Dahan', 'Beasts', 'Fear', 'Rangeicon.png' ,'Fasticon.png', 'Disease', ':break:']
 const result = computed(() =>
   props.message.text.split(
     new RegExp(`(?<=${iconList.join('|')})|(?=${iconList.join('|')})`),

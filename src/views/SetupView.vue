@@ -19,6 +19,7 @@ import ModalAspect from '@/components/ModalAspect.vue'
 import { IconPencil, IconTrashX } from '@tabler/icons-vue'
 import type { Aspect } from '@/types'
 import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
+import { useGameStateStore } from '@/stores/GameStateStore'
 
 const MAX_SPIRIT = 4
 
@@ -30,6 +31,7 @@ const majorDeck = usePowerDeckStore('major')
 const minorDeck = usePowerDeckStore('minor')
 const blightDeck = useBlightDeckStore()
 const daysThatNeverWereDeck = useDaysThatNeverWereStore()
+const gameState = useGameStateStore()
 
 const numberSpirit = ref<undefined | number>()
 const aspects = ref<Array<number>>([])
@@ -203,7 +205,9 @@ function startGame() {
   minorDeck.newDeck()
   daysThatNeverWereDeck.reset()
   fearDeck.newDeck(gameOption.fearSetup, numberSpirit.value as number, gameOption.hasEngland6)
+  gameState.isNewGame = true
   playerCard.reset()
+
   spirits.value.forEach((spiritIndex) => {
     const { cards, setup } = SPIRIT[spiritIndex]
     const hand = []

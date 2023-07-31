@@ -42,6 +42,12 @@ const levelDetail = computed(() => {
     if (level <= gameOption.adversaryLevel && detail.isHighlight) {
       isHighlight = true
     }
+
+    //handle Habsburg Mining
+    if (gameOption.adversary && ADVERSARY[gameOption.adversary].id === 'habsburg-mining' && gameOption.adversaryLevel >=5 && level === 3) {
+      isHighlight = false
+    }
+
     return {
       ...detail,
       isHighlight,

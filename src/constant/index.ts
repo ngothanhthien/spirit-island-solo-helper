@@ -1069,14 +1069,14 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     description:
       '4 Damage. If any Invaders remain, add 1 Disease. -If you have- 3 Air, 3 Plant: 3 Fear. Add 1 Disease to 2 adjacent lands with Invaders.',
   },
-  {
-    name: 'Grant Hatred a Ravenous Form',
-    cost: 4,
-    speed: 'Slow',
-    elements: ['Moon', 'Fire'],
-    description:
-      'For each Strife / Blight in target land, 1 Fear and 2 Damage. If this destroys all invaders in target land, add 1 Beasts. -If you have- 4 Moon, 2 Fire: Add 1 Strife in up to 3 adjacent lands.',
-  },
+  // {
+  //   name: 'Grant Hatred a Ravenous Form',
+  //   cost: 4,
+  //   speed: 'Slow',
+  //   elements: ['Moon', 'Fire'],
+  //   description:
+  //     'For each Strife / Blight in target land, 1 Fear and 2 Damage. If this destroys all invaders in target land, add 1 Beasts. -If you have- 4 Moon, 2 Fire: Add 1 Strife in up to 3 adjacent lands.',
+  // },
   {
     name: 'Insatiable Hunger of the Swarm',
     cost: 4,
@@ -2280,7 +2280,7 @@ export const SPIRIT: Array<SpiritType> = [
         cards: [
           {
             name: 'Mists Steadily Drift',
-            description: 'Up to twice during the Fast phase and hold up to twice during Slow phase, Push 1 of your Presence.'
+            description: 'Up to twice during the Fast phase and up to twice during Slow phase, Push 1 of your Presence.'
           },
           {
             name: 'Stranded in the Shifting Mist',
@@ -3107,6 +3107,27 @@ export const ADVERSARY: Array<Adversary> = [
         },
       ],
     },
+    setup: [
+      {},
+      {
+        piece: 'Add 1 Townicon.png to land #3',
+      },
+      {
+        invaders: '111-3-2222-3333',
+      },
+      {
+        invaders: '11-3-2222-3333',
+      },
+      {
+        invaders: '11-3-222-3333',
+      },
+      {
+        invaders: '1-3-222-3333',
+      },
+      {
+        invaders: '3-222-3333',
+      }
+    ]
   },
   {
     title: 'England',
@@ -3170,6 +3191,21 @@ export const ADVERSARY: Array<Adversary> = [
         },
       ],
     },
+    setup: [
+      {},
+      {},
+      {
+        piece: 'Add 1Townicon.png to land #2 and 1Cityicon.png to land #1',
+      },
+      {
+        piece: 'Put the "High Immigration" tile on the Invader board',
+      },
+      {},
+      {},
+      {
+        piece: '+1Fear Maximum per player',
+      },
+    ]
   },
   {
     title: 'France',
@@ -3235,6 +3271,19 @@ export const ADVERSARY: Array<Adversary> = [
         },
       ],
     },
+    setup: [
+      {
+        piece: 'Return all but 7Townicon.png to the box',
+      },
+      {},
+      {},
+      {
+        piece: 'Add 1Townicon.png to the highest-numbered land without Townicon.png. Add 1Townicon.png to land #1',
+      },
+      {},
+      {},
+      {}
+    ]
   },
   {
     title: 'Sweden',
@@ -3298,6 +3347,21 @@ export const ADVERSARY: Array<Adversary> = [
         },
       ],
     },
+    setup: [
+      {},
+      {},
+      {
+        piece: 'Add 1Cityicon.png to land #4. If land #4 has Blight.png, put that Blight.png in land #5 instead',
+      },
+      {},
+      {
+        piece: 'After adding all other Invaders, discard the top card of the Invader Deck. On each board, add 1Townicon.png to the land of that terrain with the fewest Invaders',
+      },
+      {},
+      {
+        piece: 'Add 1Townicon.png and 1Blight.png to land #8',
+      }
+    ]
   },
   {
     title: 'Habsburg',
@@ -3362,6 +3426,21 @@ export const ADVERSARY: Array<Adversary> = [
         },
       ],
     },
+    setup: [
+      {},
+      {},
+      {
+        piece: 'Add 1Townicon.png to land #2 and 1Townicon.png to the highest-numbered land without Setup symbols',
+      },
+      {
+        invaders: '11-2222-33333'
+      },
+      {},
+      {
+        piece: 'Put the Habsburg Reminder Card under the top 5 Invader Cards'
+      },
+      {}
+    ]
   },
   {
     title: 'Habsburg Mining',
@@ -3429,6 +3508,22 @@ export const ADVERSARY: Array<Adversary> = [
         },
       ],
     },
+    setup: [
+      {},
+      {},
+      {
+        piece: 'Add 1Explorericon.png to each land without Dahan. Add 1Disease and 1Cityicon.png to the highest-numbered land with a Townicon.png Setup symbol',
+      },
+      {},
+      {
+        piece: `Remove the Stage II 'Coastal Lands' card before randomly choosing Stage II cards`,
+        invaders: '111-2S22-33333'
+      },
+      {},
+      {
+        piece: `Initial Explore: On boards with 3 or fewer Blight.png: Add +1Explorericon.png in each land successfully explored.`
+      }
+    ]
   },
   {
     title: 'Russia',
@@ -3493,6 +3588,19 @@ export const ADVERSARY: Array<Adversary> = [
         },
       ],
     },
+    setup: [
+      {},
+      {
+        piece: 'Add 1Beasts and 1Explorericon.png to the highest-numbered land without Townicon.png/Cityicon.png'
+      },
+      {},
+      {},
+      {
+        invaders: '111-2-3-2-3-2-3-2-33'
+      },
+      {},
+      {}
+    ]
   },
   {
     title: 'Scotland',
@@ -3557,6 +3665,20 @@ export const ADVERSARY: Array<Adversary> = [
         },
       ],
     },
+    setup: [
+      {},
+      {},
+      {
+        piece: 'Add 1Cityicon.png to land #2',
+        invaders: '11-22-1-C2-33333'
+      },
+      {},
+      {
+        invaders: '11-22-3-C2-3333'
+      },
+      {},
+      {}
+    ]
   },
 ]
 export const BLIGHT_CARDS: BlightCard[] = [

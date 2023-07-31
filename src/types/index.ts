@@ -50,7 +50,11 @@ export interface Adversary {
       text: string
       isHighlight?: boolean
     }>
-  }
+  },
+  setup: Array<{
+    piece?: string,
+    invaders?: string,
+  }>
 }
 export interface BlightCard {
   name: string

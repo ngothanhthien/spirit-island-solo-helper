@@ -29,17 +29,17 @@ import PowerDiscard from '@/components/PowerDiscard.vue'
 import DaysThatNeverWere from '@/components/DaysThatNeverWere.vue'
 import DaysThatNeverWerePick from '@/components/DaysThatNeverWerePick.vue'
 import { OnClickOutside } from '@vueuse/components'
-
 import ModalDiscardPower from '@/components/ModalDiscardPower.vue'
 import CardZoomModal from '@/components/CardZoomModal.vue'
 import PowerPick from '@/components/PowerPick.vue'
 import ModalForgetPower from '@/components/ModalForgetPower.vue'
 import ModalZoomBlightCard from '@/components/ModalZoomBlightCard.vue'
 import GameCard from '@/components/base/GameCard.vue'
-
+import { ADVERSARY } from '@/constant'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
+import AdversaryText from '@/components/base/AdversaryText.vue'
 
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
@@ -50,6 +50,7 @@ import { useDiscardPowerStore } from '@/stores/PowerDeckStore'
 import router from '@/router'
 import { useScroll, watchDebounced } from '@vueuse/core'
 import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
+import { useGameStateStore } from '@/stores/GameStateStore'
 
 const MENU_1 = {
   PLAY: 0,
@@ -73,6 +74,7 @@ const majorDeck = usePowerDeckStore('major')
 const powerDiscardDeck = useDiscardPowerStore()
 const gameOption = useGameOptionStore()
 const blightDeck = useBlightDeckStore()
+const gameState = useGameStateStore()
 const daysThatNeverWereDeck = useDaysThatNeverWereStore()
 
 
@@ -90,6 +92,7 @@ const isShowModalDiscardPower = ref(false)
 const isShowDaysThatNeverWere = ref(false)
 const showRussiaStage2 = ref(true)
 const showRussiaStage3 = ref(true)
+const isShowSetupRef = ref(true)
 const modeIncrease = ref(true)
 const menu1Tab1BackgroundStyle = computed(() => {
   if (isPickingDaysThatNeverWere.value) {
@@ -97,7 +100,36 @@ const menu1Tab1BackgroundStyle = computed(() => {
   }
   return ''
 })
-
+const adversaryName = computed(() => {
+  if (gameOption.adversary !== undefined) {
+    return ADVERSARY[gameOption.adversary].title
+  }
+  return null
+})
+const adversarySetup = computed(() => {
+  if (gameOption.adversary !== undefined) {
+    const setup = ADVERSARY[gameOption.adversary].setup
+    const pieces = []
+    let invaders = ''
+    for(let i = 0; i < gameOption.adversaryLevel + 1; i++) {
+      if (setup[i].invaders) {
+        invaders = setup[i].invaders as string
+      }
+      if (setup[i].piece) {
+        pieces.push(`- ${setup[i].piece}`)
+      }
+    }
+    const invadersText = invaders === '' ? '' : `:break:- Invaders: ${invaders}`
+    if (pieces.length === 0 && invaders === '') {
+      return null
+    }
+    return {
+      name: null,
+      text: pieces.join(':break:') + invadersText
+    }
+  }
+  return null
+})
 const aspectEl = ref<HTMLElement | null>(null)
 const { y: aspectPos } = useScroll(aspectEl, {
   behavior: 'instant'
@@ -305,6 +337,7 @@ watch(() => cardZoom.waiting.card,
             removeCard(daysThatNeverWereDeck.major, cardId)
           }
           playerCard.take(cardId)
+          isShowDaysThatNeverWere.value = false
           break
         }
 
@@ -610,7 +643,7 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
                 <power-discard
                   :discard="playerCard.discard"
                   @swipe-down="reclaimOneCard"
-                  @swipe-up="playerCard.forgetCardFromDiscard"
+                  @swipe-up="playerCard.forgetCardFromDiscard; currentMenu1 = MENU_1.PLAY"
                 />
               </div>
             </div>
@@ -979,6 +1012,20 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
         v-if="isShowDaysThatNeverWere"
         @close="isShowDaysThatNeverWere = false"
       />
+      <div
+        v-if="adversaryName && isShowSetupRef && adversarySetup && gameState.isNewGame"
+        class="absolute w-full h-full bg-gray-900/30 top-0 left-0"
+        @click.self="isShowSetupRef = false"
+      >
+        <div class="bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md max-w-[60%]">
+          <div class="bg-orange-800 text-white font-semibold text-lg py-1 px-2 rounded-t-md">
+            {{ `${adversaryName} ${gameOption.adversaryLevel}` }} setup
+          </div>
+          <div class="px-3 py-1.5">
+            <adversary-text :message="adversarySetup" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
