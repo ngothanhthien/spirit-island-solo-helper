@@ -84,4 +84,5 @@ export interface SpiritType {
   name: string
   cards: Array<PowerCard>
   aspects?: Aspect[]
+  setup?: (playerIndex: number) => void
 }

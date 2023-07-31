@@ -15,7 +15,7 @@ import {
 } from '@tabler/icons-vue'
 import ElementTrack from '@/components/ElementTrack.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
-import { getSpiritAvatar } from '@/utils'
+import { getSpiritAvatar, removeCard } from '@/utils'
 import AdversaryModal from '@/components/AdversaryModal.vue'
 import EventZoomModal from '@/components/EventZoomModal.vue'
 import ModalDiscardCommon from '@/components/ModalDiscardCommon.vue'
@@ -26,6 +26,8 @@ import ModalFearDeck from '@/components/ModalFearDeck.vue'
 import AspectPower from '@/components/AspectPower.vue'
 import AspectDetail from '@/components/AspectDetail.vue'
 import PowerDiscard from '@/components/PowerDiscard.vue'
+import DaysThatNeverWere from '@/components/DaysThatNeverWere.vue'
+import DaysThatNeverWerePick from '@/components/DaysThatNeverWerePick.vue'
 import { OnClickOutside } from '@vueuse/components'
 
 import ModalDiscardPower from '@/components/ModalDiscardPower.vue'
@@ -47,6 +49,7 @@ import { useBlightDeckStore } from '@/stores/BlightDeckStore'
 import { useDiscardPowerStore } from '@/stores/PowerDeckStore'
 import router from '@/router'
 import { useScroll, watchDebounced } from '@vueuse/core'
+import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
 
 const MENU_1 = {
   PLAY: 0,
@@ -70,6 +73,7 @@ const majorDeck = usePowerDeckStore('major')
 const powerDiscardDeck = useDiscardPowerStore()
 const gameOption = useGameOptionStore()
 const blightDeck = useBlightDeckStore()
+const daysThatNeverWereDeck = useDaysThatNeverWereStore()
 
 
 const menuControlEl = ref<HTMLElement | null>(null)
@@ -83,14 +87,26 @@ const showQuickPower = ref(false)
 const isZoomBlightCard = ref(false)
 const isPingEvent = ref(false)
 const isShowModalDiscardPower = ref(false)
+const isShowDaysThatNeverWere = ref(false)
 const showRussiaStage2 = ref(true)
 const showRussiaStage3 = ref(true)
 const modeIncrease = ref(true)
+const menu1Tab1BackgroundStyle = computed(() => {
+  if (isPickingDaysThatNeverWere.value) {
+    return `background-image: url('/img/icon/days_that_never_were.webp');`
+  }
+  return ''
+})
 
 const aspectEl = ref<HTMLElement | null>(null)
 const { y: aspectPos } = useScroll(aspectEl, {
   behavior: 'instant'
 })
+
+const isPickingDaysThatNeverWere = computed(() => 
+  playerCard.current === daysThatNeverWereDeck.current
+  && daysThatNeverWereDeck.picking && daysThatNeverWereDeck.picking.length > 0
+)
 
 if (
   !eventDeck.isAvailable ||
@@ -200,6 +216,10 @@ function resetPicking() {
   })
   playerCard.resetPicking()
 }
+function finishPickDaysThatNeverWere() {
+  currentMenu1.value = MENU_1.PLAY
+  daysThatNeverWereDeck.picking = []
+}
 function manageAspectButtonClick() {
   playerCard.toggleShowAspect()
   currentMenu2.value = MENU_2.HAND
@@ -233,8 +253,7 @@ onMounted(() => {
   restoreAspectPos()
 })
 
-watch(
-  () => cardZoom.waiting.card,
+watch(() => cardZoom.waiting.card,
   (cardId) => {
     if (cardId) {
       switch (cardZoom.waiting.from) {
@@ -277,6 +296,23 @@ watch(
           break
         }
 
+        case 'days-that-never-were': {
+          const type = cardId.split('-')[0]
+          if (type === 'minor') {
+            removeCard(daysThatNeverWereDeck.minor, cardId)
+          }
+          if (type === 'major') {
+            removeCard(daysThatNeverWereDeck.major, cardId)
+          }
+          playerCard.take(cardId)
+          break
+        }
+
+        case 'days-that-never-were-store': {
+          addCardToDaysThatNeverWere(cardId)
+          break
+        }
+
         default:
       }
 
@@ -290,8 +326,7 @@ watch(() => fearDeck.earned.length, (newValue) => {
   }
 })
 
-watchDebounced(
-  aspectPos,
+watchDebounced(aspectPos,
   (pos) => { 
     playerCard.setAspectPos(pos)
    },
@@ -312,6 +347,15 @@ function restoreAspectPos() {
     }, 100)
   }
 }
+function addCardToDaysThatNeverWere(cardId: string) {
+  const [type] = cardId.split('-')
+  if (type === 'minor') {
+    daysThatNeverWereDeck.minor.push(cardId)
+  } else if (type === 'major') {
+    daysThatNeverWereDeck.major.push(cardId)
+  }
+  daysThatNeverWereDeck.picking = []
+}
 watch(() => playerCard.current, restoreAspectPos)
 watch(() => currentMenu2.value, restoreAspectPos)
 watch(() => eventDeck.discard.length, function () {
@@ -324,6 +368,11 @@ watch(() => eventDeck.reveal, function (newValue) {
     isPingEvent.value = true
   }
 })
+watch(() => playerCard.picking, (newDeck, oldDeck) => {
+  if (newDeck.length === 0 && playerCard.current === daysThatNeverWereDeck.current) {
+    daysThatNeverWereDeck.picking = [...oldDeck]
+  }
+}, { deep: true })
 </script>
 
 <template>
@@ -490,12 +539,17 @@ watch(() => eventDeck.reveal, function (newValue) {
             id="game-showing-top"
             ref="menuControlEl"
             class="bg-neutral-100 py-2 flex px-2 relative h-1/2"
+            :style="menu1Tab1BackgroundStyle"
           >
             <template v-if="currentMenu1 === MENU_1.PLAY">
               <div
                 class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0"
               >
                 <span v-if="playerCard.isPicking">Picking Power</span>
+                <span
+                  v-else-if="isPickingDaysThatNeverWere"
+                  class="text-gray-200 opacity-60"
+                >Days That Never Were</span>
                 <span v-else>Player Play</span>
               </div>
               <div
@@ -512,6 +566,21 @@ watch(() => eventDeck.reveal, function (newValue) {
                   class="w-7 h-7 absolute -right-2 -top-2 text-blue-900 z-50"
                   style="stroke-width: 3px"
                   @click="resetPicking"
+                />
+              </div>
+              <div
+                v-else-if="isPickingDaysThatNeverWere"
+                class="flex items-stretch relative w-full"
+              >
+                <!-- v-if="daysThatNeverWereDeck.picking.length > 0" -->
+                <days-that-never-were-pick
+                  :picking="daysThatNeverWereDeck.picking"
+                  @swipe-down="addCardToDaysThatNeverWere"
+                />
+                <icon-x
+                  class="w-7 h-7 absolute -right-2 -top-2 text-blue-900 z-50"
+                  style="stroke-width: 3px"
+                  @click="finishPickDaysThatNeverWere"
                 />
               </div>
               <card-group-view
@@ -764,6 +833,18 @@ watch(() => eventDeck.reveal, function (newValue) {
               class="h-full max-w-max"
             >
           </div>
+
+          <div
+            v-if="daysThatNeverWereDeck.current === playerCard.current"
+            class="absolute w-14 h-14 rounded-full bg-green-800 border-2 border-purple-700 overflow-hidden bottom-2 right-2"
+            @click="isShowDaysThatNeverWere = true"
+          >
+            <img
+              src="/img/icon/days_that_never_were.webp"
+              alt="days that never were"
+              class="h-full"
+            >
+          </div>
         </div>
         <div
           id="game-control-right-bar"
@@ -894,6 +975,10 @@ watch(() => eventDeck.reveal, function (newValue) {
           </div>
         </div>
       </template>
+      <days-that-never-were
+        v-if="isShowDaysThatNeverWere"
+        @close="isShowDaysThatNeverWere = false"
+      />
     </div>
   </div>
 </template>

@@ -2,6 +2,7 @@ import type { PowerCard, Adversary, BlightCard, SpiritType } from '@/types'
 import { setupDarkFire, setupIntensify, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
 import { setupSparking } from '../utils/setup'
 import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox } from '@/utils/event'
+import { setupDaysThatNeverWere } from '@/utils/spirit'
 
 export const MINOR_CARDS: Array<PowerCard> = [
   {
@@ -132,14 +133,14 @@ export const MINOR_CARDS: Array<PowerCard> = [
     description:
       '2 Fear. The next time an Invader is destroyed in target land this turn, 1 Fear.',
   },
-  {
-    name: 'Growth through Sacrifice',
-    cost: 0,
-    speed: 'Fast',
-    elements: ['Moon', 'Fire', 'Water', 'Plant'],
-    description:
-      'Destroy 1 of your Presence. Target Spirit chooses to either: Remove 1 Blight from one of their lands. -or- Add 1 Presence to one of their lands. -If you have- 2 Sun: They may do both, in the same land.',
-  },
+  // {
+  //   name: 'Growth through Sacrifice',
+  //   cost: 0,
+  //   speed: 'Fast',
+  //   elements: ['Moon', 'Fire', 'Water', 'Plant'],
+  //   description:
+  //     'Destroy 1 of your Presence. Target Spirit chooses to either: Remove 1 Blight from one of their lands. -or- Add 1 Presence to one of their lands. -If you have- 2 Sun: They may do both, in the same land.',
+  // },
   {
     name: 'Swarming Wasps',
     cost: 0,
@@ -2360,6 +2361,7 @@ export const SPIRIT: Array<SpiritType> = [
           'If no Dahan / Invaders are present: Remove 1 Blight. If invaders are present: they Build, then Ravage. If Dahan are present: Add 1 Dahan. Push up to 2 Dahan. You may repeat this power (once) on the same land by spending 1 Time.',
       },
     ],
+    setup: setupDaysThatNeverWere
   },
   {
     name: 'Shifting Memory Of Ages',

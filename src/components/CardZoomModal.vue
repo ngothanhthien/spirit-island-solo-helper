@@ -85,7 +85,7 @@ const cardZoomClass = computed(() => {
               class="px-2"
             >Play</span>
             <span
-              v-if="['discard', 'play', 'pick'].includes(cardZoom.waiting.from as string)"
+              v-if="['discard', 'play', 'pick', 'days-that-never-were'].includes(cardZoom.waiting.from as string)"
               class="px-2"
             >Take</span>
             <span
@@ -96,6 +96,9 @@ const cardZoomClass = computed(() => {
               v-if="cardZoom.waiting.from === 'forget'"
               class="px-2"
             >Take Back</span>
+            <span v-if="cardZoom.waiting.from === 'days-that-never-were-store'">
+              Store
+            </span>
           </base-button>
         </div>
       </div>

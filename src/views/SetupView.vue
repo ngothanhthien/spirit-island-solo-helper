@@ -18,6 +18,7 @@ import { useBlightDeckStore } from '@/stores/BlightDeckStore'
 import ModalAspect from '@/components/ModalAspect.vue'
 import { IconPencil, IconTrashX } from '@tabler/icons-vue'
 import type { Aspect } from '@/types'
+import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
 
 const MAX_SPIRIT = 4
 
@@ -28,6 +29,7 @@ const playerCard = usePlayerCardStore()
 const majorDeck = usePowerDeckStore('major')
 const minorDeck = usePowerDeckStore('minor')
 const blightDeck = useBlightDeckStore()
+const daysThatNeverWereDeck = useDaysThatNeverWereStore()
 
 const numberSpirit = ref<undefined | number>()
 const aspects = ref<Array<number>>([])
@@ -199,10 +201,11 @@ function startGame() {
   eventDeck.newDeck(gameOption.hasFranceEvent)
   majorDeck.newDeck()
   minorDeck.newDeck()
+  daysThatNeverWereDeck.reset()
   fearDeck.newDeck(gameOption.fearSetup, numberSpirit.value as number, gameOption.hasEngland6)
   playerCard.reset()
   spirits.value.forEach((spiritIndex) => {
-    const { cards } = SPIRIT[spiritIndex]
+    const { cards, setup } = SPIRIT[spiritIndex]
     const hand = []
     const playerIndex = playerCard.addPlayer()
     for (let i = 0; i < cards.length; i++) {
@@ -210,12 +213,18 @@ function startGame() {
     }
      playerCard.changeCurrent(playerIndex)
     playerCard.setHand(hand)
+
+    if (setup) {
+      setup(playerIndex)
+    }
   })
   gameOption.aspectsDetail.forEach((aspects, playerIndex) => {
     if (aspects && aspects.setupFunction) {
       aspects.setupFunction(playerIndex)
     }
   })
+
+
 
   router.push({ name: 'GameView' })
 }
