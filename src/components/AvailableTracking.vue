@@ -3,16 +3,16 @@ import { useScreenOrientation, useWindowSize } from '@vueuse/core'
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const isMobile = ref(false)
-const isChrome = ref(false)
+// const isChrome = ref(false)
 const goodOrientation = ref(false)
 const { isSupported, orientation } = useScreenOrientation()
 const { width, height } = useWindowSize()
-const mode = import.meta.env.VITE_APP_ENVIRONMENT
-const url = import.meta.env.VITE_APP_URL
+// const mode = import.meta.env.VITE_APP_ENVIRONMENT
+// const url = import.meta.env.VITE_APP_URL
 onMounted(() => {
   testMobile()
   testAvailable()
-  isChrome.value = testChrome()
+//   isChrome.value = testChrome()
   window.addEventListener('resize', onResize)
 })
 
@@ -43,19 +43,19 @@ function testMobile() {
       navigator.userAgent,
     )
 }
-function testChrome() {
-  if (mode === 'dev') {
-    return true
-  }
+// function testChrome() {
+//   if (mode === 'dev') {
+//     return true
+//   }
 
-  const ua = navigator.userAgent.toLowerCase();
+//   const ua = navigator.userAgent.toLowerCase();
 
-  if ((/chrome/i.test(ua))) {
-    return true; 
-  }
+//   if ((/chrome/i.test(ua))) {
+//     return true; 
+//   }
 
-  return false;
-}
+//   return false;
+// }
 </script>
 
 <template>
@@ -73,7 +73,7 @@ function testChrome() {
         mobile devices. Thank you for understanding ☹️.</span>
     </div>
   </div>
-  <div
+  <!-- <div
     v-else-if="!isChrome"
     class="absolute w-full h-full top-0 left-0 bg-gray-900/80"
   >
@@ -86,5 +86,5 @@ function testChrome() {
         class="text-orange-600 text-lg"
       >Open in Browser</a>
     </div>
-  </div>
+  </div> -->
 </template>
