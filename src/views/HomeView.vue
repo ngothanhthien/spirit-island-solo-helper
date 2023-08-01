@@ -5,6 +5,7 @@ import { computed } from 'vue'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
+import AvailableTracking from '@/components/AvailableTracking.vue'
 
 const eventDeck = useEventDeckStore()
 const fearDeck = useFearDeckStore()
@@ -22,10 +23,10 @@ const canContinue = computed(() => {
 </script>
 
 <template>
-  <div class="bg-gradient-to-r from-slate-200 to-slate-500 h-screen flex items-center justify-center">
+  <div class="bg-gradient-to-r from-slate-200 to-slate-500 h-screen flex items-center justify-center relative">
     <div class="flex flex-col space-y-3 w-40">
       <div class="text-center">
-        Version 1.4.7
+        Version 1.4.8
       </div>
       <base-button
         class="w-full"
@@ -43,5 +44,6 @@ const canContinue = computed(() => {
         Continue
       </base-button>
     </div>
+    <available-tracking />
   </div>
 </template>

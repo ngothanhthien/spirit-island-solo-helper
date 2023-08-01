@@ -41,6 +41,7 @@ import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
 import AdversaryText from '@/components/base/AdversaryText.vue'
 import VisionOfAShiftingFutureEvent from '@/components/VisionOfAShiftingFutureEvent.vue'
+import AvailableTracking from '@/components/AvailableTracking.vue'
 
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
@@ -1038,6 +1039,7 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
         </div>
       </div>
     </div>
+    <available-tracking />
   </div>
 </template>
 <style>

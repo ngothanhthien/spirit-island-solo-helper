@@ -20,6 +20,7 @@ import { IconPencil, IconTrashX } from '@tabler/icons-vue'
 import type { Aspect } from '@/types'
 import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
 import { useGameStateStore } from '@/stores/GameStateStore'
+import AvailableTracking from '@/components/AvailableTracking.vue'
 
 const MAX_SPIRIT = 4
 
@@ -390,6 +391,7 @@ watch(numberSpirit, randomSetup)
       @close="currentAspectShowing = null"
       @choose="chooseAspect"
     />
+    <available-tracking />
   </div>
 </template>
 @/stores/PowerDeckStore
