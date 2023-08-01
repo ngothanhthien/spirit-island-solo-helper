@@ -17,14 +17,14 @@ const userAgent =
 onMounted(() => {
   testMobile()
   testAvailable()
+  const rules = ['WebView', '(iPhone|iPod|iPad)(?!.*Safari/)', 'Android.*(wv)']
+  const regex = new RegExp(`(${rules.join('|')})`, 'ig')
+  inapp.value = Boolean(userAgent.match(regex))
   window.addEventListener('resize', onResize)
 })
 
 onUnmounted(() => {
   window.removeEventListener('resize', onResize)
-  const rules = ['WebView', '(iPhone|iPod|iPad)(?!.*Safari/)', 'Android.*(wv)']
-  const regex = new RegExp(`(${rules.join('|')})`, 'ig')
-  inapp.value = Boolean(userAgent.match(regex))
 })
 
 function onResize() {
