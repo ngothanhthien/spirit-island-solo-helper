@@ -12,6 +12,7 @@ export const useFearDeckStore = defineStore('fearDeck', {
     currentReveal: null as string | null,
     currentFear: 0,
     maxFear: 0,
+    fearThisTurn: 0
   }),
   getters: {
     drawView(state) {
@@ -23,17 +24,14 @@ export const useFearDeckStore = defineStore('fearDeck', {
     totalCard(state) {
       return state.draw.length
     },
-    currentStage(state) {
-      const totalCard = state.draw.length
-      const stage_2 = state.fearStage[0] + state.fearStage[1]
-      const stage_3 = state.fearStage[0]
-      if (totalCard > stage_2) {
-        return 1
-      }
-      if (totalCard > stage_3) {
+    currentStage(state): number {
+      if (this.fearCardLeaving >= state.fearStage[0]) {
         return 2
       }
-      return 3
+      if (this.fearCardLeaving >= state.fearStage[0] + state.fearStage[1]) {
+        return 3
+      }
+      return 1
     },
     currentStageRoman() {
       if (this.currentStage === 1) {
@@ -163,6 +161,7 @@ export const useFearDeckStore = defineStore('fearDeck', {
         return
       }
       this.currentFear++
+      this.fearThisTurn++
       if (this.currentFear >= this.maxFear) {
         this.currentFear = 0
         this.earn()
@@ -171,6 +170,7 @@ export const useFearDeckStore = defineStore('fearDeck', {
     },
     decreaseFear() {
       this.currentFear--
+      this.fearThisTurn--
       if (this.currentFear < 0 && this.earned.length > 0) {
         this.currentFear = this.maxFear - 1
         this.unEarn()
@@ -179,6 +179,9 @@ export const useFearDeckStore = defineStore('fearDeck', {
     addNewFearPool() {
       const card = this.raw.pop() as string
       this.draw.push(card)
+    },
+    cleanUp() {
+      this.fearThisTurn = 0
     },
   },
   persist: true,

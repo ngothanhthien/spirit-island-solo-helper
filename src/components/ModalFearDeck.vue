@@ -51,26 +51,26 @@ const gameOption = useGameOptionStore()
             </button>
           </div>
           <div
-            v-if="index === fearDeck.numberCardNeedToStage2"
+            v-if="index === fearDeck.numberCardNeedToStage2 - 1"
             class="font-serif text-3xl text-white font-semibold flex items-center bg-stone-900 px-2"
           >
             II
           </div>
           <div
-            v-if="index === fearDeck.numberCardNeedToStage3"
+            v-if="index === fearDeck.numberCardNeedToStage3 - 1"
             class="font-serif text-3xl text-white font-semibold flex items-center bg-stone-900 px-2"
           >
             III
           </div>
           <template v-if="gameOption.hasRussia5">
             <img
-              v-if="index === fearDeck.numberCardNeedToStage2Russia"
+              v-if="index === fearDeck.numberCardNeedToStage2Russia - 1"
               src="/img/card-back/stage2.webp"
               alt="Invader Stage 2"
               class="w-1/5 h-fit self-center"
             >
             <img
-              v-if="index === fearDeck.numberCardNeedToStage3Russia"
+              v-if="index === fearDeck.numberCardNeedToStage3Russia - 1"
               src="/img/card-back/stage3.webp"
               alt="Invader Stage 3"
               class="w-1/5 h-fit self-center"

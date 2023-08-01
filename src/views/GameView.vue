@@ -235,6 +235,7 @@ function switchMenu(menu: number) {
 
 function timePassed() {
   playerCard.cleanUp()
+  fearDeck.cleanUp()
   currentMenu2.value = MENU_2.HAND
 }
 
@@ -434,7 +435,7 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
           >
             <icon-bolt /> {{ playerCard.energy }}
             <span
-              class="text-xs ml-1 -translate-y-1.5"
+              class="text-xs relative -top-2"
             >+{{ playerCard.energyThisTurn }}</span>
           </button>
           <element-track class="ml-3" />
@@ -445,7 +446,11 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
             @click="fearDeck.increaseFear"
           >
             <div><fear-icon class="w-5 h-5 mb-1 text-white" /></div>
-            <div>{{ fearDeck.currentFear }}</div>
+            <div>
+              {{ fearDeck.currentFear }}<span
+                class="text-xs relative -top-2"
+              >+{{ fearDeck.fearThisTurn }}</span>
+            </div>
           </button>
           <div
             class="px-2"

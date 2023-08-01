@@ -38,7 +38,7 @@ function prev() {
     <div class="h-[95%] left-1/2 -translate-x-1/2 relative top-1/2 -translate-y-1/2 flex flex-col">
       <div class="flex justify-center flex-1 overflow-hidden">
         <div
-          v-if="aspectsImages.length > 1"
+          v-if="aspectsImages.length > 1 && current !== 0"
           ref="nextEl"
           class="flex items-center pr-2"
           @click="prev"
@@ -50,6 +50,7 @@ function prev() {
         <div
           ref="aspectEl"
           class="flex h-full max-w-[90%] overflow-x-auto space-x-2 hide-scrollbar"
+          @click="emit('choose', current)"
         >
           <img
             v-for="image in aspectsImages[current]"
@@ -60,7 +61,7 @@ function prev() {
           >
         </div>
         <div
-          v-if="aspectsImages.length > 1"
+          v-if="aspectsImages.length > 1 && current !== aspectsImages.length - 1"
           ref="prevEl"
           class="flex items-center pl-2"
           @click="next"
