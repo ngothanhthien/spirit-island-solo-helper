@@ -70,12 +70,15 @@ function testMobile() {
     <div
       class="text-white text-2xl absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
     >
-      For optimal performance, we recommend opening our site in a Chrome browser
-      and installing our app. Thank you for your understanding.
-      <a
+      Click to <a
         href="intent://spirit-companion.netlify.app/#Intent;scheme=http;package=com.android.chrome;end"
-        class="text-orange-600 text-lg"
-      >Open in Browser</a>
+        class="text-orange-600"
+      >Open in Chrome</a>.
+      Once redirected, <a
+        href="https://www.cdc.gov/niosh/mining/content/hearingloss/installPWA.html"
+        class="text-orange-600"
+      >install</a> our app.
+      Your cooperation enhances performance and functionality. Thank you for your understanding.
     </div>
   </div>
 </template>
