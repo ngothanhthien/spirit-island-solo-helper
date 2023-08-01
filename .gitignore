@@ -25,3 +25,4 @@ tool/sprites
 *.sw?
 package-lock.json
 yarn.lock
+.env

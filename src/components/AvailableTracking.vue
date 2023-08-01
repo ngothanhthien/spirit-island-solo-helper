@@ -3,14 +3,16 @@ import { useScreenOrientation, useWindowSize } from '@vueuse/core'
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const isMobile = ref(false)
-const isInApp = ref(false)
+const isChrome = ref(false)
 const goodOrientation = ref(false)
 const { isSupported, orientation } = useScreenOrientation()
 const { width, height } = useWindowSize()
+const mode = import.meta.env.VITE_APP_ENVIRONMENT
+const url = import.meta.env.VITE_APP_URL
 onMounted(() => {
   testMobile()
   testAvailable()
-  isInApp.value = isInAppBrowser()
+  isChrome.value = testChrome()
   window.addEventListener('resize', onResize)
 })
 
@@ -41,23 +43,15 @@ function testMobile() {
       navigator.userAgent,
     )
 }
-function isInAppBrowser() {
-  const ua = navigator.userAgent
+function testChrome() {
+  if (mode === 'dev') {
+    return true
+  }
 
-  if ((/Instagram|FBIOS/i.test(ua))) {
+  const ua = navigator.userAgent.toLowerCase();
+
+  if ((/chrome/i.test(ua))) {
     return true; 
-  }
-
-  else if (/Twitter/i.test(ua)) {
-    return true;
-  }
-
-  else if (/Snapchat/i.test(ua)) {
-    return true;
-  }
-
-  else if (/Line/i.test(ua)) {
-    return true;
   }
 
   return false;
@@ -66,21 +60,7 @@ function isInAppBrowser() {
 
 <template>
   <div
-    v-if="isInApp"
-    class="absolute w-full h-full top-0 left-0 bg-gray-900/80"
-  >
-    <div
-      class="text-white text-2xl absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-    >
-      For the best experience, please open our site in a browser (chrome is best for this app).
-      <a
-        href="https://spirit-companion.netlify.app/"
-        class="text-orange-600 text-lg"
-      >Open in Browser</a>
-    </div>
-  </div>
-  <div
-    v-else-if="!isMobile || !goodOrientation"
+    v-if="!isMobile || !goodOrientation"
     class="absolute w-full h-full top-0 left-0 bg-gray-900/80"
   >
     <div
@@ -91,6 +71,20 @@ function isInAppBrowser() {
         experience ☹️.</span>
       <span v-else>Apologies for any inconvenience. Our app is specifically designed for
         mobile devices. Thank you for understanding ☹️.</span>
+    </div>
+  </div>
+  <div
+    v-else-if="!isChrome"
+    class="absolute w-full h-full top-0 left-0 bg-gray-900/80"
+  >
+    <div
+      class="text-white text-2xl absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+    >
+      For optimal performance, we recommend opening our site in a Chrome browser and installing our app. Thank you for your understanding.
+      <a
+        :href="url"
+        class="text-orange-600 text-lg"
+      >Open in Browser</a>
     </div>
   </div>
 </template>
