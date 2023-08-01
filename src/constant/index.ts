@@ -3,6 +3,7 @@ import { setupDarkFire, setupIntensify, setupNourishing, setupSpreadingHostility
 import { setupSparking } from '../utils/setup'
 import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox } from '@/utils/event'
 import { setupDaysThatNeverWere } from '@/utils/spirit'
+import { setupInvadersFindTheLand } from '@/utils/blight'
 
 export const MINOR_CARDS: Array<PowerCard> = [
   {
@@ -3202,9 +3203,7 @@ export const ADVERSARY: Array<Adversary> = [
       },
       {},
       {},
-      {
-        piece: '+1Fear Maximum per player',
-      },
+      {},
     ]
   },
   {
@@ -3721,6 +3720,7 @@ export const BLIGHT_CARDS: BlightCard[] = [
   {
     name: 'Invaders Find the Land to Their Liking',
     isBlighted: false,
+    setup: setupInvadersFindTheLand
   },
   {
     name: 'Memory Fades to Dust',

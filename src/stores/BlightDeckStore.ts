@@ -27,7 +27,12 @@ export const useBlightDeckStore = defineStore('blightDeck', {
       this.current = null
     },
     turnUp() {
-      this.current = this.draw.pop() as string
+      const card = this.draw.pop() as string
+      this.current = card
+      const blightCard = getCard(card) as BlightCard
+      if (blightCard.setup) {
+        blightCard.setup()
+      }
     },
   },
   persist: true,

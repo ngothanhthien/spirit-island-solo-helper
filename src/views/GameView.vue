@@ -40,6 +40,7 @@ import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
 import AdversaryText from '@/components/base/AdversaryText.vue'
+import VisionOfAShiftingFutureEvent from '@/components/VisionOfAShiftingFutureEvent.vue'
 
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
@@ -93,6 +94,7 @@ const isShowDaysThatNeverWere = ref(false)
 const showRussiaStage2 = ref(true)
 const showRussiaStage3 = ref(true)
 const isShowSetupRef = ref(true)
+const isShowVisionsOfAShiftingFutureEvent = ref(false)
 const modeIncrease = ref(true)
 const menu1Tab1BackgroundStyle = computed(() => {
   if (isPickingDaysThatNeverWere.value) {
@@ -158,6 +160,10 @@ function adjustElement(element: Element) {
   }
 }
 
+function discardViewSwipeUp(cardId: string) {
+  playerCard.forgetCardFromDiscard(cardId)
+  currentMenu1.value = MENU_1.PLAY
+}
 function showPowerDiscard() {
   isShowModalDiscardPower.value = true
 }
@@ -643,7 +649,7 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
                 <power-discard
                   :discard="playerCard.discard"
                   @swipe-down="reclaimOneCard"
-                  @swipe-up="playerCard.forgetCardFromDiscard; currentMenu1 = MENU_1.PLAY"
+                  @swipe-up="discardViewSwipeUp"
                 />
               </div>
             </div>
@@ -993,7 +999,7 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
           <div class="h-full flex flex-col justify-center">
             <div class="h-[70%] flex justify-center">
               <img
-                src="/img/card-back/stage2.webp"
+                src="/img/card-back/stage3.webp"
                 alt="Russia Invaders Card"
                 class="h-full"
               >
@@ -1011,6 +1017,11 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
       <days-that-never-were
         v-if="isShowDaysThatNeverWere"
         @close="isShowDaysThatNeverWere = false"
+        @do-visions-of-a-shifting-future="isShowVisionsOfAShiftingFutureEvent = true"
+      />
+      <VisionOfAShiftingFutureEvent
+        v-if="isShowVisionsOfAShiftingFutureEvent"
+        @close="isShowVisionsOfAShiftingFutureEvent = false"
       />
       <div
         v-if="adversaryName && isShowSetupRef && adversarySetup && gameState.isNewGame"

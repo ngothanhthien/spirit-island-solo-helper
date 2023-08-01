@@ -59,6 +59,7 @@ export interface Adversary {
 export interface BlightCard {
   name: string
   isBlighted: boolean
+  setup?: () => void
 }
 export interface Aspect {
   title: string

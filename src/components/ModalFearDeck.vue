@@ -33,6 +33,24 @@ const gameOption = useGameOptionStore()
             />
           </div>
           <div
+            v-else
+            class="w-1/4 rounded-lg shrink-0 relative"
+          >
+            <img
+              src="/img/card-back/fear.webp"
+              alt="Fear Card Back"
+            >
+            <button
+              class="absolute p-6 text-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900/30 rounded-lg"
+              @click="fearDeck.addToShowing(card)"
+            >
+              <icon-eye
+                style="stroke-width: 1px;"
+                class="w-20 h-20"
+              />
+            </button>
+          </div>
+          <div
             v-if="index === fearDeck.numberCardNeedToStage2"
             class="font-serif text-3xl text-white font-semibold flex items-center bg-stone-900 px-2"
           >
@@ -58,23 +76,6 @@ const gameOption = useGameOptionStore()
               class="w-1/5 h-fit self-center"
             >
           </template>
-          <div
-            class="w-1/4 rounded-lg shrink-0 relative"
-          >
-            <img
-              src="/img/card-back/fear.webp"
-              alt="Fear Card Back"
-            >
-            <button
-              class="absolute p-6 text-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900/30 rounded-lg"
-              @click="fearDeck.addToShowing(card)"
-            >
-              <icon-eye
-                style="stroke-width: 1px;"
-                class="w-20 h-20"
-              />
-            </button>
-          </div>
         </template>
       </div>
     </template>

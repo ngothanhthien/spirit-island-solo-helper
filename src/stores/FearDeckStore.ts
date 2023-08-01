@@ -125,13 +125,15 @@ export const useFearDeckStore = defineStore('fearDeck', {
       this.currentReveal = card
     },
     markShowing() {
-      if (this.currentReveal) {
+      if (this.currentReveal && !this.showing.includes(this.currentReveal)) {
         this.showing.push(this.currentReveal)
       }
       this.currentReveal = null
     },
     addToShowing(card: string) {
-      this.showing.push(card)
+      if (!this.showing.includes(card)) {
+        this.showing.push(card)
+      }
     },
     markDiscard() {
       if (this.currentReveal) {
@@ -169,12 +171,9 @@ export const useFearDeckStore = defineStore('fearDeck', {
     },
     decreaseFear() {
       this.currentFear--
-      if (this.currentFear <= 0 && this.earned.length > 0) {
-        this.currentFear = this.maxFear
+      if (this.currentFear < 0 && this.earned.length > 0) {
+        this.currentFear = this.maxFear - 1
         this.unEarn()
-      }
-      if (this.currentFear < 0) {
-        this.currentFear = 0
       }
     },
     addNewFearPool() {
