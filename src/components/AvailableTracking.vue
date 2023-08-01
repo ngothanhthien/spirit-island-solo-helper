@@ -1,23 +1,30 @@
 <script setup lang="ts">
 import { useScreenOrientation, useWindowSize } from '@vueuse/core'
 import { ref, onMounted, onUnmounted } from 'vue'
-
+declare global {
+  interface Window {
+    opera: unknown
+  }
+}
 const isMobile = ref(false)
-// const isChrome = ref(false)
 const goodOrientation = ref(false)
+const inapp = ref(false)
 const { isSupported, orientation } = useScreenOrientation()
 const { width, height } = useWindowSize()
-// const mode = import.meta.env.VITE_APP_ENVIRONMENT
-// const url = import.meta.env.VITE_APP_URL
+const url = import.meta.env.VITE_APP_URL
+const userAgent =
+  navigator.userAgent || navigator.vendor || (window.opera as string)
 onMounted(() => {
   testMobile()
   testAvailable()
-//   isChrome.value = testChrome()
   window.addEventListener('resize', onResize)
 })
 
 onUnmounted(() => {
   window.removeEventListener('resize', onResize)
+  const rules = ['WebView', '(iPhone|iPod|iPad)(?!.*Safari/)', 'Android.*(wv)']
+  const regex = new RegExp(`(${rules.join('|')})`, 'ig')
+  inapp.value = Boolean(userAgent.match(regex))
 })
 
 function onResize() {
@@ -38,24 +45,8 @@ function testAvailable() {
   }
 }
 function testMobile() {
-  isMobile.value =
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent,
-    )
+  isMobile.value = /(iPad|iPhone|Android|Mobile)/i.test(userAgent) || false
 }
-// function testChrome() {
-//   if (mode === 'dev') {
-//     return true
-//   }
-
-//   const ua = navigator.userAgent.toLowerCase();
-
-//   if ((/chrome/i.test(ua))) {
-//     return true; 
-//   }
-
-//   return false;
-// }
 </script>
 
 <template>
@@ -73,18 +64,19 @@ function testMobile() {
         mobile devices. Thank you for understanding ☹️.</span>
     </div>
   </div>
-  <!-- <div
-    v-else-if="!isChrome"
+  <div
+    v-else-if="inapp"
     class="absolute w-full h-full top-0 left-0 bg-gray-900/80"
   >
     <div
       class="text-white text-2xl absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
     >
-      For optimal performance, we recommend opening our site in a Chrome browser and installing our app. Thank you for your understanding.
+      For optimal performance, we recommend opening our site in a Chrome browser
+      and installing our app. Thank you for your understanding.
       <a
         :href="url"
         class="text-orange-600 text-lg"
       >Open in Browser</a>
     </div>
-  </div> -->
+  </div>
 </template>
