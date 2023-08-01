@@ -11,7 +11,6 @@ const goodOrientation = ref(false)
 const inapp = ref(false)
 const { isSupported, orientation } = useScreenOrientation()
 const { width, height } = useWindowSize()
-const url = import.meta.env.VITE_APP_URL
 const userAgent =
   navigator.userAgent || navigator.vendor || (window.opera as string)
 onMounted(() => {
@@ -74,7 +73,7 @@ function testMobile() {
       For optimal performance, we recommend opening our site in a Chrome browser
       and installing our app. Thank you for your understanding.
       <a
-        :href="url"
+        href="intent://spirit-companion.netlify.app/#Intent;scheme=http;package=com.android.chrome;end"
         class="text-orange-600 text-lg"
       >Open in Browser</a>
     </div>
