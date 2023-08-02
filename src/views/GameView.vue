@@ -270,7 +270,11 @@ function returnCardFromForget(card: string) {
   isShowModalForgetPower.value = false
   currentMenu2.value = MENU_2.HAND
 }
-
+watch(() => playerCard.aspectMode, (mode) => {
+  if (mode === '2x') {
+    currentMenu2.value = MENU_2.HAND
+  }
+})
 watch(() => cardZoom.waiting.card,
   (cardId) => {
     if (cardId) {

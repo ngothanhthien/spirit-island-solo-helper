@@ -50,19 +50,19 @@ function restoreAspectPos() {
 <template>
   <div
     ref="aspectEl"
-    class="w-full overflow-y-auto absolute hide-scrollbar h-full"
+    class="w-full overflow-y-auto absolute hide-scrollbar h-full bg-amber-100"
     :class="aspectLoading ? 'opacity-0':''"
     @click="$emit('showAspectDetail')"
   >
     <div v-if="aspect">
       <div
         v-if="aspect.requirements"
-        class="mb-1"
+        class="mt-1"
       >
         <div
           v-for="requirement in aspect.requirements"
           :key="requirement"
-          class="text-xs font-semibold text-red-700 truncate"
+          class="text-xs font-semibold text-red-700 truncate px-1"
         >
           {{ requirement }}
         </div>

@@ -2127,7 +2127,7 @@ export const SPIRIT: Array<SpiritType> = [
     aspects: [
       {
         title: 'unconstrained',
-        requirements: [`Call Forth Predators`, `Do not add a beast as part of this Spirit Setup`],
+        requirements: [`Replaces: Call Forth Predators`, `Setup: Do not add a beast as part of this Spirit Setup`],
         cards: [
           {
             name: 'Unconstrained by Ravaged Lands',
@@ -2135,7 +2135,7 @@ export const SPIRIT: Array<SpiritType> = [
           },
           {
             name: 'Predators Arise',
-            description: 'Each Spirit Phase, either Prepare 1 Beast or Add any number of your prepared Beast to one of your lands.'
+            description: 'Each Spirit Phase, either Prepare 1 Beasts or Add any number of your prepared Beasts to one of your lands.'
           }
         ]
       },

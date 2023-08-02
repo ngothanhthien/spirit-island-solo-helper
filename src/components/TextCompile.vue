@@ -76,7 +76,7 @@ const { compileText, iconList } = useTextCompile(props.message)
       />
       <beasts-icon
         v-else-if="part === 'Beasts'"
-        class="w-3.5 h-3.5 -my-1"
+        class="w-3.5 h-3.5 -translate-y-0.5 -ml-0.5 -my-1"
       />
       <strife-icon
         v-else-if="part === 'Strife'"
