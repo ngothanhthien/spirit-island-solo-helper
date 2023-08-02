@@ -658,6 +658,7 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
                 />
               </div>
             </div>
+            <div class="w-10" />
           </div>
 
           <div
@@ -855,27 +856,27 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
             </div>
           </div>
 
-          <div
-            v-for="(spirit, index) in gameOption.spirits"
-            :key="`spirit-${spirit}`"
-            :style="`top: ${(index % 2) * 64 + 24}px;`"
-            :class="[
-              playerCard.current === index
-                ? 'border-orange-800'
-                : 'border-gray-800/50',
-              index > 1 ? 'right-16 mr-1' : 'right-2'
-            ]"
-            class="absolute w-14 h-14 rounded-full bg-white border-2 overflow-hidden"
-            @click="playerCard.changeCurrent(index)"
-          >
-            <img
-              :src="`/img/spirit_avatar/${getSpiritAvatar(spirit)}`"
-              alt="Spirit avatar"
+          <div class="absolute -right-3 top-3 space-y-2 z-10">
+            <div
+              v-for="(spirit, index) in gameOption.spirits"
+              :key="`spirit-${spirit}`"
               :class="[
-                playerCard.current === index ? 'opacity-100' : 'opacity-50',
+                playerCard.current === index
+                  ? 'border-orange-800'
+                  : 'border-gray-800/50',
               ]"
-              class="h-full max-w-max"
+              class="w-12 h-12 rounded-full bg-white border-2 overflow-hidden"
+              @click="playerCard.changeCurrent(index)"
             >
+              <img
+                :src="`/img/spirit_avatar/${getSpiritAvatar(spirit)}`"
+                alt="Spirit avatar"
+                :class="[
+                  playerCard.current === index ? 'opacity-100' : 'opacity-50',
+                ]"
+                class="h-full max-w-max"
+              >
+            </div>
           </div>
 
           <div

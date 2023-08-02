@@ -215,13 +215,16 @@ function startGame() {
     for (let i = 0; i < cards.length; i++) {
       hand.push(`unique${spiritIndex}-${i}`)
     }
-     playerCard.changeCurrent(playerIndex)
+    playerCard.changeCurrent(playerIndex)
     playerCard.setHand(hand)
 
     if (setup) {
       setup(playerIndex)
     }
   })
+
+  playerCard.changeCurrent(0)
+
   gameOption.aspectsDetail.forEach((aspects, playerIndex) => {
     if (aspects && aspects.setupFunction) {
       aspects.setupFunction(playerIndex)
