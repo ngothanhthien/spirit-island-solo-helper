@@ -50,7 +50,7 @@ export const usePlayerCardStore = defineStore('playerCard', {
       return state.players[state.current].used
     },
     picking(state) {
-      return state.players[state.current].picking
+      return state.players[state.current].picking.slice().reverse()
     },
     forget(state) {
       return state.players[state.current].forget

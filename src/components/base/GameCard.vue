@@ -15,7 +15,6 @@ const card = computed(() => {
 
 <template>
   <img
-    v-if="card"
     :src="getCardImage(card.name, card.path)"
     :alt="card.name"
   >

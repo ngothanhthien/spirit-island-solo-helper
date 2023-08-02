@@ -216,16 +216,6 @@ function onCloseModalAdversary() {
   currentMenu2.value = MENU_2.HAND
 }
 
-function powerPickSwipeUp(cardId: string) {
-  const type = cardId.split('-')[0]
-  if (type === 'minor' || type === 'major') {
-    usePowerDeckStore(type).addToDraw(cardId)
-  } else {
-    playerCard.putCardToPicking(cardId)
-  }
-  playerCard.removeCardFromPicking(cardId)
-}
-
 function putFromPlayToHand(cardId: string) {
   playerCard.returnCardFromPlay(cardId)
 }
@@ -268,18 +258,6 @@ function finishPickDaysThatNeverWere() {
 }
 function manageAspectButtonClick() {
   playerCard.toggleShowAspect()
-}
-function pickCard(cardId: string) {
-  playerCard.takeCardFromPicking(cardId)
-  if (playerCard.picking.length === 0) {
-    currentMenu1.value = MENU_1.PLAY
-  }
-}
-
-function addPowerToPicking() {
-  const type = playerCard.getTypePicking
-  const card = usePowerDeckStore(type).reveal()
-  playerCard.addToPicking(card)
 }
 
 function reclaimOneCard(card: string) {
@@ -583,12 +561,7 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
                   v-if="playerCard.isPicking"
                   class="flex items-stretch relative w-full"
                 >
-                  <power-pick
-                    :picking="playerCard.picking"
-                    @swipe-down="pickCard"
-                    @swipe-up="powerPickSwipeUp"
-                    @add-power="addPowerToPicking"
-                  />
+                  <power-pick />
                   <icon-x
                     class="w-7 h-7 absolute -right-2 -top-2 text-blue-900 z-50"
                     style="stroke-width: 3px"
