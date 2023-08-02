@@ -108,6 +108,12 @@ const adversaryName = computed(() => {
   }
   return null
 })
+const adversaryImage = computed(() => {
+  if (gameOption.adversary !== undefined) {
+    return '/img/adversary/' + ADVERSARY[gameOption.adversary].id + '-flag.webp'
+  }
+  return null
+})
 const adversarySetup = computed(() => {
   if (gameOption.adversary !== undefined) {
     const setup = ADVERSARY[gameOption.adversary].setup
@@ -828,14 +834,6 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
                 >
                   Show Forget
                 </base-button>
-                <base-button
-                  v-if="gameOption.adversary !== undefined"
-                  class="h-fit w-full"
-                  button-style="secondary"
-                  @click="isShowAdversary = true"
-                >
-                  Adversary
-                </base-button>
               </div>
               <div class="flex flex-col relative w-32 space-y-2 mt-2">
                 <base-button
@@ -917,7 +915,7 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
               />
             </transition>
           </div>
-          <div class="flex items-center bg-stone-900 px-2">
+          <div class="flex flex-col justify-center items-center bg-stone-900 px-2">
             <transition
               name="switch"
               mode="out-in"
@@ -938,6 +936,21 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
                 @click="switchMenu(2)"
               />
             </transition>
+            <div class="h-8" />
+          </div>
+          <div
+            v-if="adversaryImage"
+            class="absolute w-full h-10 bottom-2 border-t border-b border-orange-700"
+            @click="isShowAdversary = true"
+          >
+            <img
+              :src="adversaryImage"
+              alt="Adversary Flag"
+              class="h-full"
+            >
+            <div class="absolute font-semibold text-lg top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+              {{ gameOption.adversaryLevel }}
+            </div>
           </div>
         </div>
       </div>
