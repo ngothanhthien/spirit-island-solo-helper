@@ -97,6 +97,7 @@ export const useFearDeckStore = defineStore('fearDeck', {
       this.showing = []
       this.discard = []
       this.currentFear = 0
+      this.fearThisTurn = 0
       if (numberSpirit) {
         this.maxFear = numberSpirit * 4
       } else {
@@ -179,9 +180,6 @@ export const useFearDeckStore = defineStore('fearDeck', {
     addNewFearPool() {
       const card = this.raw.pop() as string
       this.draw.push(card)
-    },
-    cleanUp() {
-      this.fearThisTurn = 0
     },
   },
   persist: true,

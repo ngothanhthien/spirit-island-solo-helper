@@ -232,7 +232,6 @@ function switchMenu(menu: number) {
 
 function timePassed() {
   playerCard.cleanUp()
-  fearDeck.cleanUp()
   currentMenu2.value = MENU_2.HAND
 }
 
@@ -567,7 +566,7 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
                 >
                   <power-pick />
                   <icon-x
-                    class="w-7 h-7 absolute -right-2 -top-2 text-blue-900 z-50"
+                    class="w-8 h-8 absolute right-1 -top-1 text-red-600 z-50"
                     style="stroke-width: 3px"
                     @click="resetPicking"
                   />
