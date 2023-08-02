@@ -28,6 +28,7 @@ export interface Player {
   permanentElements: { [K in Element]?: number }
   showAspect: boolean
   aspectPos: number
+  aspectMode: '1x' | '2x'
 }
 export interface Adversary {
   title: string

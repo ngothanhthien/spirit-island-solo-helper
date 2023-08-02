@@ -50,7 +50,7 @@ function restoreAspectPos() {
 <template>
   <div
     ref="aspectEl"
-    class="w-full pl-2 py-2 overflow-y-auto absolute hide-scrollbar h-full"
+    class="w-full overflow-y-auto absolute hide-scrollbar h-full"
     :class="aspectLoading ? 'opacity-0':''"
     @click="$emit('showAspectDetail')"
   >

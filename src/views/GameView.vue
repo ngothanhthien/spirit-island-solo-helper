@@ -107,6 +107,12 @@ const adversaryName = computed(() => {
   }
   return null
 })
+const isShow2xAspect = computed(() => {
+  return playerCard.aspectMode === '2x'
+  && isHasAspect.value
+  && playerCard.showAspect
+  && currentMenu2.value === MENU_2.HAND
+})
 const adversaryImage = computed(() => {
   if (gameOption.adversary !== undefined) {
     return '/img/adversary/' + ADVERSARY[gameOption.adversary].id + '-flag.webp'
@@ -262,7 +268,6 @@ function finishPickDaysThatNeverWere() {
 }
 function manageAspectButtonClick() {
   playerCard.toggleShowAspect()
-  currentMenu2.value = MENU_2.HAND
 }
 function pickCard(cardId: string) {
   playerCard.takeCardFromPicking(cardId)
@@ -554,272 +559,285 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
         </div>
         <div
           id="game-showing-area"
-          class="w-full relative h-full"
+          class="w-full relative h-full flex"
         >
-          <div
-            id="game-showing-top"
-            ref="menuControlEl"
-            class="bg-neutral-100 flex px-2 relative h-1/2"
-            :style="menu1Tab1BackgroundStyle"
-          >
-            <template v-if="currentMenu1 === MENU_1.PLAY">
-              <div
-                class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0"
-              >
-                <span v-if="playerCard.isPicking">Picking Power</span>
-                <span
-                  v-else-if="isPickingDaysThatNeverWere"
-                  class="text-gray-200 opacity-60"
-                >Days That Never Were</span>
-                <span v-else>Player Play</span>
-              </div>
-              <div
-                v-if="playerCard.isPicking"
-                class="flex items-stretch relative w-full"
-              >
-                <power-pick
-                  :picking="playerCard.picking"
-                  @swipe-down="pickCard"
-                  @swipe-up="powerPickSwipeUp"
-                  @add-power="addPowerToPicking"
-                />
-                <icon-x
-                  class="w-7 h-7 absolute -right-2 -top-2 text-blue-900 z-50"
-                  style="stroke-width: 3px"
-                  @click="resetPicking"
-                />
-              </div>
-              <div
-                v-else-if="isPickingDaysThatNeverWere"
-                class="flex items-stretch relative w-full"
-              >
-                <!-- v-if="daysThatNeverWereDeck.picking.length > 0" -->
-                <days-that-never-were-pick
-                  :picking="daysThatNeverWereDeck.picking"
-                  @swipe-down="addCardToDaysThatNeverWere"
-                />
-                <icon-x
-                  class="w-7 h-7 absolute -right-2 -top-2 text-blue-900 z-50"
-                  style="stroke-width: 3px"
-                  @click="finishPickDaysThatNeverWere"
-                />
-              </div>
-              <div
-                v-else
-                class="w-full flex"
-              >
-                <div class="relative flex-1">
-                  <card-group-view
-                    from="play"
-                    :cards="playerCard.play"
-                    @swipe-down="putFromPlayToHand"
-                    @swipe-up="playerCard.putFromPlayToDiscard"
-                  />
-                </div>
-                <div
-                  v-if="isHasAspect && playerCard.showAspect"
-                  class="w-1/3 relative"
-                >
-                  <aspect-power @show-aspect-detail="isShowAspectDetail = true" />
-                </div>
-              </div>
-            </template>
+          <div class="w-full relative h-full">
             <div
-              v-if="currentMenu1 === MENU_1.TAB_2"
-              class="flex items-stretch relative w-full"
+              id="game-showing-top"
+              ref="menuControlEl"
+              class="bg-neutral-100 flex px-2 relative h-1/2"
+              :style="menu1Tab1BackgroundStyle"
             >
-              <div
-                class="space-x-2 absolute h-full w-full"
-              >
-                <!-- <fear-deck-component
-                  @show-earned-fear="isShowEarnedFear = true"
-                  @show-fear-deck="isShowFearDeck = true"
-                /> -->
+              <template v-if="currentMenu1 === MENU_1.PLAY">
                 <div
                   class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0"
                 >
-                  Player Discard
-                </div>
-                <power-discard
-                  :discard="playerCard.discard"
-                  @swipe-down="reclaimOneCard"
-                  @swipe-up="discardViewSwipeUp"
-                />
-              </div>
-            </div>
-            <div class="w-8" />
-          </div>
-
-          <div
-            id="game-showing-bottom"
-            class="bg-stone-300 flex px-2 relative h-1/2"
-          >
-            <template v-if="currentMenu2 === MENU_2.HAND">
-              <div class="flex flex-1 relative">
-                <card-group-view
-                  from="hand"
-                  :cards="playerCard.hand"
-                  class="pt-2"
-                  @swipe-down="playerCard.forgetCardFromHand"
-                  @swipe-up="handSwipeUp"
-                />
-                <base-button
-                  v-if="
-                    playerCard.hand.length === 0 &&
-                      playerCard.play.length === 0 &&
-                      playerCard.discard.length > 0
-                  "
-                  button-style="secondary"
-                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                  @click="reclaimAll"
-                >
-                  Reclaim All
-                </base-button>
-              </div>
-            </template>
-            <div
-              v-if="currentMenu2 === MENU_2.CONTROL"
-              class="w-full flex items-center justify-end space-x-4 mx-4"
-            >
-              <div class="space-y-3 w-28 flex flex-col h-full overflow-hidden">
-                <div
-                  class="flex flex-row h-10 w-full rounded-lg relative bg-orange-700 mt-1 text-white"
-                >
-                  <button
-                    class="h-full px-2 rounded-l bg-inherit"
-                    @click="playerCard.reduceEnergy"
-                  >
-                    <icon-minus class="w-4 h-4 mx-auto" />
-                  </button>
-                  <div class="bg-orange-700 flex items-center">
-                    <input
-                      type="number"
-                      :value="playerCard.energy"
-                      class="outline-none focus:outline-none bg-inherit text-center w-full flex items-center font-semibold text-lg"
-                      @change="
-                        playerCard.setEnergy(
-                          Number(($event.target as HTMLInputElement).value),
-                        )
-                      "
-                    >
-                    <icon-bolt class="w-10 h-10 -ml-1" />
-                  </div>
-                  <button
-                    class="bg-inherit h-full px-2 rounded-r"
-                    @click="playerCard.addEnergy"
-                  >
-                    <icon-plus class="w-4 h-4 mx-auto" />
-                  </button>
+                  <span v-if="playerCard.isPicking">Picking Power</span>
+                  <span
+                    v-else-if="isPickingDaysThatNeverWere"
+                    class="text-gray-200 opacity-60"
+                  >Days That Never Were</span>
+                  <span v-else>Player Play</span>
                 </div>
                 <div
-                  class="flex w-full h-10 rounded-lg relative bg-gray-800 mt-1 text-white shrink-0"
+                  v-if="playerCard.isPicking"
+                  class="flex items-stretch relative w-full"
                 >
-                  <button
-                    class="h-full px-2 rounded-l bg-inherit"
-                    @click="fearDeck.decreaseFear"
-                  >
-                    <icon-minus class="w-4 h-4 mx-auto" />
-                  </button>
-                  <div class="flex items-center justify-center font-semibold text-lg w-full">
-                    <div>{{ fearDeck.currentFear }}</div>
-                    <fear-icon class="w-5 h-5 ml-1.5" />
-                  </div>
-                  <button
-                    class="bg-inherit h-full px-2 rounded-r"
-                    @click="fearDeck.increaseFear"
-                  >
-                    <icon-plus class="w-4 h-4 mx-auto" />
-                  </button>
+                  <power-pick
+                    :picking="playerCard.picking"
+                    @swipe-down="pickCard"
+                    @swipe-up="powerPickSwipeUp"
+                    @add-power="addPowerToPicking"
+                  />
+                  <icon-x
+                    class="w-7 h-7 absolute -right-2 -top-2 text-blue-900 z-50"
+                    style="stroke-width: 3px"
+                    @click="resetPicking"
+                  />
                 </div>
-                <div class="flex flex-1 items-center space-x-1 justify-center">
+                <div
+                  v-else-if="isPickingDaysThatNeverWere"
+                  class="flex items-stretch relative w-full"
+                >
+                  <!-- v-if="daysThatNeverWereDeck.picking.length > 0" -->
+                  <days-that-never-were-pick
+                    :picking="daysThatNeverWereDeck.picking"
+                    @swipe-down="addCardToDaysThatNeverWere"
+                  />
+                  <icon-x
+                    class="w-7 h-7 absolute -right-2 -top-2 text-blue-900 z-50"
+                    style="stroke-width: 3px"
+                    @click="finishPickDaysThatNeverWere"
+                  />
+                </div>
+                <div
+                  v-else
+                  class="w-full flex"
+                >
+                  <div class="relative flex-1">
+                    <card-group-view
+                      from="play"
+                      :cards="playerCard.play"
+                      @swipe-down="putFromPlayToHand"
+                      @swipe-up="playerCard.putFromPlayToDiscard"
+                    />
+                  </div>
                   <div
-                    class="rounded-full inline-block h-fit bg-purple-900 text-white p-1"
-                    @click="fearDeck.unEarn"
+                    v-if="isHasAspect && playerCard.showAspect && playerCard.aspectMode === '1x'"
+                    class="w-1/3 relative"
                   >
-                    <icon-minus class="w-3.5 h-3.5" />
+                    <aspect-power @show-aspect-detail="isShowAspectDetail = true" />
                   </div>
-                  <div class="h-full w-12 relative flex justify-center">
-                    <img
-                      src="/img/card-back/fear.webp"
-                      alt="Fear Back"
-                      class="absolute h-full"
+                </div>
+              </template>
+              <div
+                v-if="currentMenu1 === MENU_1.TAB_2"
+                class="flex items-stretch relative w-full"
+              >
+                <div
+                  class="space-x-2 absolute h-full w-full"
+                >
+                  <!-- <fear-deck-component
+                    @show-earned-fear="isShowEarnedFear = true"
+                    @show-fear-deck="isShowFearDeck = true"
+                  /> -->
+                  <div
+                    class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0"
+                  >
+                    Player Discard
+                  </div>
+                  <power-discard
+                    :discard="playerCard.discard"
+                    @swipe-down="reclaimOneCard"
+                    @swipe-up="discardViewSwipeUp"
+                  />
+                </div>
+              </div>
+              <div
+                v-if="!isShow2xAspect"
+                class="w-8"
+              />
+            </div>
+  
+            <div
+              id="game-showing-bottom"
+              class="bg-stone-300 flex px-2 relative h-1/2"
+            >
+              <template v-if="currentMenu2 === MENU_2.HAND">
+                <div class="flex flex-1 relative">
+                  <card-group-view
+                    from="hand"
+                    :cards="playerCard.hand"
+                    class="pt-2"
+                    @swipe-down="playerCard.forgetCardFromHand"
+                    @swipe-up="handSwipeUp"
+                  />
+                  <base-button
+                    v-if="
+                      playerCard.hand.length === 0 &&
+                        playerCard.play.length === 0 &&
+                        playerCard.discard.length > 0
+                    "
+                    button-style="secondary"
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                    @click="reclaimAll"
+                  >
+                    Reclaim All
+                  </base-button>
+                </div>
+              </template>
+              <div
+                v-if="currentMenu2 === MENU_2.CONTROL"
+                class="w-full flex items-center justify-end space-x-4 mx-4"
+              >
+                <div class="space-y-3 w-28 flex flex-col h-full overflow-hidden">
+                  <div
+                    class="flex flex-row h-10 w-full rounded-lg relative bg-orange-700 mt-1 text-white"
+                  >
+                    <button
+                      class="h-full px-2 rounded-l bg-inherit"
+                      @click="playerCard.reduceEnergy"
                     >
-                    <div class="absolute top-1/2 -translate-y-1/2 text-xl pb-1 font-semibold text-white">
-                      {{ fearDeck.totalEarned }}
+                      <icon-minus class="w-4 h-4 mx-auto" />
+                    </button>
+                    <div class="bg-orange-700 flex items-center">
+                      <input
+                        type="number"
+                        :value="playerCard.energy"
+                        class="outline-none focus:outline-none bg-inherit text-center w-full flex items-center font-semibold text-lg"
+                        @change="
+                          playerCard.setEnergy(
+                            Number(($event.target as HTMLInputElement).value),
+                          )
+                        "
+                      >
+                      <icon-bolt class="w-10 h-10 -ml-1" />
+                    </div>
+                    <button
+                      class="bg-inherit h-full px-2 rounded-r"
+                      @click="playerCard.addEnergy"
+                    >
+                      <icon-plus class="w-4 h-4 mx-auto" />
+                    </button>
+                  </div>
+                  <div
+                    class="flex w-full h-10 rounded-lg relative bg-gray-800 mt-1 text-white shrink-0"
+                  >
+                    <button
+                      class="h-full px-2 rounded-l bg-inherit"
+                      @click="fearDeck.decreaseFear"
+                    >
+                      <icon-minus class="w-4 h-4 mx-auto" />
+                    </button>
+                    <div class="flex items-center justify-center font-semibold text-lg w-full">
+                      <div>{{ fearDeck.currentFear }}</div>
+                      <fear-icon class="w-5 h-5 ml-1.5" />
+                    </div>
+                    <button
+                      class="bg-inherit h-full px-2 rounded-r"
+                      @click="fearDeck.increaseFear"
+                    >
+                      <icon-plus class="w-4 h-4 mx-auto" />
+                    </button>
+                  </div>
+                  <div class="flex flex-1 items-center space-x-1 justify-center">
+                    <div
+                      class="rounded-full inline-block h-fit bg-purple-900 text-white p-1"
+                      @click="fearDeck.unEarn"
+                    >
+                      <icon-minus class="w-3.5 h-3.5" />
+                    </div>
+                    <div class="h-full w-12 relative flex justify-center">
+                      <img
+                        src="/img/card-back/fear.webp"
+                        alt="Fear Back"
+                        class="absolute h-full"
+                      >
+                      <div class="absolute top-1/2 -translate-y-1/2 text-xl pb-1 font-semibold text-white">
+                        {{ fearDeck.totalEarned }}
+                      </div>
+                    </div>
+                    <div
+                      class="rounded-full inline-block h-fit bg-purple-900 text-white p-1"
+                      @click="fearDeck.earn"
+                    >
+                      <icon-plus class="w-3.5 h-3.5" />
                     </div>
                   </div>
+                </div>
+                <div class="grow">
                   <div
-                    class="rounded-full inline-block h-fit bg-purple-900 text-white p-1"
-                    @click="fearDeck.earn"
+                    :class="modeIncrease ? 'bg-gray-800' : 'bg-red-800'"
+                    class="w-6 h-6 rounded-full text-white p-1 mb-1 flex items-center"
+                    @click="modeIncrease = !modeIncrease"
                   >
-                    <icon-plus class="w-3.5 h-3.5" />
+                    <icon-plus
+                      v-if="modeIncrease"
+                      class="w-full"
+                    />
+                    <icon-minus
+                      v-else
+                      class="w-full"
+                    />
                   </div>
-                </div>
-              </div>
-              <div class="grow">
-                <div
-                  :class="modeIncrease ? 'bg-gray-800' : 'bg-red-800'"
-                  class="w-6 h-6 rounded-full text-white p-1 mb-1 flex items-center"
-                  @click="modeIncrease = !modeIncrease"
-                >
-                  <icon-plus
-                    v-if="modeIncrease"
-                    class="w-full"
-                  />
-                  <icon-minus
-                    v-else
-                    class="w-full"
-                  />
-                </div>
-                <div class="flex select-none w-20 flex-wrap">
-                  <div
-                    v-for="element in ['Sun', 'Moon', 'Fire', 'Air', 'Water', 'Earth', 'Plant', 'Animal']"
-                    :key="element"
-                    class="flex items-center w-1/2 space-x-0.5 my-1"
-                  >
-                    <img
-                      class="h-6"
-                      :src="`/img/elements/${element.toLocaleLowerCase()}.webp`"
-                      :alt="`${element} element`"
-                      @click="adjustElement(element as Element)"
+                  <div class="flex select-none w-20 flex-wrap">
+                    <div
+                      v-for="element in ['Sun', 'Moon', 'Fire', 'Air', 'Water', 'Earth', 'Plant', 'Animal']"
+                      :key="element"
+                      class="flex items-center w-1/2 space-x-0.5 my-1"
                     >
-                    {{ playerCard.permanentElements[element as Element] }}
+                      <img
+                        class="h-6"
+                        :src="`/img/elements/${element.toLocaleLowerCase()}.webp`"
+                        :alt="`${element} element`"
+                        @click="adjustElement(element as Element)"
+                      >
+                      {{ playerCard.permanentElements[element as Element] }}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="flex flex-col relative w-32 space-y-2 mt-2">
-                <base-button
-                  v-if="isHasAspect"
-                  button-style="secondary"
-                  class="w-full"
-                  @click="manageAspectButtonClick"
-                >
-                  {{ playerCard.showAspect ? 'Hide' : 'Show' }} Aspect
-                </base-button>
-                <base-button
-                  class="h-fit w-full"
-                  button-style="secondary"
-                  :disabled="playerCard.forget.length === 0"
-                  @click="isShowModalForgetPower = true"
-                >
-                  Show Forget
-                </base-button>
-              </div>
-              <div class="flex flex-col relative w-32 space-y-2 mt-2">
-                <base-button
-                  class="h-fit w-full"
-                  button-style="secondary"
-                  @click="timePassed"
-                >
-                  Time Passed
-                </base-button>
-                <base-button
-                  class="h-fit w-full"
-                  button-style="secondary"
-                  @click="reclaimAll"
-                >
-                  Reclaim All
-                </base-button>
+                <div class="flex flex-col relative w-32 space-y-2 mt-2">
+                  <base-button
+                    v-if="isHasAspect"
+                    button-style="secondary"
+                    class="w-full"
+                    @click="manageAspectButtonClick"
+                  >
+                    {{ playerCard.showAspect ? 'Hide' : 'Show' }} Aspect
+                  </base-button>
+                  <base-button
+                    v-if="isHasAspect && playerCard.showAspect"
+                    button-style="secondary"
+                    class="w-full"
+                    @click="playerCard.switchAspectMode"
+                  >
+                    Aspect: {{ playerCard.aspectMode }}
+                  </base-button>
+                  <base-button
+                    class="h-fit w-full"
+                    button-style="secondary"
+                    :disabled="playerCard.forget.length === 0"
+                    @click="isShowModalForgetPower = true"
+                  >
+                    Show Forget
+                  </base-button>
+                </div>
+                <div class="flex flex-col relative w-32 space-y-2 mt-2">
+                  <base-button
+                    class="h-fit w-full"
+                    button-style="secondary"
+                    @click="timePassed"
+                  >
+                    Time Passed
+                  </base-button>
+                  <base-button
+                    class="h-fit w-full"
+                    button-style="secondary"
+                    @click="reclaimAll"
+                  >
+                    Reclaim All
+                  </base-button>
+                </div>
               </div>
             </div>
           </div>
@@ -857,6 +875,18 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
               alt="days that never were"
               class="h-full"
             >
+          </div>
+          <div
+            v-if="isShow2xAspect"
+            class="w-1/3 shrink-0 flex"
+          >
+            <div class="relative flex-1">
+              <aspect-power />
+            </div>
+            <div class="w-6">
+              <div class="h-1/2 bg-neutral-100" />
+              <div class="h-1/2 bg-stone-300" />
+            </div>
           </div>
         </div>
         <div

@@ -16,6 +16,7 @@ function createPlayer(): Player {
     permanentElements: createDefaultElement(),
     showAspect: true,
     aspectPos: 0,
+    aspectMode: '1x',
   }
 }
 function createDefaultElement() {
@@ -59,6 +60,9 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     aspectPos(state) {
       return state.players[state.current].aspectPos
+    },
+    aspectMode(state) {
+      return state.players[state.current].aspectMode
     },
     isPicking(state) {
       return state.players[state.current].picking.length > 0
@@ -224,6 +228,13 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     toggleShowAspect() {
       this.players[this.current].showAspect = !this.players[this.current].showAspect
+    },
+    switchAspectMode() {
+      if (this.players[this.current].aspectMode === '1x') {
+        this.players[this.current].aspectMode = '2x'
+      } else {
+        this.players[this.current].aspectMode = '1x'
+      }
     },
     setAspectPos(position: number) {
       this.players[this.current].aspectPos = position
