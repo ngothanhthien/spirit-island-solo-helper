@@ -25,11 +25,11 @@ export const useFearDeckStore = defineStore('fearDeck', {
       return state.draw.length
     },
     currentStage(state): number {
-      if (this.fearCardLeaving >= state.fearStage[0]) {
-        return 2
-      }
       if (this.fearCardLeaving >= state.fearStage[0] + state.fearStage[1]) {
         return 3
+      }
+      if (this.fearCardLeaving >= state.fearStage[0]) {
+        return 2
       }
       return 1
     },

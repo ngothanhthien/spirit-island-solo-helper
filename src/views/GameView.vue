@@ -614,10 +614,6 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
                 <div
                   class="space-x-2 absolute h-full w-full"
                 >
-                  <!-- <fear-deck-component
-                    @show-earned-fear="isShowEarnedFear = true"
-                    @show-fear-deck="isShowFearDeck = true"
-                  /> -->
                   <div
                     class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0"
                   >
@@ -952,7 +948,7 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
         @close="isShowEarnedFear = false"
       />
       <modal-fear-deck
-        v-if="isShowFearDeck"
+        v-if="isShowFearDeck && fearDeck.draw.length > 0"
         @close="isShowFearDeck = false"
       />
       <modal-fear-reveal v-if="fearDeck.currentReveal" />
