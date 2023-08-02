@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { Element } from '@/types'
 import CardGroupView from '@/components/CardGroupView.vue'
 import {
@@ -49,7 +49,6 @@ import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { useBlightDeckStore } from '@/stores/BlightDeckStore'
 import { useDiscardPowerStore } from '@/stores/PowerDeckStore'
 import router from '@/router'
-import { useScroll, watchDebounced } from '@vueuse/core'
 import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
 import { useGameStateStore } from '@/stores/GameStateStore'
 
@@ -137,10 +136,6 @@ const adversarySetup = computed(() => {
     }
   }
   return null
-})
-const aspectEl = ref<HTMLElement | null>(null)
-const { y: aspectPos } = useScroll(aspectEl, {
-  behavior: 'instant'
 })
 
 const isPickingDaysThatNeverWere = computed(() => 
@@ -268,7 +263,6 @@ function finishPickDaysThatNeverWere() {
 function manageAspectButtonClick() {
   playerCard.toggleShowAspect()
   currentMenu2.value = MENU_2.HAND
-  restoreAspectPos()
 }
 function pickCard(cardId: string) {
   playerCard.takeCardFromPicking(cardId)
@@ -293,10 +287,6 @@ function returnCardFromForget(card: string) {
   isShowModalForgetPower.value = false
   currentMenu2.value = MENU_2.HAND
 }
-
-onMounted(() => {
-  restoreAspectPos()
-})
 
 watch(() => cardZoom.waiting.card,
   (cardId) => {
@@ -372,27 +362,10 @@ watch(() => fearDeck.earned.length, (newValue) => {
   }
 })
 
-watchDebounced(aspectPos,
-  (pos) => { 
-    playerCard.setAspectPos(pos)
-   },
-  { debounce: 300 },
-)
-
 watch(() => playerCard.isPicking, () => {
   currentMenu1.value = MENU_1.PLAY
 })
 
-const aspectLoading = ref(false)
-function restoreAspectPos() {
-  if (currentMenu2.value === MENU_2.HAND && playerCard.showAspect && isHasAspect.value) {
-    aspectLoading.value = true
-    setTimeout(() => {
-      aspectPos.value = playerCard.aspectPos
-      aspectLoading.value = false
-    }, 100)
-  }
-}
 function addCardToDaysThatNeverWere(cardId: string) {
   const [type] = cardId.split('-')
   if (type === 'minor') {
@@ -402,8 +375,6 @@ function addCardToDaysThatNeverWere(cardId: string) {
   }
   daysThatNeverWereDeck.picking = []
 }
-watch(() => playerCard.current, restoreAspectPos)
-watch(() => currentMenu2.value, restoreAspectPos)
 watch(() => eventDeck.discard.length, function () {
   setTimeout(() => {
     isPingEvent.value = false
@@ -588,7 +559,7 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
           <div
             id="game-showing-top"
             ref="menuControlEl"
-            class="bg-neutral-100 py-2 flex px-2 relative h-1/2"
+            class="bg-neutral-100 flex px-2 relative h-1/2"
             :style="menu1Tab1BackgroundStyle"
           >
             <template v-if="currentMenu1 === MENU_1.PLAY">
@@ -633,13 +604,25 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
                   @click="finishPickDaysThatNeverWere"
                 />
               </div>
-              <card-group-view
+              <div
                 v-else
-                from="play"
-                :cards="playerCard.play"
-                @swipe-down="putFromPlayToHand"
-                @swipe-up="playerCard.putFromPlayToDiscard"
-              />
+                class="w-full flex"
+              >
+                <div class="relative flex-1">
+                  <card-group-view
+                    from="play"
+                    :cards="playerCard.play"
+                    @swipe-down="putFromPlayToHand"
+                    @swipe-up="playerCard.putFromPlayToDiscard"
+                  />
+                </div>
+                <div
+                  v-if="isHasAspect && playerCard.showAspect"
+                  class="w-1/3 relative"
+                >
+                  <aspect-power @show-aspect-detail="isShowAspectDetail = true" />
+                </div>
+              </div>
             </template>
             <div
               v-if="currentMenu1 === MENU_1.TAB_2"
@@ -664,7 +647,7 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
                 />
               </div>
             </div>
-            <div class="w-10" />
+            <div class="w-8" />
           </div>
 
           <div
@@ -692,19 +675,6 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
                 >
                   Reclaim All
                 </base-button>
-              </div>
-              <div
-                v-if="isHasAspect && playerCard.showAspect"
-                class="w-1/3 relative"
-              >
-                <div
-                  ref="aspectEl"
-                  class="w-full pl-2 py-2 overflow-y-auto absolute hide-scrollbar h-full"
-                  :class="aspectLoading ? 'opacity-0':''"
-                  @click="isShowAspectDetail = true"
-                >
-                  <aspect-power />
-                </div>
               </div>
             </template>
             <div
