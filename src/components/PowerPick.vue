@@ -1,49 +1,49 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import cardItem from '@/components/base/CardItem.vue'
-import { IconPlus } from '@tabler/icons-vue'
-import { useElementSize } from '@vueuse/core'
-import { CARD_RATIO } from '@/constant';
 import { useCardZoomStore } from '@/stores/CardZoomStore';
 
-defineProps<{
+const props = defineProps<{
   picking: string[],
 }>()
 defineEmits(['swipeDown', 'addPower', 'swipeUp'])
 
 const cardZoom = useCardZoomStore()
 
-const powerPickEl = ref<HTMLElement | null>()
-const { height: cardHeight } = useElementSize(powerPickEl)
-const cardWidth = computed(() => cardHeight.value * CARD_RATIO)
+const type = ref('minor')
+onMounted(() => {
+  type.value = props.picking[0].split('-')[0]
+})
+const pickingView = computed(() => props.picking.slice().reverse())
 </script>
 
 <template>
-  <transition-group
-    ref="powerPickEl"
-    name="list"
-    tag="div"
-    appear
-    class="flex h-full flex-shrink-0 space-x-2 absolute hide-scrollbar pb-96 -mb-96 box-content overflow-x-auto"
-  >
-    <card-item
-      v-for="card in picking"
-      :key="card"
-      :card="card"
-      @swipe-down="$emit('swipeDown', card)"
-      @swipe-up="$emit('swipeUp', card)"
-      @click="cardZoom.setZoom(card, picking, 'pick')"
-    />
-    <button
+  <div class="flex h-full w-full flex-shrink-0 space-x-2 absolute pb-96 -mb-96 box-content">
+    <div
       key="button-add-power"
-      :style="`width: ${cardWidth}px;`"
-      class="flex shrink-0 items-center justify-center border-2 border-orange-800 hover:border-orange-700 text-orange-900 hover:text-orange-700 rounded-xl"
+      class="flex shrink-0 items-center justify-center border-2 rounded-xl overflow-hidden"
       @click="$emit('addPower')"
     >
-      <icon-plus
-        class="w-16 h-16"
-        :style="{ 'stroke-width': '1px' }"
+      <img
+        :src="`/img/card-back/${type}.webp`"
+        alt="Power Back"
+        class="h-full"
+      >
+    </div>
+    <transition-group
+      name="fade"
+      tag="div"
+      appear
+      class="flex h-full space-x-2 hide-scrollbar overflow-x-auto w-full"
+    >
+      <card-item
+        v-for="card in pickingView"
+        :key="card"
+        :card="card"
+        @swipe-down="$emit('swipeDown', card)"
+        @swipe-up="$emit('swipeUp', card)"
+        @click="cardZoom.setZoom(card, pickingView, 'pick')"
       />
-    </button>
-  </transition-group>
+    </transition-group>
+  </div>
 </template>

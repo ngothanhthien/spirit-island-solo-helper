@@ -49,8 +49,3 @@ const { lengthY, isSwiping } = useSwipe(
     <game-card :id="card" />
   </div>
 </template>
-<style scoped>
-.cs-transition {
-  transition: opacity 0.4s ease-out, transform 0.4s ease-out, left 0.4s ease-out;
-}
-</style>

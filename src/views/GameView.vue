@@ -867,7 +867,7 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
 
           <div
             v-if="daysThatNeverWereDeck.current === playerCard.current"
-            class="absolute w-14 h-14 rounded-full bg-green-800 border-2 border-purple-700 overflow-hidden bottom-2 right-2"
+            class="absolute w-12 h-12 rounded-full bg-green-800 border-2 border-purple-700 overflow-hidden bottom-2 right-2"
             @click="isShowDaysThatNeverWere = true"
           >
             <img

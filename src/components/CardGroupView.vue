@@ -49,19 +49,3 @@ const slightLeft = computed(() => {
     />
   </transition-group>
 </template>
-<style>
-.list-enter-from {
-  opacity: 0;
-  transform: translateX(30px);
-}
-.list-enter-to {
-  opacity: 1;
-  transform: translateX(0);
-}
-.list-leave-to, .list-leave-from {
-  display: none;
-}
-.list-leave-active {
-  position: absolute;
-}
-</style>
