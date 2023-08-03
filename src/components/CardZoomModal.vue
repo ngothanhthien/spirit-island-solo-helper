@@ -2,12 +2,16 @@
 import { computed, ref } from 'vue'
 import GameCard from '@/components/base/GameCard.vue'
 import BaseButton from './base/BaseButton.vue'
-import { IconCaretRight, IconCaretLeft } from '@tabler/icons-vue'
 import { onClickOutside } from '@vueuse/core'
 import { useCardZoomStore } from '@/stores/CardZoomStore'
+import useZoomCardSwipe from '@/composable/useZoomCardSwipe'
 
 const content = ref<HTMLElement | null>(null)
+const cardEl = ref<HTMLElement | null>(null)
 const cardZoom = useCardZoomStore()
+
+const { left } = useZoomCardSwipe(cardEl, cardZoom.next, cardZoom.previous)
+
 const type = computed(() => {
   return cardZoom.current?.split('-')[0]
 })
@@ -38,21 +42,8 @@ const cardZoomClass = computed(() => {
   >
     <div
       ref="content"
-      :class="{
-        'translate-x-[22px]': !cardZoom.canPrevious,
-        'translate-x-[-22px]': !cardZoom.canNext,
-      }"
       class="h-[90%] flex"
     >
-      <div
-        v-if="cardZoom.canPrevious"
-        class="flex items-center text-white group"
-        @click="cardZoom.previous()"
-      >
-        <icon-caret-left
-          class="w-9 h-9 p-1 mr-2 bg-slate-900 rounded-full group-hover:bg-slate-700 transition"
-        />
-      </div>
       <div class="flex flex-col items-center">
         <div
           v-if="cardZoom.waiting.from?.includes('player-discard')"
@@ -66,11 +57,17 @@ const cardZoomClass = computed(() => {
             Forget
           </base-button>
         </div>
-        <game-card
-          :id="(cardZoom.current as string)"
+        <div
+          ref="cardEl"
+          class="relative"
           :class="cardZoomClass"
-          class="rounded-xl"
-        />
+          :style="`left: ${-left}px;`"
+        >
+          <game-card
+            :id="(cardZoom.current as string)"
+            class="rounded-xl h-full"
+          />
+        </div>
         <div
           v-if="isPowerCard"
           class="w-24"
@@ -101,15 +98,6 @@ const cardZoomClass = computed(() => {
             </span>
           </base-button>
         </div>
-      </div>
-      <div
-        v-if="cardZoom.canNext"
-        class="flex items-center text-white group"
-        @click="cardZoom.next()"
-      >
-        <icon-caret-right
-          class="w-9 h-9 p-1 ml-2 group-hover:bg-slate-700 transition bg-slate-900 rounded-full"
-        />
       </div>
     </div>
   </div>
