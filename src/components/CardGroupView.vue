@@ -33,7 +33,7 @@ const slightLeft = computed(() => {
 <template>
   <transition-group
     ref="handEl"
-    name="list"
+    name="fade"
     tag="div"
     class="flex w-full absolute h-full"
     appear
