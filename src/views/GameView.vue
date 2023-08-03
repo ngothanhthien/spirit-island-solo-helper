@@ -232,6 +232,7 @@ function switchMenu(menu: number) {
 
 function timePassed() {
   playerCard.cleanUp()
+  fearDeck.cleanUp()
   currentMenu2.value = MENU_2.HAND
 }
 

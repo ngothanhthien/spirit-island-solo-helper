@@ -181,6 +181,9 @@ export const useFearDeckStore = defineStore('fearDeck', {
       const card = this.raw.pop() as string
       this.draw.push(card)
     },
+    cleanUp() {
+      this.fearThisTurn = 0
+    },
   },
   persist: true,
 })
