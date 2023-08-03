@@ -46,6 +46,10 @@ const islands = ref<number[]>([])
 const spirits = ref<number[]>([])
 const spiritSelect = ref<number | null>(null)
 const dropDownEl = ref<HTMLElement | null>(null)
+const currentAspectShowing = ref<null | {
+  aspect: Aspect[]
+  spiritIndex: number
+}>(null)
 
 const aspectsOption = computed(() => {
   const options: Array<AspectOption[] | null> = []
@@ -75,10 +79,6 @@ const spiritOptions = computed(() => {
   }
   return options
 })
-const currentAspectShowing = ref<null | {
-  aspect: Aspect[]
-  spiritIndex: number
-}>(null)
 const adversaryOption = computed(() => {
   const options = []
   for (let i = 0; i < ADVERSARY.length; i++) {
@@ -243,7 +243,9 @@ function startGame() {
 }
 
 function selectSpirit(newSpirit: number) {
+  //spiritSelect.value as index
   spirits.value[spiritSelect.value as number] = newSpirit
+  aspects.value[spiritSelect.value as number] = -1
   spiritSelect.value = null
 }
 
