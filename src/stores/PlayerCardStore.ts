@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { removeCard } from '@/utils'
 import type { Element, Player, PowerCard } from '@/types'
 import { getCard } from '@/utils'
+import { useMessageStore } from './MessageStore'
 
 function createPlayer(): Player {
   return {
@@ -139,6 +140,8 @@ export const usePlayerCardStore = defineStore('playerCard', {
         player.energy -= cardData.cost
         removeCard(player.hand, card)
         player.play.push(card)
+      } else {
+        useMessageStore().setMessage('Not enough energy')
       }
     },
     putCardInDiscard(card: string) {
@@ -156,14 +159,6 @@ export const usePlayerCardStore = defineStore('playerCard', {
     removeCardFromPlay(card: string) {
       removeCard(this.players[this.current].play, card)
     },
-    toggleUseCard(card: string) {
-      const player = this.players[this.current]
-      if (player.used.includes(card)) {
-        removeCard(player.used, card)
-      } else {
-        player.used.push(card)
-      }
-    },
     addToPlay(card: string) {
       this.players[this.current].play.push(card)
     },
@@ -171,11 +166,13 @@ export const usePlayerCardStore = defineStore('playerCard', {
       const player = this.players[this.current]
       removeCard(player.hand, card)
       player.forget.push(card)
+      useMessageStore().setMessage('Forget card')
     },
     forgetCardFromDiscard(card: string) {
       const player = this.players[this.current]
       removeCard(player.discard, card)
       player.forget.push(card)
+      useMessageStore().setMessage('Forget card')
     },
     returnCardFromForget(card: string) {
       const player = this.players[this.current]
@@ -204,6 +201,7 @@ export const usePlayerCardStore = defineStore('playerCard', {
       const player = this.players[this.current]
       removeCard(player.play, card)
       player.discard.push(card)
+      useMessageStore().setMessage('Put card in discard')
     },
     setEnergy(energy: number) {
       this.players[this.current].energy = energy

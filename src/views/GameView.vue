@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import type { Element } from '@/types'
 import CardGroupView from '@/components/CardGroupView.vue'
 import {
@@ -41,6 +41,7 @@ import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
 import AdversaryText from '@/components/base/AdversaryText.vue'
 import VisionOfAShiftingFutureEvent from '@/components/VisionOfAShiftingFutureEvent.vue'
+import MessageInfo from '@/components/MessageInfo.vue'
 
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
@@ -51,6 +52,7 @@ import { useDiscardPowerStore } from '@/stores/PowerDeckStore'
 import router from '@/router'
 import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
 import { useGameStateStore } from '@/stores/GameStateStore'
+import { useMessageStore } from '@/stores/MessageStore'
 
 const MENU_1 = {
   PLAY: 0,
@@ -377,6 +379,15 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
     daysThatNeverWereDeck.picking = [...oldDeck]
   }
 }, { deep: true })
+
+watch(() => playerCard.current, () => {
+  currentMenu2.value = MENU_2.HAND
+})
+
+const messageStore = useMessageStore()
+onMounted(() => {
+  messageStore.setMessage('Welcome to Spirit Island!')
+})
 </script>
 
 <template>
@@ -431,7 +442,7 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
       </div>
       <div
         id="game-area"
-        class="flex flex-1"
+        class="flex flex-1 relative"
       >
         <div
           id="game-quick-bar"
@@ -926,6 +937,7 @@ watch(() => playerCard.picking, (newDeck, oldDeck) => {
             </div>
           </div>
         </div>
+        <message-info />
       </div>
     </div>
     <div id="modal">

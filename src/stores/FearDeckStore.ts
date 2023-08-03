@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 import { FEAR_CARDS } from "@/constant"
 import { removeCard, shuffle } from "@/utils"
+import { useMessageStore } from "./MessageStore"
 export const useFearDeckStore = defineStore('fearDeck', {
   state: () => ({
     raw: [] as string[],
@@ -147,6 +148,18 @@ export const useFearDeckStore = defineStore('fearDeck', {
       }
       const card = this.draw.pop() as string
       this.earned.push(card)
+      if (this.draw.length === 0) {
+        useMessageStore().setMessage(`Fear Victory!`)
+        return
+      }
+      if (this.fearCardLeaving === this.fearStage[0]) {
+        useMessageStore().setMessage(`Fear level II`)
+        return
+      }
+      if (this.fearCardLeaving === this.fearStage[0] + this.fearStage[1]) {
+        useMessageStore().setMessage(`Fear level III`)
+        return
+      }
       return card
     },
     unEarn() {

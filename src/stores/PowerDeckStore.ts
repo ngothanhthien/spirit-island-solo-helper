@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { MINOR_CARDS, MAJOR_CARDS } from '@/constant'
 import { shuffle } from '@/utils'
+import { useMessageStore } from './MessageStore'
 
 export const useDiscardPowerStore = defineStore('discardPower', {
   state: () => ({
@@ -59,6 +60,7 @@ function createDeckStore(name: string) {
       addToDraw(card: string) {
         this.draw.push(card)
         this.shuffle()
+        useMessageStore().setMessage(`Shuffle card back to deck`)
       },
       addToDiscard(card: string) {
         discardPowerStore.addToDiscard(card)
