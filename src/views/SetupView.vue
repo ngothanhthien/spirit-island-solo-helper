@@ -21,6 +21,11 @@ import type { Aspect } from '@/types'
 import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
 import { useGameStateStore } from '@/stores/GameStateStore'
 
+interface AspectOption {
+  label: string
+  value: number
+}
+
 const MAX_SPIRIT = 4
 
 const gameOption = useGameOptionStore()
@@ -33,12 +38,15 @@ const blightDeck = useBlightDeckStore()
 const daysThatNeverWereDeck = useDaysThatNeverWereStore()
 const gameState = useGameStateStore()
 
+const adversary = ref<undefined | number>()
 const numberSpirit = ref<undefined | number>()
 const aspects = ref<Array<number>>([])
-interface AspectOption {
-  label: string
-  value: number
-}
+const adversaryLevel = ref<number>(1)
+const islands = ref<number[]>([])
+const spirits = ref<number[]>([])
+const spiritSelect = ref<number | null>(null)
+const dropDownEl = ref<HTMLElement | null>(null)
+
 const aspectsOption = computed(() => {
   const options: Array<AspectOption[] | null> = []
   spirits.value.forEach((index) => {
@@ -71,8 +79,6 @@ const currentAspectShowing = ref<null | {
   aspect: Aspect[]
   spiritIndex: number
 }>(null)
-
-const adversary = ref<undefined | number>()
 const adversaryOption = computed(() => {
   const options = []
   for (let i = 0; i < ADVERSARY.length; i++) {
@@ -83,11 +89,7 @@ const adversaryOption = computed(() => {
   }
   return options
 })
-const adversaryLevel = ref<number>(1)
-const islands = ref<number[]>([])
-const spirits = ref<number[]>([])
-const spiritSelect = ref<number | null>(null)
-const dropDownEl = ref<HTMLElement | null>(null)
+
 onClickOutside(dropDownEl, () => {
   spiritSelect.value = null
 }, {ignore: [dropDownEl]})
@@ -112,6 +114,7 @@ function showSelectAspect(index: number) {
     spiritIndex: index,
   }
 } 
+
 function chooseAspect(index: number) {
   if(!currentAspectShowing.value) {
     return
@@ -127,6 +130,7 @@ function toggleSpiritSelect(value: number) {
     spiritSelect.value = value
   }
 }
+
 function randomSetup() {
   if (numberSpirit.value) {
     islands.value = []
@@ -143,6 +147,7 @@ function randomSetup() {
     randomAdversary()
   }
 }
+
 function randomAdversary() {
   adversary.value = Math.floor(Math.random() * ADVERSARY.length)
 }
@@ -178,6 +183,7 @@ function randomSpiritAndMap(index?: number) {
   islands.value.push(island)
   spirits.value.push(spirit)
 }
+
 const canStartGame = computed(() => {
   return (
     numberSpirit.value !== undefined &&
