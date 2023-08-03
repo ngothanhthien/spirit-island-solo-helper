@@ -2,9 +2,8 @@
 import { ref } from 'vue'
 import type { Aspect } from '@/types'
 import { nameToImage } from '@/utils'
-import { IconCaretRight, IconCaretLeft } from '@tabler/icons-vue'
-import BaseButton from '@/components/base/BaseButton.vue'
 import { onClickOutside } from '@vueuse/core'
+import useZoomCardSwipe from '@/composable/useZoomCardSwipe'
 
 const props = defineProps<{
   aspects: Array<Aspect>,
@@ -17,18 +16,25 @@ const aspectsImages = props.aspects.map((aspect) => {
   return [nameToImage(aspect.title)]
 })
 const current = ref(0)
-const aspectEl = ref<HTMLElement | null>()
-const buttonEl = ref<HTMLElement | null>()
-const nextEl = ref<HTMLElement | null>()
-const prevEl = ref<HTMLElement | null>()
+const aspectEl = ref<HTMLElement | null>(null)
+const buttonEl = ref<HTMLElement | null>(null)
+const nextEl = ref<HTMLElement | null>(null)
+const prevEl = ref<HTMLElement | null>(null)
 
+const { left } = useZoomCardSwipe(aspectEl, next, prev)
 onClickOutside(aspectEl, () => {
   emit('close')
 }, { ignore: [buttonEl, nextEl, prevEl] })
 function next() {
+  if (current.value === aspectsImages.length - 1) {
+    return
+  }
   current.value = (current.value + 1) % aspectsImages.length
 }
 function prev() {
+  if (current.value === 0) {
+    return
+  }
   current.value = (current.value - 1 + aspectsImages.length) % aspectsImages.length
 }
 </script>
@@ -36,20 +42,14 @@ function prev() {
 <template>
   <div class="absolute top-0 left-0 bg-gray-900/70 w-full h-full">
     <div class="h-[95%] left-1/2 -translate-x-1/2 relative top-1/2 -translate-y-1/2 flex flex-col">
-      <div class="flex justify-center flex-1 overflow-hidden">
-        <div
-          v-if="aspectsImages.length > 1 && current !== 0"
-          ref="nextEl"
-          class="flex items-center pr-2"
-          @click="prev"
-        >
-          <icon-caret-left
-            class="w-8 h-8 p-1 cursor-pointer text-white rounded-full bg-gray-900"
-          />
-        </div>
+      <div class="text-lg text-white font-semibold text-center">
+        {{ current + 1 }} of {{ aspectsImages.length }}
+      </div>
+      <div class="flex justify-center flex-1 overflow-hidden relative">
         <div
           ref="aspectEl"
-          class="flex h-full max-w-[90%] overflow-x-auto space-x-2 hide-scrollbar"
+          class="relative flex h-full max-w-[90%] overflow-x-auto space-x-2 hide-scrollbar transition duration-500"
+          :style="`left: ${-left}px`"
           @click="emit('choose', current)"
         >
           <img
@@ -60,24 +60,7 @@ function prev() {
             class="rounded-2xl h-full"
           >
         </div>
-        <div
-          v-if="aspectsImages.length > 1 && current !== aspectsImages.length - 1"
-          ref="prevEl"
-          class="flex items-center pl-2"
-          @click="next"
-        >
-          <icon-caret-right
-            class="w-8 h-8 p-1 cursor-pointer text-white rounded-full bg-gray-900"
-          />
-        </div>
       </div>
-      <base-button
-        ref="buttonEl"
-        class="mx-auto mt-2"
-        @click="$emit('choose', current)"
-      >
-        Choose
-      </base-button>
     </div>
   </div>
 </template>
