@@ -811,6 +811,7 @@ onMounted(() => {
                   </base-button>
                   <base-button
                     button-style="secondary"
+                    class="mx-auto"
                     @click="router.push({ name: 'HomeView' })"
                   >
                     Exit Game
