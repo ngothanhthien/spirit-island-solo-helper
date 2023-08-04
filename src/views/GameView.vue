@@ -881,6 +881,7 @@ onMounted(() => {
           <div
             v-if="isShow2xAspect"
             class="w-1/3 shrink-0 flex"
+            @click="isShowAspectDetail = true"
           >
             <div class="relative flex-1">
               <aspect-power />
