@@ -1610,7 +1610,7 @@ export const SPIRIT: Array<SpiritType> = [
             name: 'Gift of the Sparking Sky',
             description: `2Sun5Fire3Air Once this turn, after target Spirit uses a Power that targets a land, they may do 1 Damage to each Invader in that land. (This is their Action and gets all benefits and penalties that apply to their Powers.):break:
             2Fire2Air Target Spirit gains a Minor Power:break:
-            1Sun3Fir2Air Target Spirit may play a Power Card by paying its cost. (If you target yourself, its Elements arrive too late to apply to prior thresholds of this Power.)`,
+            1Sun3Fire2Air Target Spirit may play a Power Card by paying its cost. (If you target yourself, its Elements arrive too late to apply to prior thresholds of this Power.)`,
             target: {
               speed: 'Fast',
               range: null,
