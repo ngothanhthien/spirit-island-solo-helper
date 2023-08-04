@@ -47,7 +47,7 @@ function powerPickSwipeUp(cardId: string) {
       name="fade"
       tag="div"
       appear
-      class="flex h-full hide-scrollbar overflow-x-auto w-full"
+      class="flex h-full hide-scrollbar overflow-x-auto w-full pb-96 -mb-96 box-content"
     >
       <card-item
         v-for="card in playerCard.picking"
