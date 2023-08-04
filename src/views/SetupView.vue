@@ -308,6 +308,9 @@ watch(numberSpirit, randomSetup)
                 :max="6"
                 class="w-full"
               />
+              <div class="mt-0.5 text-right">
+                Difficultly: {{ ADVERSARY[adversary]['difficultly'][adversaryLevel] }}
+              </div>
             </div>
           </div>
         </div>
