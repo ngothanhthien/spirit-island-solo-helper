@@ -24,6 +24,12 @@ export const useGameOptionStore = defineStore("gameOption", {
     hasRussia5(state) {
       return ADVERSARY[state.adversary as number].id === 'russia' && state.adversaryLevel >= 5
     },
+    hasHabsburg5(state) {
+      return ADVERSARY[state.adversary as number].id === 'habsburg' && state.adversaryLevel >= 5
+    },
+    hasSweden4(state) {
+      return ADVERSARY[state.adversary as number].id === 'sweden' && state.adversaryLevel >= 4
+    },
     aspectsDetail(state) {
       const spiritsRawAspect = state.spirits.map((spiritIndex) => SPIRIT[spiritIndex].aspects)
       return state.aspects.map((aspectIndex, index) => {

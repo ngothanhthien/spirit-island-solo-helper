@@ -3061,15 +3061,15 @@ export const ADVERSARY: Array<Adversary> = [
       [4, 4, 4],
     ],
     difficultly: [1, 2, 4, 6, 7, 8, 9],
-    // invaders: [
-    //   '111222233333',
-    //   '111222233333',
-    //   '111322223333',
-    //   '11322223333',
-    //   '1132223333',
-    //   '132223333',
-    //   '32223333',
-    // ],
+    invaders: [
+      '',
+      '',
+      '111322223333',
+      '11322223333',
+      '1132223333',
+      '132223333',
+      '32223333',
+    ],
     id: 'prussia',
     detail: {
       title: 'The Kingdom of Brandenburg-Prussia',
@@ -3142,15 +3142,6 @@ export const ADVERSARY: Array<Adversary> = [
       [4, 5, 4],
     ],
     difficultly: [1, 3, 4, 6, 7, 9, 11],
-    // invaders: [
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    // ],
     id: 'england',
     detail: {
       title: 'The Kingdom of Brandenburg-Prussia',
@@ -3218,15 +3209,6 @@ export const ADVERSARY: Array<Adversary> = [
       [4, 5, 5],
     ],
     difficultly: [2, 3, 5, 7, 8, 9, 10],
-    // invaders: [
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    // ],
     id: 'france',
     detail: {
       title: 'The Kingdom of France (Plantation Colony)',
@@ -3296,15 +3278,6 @@ export const ADVERSARY: Array<Adversary> = [
       [4, 4, 5],
     ],
     difficultly: [1, 2, 3, 5, 6, 7, 8],
-    // invaders: [
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    // ],
     id: 'sweden',
     detail: {
       title: 'The Kingdom of Sweden',
@@ -3374,15 +3347,15 @@ export const ADVERSARY: Array<Adversary> = [
       [5, 6, 3],
     ],
     difficultly: [2, 3, 5, 6, 8, 9, 10],
-    // invaders: [
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    // ],
+    invaders: [
+      '',
+      '',
+      '',
+      '11222233333',
+      '11222233333',
+      '11222233333',
+      '11222233333',
+    ],
     id: 'habsburg',
     detail: {
       title: 'The Habsburg Monarchy (Livestock Colony)',
@@ -3536,15 +3509,15 @@ export const ADVERSARY: Array<Adversary> = [
       [5, 5, 4],
     ],
     difficultly: [1, 3, 4, 6, 7, 9, 11],
-    // invaders: [
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    // ],
+    invaders: [
+      '',
+      '',
+      '',
+      '',
+      '111232323233',
+      '111222233333',
+      '111222233333',
+    ],
     id: 'russia',
     detail: {
       title: 'The Tsardom of Russia',
@@ -3613,15 +3586,15 @@ export const ADVERSARY: Array<Adversary> = [
       [6, 6, 4],
     ],
     difficultly: [1, 3, 4, 6, 7, 8, 10],
-    // invaders: [
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    //   '111222233333',
-    // ],
+    invaders: [
+      '',
+      '',
+      '11221C233333',
+      '11221C233333',
+      '11223C23333',
+      '11223C23333',
+      '11223C23333',
+    ],
     id: 'scotland',
     detail: {
       title: 'The Kingdom of Scotland',
@@ -3782,6 +3755,12 @@ export const EXTRA_POWERS: PowerCard[] = [
     elements: ['Sun', 'Fire', 'Air'],
     description: ''
   }
+]
+type InvaderCard = 'S-1' | 'W-1' | 'J-1' | 'M-1' | 'S-2' | 'W-2' | 'J-2' | 'M-2' | 'C-2' | 'SW-3' | 'SJ-3' | 'SM-3' | 'WJ-3' | 'WM-3' | 'JM-3'
+export const INVADER_CARD: Array<Array<InvaderCard>> = [
+  ['S-1', 'W-1', 'J-1', 'M-1'],
+  ['S-2', 'W-2', 'J-2', 'M-2', 'C-2'],
+  ['SW-3', 'SJ-3', 'SM-3', 'WJ-3', 'WM-3', 'JM-3'],
 ]
 export const MAP = ['A', 'B', 'C', 'D', 'E', 'F']
 export const PHASE_ENUM = [

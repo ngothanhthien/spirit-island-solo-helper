@@ -34,7 +34,7 @@ export interface Adversary {
   title: string
   fear: number[][]
   difficultly: number[]
-  // invaders: string[];
+  invaders?: string[];
   id: string
   detail: {
     title: string

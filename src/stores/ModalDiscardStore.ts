@@ -25,6 +25,9 @@ export const useModalDiscardStore = defineStore('modalDiscard', {
     },
 
     getTypeName(state) {
+      if (state.deck.length === 0) {
+        return null
+      }
       const card = state.deck[0]
       return card.split('-')[0]
     }

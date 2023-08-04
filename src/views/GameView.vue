@@ -35,13 +35,17 @@ import PowerPick from '@/components/PowerPick.vue'
 import ModalForgetPower from '@/components/ModalForgetPower.vue'
 import ModalZoomBlightCard from '@/components/ModalZoomBlightCard.vue'
 import GameCard from '@/components/base/GameCard.vue'
+import InvaderBar from '@/components/InvaderBar.vue'
+import InvaderControl from '@/components/InvaderControl.vue'
 import { ADVERSARY } from '@/constant'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
+import { useInvaderCardStore } from '@/stores/InvaderCardStore'
 import AdversaryText from '@/components/base/AdversaryText.vue'
 import VisionOfAShiftingFutureEvent from '@/components/VisionOfAShiftingFutureEvent.vue'
 import MessageInfo from '@/components/MessageInfo.vue'
+import HabsburgReminder from '@/components/HabsburgReminder.vue'
 
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
@@ -78,6 +82,7 @@ const gameOption = useGameOptionStore()
 const blightDeck = useBlightDeckStore()
 const gameState = useGameStateStore()
 const daysThatNeverWereDeck = useDaysThatNeverWereStore()
+const invaderCard = useInvaderCardStore()
 
 
 const menuControlEl = ref<HTMLElement | null>(null)
@@ -94,9 +99,12 @@ const isShowModalDiscardPower = ref(false)
 const isShowDaysThatNeverWere = ref(false)
 const showRussiaStage2 = ref(true)
 const showRussiaStage3 = ref(true)
+const showHabsburgReminderCard = ref(true)
 const isShowSetupRef = ref(true)
 const isShowVisionsOfAShiftingFutureEvent = ref(false)
 const modeIncrease = ref(true)
+const isShowInvaderControl = ref(false)
+
 const menu1Tab1BackgroundStyle = computed(() => {
   if (isPickingDaysThatNeverWere.value) {
     return `background-image: url('/img/icon/days_that_never_were.webp');`
@@ -175,6 +183,15 @@ function discardViewSwipeUp(cardId: string) {
 }
 function showPowerDiscard() {
   isShowModalDiscardPower.value = true
+}
+
+function doRussiaStage2() {
+  showRussiaStage2.value = false
+  invaderCard.doRussia(2)
+}
+function doRussiaStage3() {
+  showRussiaStage3.value = false
+  invaderCard.doRussia(3)
 }
 
 function buttonQuickBlightClick() {
@@ -397,12 +414,6 @@ onMounted(() => {
         id="game-header"
         class="h-12 bg-orange-800 flex items-center z-40 text-white w-full"
       >
-        <button
-          class="bg-orange-900 px-2 h-full"
-          @click="router.push({ name: 'HomeView' })"
-        >
-          Exit game
-        </button>
         <div class="flex items-center h-full pr-3">
           <button
             class="h-full px-2 flex items-center bg-orange-600"
@@ -416,6 +427,7 @@ onMounted(() => {
           <element-track class="ml-3" />
         </div>
         <div class="flex ml-auto h-full">
+          <invader-bar @click="isShowInvaderControl = true" />
           <button
             class="h-full px-2.5 flex items-center space-x-1 bg-purple-900"
             @click="fearDeck.increaseFear"
@@ -798,6 +810,14 @@ onMounted(() => {
                     Aspect: {{ playerCard.aspectMode }}
                   </base-button>
                   <base-button
+                    button-style="secondary"
+                    @click="router.push({ name: 'HomeView' })"
+                  >
+                    Exit Game
+                  </base-button>
+                </div>
+                <div class="flex flex-col relative w-32 space-y-2 mt-2">
+                  <base-button
                     class="h-fit w-full"
                     button-style="secondary"
                     :disabled="playerCard.forget.length === 0"
@@ -805,8 +825,6 @@ onMounted(() => {
                   >
                     Show Forget
                   </base-button>
-                </div>
-                <div class="flex flex-col relative w-32 space-y-2 mt-2">
                   <base-button
                     class="h-fit w-full"
                     button-style="secondary"
@@ -990,7 +1008,7 @@ onMounted(() => {
             <base-button
               button-style="secondary"
               class="mt-2"
-              @click="showRussiaStage2 = false"
+              @click="doRussiaStage2"
             >
               Russia: Entrench in the Face of Fear
             </base-button>
@@ -1011,7 +1029,7 @@ onMounted(() => {
             <base-button
               button-style="secondary"
               class="mt-2"
-              @click="showRussiaStage3 = false"
+              @click="doRussiaStage3"
             >
               Russia: Entrench in the Face of Fear
             </base-button>
@@ -1027,6 +1045,10 @@ onMounted(() => {
         v-if="isShowVisionsOfAShiftingFutureEvent"
         @close="isShowVisionsOfAShiftingFutureEvent = false"
       />
+      <invader-control
+        v-if="isShowInvaderControl"
+        @close="isShowInvaderControl = false"
+      />
       <div
         v-if="adversaryName && isShowSetupRef && adversarySetup && gameState.isNewGame"
         class="absolute w-full h-full bg-gray-900/30 top-0 left-0"
@@ -1041,6 +1063,10 @@ onMounted(() => {
           </div>
         </div>
       </div>
+      <habsburg-reminder
+        v-if="showHabsburgReminderCard && gameOption.hasHabsburg5"
+        @close="showHabsburgReminderCard = false"
+      />
     </div>
   </div>
 </template>

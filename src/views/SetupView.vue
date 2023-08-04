@@ -20,6 +20,7 @@ import { IconPencil, IconTrashX } from '@tabler/icons-vue'
 import type { Aspect } from '@/types'
 import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
 import { useGameStateStore } from '@/stores/GameStateStore'
+import { useInvaderCardStore } from '@/stores/InvaderCardStore'
 
 interface AspectOption {
   label: string
@@ -37,6 +38,7 @@ const minorDeck = usePowerDeckStore('minor')
 const blightDeck = useBlightDeckStore()
 const daysThatNeverWereDeck = useDaysThatNeverWereStore()
 const gameState = useGameStateStore()
+const invaderCard = useInvaderCardStore()
 
 const adversary = ref<undefined | number>()
 const numberSpirit = ref<undefined | number>()
@@ -209,6 +211,8 @@ function startGame() {
   eventDeck.newDeck(gameOption.hasFranceEvent)
   majorDeck.newDeck()
   minorDeck.newDeck()
+  const invaderPos =  ADVERSARY[adversary.value as number].invaders?.[adversaryLevel.value as number]
+  invaderCard.newDeck(invaderPos && invaderPos !== '' ? invaderPos : undefined)
   daysThatNeverWereDeck.reset()
   fearDeck.newDeck(gameOption.fearSetup, numberSpirit.value as number, gameOption.hasEngland6)
   gameState.isNewGame = true

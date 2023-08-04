@@ -39,7 +39,8 @@ fs.readdir(directoryPath, async (err, files) => {
         await sharp(filePath)
           // .linear(1.05)
           // .resize(450)
-          .webp()
+          .resize(250)
+          // .webp()
           .toFile(outputFilePath)
 
         console.log(
