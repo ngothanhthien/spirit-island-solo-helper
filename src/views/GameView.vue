@@ -392,7 +392,7 @@ watch(() => eventDeck.reveal, function (newValue) {
   }
 })
 watch(() => playerCard.picking, (newDeck, oldDeck) => {
-  if (newDeck.length === 0 && playerCard.current === daysThatNeverWereDeck.current) {
+  if (newDeck.length === 0 && oldDeck.length !== 1 && playerCard.current === daysThatNeverWereDeck.current) {
     daysThatNeverWereDeck.picking = [...oldDeck]
   }
 }, { deep: true })

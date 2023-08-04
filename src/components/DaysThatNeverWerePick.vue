@@ -19,7 +19,7 @@ const powerPickEl = ref<HTMLElement | null>()
     name="list"
     tag="div"
     appear
-    class="flex h-full flex-shrink-0 space-x-2 absolute hide-scrollbar pb-96 -mb-96 box-content overflow-x-auto"
+    class="flex h-full w-full flex-shrink-0 space-x-2 absolute hide-scrollbar pb-96 -mb-96 box-content overflow-x-auto"
   >
     <card-item
       v-for="card in picking"
