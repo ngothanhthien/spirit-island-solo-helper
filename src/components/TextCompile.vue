@@ -37,70 +37,70 @@ const { compileText, iconList } = useTextCompile(props.message)
       <img
         v-else-if="['Fire', 'Moon', 'Air', 'Sun', 'Earth', 'Water', 'Animal', 'Plant'].includes(part)"
         :src="`/img/elements/${part.toLowerCase()}.webp`"
-        class="w-3.5 h-3.5 inline-block -translate-y-0.5 -my-1"
+        class="w-3 h-3 inline-block -translate-y-0.5 -my-0.5"
       >
       <template v-else-if="part === ':break:'">
         <div class="mt-1" />
       </template>
       <icon-city
         v-else-if="part === 'Cityicon.png'"
-        class="w-3.5 h-3.5 -translate-y-0.5 -my-1"
+        class="w-3 h-3 -translate-y-0.5 -my-1"
       />
       <icon-town
         v-else-if="part === 'Townicon.png'"
-        class="w-3.5 h-3.5 -translate-y-0.5 -my-1"
+        class="w-3 h-3 -translate-y-0.5 -my-1"
       />
       <explorer-icon
         v-else-if="part === 'Explorericon.png'"
-        class="w-3.5 h-3.5 -translate-y-0.5 -my-1"
+        class="w-3 h-3 -translate-y-0.5 -my-1 -mx-0.5"
       />
       <fear-icon
         v-else-if="part === 'Fear'"
-        class="w-3.5 h-3.5 -translate-y-0.5 -my-1"
+        class="w-3 h-3 -translate-y-0.5 -my-1"
       />
       <presence-icon
         v-else-if="part === 'Presence'"
-        class="w-3.5 h-3.5 -my-1"
+        class="w-3 h-3 -my-1"
       />
       <sacred-site-icon
         v-else-if="part === 'Sacred Site'"
-        class="w-3.5 h-3.5 -translate-y-0.5 -my-1"
+        class="w-3 h-3 -translate-y-0.5 -my-1"
       />
       <blight-icon
         v-else-if="part === 'Blight'"
-        class="w-3.5 h-3.5 -translate-y-0.5"
+        class="w-3 h-3 -translate-y-0.5"
       />
       <dahan-icon
         v-else-if="part === 'Dahan'"
-        class="w-3.5 h-3.5 -translate-y-0.5 -my-1"
+        class="w-3 h-3 -translate-y-0.5 -my-1"
       />
       <beasts-icon
         v-else-if="part === 'Beasts'"
-        class="w-3.5 h-3.5 -translate-y-0.5 -ml-0.5 -my-1"
+        class="w-3 h-3 -translate-y-0.5 -ml-0.5 -my-1"
       />
       <strife-icon
         v-else-if="part === 'Strife'"
-        class="w-3.5 h-3.5 -my-1"
+        class="w-3 h-3 -my-1"
       />
       <wilds-icon
         v-else-if="part === 'Wilds'"
-        class="w-3.5 h-3.5 -my-1"
+        class="w-3 h-3 -my-1"
       />
       <disease-icon
         v-else-if="part === 'Disease'"
-        class="w-3.5 h-3.5 -my-1"
+        class="w-3 h-3 -my-1"
       />
       <fast-icon
         v-else-if="part === 'Fasticon.png'"
-        class="w-3.5 h-3.5 -my-1"
+        class="w-3 h-3 -my-1"
       />
       <slow-icon
         v-else-if="part === 'Slowicon.png'"
-        class="w-3.5 h-3.5 -my-1"
+        class="w-3 h-3 -my-1"
       />
       <vitality-icon
         v-else-if="part === 'Vitality'"
-        class="w-3.5 h-3.5 -my-1"
+        class="w-3 h-3 -my-1"
       />
       <range-icon
         v-else-if="part === 'plus1Rangeicon'"
@@ -114,7 +114,7 @@ const { compileText, iconList } = useTextCompile(props.message)
       />
       <deeps-icon
         v-else-if="part === 'Deeps'"
-        class="w-3.5 h-3.5 -my-1"
+        class="w-3 h-3 -my-1"
       />
     </template>
   </div>

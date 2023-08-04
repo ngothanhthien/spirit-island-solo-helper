@@ -84,7 +84,7 @@ function restoreAspectPos() {
             >
               <div
                 id="Header"
-                class="grid grid-cols-12 font-bold uppercase text-[10px] text-white"
+                class="grid grid-cols-12 font-bold uppercase text-[9px] text-white"
                 style="background-color:rgb(175,152,102);"
               >
                 <div class="col-span-3 flex justify-center items-center max-h-3">
@@ -119,12 +119,12 @@ function restoreAspectPos() {
                       v-if="card.target.scaredSite"
                       style="display:inline-block; vertical-align:middle;"
                     >
-                      <sacred-site-icon class="w-7 h-7" />
+                      <sacred-site-icon class="w-5 h-5 -mb-1" />
                     </div>
                     <range-icon
                       num="1"
                       :class="{'ml-1': card.target.scaredSite}"
-                      class="w-8"
+                      class="w-5 -mb-2"
                     />
                   </template>
                   <no-range-icon

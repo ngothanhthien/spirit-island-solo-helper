@@ -11,7 +11,7 @@ export default{
 
 <template>
   <div class="inline-block text-center -translate-y-2">
-    <div class="text-sm font-bold translate-y-1">
+    <div class="text-[11px] font-bold translate-y-1">
       {{ num }}
     </div>
     <svg
