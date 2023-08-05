@@ -48,7 +48,10 @@ export const useGameOptionStore = defineStore("gameOption", {
         const aspects = spiritsRawAspect[index] as Aspect[]
         return aspects[aspectIndex]
       })
-    }
+    },
+    isHasAspect(state) {
+      return state.aspects.length > 0
+    },
   },
   actions: {
     setSetupState(option: {

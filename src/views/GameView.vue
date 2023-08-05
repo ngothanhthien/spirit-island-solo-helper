@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch, type Ref } from 'vue'
 import type { Element } from '@/types'
 import CardGroupView from '@/components/CardGroupView.vue'
 import {
@@ -83,7 +83,7 @@ const blightDeck = useBlightDeckStore()
 const gameState = useGameStateStore()
 const daysThatNeverWereDeck = useDaysThatNeverWereStore()
 const invaderCard = useInvaderCardStore()
-
+const messageStore = useMessageStore()
 
 const menuControlEl = ref<HTMLElement | null>(null)
 
@@ -105,24 +105,22 @@ const isShowVisionsOfAShiftingFutureEvent = ref(false)
 const modeIncrease = ref(true)
 const isShowInvaderControl = ref(false)
 
-const menu1Tab1BackgroundStyle = computed(() => {
-  if (isPickingDaysThatNeverWere.value) {
-    return `background-image: url('/img/icon/days_that_never_were.webp');`
-  }
-  return ''
-})
+if (
+  !eventDeck.isAvailable ||
+  !minorDeck.isAvailable ||
+  !majorDeck.isAvailable ||
+  !fearDeck.isAvailable
+) {
+  router.push({ name: 'HomeView' })
+}
+
 const adversaryName = computed(() => {
   if (gameOption.adversary !== undefined) {
     return ADVERSARY[gameOption.adversary].title
   }
   return null
 })
-const isShow2xAspect = computed(() => {
-  return playerCard.aspectMode === '2x'
-  && isHasAspect.value
-  && playerCard.showAspect
-  && currentMenu2.value === MENU_2.HAND
-})
+
 const adversaryImage = computed(() => {
   if (gameOption.adversary !== undefined) {
     return '/img/adversary/' + ADVERSARY[gameOption.adversary].id + '-flag.webp'
@@ -154,21 +152,47 @@ const adversarySetup = computed(() => {
   return null
 })
 
-const isPickingDaysThatNeverWere = computed(() => 
-  playerCard.current === daysThatNeverWereDeck.current
-  && daysThatNeverWereDeck.picking && daysThatNeverWereDeck.picking.length > 0
-)
+let isPickingDaysThatNeverWere = null as null | Ref<boolean>
+let menu1Tab1BackgroundStyle = null as null | Ref<string>
+if (daysThatNeverWereDeck.current !== null) {
+  isPickingDaysThatNeverWere = computed(() => 
+    playerCard.current === daysThatNeverWereDeck.current
+    && daysThatNeverWereDeck.picking && daysThatNeverWereDeck.picking.length > 0
+  )
 
-if (
-  !eventDeck.isAvailable ||
-  !minorDeck.isAvailable ||
-  !majorDeck.isAvailable ||
-  !fearDeck.isAvailable
-) {
-  router.push({ name: 'HomeView' })
+  menu1Tab1BackgroundStyle = computed(() => {
+    if (isPickingDaysThatNeverWere && isPickingDaysThatNeverWere.value) {
+      return `background-image: url('/img/icon/days_that_never_were.webp');`
+    }
+    return ''
+  })
+
+  watch(() => playerCard.picking, (newDeck, oldDeck) => {
+    if (newDeck.length === 0 && oldDeck.length !== 1 && playerCard.current === daysThatNeverWereDeck.current) {
+      daysThatNeverWereDeck.picking = [...oldDeck]
+    }
+  }, { deep: true })
 }
 
-const isHasAspect = computed(() => Boolean(gameOption.aspectsDetail[playerCard.current]))
+let isHasAspect = null as null | Ref<boolean>
+let isShow2xAspect = null as null | Ref<boolean | null>
+if (gameOption.isHasAspect) {
+  isHasAspect = computed(() => Boolean(gameOption.aspectsDetail[playerCard.current]))
+  isShow2xAspect = computed(() => {
+    return playerCard.aspectMode === '2x'
+    && isHasAspect
+    && isHasAspect.value
+    && playerCard.showAspect
+    && currentMenu2.value === MENU_2.HAND
+  })
+
+  watch(() => playerCard.aspectMode, (mode) => {
+    if (mode === '2x') {
+      currentMenu2.value = MENU_2.HAND
+    }
+  })
+}
+
 function adjustElement(element: Element) {
   if (modeIncrease.value) {
     playerCard.increaseElement(element)
@@ -181,6 +205,7 @@ function discardViewSwipeUp(cardId: string) {
   playerCard.forgetCardFromDiscard(cardId)
   currentMenu1.value = MENU_1.PLAY
 }
+
 function showPowerDiscard() {
   isShowModalDiscardPower.value = true
 }
@@ -189,6 +214,7 @@ function doRussiaStage2() {
   showRussiaStage2.value = false
   invaderCard.doRussia(2)
 }
+
 function doRussiaStage3() {
   showRussiaStage3.value = false
   invaderCard.doRussia(3)
@@ -289,11 +315,17 @@ function returnCardFromForget(card: string) {
   isShowModalForgetPower.value = false
   currentMenu2.value = MENU_2.HAND
 }
-watch(() => playerCard.aspectMode, (mode) => {
-  if (mode === '2x') {
-    currentMenu2.value = MENU_2.HAND
+
+function addCardToDaysThatNeverWere(cardId: string) {
+  const [type] = cardId.split('-')
+  if (type === 'minor') {
+    daysThatNeverWereDeck.minor.push(cardId)
+  } else if (type === 'major') {
+    daysThatNeverWereDeck.major.push(cardId)
   }
-})
+  daysThatNeverWereDeck.picking = []
+}
+
 watch(() => cardZoom.waiting.card,
   (cardId) => {
     if (cardId) {
@@ -362,6 +394,7 @@ watch(() => cardZoom.waiting.card,
     }
   },
 )
+
 watch(() => fearDeck.earned.length, (newValue) => {
   if (newValue === 0) {
     isShowEarnedFear.value = false
@@ -372,36 +405,22 @@ watch(() => playerCard.isPicking, () => {
   currentMenu1.value = MENU_1.PLAY
 })
 
-function addCardToDaysThatNeverWere(cardId: string) {
-  const [type] = cardId.split('-')
-  if (type === 'minor') {
-    daysThatNeverWereDeck.minor.push(cardId)
-  } else if (type === 'major') {
-    daysThatNeverWereDeck.major.push(cardId)
-  }
-  daysThatNeverWereDeck.picking = []
-}
 watch(() => eventDeck.discard.length, function () {
   setTimeout(() => {
     isPingEvent.value = false
   }, 200);
 })
+
 watch(() => eventDeck.reveal, function (newValue) {
   if (!newValue) {
     isPingEvent.value = true
   }
 })
-watch(() => playerCard.picking, (newDeck, oldDeck) => {
-  if (newDeck.length === 0 && oldDeck.length !== 1 && playerCard.current === daysThatNeverWereDeck.current) {
-    daysThatNeverWereDeck.picking = [...oldDeck]
-  }
-}, { deep: true })
 
 watch(() => playerCard.current, () => {
   currentMenu2.value = MENU_2.HAND
 })
 
-const messageStore = useMessageStore()
 onMounted(() => {
   messageStore.setMessage('Welcome to Spirit Island!')
 })
@@ -571,7 +590,7 @@ onMounted(() => {
               id="game-showing-top"
               ref="menuControlEl"
               class="bg-neutral-100 flex px-2 relative h-1/2"
-              :style="menu1Tab1BackgroundStyle"
+              :style="menu1Tab1BackgroundStyle ? `${menu1Tab1BackgroundStyle}` : undefined"
             >
               <template v-if="currentMenu1 === MENU_1.PLAY">
                 <div
