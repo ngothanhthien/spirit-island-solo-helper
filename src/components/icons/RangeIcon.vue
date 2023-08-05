@@ -1,18 +1,23 @@
 <script lang="ts">
 export default{
-    props: {
-        num: {
-            type: String,
-            required: true,
-        },
+  props: {
+    num: {
+      type: String,
+      required: true,
     },
+  },
 }
 </script>
 
 <template>
   <div class="inline-block text-center -translate-y-2">
     <div class="text-[11px] font-bold translate-y-1">
-      {{ num }}
+      <img
+        v-if="num === 'air'"
+        :src="`/img/elements/air.webp`"
+        class="h-3 inline-block -translate-y-0.5 -my-0.5"
+      >
+      <span v-else>{{ num }}</span>
     </div>
     <svg
       class="w-full h-2"

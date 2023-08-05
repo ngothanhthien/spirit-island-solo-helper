@@ -15,6 +15,7 @@ const iconList = [
   'Strife',
   'Wilds',
   'Disease',
+  'Badlands',
   'Sun',
   'Fire',
   'Moon',
@@ -23,11 +24,16 @@ const iconList = [
   'Earth',
   'Plant',
   'Animal',
+  'Any Element',
   'Slowicon.png',
   'Fasticon.png',
   'Sacred Site',
   'Vitality',
   'Deeps',
+  'Locus',
+  'Lair',
+  'air_range',
+  'destroy_presence',
 ]
 export default function (message: string) {
   const compileText = computed(() =>

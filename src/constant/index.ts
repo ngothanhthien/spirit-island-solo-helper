@@ -1,5 +1,5 @@
 import type { PowerCard, Adversary, BlightCard, SpiritType } from '@/types'
-import { setupDarkFire, setupIntensify, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
+import { setupDarkFire, setupIntensify, setupLocus, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
 import { setupSparking } from '../utils/setup'
 import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox } from '@/utils/event'
 import { setupDaysThatNeverWere } from '@/utils/spirit'
@@ -1810,12 +1810,12 @@ export const SPIRIT: Array<SpiritType> = [
         cards: [
           {
             name: 'DARK AND FIRE AS ONE',
-            description: `You gain 1 permanent Fire/Moon.:break:
-            You may treat each Moon available to you as being Fire, or vice versa. (Choose during each Action for each Moon/Fire you have.) You may discard or Forget Powers that grant Moon to pay for Fire Choice Events, and vice versa.`
+            description: `You may treat each Moon available to you as being Fire, or vice versa. (Choose during each Action for each Moon/Fire you have.) You may discard or Forget Powers that grant Moon to pay for Fire Choice Events, and vice versa.`
           },
           {
             name: 'FRIGHTFUL SHADOWS ELUDE DESTRUCTION',
-            description: `The first time each Action would destroy your Presence, you may Push 1 of those Presence instead of destroying it.`
+            description: `The first time each Action would destroy your Presence, you may Push 1 of those Presence instead of destroying it.:break:
+            <strong>Bonus space:</strong> Fire (or Moon)`
           }
         ],
         setupFunction: setupDarkFire,
@@ -2069,15 +2069,15 @@ export const SPIRIT: Array<SpiritType> = [
         requirements: [
           'Replaces: STEADY REGENERATION',
           'Replace: ALL ENVELOPING GREEN',
-          'Setup: Take 13 destroy Presence',
+          'Setup: Take 13 destroy_presence',
         ],
         cards: [
           {
             name: 'Unbelievable Regrowth',
             description: `2Water3Plant This Power may target any terrain.:break:
-            1Water3Plant Add 1 Destroy Presence.:break:
-            2Water4Plant Add 1 Destroy Presence.:break:
-            3Water5Plant Add 1 Destroy Presence to an adjacent land.`,
+            1Water3Plant Add 1 destroy_presence.:break:
+            2Water4Plant Add 1 destroy_presence.:break:
+            3Water5Plant Add 1 destroy_presence to an adjacent land.`,
             target: {
               speed: 'Slow',
               range: 1,
@@ -2201,6 +2201,33 @@ export const SPIRIT: Array<SpiritType> = [
         description: '1 Fear. Destroy 1 Town. Push 1 Dahan.',
       },
     ],
+    aspects: [
+      {
+        title: 'Transforming',
+        requirements: ['Replaces: THE BURNED LAND REGROWS'],
+        cards: [
+          {
+            name: 'TRANSFORM RATHER THAN CONSUME',
+            description: `When your Actions would Destroy City (including by Damage), instead:
+            2 Fear. Replace that City with 1 Town and 1 Explorer. Push both Invaders.:break:
+            When your Actions would Destroy Town (including by Damage), instead:
+            1 Fear. Replace that Town with 2 Explorer. Push both Invaders.`
+          },
+          {
+            name: 'EXALTATION OF THE TRANSFORMING FLAME',
+            description: `4Fire 1Plant Target Spirit may Forget a Power Card to gain a Power Card and 1 Any Element. You may do likewise.:break:
+            3Fire 1Earth 2Plant Target Spirit may pay 1 Energy to Replace 1 Blight with 1 Badlands in one of their lands. You may do likewise.:break:
+            1Sun 3Fire 1 Animal Target Spirit may Replace 1 Explorer with 1 Beasts in one of their lands. You may do likewise.`,
+            target: {
+              speed: 'Fast',
+              range: null,
+              scaredSite: null,
+              targetLand: 'Another Spirit',
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     name: 'Grinning Trickster Stirs Up Trouble',
@@ -2542,6 +2569,26 @@ export const SPIRIT: Array<SpiritType> = [
           'Gather up to 2 Explorer. Gather up to 2 Town. Gather up to 2 Beasts. Gather up to 2 Dahan.',
       },
     ],
+    aspects: [
+      {
+        title: 'Lair',
+        requirements: ['Setup: Put Lair in an Inland land on your starting board. Remove 3 Presence.', 'Replaces: FORSAKE SOCIETY TO CHASE AFTER DREAMS', 'Replaces: ENTHRALL THE FOREIGN EXPLORERS'],
+        cards: [
+          {
+            name: 'A SINGLE ALLURING LAIR',
+            description: `Invaders/Dahan/Beasts/Presence (of any Spirit) at Lair can't move. (You can reposition Lair by adding it with your second Growth option instead of adding Presence.):break:
+            6 Explorer and 3 Dahan at Lair don't participate in Ravage. (They don't deal Damage or take Damage.)`
+          },
+          {
+            name: 'SOCIETY DISSOLVES AT THE BECKONING HEART',
+            description: `1Moon For every 3 Explorer/Dahan, Downgrade a different Town/City.:break:
+            3Moon 1Air Gather 1 Explorer/Town and 1 Dahan:break:
+            4Moon 1Air Once for every 6 Explorer/Dahan present (at Lair)::break:
+            Gather any invader within air_range one land towards Lair.`
+          }
+        ]
+      }
+    ]
   },
   {
     name: 'Many Minds Move As One',
@@ -2845,6 +2892,36 @@ export const SPIRIT: Array<SpiritType> = [
           'Gain 3 Energy. Move 1 of target Spirit\'s Presence from the board to your "Deep Slumber" track. Absorbed Presence cannot be returned to play. Target Spirit gains 1 Any and 1 Energy.',
       },
     ],
+    aspects: [
+      {
+        title: 'Locus',
+        setupFunction: setupLocus,
+        images: ['Locus 1', 'Locus 2'],
+        requirements: [`Replaces: SERPENT WAKES IN POWER`, `Setup: Put Locus and the Presence from the Fire space of your Presence track on the starting board in land #5`],
+        cards: [
+          {
+            name: `LOCUS OF THE SERPENT'S REGARD`,
+            description: `Spirits with absorbed Presence can use your Presence at Locus for targeting.:break:
+            Locus doesn't count towards your Deep Slumber limit.:break:
+            After uncovering the Earth space of your Presence track, Empower Locus.:break:
+            <strong>Bonus space:</strong> Add/Move Locus to Land with Your Presence.
+            `
+          },
+          {
+            name: `STRENGTH OF THE WAKING ISLAND`,
+            description: `2Water 1Earth After a Spirit uses a land-targeting Power Card, they may Repeat it at Locus by paying its cost. (Max. 1 Power Card per turn for each of their absorbed Presence.) You may help pay some or all of this cost. (These Repeats ignore Range and target requirements.):break:
+            2Moon 2Earth 1Plant Add 1 Vitality at Locus. If a Spirit has 2 or more absorbed Presence, you may instead Add 1 Vitality in one of their lands without Blight.
+            `,
+            target: {
+              speed: 'Fast',
+              range: null,
+              scaredSite: null,
+              targetLand: 'yourself',
+            }
+          },
+        ]
+      }
+    ]
   },
   {
     name: 'Volcano Looming High',

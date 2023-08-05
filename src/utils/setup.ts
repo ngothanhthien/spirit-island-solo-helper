@@ -161,3 +161,26 @@ export function setupIntensify(playerPos: number) {
   players.permanentElements['Moon']++
   return true
 }
+
+export function setupLocus(playerPos: number) {
+  const playerCard = usePlayerCardStore()
+  const minorDeck = usePowerDeckStore('minor')
+  const players = playerCard.players[playerPos]
+  const unique = getPowerIdByName('Elemental Aegis', 'unique')
+  if (!unique) {
+    console.error('Card --Elemental Aegis-- not found')
+    return false
+  }
+  removeCard(players.hand, unique)
+
+  const minor = getPowerIdByName('Pull Beneath the Hungry Earth', 'minor-major')
+  if (!minor) {
+    console.error('Card --Pull Beneath the Hungry Earth-- not found')
+    return false
+  }
+  
+  removeCard(minorDeck.draw, minor)
+  players.hand.push(minor)
+
+  return true
+}

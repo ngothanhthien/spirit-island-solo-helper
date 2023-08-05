@@ -62,9 +62,19 @@ function restoreAspectPos() {
         <div
           v-for="requirement in aspect.requirements"
           :key="requirement"
-          class="text-xs font-semibold text-red-700 truncate px-1"
+          class="text-xs font-semibold text-red-700"
         >
-          {{ requirement }}
+          <div
+            v-if="requirement.toLowerCase().startsWith('replaces')"
+            :class="{'truncate': requirement.toLowerCase().startsWith('replaces')}"
+            class="pl-1"
+          >
+            {{ requirement }}
+          </div>
+          <text-compile
+            v-else
+            :message="requirement"
+          />
         </div>
       </div>
       <div class="bg-amber-100">
@@ -74,7 +84,7 @@ function restoreAspectPos() {
             v-for="card in aspect.cards"
             :key="card.name"
           >
-            <div class="text-[11px] uppercase font-semibold px-1">
+            <div class="text-[11px] uppercase font-semibold px-1 truncate">
               {{ card.name }}
             </div>
             <div
