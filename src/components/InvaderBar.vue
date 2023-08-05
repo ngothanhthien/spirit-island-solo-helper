@@ -11,20 +11,22 @@ const invaderCard = useInvaderCardStore()
     id="invader-bar"
     class="flex h-12 bg-orange-800"
   >
-    <div
-      v-if="invaderCard.extraBuildView"
-      class="flex flex-col"
-    >
-      <invader-box
-        :deck="invaderCard.extraBuildView"
-        label="ravage"
-        class="text-xs flex-1"
-        :class="[invaderCard.ravage.length > 4 ? 'w-12' : 'w-8']"
-      />
-      <div class="uppercase text-[9px] text-white text-center">
-        build
+    <template v-if="invaderCard.extraBuildView">
+      <div class="flex flex-col">
+        <invader-box
+          :deck="invaderCard.extraBuildView"
+          label="ravage"
+          class="text-xs flex-1"
+          :class="[invaderCard.ravage.length > 4 ? 'w-12' : 'w-8']"
+        />
+        <div class="uppercase text-[9px] text-white text-center">
+          build
+        </div>
       </div>
-    </div>
+      <div class="flex items-center">
+        <icon-chevron-left class="w-3.5 h-3.5 mb-3 text-white mx-0.5" />
+      </div>
+    </template>
     <div class="flex flex-col">
       <invader-box
         :deck="invaderCard.ravageView"

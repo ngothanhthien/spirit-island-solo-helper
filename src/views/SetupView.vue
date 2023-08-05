@@ -213,6 +213,9 @@ function startGame() {
   minorDeck.newDeck()
   const invaderPos =  ADVERSARY[adversary.value as number].invaders?.[adversaryLevel.value as number]
   invaderCard.newDeck(invaderPos && invaderPos !== '' ? invaderPos : undefined)
+  if (gameOption.hasEngland3) {
+    invaderCard.extraBuild = []
+  }
   daysThatNeverWereDeck.reset()
   fearDeck.newDeck(gameOption.fearSetup, numberSpirit.value as number, gameOption.hasEngland6)
   gameState.isNewGame = true

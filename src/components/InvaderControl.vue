@@ -7,7 +7,7 @@ import {
   IconReload,
 } from '@tabler/icons-vue'
 import InvaderBox from '@/components/InvaderBox.vue'
-import { useManualRefHistory } from '@vueuse/core'
+import { useManualRefHistory, watchDebounced } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import BaseButton from './base/BaseButton.vue'
 import { IconChevronLeft, IconLock, IconLockOff } from '@tabler/icons-vue'
@@ -93,6 +93,20 @@ function next() {
   invaderCard.next()
   commit(['explore', 'discard', 'ravage', 'build', 'extraBuild'])
 }
+
+if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
+  watchDebounced(() => invaderCard.extraBuild as string[], (newList) => {
+    if (!newList || newList.length === 0) return
+    for(let i = 0; i < newList.length; i++) {
+      if (newList[i].includes('2')) {
+        invaderCard.extraBuild = null
+        invaderCard.discard = [...invaderCard.discard, ...newList]
+        break
+      }
+    }
+  }, { debounce: 300 })
+}
+
 </script>
 
 <template>
