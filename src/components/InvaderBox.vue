@@ -30,7 +30,7 @@ defineProps({
       class="flex items-center justify-center border border-gray-400 border-collapse relative"
     >
       <icon-escalation
-        v-if="card.includes('2')"
+        v-if="card.includes('2') && !card.includes('C')"
         class="absolute h-[80%] text-stone-800"
       />
       <div class="absolute">
