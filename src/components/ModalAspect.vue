@@ -26,15 +26,9 @@ onClickOutside(aspectEl, () => {
   emit('close')
 }, { ignore: [buttonEl, nextEl, prevEl] })
 function next() {
-  if (current.value === aspectsImages.length - 1) {
-    return
-  }
   current.value = (current.value + 1) % aspectsImages.length
 }
 function prev() {
-  if (current.value === 0) {
-    return
-  }
   current.value = (current.value - 1 + aspectsImages.length) % aspectsImages.length
 }
 </script>

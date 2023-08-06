@@ -14,7 +14,7 @@ import { IconChevronLeft, IconLock, IconLockOff } from '@tabler/icons-vue'
 import { type Ref, ref } from 'vue'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 
-defineEmits(['close'])
+const emit = defineEmits(['close'])
 
 const invaderCard = useInvaderCardStore()
 const gameOption = useGameOptionStore()
@@ -92,6 +92,7 @@ function doExplore() {
 function next() {
   invaderCard.next()
   commit(['explore', 'discard', 'ravage', 'build', 'extraBuild'])
+  emit('close')
 }
 
 if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {

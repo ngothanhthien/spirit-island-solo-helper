@@ -840,17 +840,17 @@ onMounted(() => {
                   <base-button
                     class="h-fit w-full"
                     button-style="secondary"
-                    :disabled="playerCard.forget.length === 0"
-                    @click="isShowModalForgetPower = true"
+                    @click="timePassed"
                   >
-                    Show Forget
+                    Time Passed
                   </base-button>
                   <base-button
                     class="h-fit w-full"
                     button-style="secondary"
-                    @click="timePassed"
+                    :disabled="playerCard.forget.length === 0"
+                    @click="isShowModalForgetPower = true"
                   >
-                    Time Passed
+                    Show Forget
                   </base-button>
                   <base-button
                     class="h-fit w-full"
