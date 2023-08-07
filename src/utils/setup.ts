@@ -98,6 +98,14 @@ export function setupSparking(playerPos: number) {
     return false
   }
   removeCard(players.hand, card)
+
+  const extra = getPowerIdByName('Smite the Land with Fulmination', 'extra')
+  if (!extra) {
+    console.error('Card --Smite the Land with Fulmination-- not found')
+    return false
+  }
+  players.hand.push(extra)
+
   return true
 }
 

@@ -2910,8 +2910,7 @@ export const SPIRIT: Array<SpiritType> = [
           {
             name: `STRENGTH OF THE WAKING ISLAND`,
             description: `2Water 1Earth After a Spirit uses a land-targeting Power Card, they may Repeat it at Locus by paying its cost. (Max. 1 Power Card per turn for each of their absorbed Presence.) You may help pay some or all of this cost. (These Repeats ignore Range and target requirements.):break:
-            2Moon 2Earth 1Plant Add 1 Vitality at Locus. If a Spirit has 2 or more absorbed Presence, you may instead Add 1 Vitality in one of their lands without Blight.
-            `,
+            2Moon 2Earth 1Plant Add 1 Vitality at Locus. If a Spirit has 2 or more absorbed Presence, you may instead Add 1 Vitality in one of their lands without Blight.`,
             target: {
               speed: 'Fast',
               range: null,
@@ -3735,10 +3734,10 @@ export const BLIGHT_CARDS: BlightCard[] = [
     name: 'A Pall Upon The Land',
     isBlighted: true,
   },
-  {
-    name: 'All Things Weaken',
-    isBlighted: true,
-  },
+  // {
+  //   name: 'All Things Weaken',
+  //   isBlighted: true,
+  // },
   {
     name: 'Attenuated Essence',
     isBlighted: true,
