@@ -199,9 +199,20 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               England 1
             </div>
             <invader-box
+              v-if="invaderCard.extraBuild?.length !== 1"
               :deck="invaderCard.extraBuildView"
               class="flex-1 rounded-lg overflow-hidden"
             />
+            <div
+              v-else
+              class="flex-1 rounded-lg overflow-hidden relative"
+            >
+              <img
+                :src="`/img/invader/${invaderCard.extraBuild[0].toLowerCase()}.webp`"
+                alt="Invader Card"
+                class="h-full absolute w-full"
+              >
+            </div>
             <button
               class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 opacity-0"
               :disabled="invaderCard.extraBuildView.length === 0"
@@ -241,9 +252,22 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               Habsburg loss<span v-if="gameOption.hasHabsburg6">, 6</span>
             </div>
             <invader-box
+              v-if="invaderCard.ravage.length !== 1"
               :deck="invaderCard.ravageView"
+              :class="{'border-4 border-red-700' :invaderCard.lock.includes('ravage')}"
               class="flex-1 rounded-lg overflow-hidden"
             />
+            <div
+              v-else
+              class="flex-1 rounded-lg overflow-hidden relative"
+              :class="{'border-4 border-red-700' :invaderCard.lock.includes('ravage')}"
+            >
+              <img
+                :src="`/img/invader/${invaderCard.ravage[0].toLowerCase()}.webp`"
+                alt="Invader Card"
+                class="h-full absolute w-full"
+              >
+            </div>
             <button
               class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:bg-gray-800/60"
               :disabled="invaderCard.ravage.length === 0"
@@ -285,10 +309,22 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               France loss<span v-if="gameOption.hasFranceEvent">, 2</span><span v-if="gameOption.hasFrance4">, 4</span>
             </div>
             <invader-box
+              v-if="invaderCard.build.length !== 1"
               :deck="invaderCard.buildView"
               :class="{'border-4 border-red-700' :invaderCard.lock.includes('build')}"
               class="flex-1 rounded-lg overflow-hidden"
             />
+            <div
+              v-else
+              class="flex-1 rounded-lg overflow-hidden relative"
+              :class="{'border-4 border-red-700' :invaderCard.lock.includes('build')}"
+            >
+              <img
+                :src="`/img/invader/${invaderCard.build[0].toLowerCase()}.webp`"
+                alt="Invader Card"
+                class="h-full absolute w-full"
+              >
+            </div>
             <button
               class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:bg-gray-800/60"
               :disabled="invaderCard.build.length === 0"
@@ -329,11 +365,24 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
                 <icon-reload />
               </div>
             </div>
-            <invader-box
-              v-else
-              :deck="invaderCard.exploreView"
-              class="flex-1 rounded-lg overflow-hidden"
-            />
+            <template v-else>
+              <invader-box
+                v-if="invaderCard.explore.length !== 1"
+
+                :deck="invaderCard.exploreView"
+                class="flex-1 rounded-lg overflow-hidden"
+              />
+              <div
+                v-else
+                class="flex-1 rounded-lg overflow-hidden relative"
+              >
+                <img
+                  :src="`/img/invader/${invaderCard.explore[0].toLowerCase()}.webp`"
+                  alt="Invader Card"
+                  class="h-full absolute w-full"
+                >
+              </div>
+            </template>
             <div class="flex">
               <button
                 v-if="gameOption.hasSweden4 && invaderCard.draw.length === invaderCard.pos.length"
