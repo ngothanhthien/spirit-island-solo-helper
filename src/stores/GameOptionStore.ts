@@ -15,14 +15,26 @@ export const useGameOptionStore = defineStore("gameOption", {
     fearSetup(state) {
       return ADVERSARY[state.adversary as number].fear[state.adversaryLevel];
     },
+    hasScotland1(state) {
+      return ADVERSARY[state.adversary as number].id === 'scotland' && state.adversaryLevel >= 1
+    },
+    hasScotland3(state) {
+      return ADVERSARY[state.adversary as number].id === 'scotland' && state.adversaryLevel >= 3
+    },
+    hasScotLand5(state) {
+      return ADVERSARY[state.adversary as number].id === 'scotland' && state.adversaryLevel >= 5
+    },
+    hasScotLand6(state) {
+      return ADVERSARY[state.adversary as number].id === 'scotland' && state.adversaryLevel === 6
+    },
     hasFranceEvent(state) {
       return ADVERSARY[state.adversary as number].id === 'france' && state.adversaryLevel >= 2
     },
+    hasFrance(state) {
+      return ADVERSARY[state.adversary as number].id === 'france'
+    },
     hasFrance1(state) {
       return ADVERSARY[state.adversary as number].id === 'france' && state.adversaryLevel >= 1
-    },
-    hasFrance2(state) {
-      return ADVERSARY[state.adversary as number].id === 'france' && state.adversaryLevel >= 2
     },
     hasFrance4(state) {
       return ADVERSARY[state.adversary as number].id === 'france' && state.adversaryLevel >= 4
@@ -57,11 +69,29 @@ export const useGameOptionStore = defineStore("gameOption", {
     hasRussia6(state) {
       return ADVERSARY[state.adversary as number].id === 'russia' && state.adversaryLevel === 6
     },
+    hasHabsburg(state) {
+      return ADVERSARY[state.adversary as number].id === 'habsburg'
+    },
+    hasHabsburg1(state) {
+      return ADVERSARY[state.adversary as number].id === 'habsburg' && state.adversaryLevel >= 1
+    },
+    hasHabsburg2(state) {
+      return ADVERSARY[state.adversary as number].id === 'habsburg' && state.adversaryLevel >= 2
+    },
     hasHabsburg5(state) {
       return ADVERSARY[state.adversary as number].id === 'habsburg' && state.adversaryLevel >= 5
     },
+    hasHabsburg6(state) {
+      return ADVERSARY[state.adversary as number].id === 'habsburg' && state.adversaryLevel === 6
+    },
+    hasSweden1(state) {
+      return ADVERSARY[state.adversary as number].id === 'sweden' && state.adversaryLevel >= 1
+    },
     hasSweden4(state) {
       return ADVERSARY[state.adversary as number].id === 'sweden' && state.adversaryLevel >= 4
+    },
+    hasSweden5(state) {
+      return ADVERSARY[state.adversary as number].id === 'sweden' && state.adversaryLevel >= 5
     },
     aspectsDetail(state) {
       const spiritsRawAspect = state.spirits.map((spiritIndex) => SPIRIT[spiritIndex].aspects)

@@ -222,6 +222,24 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             >
               Russia 1<span v-if="gameOption.hasRussia3">,&nbsp;3</span><span v-if="gameOption.hasRussia6">,&nbsp;6</span>
             </div>
+            <div
+              v-if="gameOption.hasSweden1"
+              class="text-center text-xs bg-red-200 rounded"
+            >
+              Sweden 1<span v-if="gameOption.hasSweden5">,&nbsp;5</span>
+            </div>
+            <div
+              v-if="gameOption.hasScotLand5"
+              class="text-center text-xs bg-red-200 rounded"
+            >
+              Scotland 5<span v-if="gameOption.hasScotLand6">,&nbsp;6</span>
+            </div>
+            <div
+              v-if="gameOption.hasHabsburg"
+              class="text-center text-xs bg-red-200 rounded"
+            >
+              Habsburg loss<span v-if="gameOption.hasHabsburg6">, 6</span>
+            </div>
             <invader-box
               :deck="invaderCard.ravageView"
               class="flex-1 rounded-lg overflow-hidden"
@@ -249,10 +267,22 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               England 1
             </div>
             <div
-              v-if="gameOption.hasFrance2"
+              v-if="gameOption.hasScotland3"
               class="text-center text-xs bg-red-200 rounded"
             >
-              France loss, 2<span v-if="gameOption.hasFrance4">, 4</span>
+              Scotland 3
+            </div>
+            <div
+              v-if="gameOption.hasHabsburg1"
+              class="text-center text-xs bg-red-200 rounded"
+            >
+              Habsburg 1<span v-if="gameOption.hasHabsburg2">, 2</span>
+            </div>
+            <div
+              v-if="gameOption.hasFrance"
+              class="text-center text-xs bg-red-200 rounded"
+            >
+              France loss<span v-if="gameOption.hasFranceEvent">, 2</span><span v-if="gameOption.hasFrance4">, 4</span>
             </div>
             <invader-box
               :deck="invaderCard.buildView"
@@ -280,6 +310,12 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               class="text-center text-xs bg-red-200 rounded"
             >
               France 1<span v-if="gameOption.hasFrance6">, 6</span>
+            </div>
+            <div
+              v-if="gameOption.hasScotland1"
+              class="text-center text-xs bg-red-200 rounded"
+            >
+              Scotland 1
             </div>
             <div
               v-if="invaderCard.explore.length === 0"
