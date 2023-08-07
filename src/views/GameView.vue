@@ -16,7 +16,6 @@ import {
 import ElementTrack from '@/components/ElementTrack.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 import { changePosition, getSpiritAvatar, removeCard } from '@/utils'
-import AdversaryModal from '@/components/AdversaryModal.vue'
 import EventZoomModal from '@/components/EventZoomModal.vue'
 import ModalDiscardCommon from '@/components/ModalDiscardCommon.vue'
 import FearIcon from '@/components/icons/FearIcon.vue'
@@ -88,7 +87,6 @@ const messageStore = useMessageStore()
 const menuControlEl = ref<HTMLElement | null>(null)
 
 const isShowModalForgetPower = ref(false)
-const isShowAdversary = ref(false)
 const isShowEarnedFear = ref(false)
 const isShowFearDeck = ref(false)
 const isShowAspectDetail = ref(false)
@@ -121,12 +119,6 @@ const adversaryName = computed(() => {
   return null
 })
 
-const adversaryImage = computed(() => {
-  if (gameOption.adversary !== undefined) {
-    return '/img/adversary/' + ADVERSARY[gameOption.adversary].id + '-flag.webp'
-  }
-  return null
-})
 const adversarySetup = computed(() => {
   if (gameOption.adversary !== undefined) {
     const setup = ADVERSARY[gameOption.adversary].setup
@@ -254,11 +246,6 @@ function handSwipeUp(cardId: string, posId: string) {
     return
   }
   playerCard.playCard(cardId, posId)
-}
-
-function onCloseModalAdversary() {
-  isShowAdversary.value = false
-  currentMenu2.value = MENU_2.HAND
 }
 
 function putFromPlayToHand(cardId: string, posId: string) {
@@ -962,20 +949,6 @@ onMounted(() => {
             </transition>
             <div class="h-8" />
           </div>
-          <div
-            v-if="adversaryImage"
-            class="absolute w-full h-10 bottom-2 border-t border-b border-orange-700"
-            @click="isShowAdversary = true"
-          >
-            <img
-              :src="adversaryImage"
-              alt="Adversary Flag"
-              class="h-full"
-            >
-            <div class="absolute font-semibold text-lg top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
-              {{ gameOption.adversaryLevel }}
-            </div>
-          </div>
         </div>
         <message-info />
       </div>
@@ -1006,10 +979,6 @@ onMounted(() => {
       <modal-fear-reveal v-if="fearDeck.currentReveal" />
       <card-zoom-modal v-if="cardZoom.isShow" />
       <event-zoom-modal v-if="eventDeck.reveal" />
-      <adversary-modal
-        v-if="isShowAdversary"
-        @close="onCloseModalAdversary"
-      />
       <aspect-detail
         v-if="isShowAspectDetail"
         @close="isShowAspectDetail = false"

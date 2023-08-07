@@ -11,15 +11,18 @@ import { useManualRefHistory, watchDebounced } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import BaseButton from './base/BaseButton.vue'
 import { IconChevronLeft, IconLock, IconLockOff } from '@tabler/icons-vue'
-import { type Ref, ref } from 'vue'
+import { type Ref, ref, computed } from 'vue'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
+import { ADVERSARY } from '@/constant'
+import AdversaryModal from '@/components/AdversaryModal.vue'
 
-const emit = defineEmits(['close'])
+defineEmits(['close'])
 
 const invaderCard = useInvaderCardStore()
 const gameOption = useGameOptionStore()
 
 const sweden4 = ref<string | null>(null)
+const isShowAdversary = ref(false)
 
 const { draw, explore, build, ravage, extraBuild, discard, box } =
   storeToRefs(invaderCard)
@@ -53,6 +56,14 @@ const deck = [
     deck: box,
   },
 ]
+
+const adversaryImage = computed(() => {
+  if (gameOption.adversary !== undefined) {
+    return '/img/adversary/' + ADVERSARY[gameOption.adversary].id + '-flag.webp'
+  }
+  return null
+})
+
 const lastCommit = ref<string[][]>([])
 const history = deck.map((area) => {
   const { undo, commit } = useManualRefHistory(area.deck as Ref<unknown>, {
@@ -92,11 +103,11 @@ function doExplore() {
 function next() {
   invaderCard.next()
   commit(['explore', 'discard', 'ravage', 'build', 'extraBuild'])
-  emit('close')
 }
 
 if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
   watchDebounced(() => invaderCard.extraBuild as string[], (newList) => {
+    console.log(1)
     if (!newList || newList.length === 0) return
     for(let i = 0; i < newList.length; i++) {
       if (newList[i].includes('2')) {
@@ -116,7 +127,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
     @click.self="$emit('close')"
   >
     <div
-      class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-white rounded-lg flex-col flex"
+      class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[90%] bg-white rounded-lg flex-col flex"
     >
       <div class="bg-gray-900 text-white py-2 pl-3 rounded-t-lg flex">
         <div>Invader Card</div>
@@ -128,14 +139,27 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
         </div>
       </div>
       <div class="flex-1 flex flex-col">
-        <base-button
-          class="capitalize mt-1 mx-2"
-          button-style="secondary"
-          :disabled="lastCommit.length === 0"
-          @click="undo"
-        >
-          undo
-        </base-button>
+        <div class="flex">
+          <base-button
+            class="capitalize mt-1 mx-2"
+            button-style="secondary"
+            :disabled="lastCommit.length === 0"
+            @click="undo"
+          >
+            undo
+          </base-button>
+          <div
+            v-if="adversaryImage"
+            class="w-fit ml-auto h-10 bottom-2 border-t border-b border-orange-700"
+            @click="isShowAdversary = true"
+          >
+            <img
+              :src="adversaryImage"
+              alt="Adversary Flag"
+              class="h-full"
+            >
+          </div>
+        </div>
         <div class="flex-1 px-4 py-2 flex space-x-2 text-2xl">
           <div class="basis-full flex flex-col">
             <div class="text-base">
@@ -168,6 +192,12 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             <div class="text-center text-base">
               Extra Build
             </div>
+            <div
+              v-if="gameOption.hasEngland1"
+              class="text-center text-xs bg-red-200 rounded"
+            >
+              England 1
+            </div>
             <invader-box
               :deck="invaderCard.extraBuildView"
               class="flex-1 rounded-lg overflow-hidden"
@@ -185,6 +215,12 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
           <div class="basis-full flex-col flex">
             <div class="text-center text-base">
               Ravage
+            </div>
+            <div
+              v-if="gameOption.hasRussia1"
+              class="text-center text-xs bg-red-200 rounded"
+            >
+              Russia 1<span v-if="gameOption.hasRussia3">,&nbsp;3</span><span v-if="gameOption.hasRussia6">,&nbsp;6</span>
             </div>
             <invader-box
               :deck="invaderCard.ravageView"
@@ -206,6 +242,18 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             <div class="text-center text-base">
               Build
             </div>
+            <div
+              v-if="gameOption.hasEngland1"
+              class="text-center text-xs bg-red-200 rounded"
+            >
+              England 1
+            </div>
+            <div
+              v-if="gameOption.hasFrance2"
+              class="text-center text-xs bg-red-200 rounded"
+            >
+              France loss, 2<span v-if="gameOption.hasFrance4">, 4</span>
+            </div>
             <invader-box
               :deck="invaderCard.buildView"
               :class="{'border-4 border-red-700' :invaderCard.lock.includes('build')}"
@@ -226,6 +274,12 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
           <div class="basis-full flex-col flex">
             <div class="text-center text-base">
               Explore
+            </div>
+            <div
+              v-if="gameOption.hasFrance1"
+              class="text-center text-xs bg-red-200 rounded"
+            >
+              France 1<span v-if="gameOption.hasFrance6">, 6</span>
             </div>
             <div
               v-if="invaderCard.explore.length === 0"
@@ -273,9 +327,14 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
       </div>
     </div>
     <Teleport to="#modal">
+      <adversary-modal
+        v-if="isShowAdversary"
+        class="z-50"
+        @close="isShowAdversary = false"
+      />
       <div
         v-if="sweden4"
-        class="absolute top-0 left-0 w-full h-full bg-gray-900/30 z-[9999]"
+        class="absolute top-0 left-0 w-full h-full bg-gray-900/30 z-50"
         @click.self="sweden4 = null"
       >
         <div class="h-[85%] rounded-lg overflow-hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">

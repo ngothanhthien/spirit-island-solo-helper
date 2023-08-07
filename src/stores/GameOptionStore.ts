@@ -18,8 +18,23 @@ export const useGameOptionStore = defineStore("gameOption", {
     hasFranceEvent(state) {
       return ADVERSARY[state.adversary as number].id === 'france' && state.adversaryLevel >= 2
     },
+    hasFrance1(state) {
+      return ADVERSARY[state.adversary as number].id === 'france' && state.adversaryLevel >= 1
+    },
+    hasFrance2(state) {
+      return ADVERSARY[state.adversary as number].id === 'france' && state.adversaryLevel >= 2
+    },
+    hasFrance4(state) {
+      return ADVERSARY[state.adversary as number].id === 'france' && state.adversaryLevel >= 4
+    },
+    hasFrance6(state) {
+      return ADVERSARY[state.adversary as number].id === 'france' && state.adversaryLevel === 6
+    },
     isEngland3(state) {
       return ADVERSARY[state.adversary as number].id === 'england' && state.adversaryLevel === 3
+    },
+    hasEngland1(state) {
+      return ADVERSARY[state.adversary as number].id === 'england' && state.adversaryLevel >= 1
     },
     hasEngland3(state) {
       return ADVERSARY[state.adversary as number].id === 'england' && state.adversaryLevel >= 3
@@ -30,8 +45,17 @@ export const useGameOptionStore = defineStore("gameOption", {
     hasEngland6(state) {
       return ADVERSARY[state.adversary as number].id === 'england' && state.adversaryLevel === 6
     },
+    hasRussia1(state) {
+      return ADVERSARY[state.adversary as number].id === 'russia' && state.adversaryLevel >= 1
+    },
+    hasRussia3(state) {
+      return ADVERSARY[state.adversary as number].id === 'russia' && state.adversaryLevel >= 3
+    },
     hasRussia5(state) {
       return ADVERSARY[state.adversary as number].id === 'russia' && state.adversaryLevel >= 5
+    },
+    hasRussia6(state) {
+      return ADVERSARY[state.adversary as number].id === 'russia' && state.adversaryLevel === 6
     },
     hasHabsburg5(state) {
       return ADVERSARY[state.adversary as number].id === 'habsburg' && state.adversaryLevel >= 5
