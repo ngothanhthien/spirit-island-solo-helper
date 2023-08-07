@@ -60,12 +60,13 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
       ]
       const deck = [] as string[]
 
+      //Habsburg Mining setup
       //Scotland setup
-      if (pos.includes('C')) {
+      if (pos.includes('C') && pos.includes('D')) { 
         removeCard(shuffled[1] as string[], 'C-2')
       }
 
-      Array.from(this.pos.replace('C', '')).forEach((pos) => {
+      Array.from(this.pos.replace('C', '').replace('D', '')).forEach((pos) => {
         const card = shuffled[parseInt(pos) - 1].pop()
         if (!card) {
           console.error('Some thing went wrong')
@@ -73,9 +74,15 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
         }
         deck.push(card)
       })
+
       //Scotland setup
       if (pos.includes('C')) {
         deck.splice(deck.length - 5, 0, 'C-2')
+      }
+
+      //Habsburg Mining setup
+      if (pos.includes('D')) {
+        deck.splice(deck.length - 4, 0, 'D-2')
       }
 
       this.draw = deck.slice().reverse()
