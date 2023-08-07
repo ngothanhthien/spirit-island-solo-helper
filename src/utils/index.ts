@@ -133,3 +133,17 @@ export const getSpiritById = (id: number) => {
 export const nameToImage = (name: string) => {
   return name.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '_').toLowerCase() + '.webp'
 }
+
+export const changePosition = (arr: string[], cardId: string, posId: string) => {
+  if (posId) {
+    removeCard(arr, cardId)
+    insertAfter(arr, cardId, posId)
+  }
+}
+
+function insertAfter(arr: string[] ,newElement: string, insertAfter: string) {
+  const index = arr.indexOf(insertAfter);
+  if (index !== -1) {
+    arr.splice(index + 1, 0, newElement);
+  }
+}

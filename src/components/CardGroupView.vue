@@ -11,7 +11,7 @@ interface CardGroupViewProps {
   from: 'play' | 'hand'
 }
 const props = defineProps<CardGroupViewProps>()
-defineEmits(['swipeDown', 'swipeUp'])
+defineEmits(['swipeDown', 'swipeUp', 'changePosition'])
 const cardZoom = useCardZoomStore()
 const cardWidth = computed(() => {
   return viewHeight.value * CARD_RATIO
@@ -42,9 +42,10 @@ const slightLeft = computed(() => {
       v-for="(card, index) in cards"
       :key="card"
       :card="card"
-      :left="slightLeft * (-1) * (index)"
-      @swipe-down="$emit('swipeDown', card)"
-      @swipe-up="$emit('swipeUp', card)"
+      :m-left="index === 0 ? 0 : -slightLeft"
+      @swipe-down="(posID) => { $emit('swipeDown', card, posID) }"
+      @swipe-up="(posID) => { $emit('swipeUp', card, posID) }"
+      @change-position="(posID) => { $emit('changePosition', card, posID) }"
       @click="cardZoom.setZoom(card, cards, from)"
     />
   </transition-group>

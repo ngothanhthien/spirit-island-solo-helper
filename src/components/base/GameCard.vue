@@ -15,6 +15,7 @@ const card = computed(() => {
 
 <template>
   <img
+    :data-id="id"
     :src="getCardImage(card.name, card.path)"
     :alt="card.name"
   >

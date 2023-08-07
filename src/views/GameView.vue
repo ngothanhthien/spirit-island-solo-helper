@@ -15,7 +15,7 @@ import {
 } from '@tabler/icons-vue'
 import ElementTrack from '@/components/ElementTrack.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
-import { getSpiritAvatar, removeCard } from '@/utils'
+import { changePosition, getSpiritAvatar, removeCard } from '@/utils'
 import AdversaryModal from '@/components/AdversaryModal.vue'
 import EventZoomModal from '@/components/EventZoomModal.vue'
 import ModalDiscardCommon from '@/components/ModalDiscardCommon.vue'
@@ -244,7 +244,7 @@ function quickTake(type: 'minor' | 'major') {
   playerCard.addToPicking(card)
 }
 
-function handSwipeUp(cardId: string) {
+function handSwipeUp(cardId: string, posId: string) {
   if (playerCard.isPicking && currentMenu1.value === MENU_1.PLAY) {
     playerCard.putCardToPicking(cardId)
     return
@@ -253,7 +253,7 @@ function handSwipeUp(cardId: string) {
     playerCard.putCardInDiscard(cardId)
     return
   }
-  playerCard.playCard(cardId)
+  playerCard.playCard(cardId, posId)
 }
 
 function onCloseModalAdversary() {
@@ -261,8 +261,8 @@ function onCloseModalAdversary() {
   currentMenu2.value = MENU_2.HAND
 }
 
-function putFromPlayToHand(cardId: string) {
-  playerCard.returnCardFromPlay(cardId)
+function putFromPlayToHand(cardId: string, posId: string) {
+  playerCard.returnCardFromPlay(cardId, posId)
 }
 
 function switchMenu(menu: number) {
@@ -686,6 +686,7 @@ onMounted(() => {
                     class="pt-2"
                     @swipe-down="playerCard.forgetCardFromHand"
                     @swipe-up="handSwipeUp"
+                    @change-position="(cardId: string, posId: string) => changePosition(playerCard.hand ,cardId, posId)"
                   />
                   <base-button
                     v-if="

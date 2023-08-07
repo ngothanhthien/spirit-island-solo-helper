@@ -14,9 +14,9 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,webp}']
       },
       manifest: {
-        name: 'Spirit Island Companion App',
+        name: 'Spirit Island Solo App',
         short_name: 'Spirit Island',
-        description: 'Spirit Island Companion App',
+        description: 'Spirit Island Solo App',
         theme_color: '#0f172a',
         orientation: 'landscape-primary',
         display: 'fullscreen',
