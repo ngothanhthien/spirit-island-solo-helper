@@ -16,6 +16,7 @@ import { type Ref, ref, computed } from 'vue'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { ADVERSARY } from '@/constant'
 import AdversaryModal from '@/components/AdversaryModal.vue'
+import FearCounter from './FearCounter.vue'
 
 defineEmits(['close'])
 
@@ -154,6 +155,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             undo
           </base-button>
           <div class="ml-auto flex space-x-2">
+            <fear-counter />
             <div
               v-if="gameOption.hasMining4"
               class="relative h-10"

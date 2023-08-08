@@ -56,6 +56,7 @@ import router from '@/router'
 import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
 import { useGameStateStore } from '@/stores/GameStateStore'
 import { useMessageStore } from '@/stores/MessageStore'
+import FearCounter from '@/components/FearCounter.vue'
 
 const MENU_1 = {
   PLAY: 0,
@@ -434,17 +435,7 @@ onMounted(() => {
         </div>
         <div class="flex ml-auto h-full">
           <invader-bar @click="isShowInvaderControl = true" />
-          <button
-            class="h-full px-2.5 flex items-center space-x-1 bg-purple-900"
-            @click="fearDeck.increaseFear"
-          >
-            <div><fear-icon class="w-5 h-5 mb-1 text-white" /></div>
-            <div>
-              {{ fearDeck.currentFear }}<span
-                class="text-xs relative -top-2"
-              >+{{ fearDeck.fearThisTurn }}</span>
-            </div>
-          </button>
+          <fear-counter />
           <div
             class="px-2"
             @click="isShowFearDeck = true"
@@ -1061,25 +1052,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-<style>
-.switch-leave-active {
-  transition: all 0.3s ease;
-  position: absolute;
-}
-
-.switch-enter-active {
-  transition: all 0.3s ease;
-}
-
-.switch-enter-from,
-.switch-leave-to {
-  opacity: 0;
-  transform: translateX(-30px);
-}
-
-.switch-enter-to,
-.switch-leave-from {
-  opacity: 1;
-  transform: translateX(0px);
-}
-</style>
