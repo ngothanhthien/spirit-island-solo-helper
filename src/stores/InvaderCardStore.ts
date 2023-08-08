@@ -82,7 +82,7 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
 
       //Habsburg Mining setup
       if (pos.includes('D')) {
-        deck.splice(deck.length - 4, 0, 'D-2')
+        deck.splice(deck.length - 7, 0, 'D-2')
       }
 
       this.draw = deck.slice().reverse()
@@ -98,6 +98,7 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
     next() {
       let build = [...this.build]
       let ravage = [...this.ravage]
+      const hasSaltDeposits = ravage.includes('D-2')
       if (this.lock.includes('build')) {
         build = []
       } else {
@@ -115,6 +116,9 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
         this.discard = [...this.discard, ...ravage]
       }
       this.ravage = [...this.ravage, ...build]
+      if (hasSaltDeposits) {
+        this.ravage.push('D-2')
+      }
       this.build = [...this.build, ...this.explore]
       this.explore = []
       this.lock = []
@@ -129,6 +133,14 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
         coastalLandPos = pos.indexOf('C')
         pos = pos.replace('C', '')
         removeCard(draw, 'C-2')
+      }
+
+      //Habsburg Mining setup
+      let saltDepositsPos = null as number | null
+      if (pos.includes('D')) {
+        saltDepositsPos = pos.indexOf('D')
+        pos = pos.replace('D', '')
+        removeCard(draw, 'D-2')
       }
 
       const raw: Array<Array<string>> = [
@@ -166,6 +178,11 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
       //Scotland setup
       if (coastalLandPos) {
         deck.splice(deck.length - (coastalLandPos as number), 0, 'C-2')
+      }
+
+      //Habsburg Mining setup
+      if (saltDepositsPos) {
+        deck.splice(deck.length - (saltDepositsPos as number), 0, 'D-2')
       }
 
       this.draw = deck.slice().reverse()

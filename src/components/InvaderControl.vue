@@ -2,6 +2,7 @@
 import { useInvaderCardStore } from '@/stores/InvaderCardStore'
 import {
   IconX,
+  IconTrash,
   IconPlayerTrackPrev,
   IconEyeUp,
   IconReload,
@@ -23,6 +24,7 @@ const gameOption = useGameOptionStore()
 
 const sweden4 = ref<string | null>(null)
 const isShowAdversary = ref(false)
+const showSaltDeposit = ref(false)
 
 const { draw, explore, build, ravage, extraBuild, discard, box } =
   storeToRefs(invaderCard)
@@ -148,16 +150,29 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
           >
             undo
           </base-button>
-          <div
-            v-if="adversaryImage"
-            class="w-fit ml-auto h-10 bottom-2 border-t border-b border-orange-700"
-            @click="isShowAdversary = true"
-          >
-            <img
-              :src="adversaryImage"
-              alt="Adversary Flag"
-              class="h-full"
+          <div class="ml-auto flex space-x-2">
+            <div
+              v-if="gameOption.hasMining4"
+              class="relative h-10"
+              @click="showSaltDeposit = true"
             >
+              <img
+                src="/img/invader/d-2.webp"
+                alt="Salt Deposit"
+                class="h-full w-8"
+              >
+            </div>
+            <div
+              v-if="adversaryImage"
+              class="w-fit h-10 bottom-2 border-t border-b border-orange-700"
+              @click="isShowAdversary = true"
+            >
+              <img
+                :src="adversaryImage"
+                alt="Adversary Flag"
+                class="h-full"
+              >
+            </div>
           </div>
         </div>
         <div class="flex-1 px-4 py-2 flex space-x-2 text-2xl">
@@ -168,8 +183,9 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             <div
               class="flex justify-center items-center border-2 border-orange-600 rounded-lg text-orange-600 w-full flex-1"
             >
-              <icon-x
-                class="w-16 h-16"
+              <span class="text-4xl">{{ invaderCard.discard.length }}</span>
+              <icon-trash
+                class="w-10 h-10"
                 style="stroke-width: 1px"
               />
             </div>
@@ -240,6 +256,12 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               Sweden 1<span v-if="gameOption.hasSweden5">,&nbsp;5</span>
             </div>
             <div
+              v-if="gameOption.hasMining1"
+              class="text-center text-xs bg-red-200 rounded"
+            >
+              Mining 1
+            </div>
+            <div
               v-if="gameOption.hasScotLand5"
               class="text-center text-xs bg-red-200 rounded"
             >
@@ -295,6 +317,12 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               class="text-center text-xs bg-red-200 rounded"
             >
               Scotland 3
+            </div>
+            <div
+              v-if="gameOption.hasMining1"
+              class="text-center text-xs bg-red-200 rounded"
+            >
+              Mining 1<span v-if="gameOption.hasMining5">, 5</span><span v-else-if="gameOption.hasMining3">, 3</span>
             </div>
             <div
               v-if="gameOption.hasHabsburg1"
@@ -430,6 +458,19 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             :src="`/img/invader/${sweden4.toLowerCase()}.webp`"
             alt="Invader Card"
             class="h-[90%]"
+          >
+        </div>
+      </div>
+      <div
+        v-if="showSaltDeposit"
+        class="absolute top-0 left-0 w-full h-full bg-gray-900/30 z-50"
+        @click.self="showSaltDeposit = false"
+      >
+        <div class="h-[85%] rounded-lg overflow-hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <img
+            :src="`/img/invader/d-2.webp`"
+            alt="Invader Card"
+            class="h-full"
           >
         </div>
       </div>

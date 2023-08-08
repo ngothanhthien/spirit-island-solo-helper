@@ -20,8 +20,9 @@ defineProps({
         'bg-green-600 text-white': card.includes('J'),
         'bg-cyan-300': card.includes('W'),
         'bg-gray-500': card.includes('M'),
+        'bg-gray-200 text-gray-900': card.includes('D'),
         'bg-blue-600 text-white': card.includes('C'),
-        'text-white': card.includes('2'),
+        'text-white': card.includes('2') && !card.includes('D'),
         'w-full': [1, 2].includes(deck.length),
         'w-full h-1/2': (index === 2 && deck.length === 3),
         'w-1/2 h-1/2': (deck.length === 3 && index !== 2) || deck.length === 4 || (deck.length === 5 && index >= 3),
@@ -30,7 +31,7 @@ defineProps({
       class="flex items-center justify-center border border-gray-400 border-collapse relative"
     >
       <icon-escalation
-        v-if="card.includes('2') && !card.includes('C')"
+        v-if="card.includes('2') && !card.includes('C') && !card.includes('D')"
         class="absolute h-[80%] text-stone-800"
       />
       <div class="absolute">
