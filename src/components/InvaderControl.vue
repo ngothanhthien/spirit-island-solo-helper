@@ -186,7 +186,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               &nbsp;
             </div>
             <div
-              class="flex justify-center items-center border-2 border-orange-600 rounded-lg text-orange-600 w-full flex-1"
+              class="flex justify-center items-center text-orange-600 w-full flex-1"
               @click="showInvaderDiscard = true"
             >
               <span class="text-4xl">{{ invaderCard.discard.length }}</span>
@@ -227,12 +227,12 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             />
             <div
               v-else
-              class="flex-1 rounded-lg overflow-hidden relative"
+              class="flex-1 overflow-hidden relative flex items-center"
             >
               <img
                 :src="`/img/invader/${invaderCard.extraBuild[0].toLowerCase()}.webp`"
                 alt="Invader Card"
-                class="h-full absolute w-full"
+                class="absolute w-full max-h-full rounded-lg"
               >
             </div>
             <button
@@ -246,38 +246,40 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             <icon-chevron-left class="h-10" />
           </div>
           <div class="basis-full flex-col flex">
-            <div class="text-center text-base">
-              Ravage
-            </div>
-            <div
-              v-if="gameOption.hasRussia1"
-              class="text-center text-xs bg-red-200 rounded"
-            >
-              Russia 1<span v-if="gameOption.hasRussia3">,&nbsp;3</span><span v-if="gameOption.hasRussia6">,&nbsp;6</span>
-            </div>
-            <div
-              v-if="gameOption.hasSweden1"
-              class="text-center text-xs bg-red-200 rounded"
-            >
-              Sweden 1<span v-if="gameOption.hasSweden5">,&nbsp;5</span>
-            </div>
-            <div
-              v-if="gameOption.hasMining1"
-              class="text-center text-xs bg-red-200 rounded"
-            >
-              Mining 1
-            </div>
-            <div
-              v-if="gameOption.hasScotLand5"
-              class="text-center text-xs bg-red-200 rounded"
-            >
-              Scotland 5<span v-if="gameOption.hasScotLand6">,&nbsp;6</span>
-            </div>
-            <div
-              v-if="gameOption.hasHabsburg"
-              class="text-center text-xs bg-red-200 rounded"
-            >
-              Habsburg loss<span v-if="gameOption.hasHabsburg6">, 6</span>
+            <div class="h-10">
+              <div class="text-center text-base">
+                Ravage
+              </div>
+              <div
+                v-if="gameOption.hasRussia1"
+                class="text-center text-xs bg-red-200 rounded"
+              >
+                Russia 1<span v-if="gameOption.hasRussia3">,&nbsp;3</span><span v-if="gameOption.hasRussia6">,&nbsp;6</span>
+              </div>
+              <div
+                v-if="gameOption.hasSweden1"
+                class="text-center text-xs bg-red-200 rounded"
+              >
+                Sweden 1<span v-if="gameOption.hasSweden5">,&nbsp;5</span>
+              </div>
+              <div
+                v-if="gameOption.hasMining1"
+                class="text-center text-xs bg-red-200 rounded"
+              >
+                Mining 1
+              </div>
+              <div
+                v-if="gameOption.hasScotLand5"
+                class="text-center text-xs bg-red-200 rounded"
+              >
+                Scotland 5<span v-if="gameOption.hasScotLand6">,&nbsp;6</span>
+              </div>
+              <div
+                v-if="gameOption.hasHabsburg"
+                class="text-center text-xs bg-red-200 rounded"
+              >
+                Habsburg loss<span v-if="gameOption.hasHabsburg6">, 6</span>
+              </div>
             </div>
             <invader-box
               v-if="invaderCard.ravage.length !== 1"
@@ -287,13 +289,13 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             />
             <div
               v-else
-              class="flex-1 rounded-lg overflow-hidden relative"
-              :class="{'border-4 border-red-700' :invaderCard.lock.includes('ravage')}"
+              class="flex-1 overflow-hidden relative flex items-center"
             >
               <img
                 :src="`/img/invader/${invaderCard.ravage[0].toLowerCase()}.webp`"
                 alt="Invader Card"
-                class="h-full absolute w-full"
+                :class="{'border-4 border-red-700' :invaderCard.lock.includes('ravage')}"
+                class="absolute w-full max-h-full rounded-lg"
               >
             </div>
             <button
@@ -309,38 +311,40 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             <icon-chevron-left class="h-10" />
           </div>
           <div class="basis-full flex-col flex">
-            <div class="text-center text-base">
-              Build
-            </div>
-            <div
-              v-if="gameOption.hasEngland1"
-              class="text-center text-xs bg-red-200 rounded"
-            >
-              England 1
-            </div>
-            <div
-              v-if="gameOption.hasScotland3"
-              class="text-center text-xs bg-red-200 rounded"
-            >
-              Scotland 3
-            </div>
-            <div
-              v-if="gameOption.hasMining1"
-              class="text-center text-xs bg-red-200 rounded"
-            >
-              Mining 1<span v-if="gameOption.hasMining5">, 5</span><span v-else-if="gameOption.hasMining3">, 3</span>
-            </div>
-            <div
-              v-if="gameOption.hasHabsburg1"
-              class="text-center text-xs bg-red-200 rounded"
-            >
-              Habsburg 1<span v-if="gameOption.hasHabsburg2">, 2</span>
-            </div>
-            <div
-              v-if="gameOption.hasFrance"
-              class="text-center text-xs bg-red-200 rounded"
-            >
-              France loss<span v-if="gameOption.hasFranceEvent">, 2</span><span v-if="gameOption.hasFrance4">, 4</span>
+            <div class="h-10">
+              <div class="text-center text-base">
+                Build
+              </div>
+              <div
+                v-if="gameOption.hasEngland1"
+                class="text-center text-xs bg-red-200 rounded"
+              >
+                England 1
+              </div>
+              <div
+                v-if="gameOption.hasScotland3"
+                class="text-center text-xs bg-red-200 rounded"
+              >
+                Scotland 3
+              </div>
+              <div
+                v-if="gameOption.hasMining1"
+                class="text-center text-xs bg-red-200 rounded"
+              >
+                Mining 1<span v-if="gameOption.hasMining5">, 5</span><span v-else-if="gameOption.hasMining3">, 3</span>
+              </div>
+              <div
+                v-if="gameOption.hasHabsburg1"
+                class="text-center text-xs bg-red-200 rounded"
+              >
+                Habsburg 1<span v-if="gameOption.hasHabsburg2">, 2</span>
+              </div>
+              <div
+                v-if="gameOption.hasFrance"
+                class="text-center text-xs bg-red-200 rounded"
+              >
+                France loss<span v-if="gameOption.hasFranceEvent">, 2</span><span v-if="gameOption.hasFrance4">, 4</span>
+              </div>
             </div>
             <invader-box
               v-if="invaderCard.build.length !== 1"
@@ -350,13 +354,13 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             />
             <div
               v-else
-              class="flex-1 rounded-lg overflow-hidden relative"
-              :class="{'border-4 border-red-700' :invaderCard.lock.includes('build')}"
+              class="flex-1 overflow-hidden relative flex items-center"
             >
               <img
                 :src="`/img/invader/${invaderCard.build[0].toLowerCase()}.webp`"
                 alt="Invader Card"
-                class="h-full absolute w-full"
+                :class="{'border-4 border-red-700' :invaderCard.lock.includes('build')}"
+                class="absolute w-full max-h-full rounded-lg"
               >
             </div>
             <button
@@ -409,12 +413,12 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               />
               <div
                 v-else
-                class="flex-1 rounded-lg overflow-hidden relative"
+                class="flex-1 overflow-hidden relative flex items-center"
               >
                 <img
                   :src="`/img/invader/${invaderCard.explore[0].toLowerCase()}.webp`"
                   alt="Invader Card"
-                  class="h-full absolute w-full"
+                  class="absolute w-full max-h-full rounded-lg"
                 >
               </div>
             </template>
