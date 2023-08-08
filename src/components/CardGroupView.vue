@@ -43,6 +43,7 @@ const slightLeft = computed(() => {
       :key="card"
       :card="card"
       :m-left="index === 0 ? 0 : -slightLeft"
+      :can-change-position="true"
       @swipe-down="(posID) => { $emit('swipeDown', card, posID) }"
       @swipe-up="(posID) => { $emit('swipeUp', card, posID) }"
       @change-position="(posID) => { $emit('changePosition', card, posID) }"
