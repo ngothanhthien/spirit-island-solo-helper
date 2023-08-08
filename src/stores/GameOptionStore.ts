@@ -18,6 +18,9 @@ export const useGameOptionStore = defineStore("gameOption", {
     hasScotland1(state) {
       return ADVERSARY[state.adversary as number].id === 'scotland' && state.adversaryLevel >= 1
     },
+    hasScotland2(state) {
+      return ADVERSARY[state.adversary as number].id === 'scotland' && state.adversaryLevel >= 2
+    },
     hasScotland3(state) {
       return ADVERSARY[state.adversary as number].id === 'scotland' && state.adversaryLevel >= 3
     },

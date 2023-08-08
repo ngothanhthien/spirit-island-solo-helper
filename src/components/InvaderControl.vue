@@ -25,6 +25,8 @@ const gameOption = useGameOptionStore()
 const sweden4 = ref<string | null>(null)
 const isShowAdversary = ref(false)
 const showSaltDeposit = ref(false)
+const showInvaderDiscard = ref(false)
+const showInvaderDraw = ref(false)
 
 const { draw, explore, build, ravage, extraBuild, discard, box } =
   storeToRefs(invaderCard)
@@ -65,6 +67,7 @@ const adversaryImage = computed(() => {
   }
   return null
 })
+
 
 const lastCommit = ref<string[][]>([])
 const history = deck.map((area) => {
@@ -182,6 +185,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             </div>
             <div
               class="flex justify-center items-center border-2 border-orange-600 rounded-lg text-orange-600 w-full flex-1"
+              @click="showInvaderDiscard = true"
             >
               <span class="text-4xl">{{ invaderCard.discard.length }}</span>
               <icon-trash
@@ -384,6 +388,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             <div
               v-if="invaderCard.explore.length === 0"
               class="relative flex-1 text-semibold rounded-lg overflow-hidden font-serif h-full text-white bg-gray-900 flex items-center justify-center"
+              @click="showInvaderDraw = true"
             >
               {{ invaderCard.getBackCardTop }}
               <div
@@ -472,6 +477,71 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             alt="Invader Card"
             class="h-full"
           >
+        </div>
+      </div>
+      <div
+        v-if="showInvaderDiscard"
+        class="absolute top-0 left-0 w-full h-full bg-gray-900/30 z-50"
+        @click.self="showInvaderDiscard = false"
+      >
+        <div class="h-[90%] w-[85%] flex flex-col rounded-lg overflow-hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div class="bg-gray-900 text-white px-4 py-2 relative">
+            Invader Discard
+            <div
+              class="text-white absolute top-2 right-2"
+              @click="showInvaderDiscard = false"
+            >
+              <icon-x />
+            </div>
+          </div>
+          <div class="bg-white flex-1 overflow-x-auto py-2 px-3 flex hide-scrollbar">
+            <img
+              v-for="(card, index) in invaderCard.discardView"
+              :key="card"
+              :src="`/img/invader/${card.toLowerCase()}.webp`"
+              alt="Invader Card"
+              class="h-full rounded-lg"
+              :class="{'ml-2': index !== 0}"
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        v-if="showInvaderDraw"
+        class="absolute top-0 left-0 w-full h-full bg-gray-900/30 z-50"
+        @click.self="showInvaderDraw = false"
+      >
+        <div class="h-[90%] w-[85%] flex flex-col rounded-lg overflow-hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div class="bg-gray-900 text-white px-4 py-2 relative">
+            Invader Draw
+            <div
+              class="text-white absolute top-2 right-2"
+              @click="showInvaderDraw = false"
+            >
+              <icon-x />
+            </div>
+          </div>
+          <div class="bg-white flex-1 overflow-x-auto py-2 px-3 flex hide-scrollbar">
+            <template
+              v-for="(card, index) in invaderCard.drawView"
+              :key="card.name"
+            >
+              <img
+                v-if="card.name === 'D-2' || (gameOption.hasScotland2 && card.name === 'C-2')"
+                :src="`/img/invader/${card.name.toLowerCase()}.webp`"
+                alt="Invader Card"
+                class="h-full rounded-lg"
+                :class="{'ml-2': index !== 0}"
+              >
+              <img
+                v-else
+                :src="`/img/card-back/stage${card.stage}.webp`"
+                alt="Invader Card"
+                class="h-full rounded-lg"
+                :class="{'ml-2': index !== 0}"
+              >
+            </template>
+          </div>
         </div>
       </div>
     </Teleport>

@@ -26,3 +26,4 @@ tool/sprites
 package-lock.json
 yarn.lock
 .env
+tool/resize-image.js

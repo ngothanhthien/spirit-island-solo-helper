@@ -35,6 +35,18 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
       if (!state.extraBuild) return null
       return compile(state.extraBuild)
     },
+    discardView(state) {
+      return state.discard.slice().reverse()
+    },
+    drawView(state) {
+      return state.draw.slice().reverse().map((card) => {
+        const stage = parseInt(card.split('-')[1])
+        return {
+          stage,
+          name: card,
+        }
+      })
+    },
     canNext(state) {
       return state.explore.length > 0 || state.build.length > 0 || state.ravage.length > 0 || (state.extraBuild !== null && state.extraBuild.length > 0)
     },
@@ -62,7 +74,7 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
 
       //Habsburg Mining setup
       //Scotland setup
-      if (pos.includes('C') && pos.includes('D')) { 
+      if (pos.includes('C') || pos.includes('D')) { 
         removeCard(shuffled[1] as string[], 'C-2')
       }
 
@@ -118,6 +130,7 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
       this.ravage = [...this.ravage, ...build]
       if (hasSaltDeposits) {
         this.ravage.push('D-2')
+        removeCard(this.discard, 'D-2')
       }
       this.build = [...this.build, ...this.explore]
       this.explore = []
