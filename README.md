@@ -1,1 +1,1 @@
-Using at https://spirit-companion.netlify.app
+https://spirit-companion.netlify.app
