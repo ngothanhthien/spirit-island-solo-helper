@@ -17,17 +17,22 @@ import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { ADVERSARY } from '@/constant'
 import AdversaryModal from '@/components/AdversaryModal.vue'
 import FearCounter from './FearCounter.vue'
+import { usePlayerCardStore } from '@/stores/PlayerCardStore'
+import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
 
 defineEmits(['close'])
 
 const invaderCard = useInvaderCardStore()
 const gameOption = useGameOptionStore()
+const playerCard = usePlayerCardStore()
+const daysThatNeverWereDeck = useDaysThatNeverWereStore()
 
 const sweden4 = ref<string | null>(null)
 const isShowAdversary = ref(false)
 const showSaltDeposit = ref(false)
 const showInvaderDiscard = ref(false)
 const showInvaderDraw = ref(false)
+const showingVision = ref(false)
 
 const { draw, explore, build, ravage, extraBuild, discard, box } =
   storeToRefs(invaderCard)
@@ -155,6 +160,12 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             undo
           </base-button>
           <div class="ml-auto flex space-x-2">
+            <base-button
+              v-if="daysThatNeverWereDeck.current === playerCard.current"
+              @click="showingVision = true"
+            >
+              Visions of a shifting future
+            </base-button>
             <fear-counter />
             <div
               v-if="gameOption.hasMining4"
@@ -185,8 +196,9 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             <div class="text-base">
               &nbsp;
             </div>
-            <div
+            <button
               class="flex justify-center items-center text-orange-600 w-full flex-1"
+              :disabled="invaderCard.discard.length === 0"
               @click="showInvaderDiscard = true"
             >
               <span class="text-4xl">{{ invaderCard.discard.length }}</span>
@@ -194,7 +206,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
                 class="w-10 h-10"
                 style="stroke-width: 1px"
               />
-            </div>
+            </button>
             <div
               class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 opacity-0"
             >
@@ -457,6 +469,39 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
         @close="isShowAdversary = false"
       />
       <div
+        v-if="showingVision"
+        class="absolute top-0 left-0 w-full h-full bg-gray-900/30 z-50"
+      >
+        <div class="h-[85%] rounded-lg overflow-hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center">
+          <div
+            class="text-center text-lg font-semibold text-white"
+          >
+            Visions of a shifting future
+          </div>
+          <div class="h-[90%] flex">
+            <img
+              :src="`/img/invader/${invaderCard.draw[invaderCard.draw.length - 1].toLowerCase()}.webp`"
+              alt="Invader Card"
+              class="h-full rounded-lg"
+            >
+            <div class="flex flex-col space-y-4 items-center justify-center">
+              <base-button
+                button-style="secondary"
+                @click="invaderCard.visionShuffle(); showingVision = false"
+              >
+                Shuffle
+              </base-button>
+              <base-button
+                button-style="secondary"
+                @click="invaderCard.visionBottom(); showingVision = false"
+              >
+                Bottom
+              </base-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
         v-if="sweden4"
         class="absolute top-0 left-0 w-full h-full bg-gray-900/30 z-50"
         @click.self="sweden4 = null"
@@ -501,14 +546,28 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             </div>
           </div>
           <div class="bg-white flex-1 overflow-x-auto py-2 px-3 flex hide-scrollbar">
-            <img
+            <div
               v-for="(card, index) in invaderCard.discardView"
               :key="card"
-              :src="`/img/invader/${card.toLowerCase()}.webp`"
-              alt="Invader Card"
-              class="h-full rounded-lg"
-              :class="{'ml-2': index !== 0}"
+              class="flex flex-col justify-center items-center space-y-1"
             >
+              <img
+                :src="`/img/invader/${card.toLowerCase()}.webp`"
+                alt="Invader Card"
+                class="rounded-lg"
+                :class="{
+                  'ml-2': index !== 0,
+                  'h-[80%]': daysThatNeverWereDeck.current === playerCard.current && parseInt(card.split('-')[1]) >= invaderCard.getStage - 1,
+                  'h-full': daysThatNeverWereDeck.current !== playerCard.current || parseInt(card.split('-')[1]) < invaderCard.getStage - 1,
+                }"
+              >
+              <base-button
+                v-if="daysThatNeverWereDeck.current === playerCard.current && parseInt(card.split('-')[1]) >= invaderCard.getStage - 1"
+                @click="invaderCard.swapInvaderCard(card)"
+              >
+                Swap
+              </base-button>
+            </div>
           </div>
         </div>
       </div>

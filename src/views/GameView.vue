@@ -669,6 +669,17 @@ onMounted(() => {
 
           <div class="absolute -right-10 bottom-1 space-x-2 z-10 flex">
             <div
+              v-if="daysThatNeverWereDeck.current === playerCard.current"
+              class="w-11 h-11 rounded-full bg-green-800 border-2 border-purple-700 overflow-hidden"
+              @click="isShowDaysThatNeverWere = true"
+            >
+              <img
+                src="/img/icon/days_that_never_were.webp"
+                alt="days that never were"
+                class="h-full"
+              >
+            </div>
+            <div
               class="h-11 w-11 p-2 rounded-full text-white bg-orange-800 border-2 border-orange-900"
               @click="timePassed"
             >
@@ -687,17 +698,6 @@ onMounted(() => {
             </div>
           </div>
           
-          <div
-            v-if="daysThatNeverWereDeck.current === playerCard.current"
-            class="absolute w-12 h-12 rounded-full bg-green-800 border-2 border-purple-700 overflow-hidden bottom-2 right-2"
-            @click="isShowDaysThatNeverWere = true"
-          >
-            <img
-              src="/img/icon/days_that_never_were.webp"
-              alt="days that never were"
-              class="h-full"
-            >
-          </div>
           <template
             v-for="(player, index) in playerCard.players"
             :key="`player2x-${index}`"

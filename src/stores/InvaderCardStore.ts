@@ -22,6 +22,9 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
       if (stage === 2) return 'II'
       return 'III'
     },
+    getStage(state) {
+      return parseInt(state.draw[state.draw.length - 1].split('-')[1])
+    },
     exploreView(state) {
       return compile(state.explore)
     },
@@ -220,6 +223,34 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
     },
     doSweden() {
       return this.draw.pop() as string
+    },
+    visionShuffle() {
+      if (this.draw.length >= 2) {
+        if (Math.random() < 0.5) {
+          const lastIndex = this.draw.length - 1
+          const secondLastIndex = this.draw.length - 2
+    
+          const temp = this.draw[lastIndex]
+          this.draw[lastIndex] = this.draw[secondLastIndex]
+          this.draw[secondLastIndex] = temp
+        }
+      }
+    },
+    visionBottom() {
+      const card = this.draw.pop()
+      if (card) {
+        this.draw.unshift(card)
+      }
+    },
+    swapInvaderCard(swap: string) {
+      const card = this.draw.pop()
+      if (card) {
+        this.discard.push(card)
+        removeCard(this.discard, swap)
+        this.draw.push(swap)
+      } else {
+        useMessageStore().setMessage('No Invader Card to swap')
+      }
     }
   },
   persist: true,
