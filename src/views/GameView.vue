@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch, type Ref } from 'vue'
+import { computed, onMounted, ref, watch, type Ref, defineAsyncComponent } from 'vue'
 import type { Element } from '@/types'
 import CardGroupView from '@/components/CardGroupView.vue'
 import {
@@ -25,8 +25,13 @@ import ModalFearDeck from '@/components/ModalFearDeck.vue'
 import AspectPower from '@/components/AspectPower.vue'
 import AspectDetail from '@/components/AspectDetail.vue'
 import PowerDiscard from '@/components/PowerDiscard.vue'
-import DaysThatNeverWere from '@/components/DaysThatNeverWere.vue'
-import DaysThatNeverWerePick from '@/components/DaysThatNeverWerePick.vue'
+
+const DaysThatNeverWere = defineAsyncComponent(() => import('@/components/DaysThatNeverWere.vue'))
+const DaysThatNeverWerePick = defineAsyncComponent(() => import('@/components/DaysThatNeverWerePick.vue'))
+const VisionOfAShiftingFutureEvent = defineAsyncComponent(() => import('@/components/VisionOfAShiftingFutureEvent.vue'))
+const HabsburgReminder = defineAsyncComponent(() => import('@/components/HabsburgReminder.vue'))
+const Russia5Modal = defineAsyncComponent(() => import('@/components/Russia5Modal.vue'))
+
 import { OnClickOutside } from '@vueuse/components'
 import ModalDiscardPower from '@/components/ModalDiscardPower.vue'
 import CardZoomModal from '@/components/CardZoomModal.vue'
@@ -40,11 +45,8 @@ import { ADVERSARY } from '@/constant'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
-import { useInvaderCardStore } from '@/stores/InvaderCardStore'
 import AdversaryText from '@/components/base/AdversaryText.vue'
-import VisionOfAShiftingFutureEvent from '@/components/VisionOfAShiftingFutureEvent.vue'
 import MessageInfo from '@/components/MessageInfo.vue'
-import HabsburgReminder from '@/components/HabsburgReminder.vue'
 
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
@@ -82,7 +84,6 @@ const gameOption = useGameOptionStore()
 const blightDeck = useBlightDeckStore()
 const gameState = useGameStateStore()
 const daysThatNeverWereDeck = useDaysThatNeverWereStore()
-const invaderCard = useInvaderCardStore()
 const messageStore = useMessageStore()
 
 const menuControlEl = ref<HTMLElement | null>(null)
@@ -96,8 +97,6 @@ const isZoomBlightCard = ref(false)
 const isPingEvent = ref(false)
 const isShowModalDiscardPower = ref(false)
 const isShowDaysThatNeverWere = ref(false)
-const showRussiaStage2 = ref(true)
-const showRussiaStage3 = ref(true)
 const showHabsburgReminderCard = ref(true)
 const isShowSetupRef = ref(true)
 const isShowVisionsOfAShiftingFutureEvent = ref(false)
@@ -201,16 +200,6 @@ function discardViewSwipeUp(cardId: string) {
 
 function showPowerDiscard() {
   isShowModalDiscardPower.value = true
-}
-
-function doRussiaStage2() {
-  showRussiaStage2.value = false
-  invaderCard.doRussia(2)
-}
-
-function doRussiaStage3() {
-  showRussiaStage3.value = false
-  invaderCard.doRussia(3)
 }
 
 function buttonQuickBlightClick() {
@@ -623,7 +612,10 @@ onMounted(() => {
                     v-if="isHasAspect && playerCard.showAspect && playerCard.aspectMode === '1x'"
                     class="w-1/3 relative"
                   >
-                    <aspect-power @show-aspect-detail="isShowAspectDetail = true" />
+                    <aspect-power
+                      :key="`1x-${playerCard.current}`"
+                      @show-aspect-detail="isShowAspectDetail = true"
+                    />
                   </div>
                 </div>
               </template>
@@ -974,50 +966,7 @@ onMounted(() => {
         v-if="isShowAspectDetail"
         @close="isShowAspectDetail = false"
       />
-      <template v-if="gameOption.hasRussia5">
-        <div
-          v-if="showRussiaStage2 && fearDeck.numberCardNeedToStage2Russia === 0"
-          class="absolute w-full h-full top-0 left-0 bg-gray-900/30 z-50 flex justify-center"
-        >
-          <div class="h-full flex flex-col justify-center">
-            <div class="h-[70%] flex justify-center">
-              <img
-                src="/img/card-back/stage2.webp"
-                alt="Russia Invaders Card"
-                class="h-full"
-              >
-            </div>
-            <base-button
-              button-style="secondary"
-              class="mt-2"
-              @click="doRussiaStage2"
-            >
-              Russia: Entrench in the Face of Fear
-            </base-button>
-          </div>
-        </div>
-        <div
-          v-if="showRussiaStage3 && fearDeck.numberCardNeedToStage3Russia === 0"
-          class="absolute w-full h-full top-0 left-0 bg-gray-900/30 z-50 flex justify-center"
-        >
-          <div class="h-full flex flex-col justify-center">
-            <div class="h-[70%] flex justify-center">
-              <img
-                src="/img/card-back/stage3.webp"
-                alt="Russia Invaders Card"
-                class="h-full"
-              >
-            </div>
-            <base-button
-              button-style="secondary"
-              class="mt-2"
-              @click="doRussiaStage3"
-            >
-              Russia: Entrench in the Face of Fear
-            </base-button>
-          </div>
-        </div>
-      </template>
+      <russia5-modal v-if="gameOption.hasRussia5" />
       <days-that-never-were
         v-if="isShowDaysThatNeverWere"
         @close="isShowDaysThatNeverWere = false"

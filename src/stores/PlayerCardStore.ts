@@ -219,6 +219,7 @@ export const usePlayerCardStore = defineStore('playerCard', {
     reduceEnergy() {
       if(this.players[this.current].energy > 0) {
         this.players[this.current].energy--
+        this.players[this.current].energyThisTurn--
       }
     },
     increaseElement(element: Element) {

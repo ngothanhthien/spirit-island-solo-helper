@@ -22,6 +22,8 @@ import IconAny from './icons/IconAny.vue'
 import IconBadland from './icons/IconBadLand.vue'
 import IconLair from './icons/IconLair.vue'
 import IconDestroyPresence from './icons/IconDestroyPresence.vue'
+import PowerElement from './PowerElement.vue'
+import { isElement } from '@/types'
 
 const props = defineProps({
   message: {
@@ -42,11 +44,12 @@ const { compileText, iconList } = useTextCompile(props.message)
         v-if="!iconList.includes(part)"
         v-html="part"
       />
-      <img
-        v-else-if="['Fire', 'Moon', 'Air', 'Sun', 'Earth', 'Water', 'Animal', 'Plant'].includes(part)"
-        :src="`/img/elements/${part.toLowerCase()}.webp`"
+      <power-element
+        v-else-if="isElement(part)"
+        :key="part"
+        :element="part"
         class="h-3 inline-block -translate-y-0.5 -my-0.5"
-      >
+      />
       <template v-else-if="part === ':break:'">
         <div class="mt-1" />
       </template>

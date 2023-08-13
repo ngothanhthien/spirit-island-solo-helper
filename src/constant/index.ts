@@ -1569,7 +1569,7 @@ export const SPIRIT: Array<SpiritType> = [
       },
       {
         title: 'Pandemonium',
-        requirements: ['Replaces: Thundering Destruction'],
+        requirements: ['Replace: Thundering Destruction'],
         cards: [
           {
             name: 'LIGHTNING-TORN SKIES INCITE PANDEMONIUM',
@@ -1585,7 +1585,7 @@ export const SPIRIT: Array<SpiritType> = [
       },
       {
         title: 'Wind',
-        requirements: ['Replaces: Swiftness of Lightning'],
+        requirements: ['Replace: Swiftness of Lightning'],
         cards: [
           {
             name: 'WINDS OF RENEWAL',
@@ -1604,7 +1604,7 @@ export const SPIRIT: Array<SpiritType> = [
       },
       {
         title: 'Sparking',
-        requirements: ['Replaces: Thundering Destruction'],
+        requirements: ['Replace: Thundering Destruction'],
         cards: [
           {
             name: 'Gift of the Sparking Sky',
@@ -1678,7 +1678,7 @@ export const SPIRIT: Array<SpiritType> = [
       },
       {
         title: 'Travel',
-        requirements: [`Replaces: River's Domain`],
+        requirements: [`Replace: River's Domain`],
         cards: [
           {
             name: `WINDS OF RENEWAL`,
@@ -1692,7 +1692,7 @@ export const SPIRIT: Array<SpiritType> = [
       },
       {
         title: 'Haven',
-        requirements: [`Replaces: Massive Flooding`],
+        requirements: [`Replace: Massive Flooding`],
         cards: [
           {
             name: 'CALL TO A SUNLIT HAVEN',
@@ -1761,11 +1761,11 @@ export const SPIRIT: Array<SpiritType> = [
             description: `When your Presence is Destroyed, if Invaders are present, 1 Fear per Presence Destroyed there.`
           },
         ],
-        requirements: ['Replaces: Shadows of the Dahan'],
+        requirements: ['Replace: Shadows of the Dahan'],
       },
       {
         title: 'Reach',
-        requirements: ['Replaces: Shadows of the Dahan'],
+        requirements: ['Replace: Shadows of the Dahan'],
         cards: [
           {
             name: 'REACH THROUGH EPHEMERAL SPACE',
@@ -1776,7 +1776,7 @@ export const SPIRIT: Array<SpiritType> = [
       },
       {
         title: 'Amorphous',
-        requirements: ['Replaces: Shadows of the Dahan'],
+        requirements: ['Replace: Shadows of the Dahan'],
         cards: [
           {
             name: 'SHADOWS PARTAKE OF AMORPHOUS SPACE',
@@ -1787,7 +1787,7 @@ export const SPIRIT: Array<SpiritType> = [
       },
       {
         title: 'Foreboding',
-        requirements: ['Replaces: Shadows of the Dahan'],
+        requirements: ['Replace: Shadows of the Dahan'],
         cards: [
           {
             name: 'STRETCH OUT COILS OF FOREBODING DREAD',
@@ -1806,7 +1806,7 @@ export const SPIRIT: Array<SpiritType> = [
       },
       {
         title: 'Dark Fire',
-        requirements: ['Replaces: Shadows of the Dahan'],
+        requirements: ['Replace: Shadows of the Dahan'],
         cards: [
           {
             name: 'DARK AND FIRE AS ONE',
@@ -1860,7 +1860,7 @@ export const SPIRIT: Array<SpiritType> = [
     aspects: [
       {
         title: 'Warrior',
-        requirements: ['Replaces: Lead the Furious Assault', 'Setup: Replace 1 of your Presence with your Incarna and 1 Dahan.'],
+        requirements: ['Replace: Lead the Furious Assault', 'Setup: Replace 1 of your Presence with your Incarna and 1 Dahan.'],
         setupFunction: setupWarrior,
       },
       {
@@ -1905,8 +1905,8 @@ export const SPIRIT: Array<SpiritType> = [
     aspects: [
       {
         title: 'Deeps',
-        requirements: [`Replaces: POUND SHIPS TO SPLINTERS`,
-        `Replaces: OCEAN BREAKS THE SHORE`],
+        requirements: [`Replace: POUND SHIPS TO SPLINTERS`,
+        `Replace: OCEAN BREAKS THE SHORE`],
         cards: [
           {
             name: 'WATER EATS AWAY THE DEEP ROOTS OF THE EARTH',
@@ -1977,7 +1977,7 @@ export const SPIRIT: Array<SpiritType> = [
     aspects: [
       {
         title: 'Enticing',
-        requirements: [`Replaces: Night Terrors`],
+        requirements: [`Replace: Night Terrors`],
         cards: [
           {
             name: 'ENTICING AND LULLING DREAMS',
@@ -1996,7 +1996,7 @@ export const SPIRIT: Array<SpiritType> = [
       },
       {
         title: 'Violence',
-        requirements: [`Replaces: Spirits May Yet Dream`],
+        requirements: [`Replace: Spirits May Yet Dream`],
         cards: [
           {
             name: 'NIGHTMARES OF VIOLENCE AND DEATH',
@@ -2046,7 +2046,7 @@ export const SPIRIT: Array<SpiritType> = [
     aspects: [
       {
         title: 'Tangles',
-        requirements: ['Replaces: Creepers Tear Into Mortar'],
+        requirements: ['Replace: Creepers Tear Into Mortar'],
         cards: [
           {
             name: 'Impenetrable Tangles of Greenery',
@@ -2067,7 +2067,7 @@ export const SPIRIT: Array<SpiritType> = [
       {
         title: 'Regrowth',
         requirements: [
-          'Replaces: STEADY REGENERATION',
+          'Replace: STEADY REGENERATION',
           'Replace: ALL ENVELOPING GREEN',
           'Setup: Take 13 destroy_presence',
         ],
@@ -2127,7 +2127,7 @@ export const SPIRIT: Array<SpiritType> = [
     aspects: [
       {
         title: 'unconstrained',
-        requirements: [`Replaces: Call Forth Predators`, `Setup: Do not add a beast as part of this Spirit Setup`],
+        requirements: [`Replace: Call Forth Predators`, `Setup: Do not add a beast as part of this Spirit Setup`],
         cards: [
           {
             name: 'Unconstrained by Ravaged Lands',
@@ -2153,7 +2153,7 @@ export const SPIRIT: Array<SpiritType> = [
           {
             name: 'Encircle the Land',
             description: `1Plant2Animal You may Gather 1 Beasts into target or an adjacent land. If you do, 1 Damage in that land.:break:
-            1Moon3Animal If at least 2 Beasts are within normal1Rangeicon (of target land), 1 Damage.:breal:
+            1Moon3Animal If at least 2 Beasts are within normal1Rangeicon (of target land), 1 Damage.:break:
             1Moon2Plant4Animal For each adjacent land with Beasts, 1 Damage.`,
             target: {
               speed: 'Slow',
@@ -2204,7 +2204,7 @@ export const SPIRIT: Array<SpiritType> = [
     aspects: [
       {
         title: 'Transforming',
-        requirements: ['Replaces: THE BURNED LAND REGROWS'],
+        requirements: ['Replace: THE BURNED LAND REGROWS'],
         cards: [
           {
             name: 'TRANSFORM RATHER THAN CONSUME',
@@ -2304,7 +2304,7 @@ export const SPIRIT: Array<SpiritType> = [
     aspects: [
       {
         title: 'Stranded',
-        requirements: [`Replaces: Mists Shift and Flow`],
+        requirements: [`Replace: Mists Shift and Flow`],
         cards: [
           {
             name: 'Mists Steadily Drift',
@@ -2430,8 +2430,8 @@ export const SPIRIT: Array<SpiritType> = [
       {
         title: 'Mentor',
         requirements: [
-          'Replaces: LONG AGES OF KNOWLEDGE',
-          'Replaces: OBSERVE THE EVER-CHANGING WORLD',
+          'Replace: LONG AGES OF KNOWLEDGE',
+          'Replace: OBSERVE THE EVER-CHANGING WORLD',
         ],
         cards: [
           {
@@ -2455,7 +2455,7 @@ export const SPIRIT: Array<SpiritType> = [
       },
       {
         title: 'Intensify',
-        requirements: [`Replaces: Insights into the World's Nature`],
+        requirements: [`Replace: Insights into the World's Nature`],
         setupFunction: setupIntensify,
       }
     ]
@@ -2572,7 +2572,7 @@ export const SPIRIT: Array<SpiritType> = [
     aspects: [
       {
         title: 'Lair',
-        requirements: ['Setup: Put Lair in an Inland land on your starting board. Remove 3 Presence.', 'Replaces: FORSAKE SOCIETY TO CHASE AFTER DREAMS', 'Replaces: ENTHRALL THE FOREIGN EXPLORERS'],
+        requirements: ['Setup: Put Lair in an Inland land on your starting board. Remove 3 Presence.', 'Replace: FORSAKE SOCIETY TO CHASE AFTER DREAMS', 'Replace: ENTHRALL THE FOREIGN EXPLORERS'],
         cards: [
           {
             name: 'A SINGLE ALLURING LAIR',
@@ -2760,7 +2760,7 @@ export const SPIRIT: Array<SpiritType> = [
     aspects: [
       {
         'title': 'Resilience',
-        requirements: [`Replaces: Earth's Vitality`],
+        requirements: [`Replace: Earth's Vitality`],
         cards: [
           {
             name: `ANCHOR THE LAND'S RESILIENCE`,
@@ -2770,7 +2770,7 @@ export const SPIRIT: Array<SpiritType> = [
       },
       {
         'title': 'Might',
-        requirements: [`Replaces: Earth's Vitality`],
+        requirements: [`Replace: Earth's Vitality`],
         cards: [
           {
             name: `EARTH MOVES WITH VIGOR AND MIGHT`,
@@ -2789,7 +2789,7 @@ export const SPIRIT: Array<SpiritType> = [
       },
       {
         'title': 'Nourishing',
-        requirements: [`Replaces: Earth's Vitality`],
+        requirements: [`Replace: Earth's Vitality`],
         cards: [
           {
             name: `FLOURISH WITH NATURE'S STRENGTH`,
@@ -2897,7 +2897,7 @@ export const SPIRIT: Array<SpiritType> = [
         title: 'Locus',
         setupFunction: setupLocus,
         images: ['Locus 1', 'Locus 2'],
-        requirements: [`Replaces: SERPENT WAKES IN POWER`, `Setup: Put Locus and the Presence from the Fire space of your Presence track on the starting board in land #5`],
+        requirements: [`Replace: SERPENT WAKES IN POWER`, `Setup: Put Locus and the Presence from the Fire space of your Presence track on the starting board in land #5`],
         cards: [
           {
             name: `LOCUS OF THE SERPENT'S REGARD`,

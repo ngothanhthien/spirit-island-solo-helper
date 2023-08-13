@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
+import PowerElement from './PowerElement.vue'
 
 const playerCard = usePlayerCardStore()
 </script>
@@ -14,11 +15,10 @@ const playerCard = usePlayerCardStore()
         v-if="value > 0"
         class="flex items-center space-x-0.5"
       >
-        <img
+        <power-element
           class="h-5"
-          :src="`/img/elements/${key.toLocaleLowerCase()}.webp`"
-          :alt="`${key} element`"
-        >
+          :element="key"
+        />
         {{ value }}
       </div>
     </template>

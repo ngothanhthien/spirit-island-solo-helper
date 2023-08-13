@@ -6,15 +6,12 @@ export interface PowerCard {
   description: string
 }
 export type Speed = 'Slow' | 'Fast'
-export type Element =
-  | 'Fire'
-  | 'Air'
-  | 'Earth'
-  | 'Water'
-  | 'Sun'
-  | 'Animal'
-  | 'Moon'
-  | 'Plant'
+const ELEMENT_VALUES = ['Fire', 'Moon', 'Air', 'Sun', 'Earth', 'Water', 'Animal', 'Plant', 'Any']
+export type Element = typeof ELEMENT_VALUES[number]
+export function isElement(value: Element): value is Element {
+  return ELEMENT_VALUES.includes(value);
+}
+
 export type CardListStatus = 'pick-power' | 'view-discard' | ''
 export interface Player {
   hand: string[]
