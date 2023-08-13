@@ -571,6 +571,7 @@ onMounted(() => {
                     :cards="playerCard.play"
                     @swipe-down="putFromPlayToHand"
                     @swipe-up="playerCard.putFromPlayToDiscard"
+                    @change-position="(cardId, posId) => changePosition(playerCard.play ,cardId, posId)"
                   />
                 </div>
                 <template
@@ -625,7 +626,7 @@ onMounted(() => {
                   class="pt-2"
                   @swipe-down="playerCard.forgetCardFromHand"
                   @swipe-up="handSwipeUp"
-                  @change-position="(cardId: string, posId: string) => changePosition(playerCard.hand ,cardId, posId)"
+                  @change-position="(cardId, posId) => changePosition(playerCard.hand ,cardId, posId)"
                 />
                 <base-button
                   v-if="

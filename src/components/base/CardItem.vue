@@ -36,10 +36,10 @@ const { lengthY, lengthX, isSwiping } = useSwipe(
     left.value = 0
     if ( cardHeight.value && (Math.abs(lengthY.value) / cardHeight.value) >= 0.5) {
       if (lengthY.value > 0 && cardEl.value) {
-        emit('swipeUp', cardId)
+        emit('swipeUp', cardId?.id)
       }
       if (lengthY.value < 0 && cardEl.value) {
-        emit('swipeDown', cardId)
+        emit('swipeDown', cardId?.id)
       }
       top.value = 0
     }
@@ -64,11 +64,20 @@ function getPosition(element: Element) {
   if (!props.canChangePosition) {
     return undefined
   }
-  const rect = element.getBoundingClientRect();
+  const rect = element.getBoundingClientRect()
   const x = rect.left + (rect.width / 2)
   const y = rect.top + (rect.height / 2)
   const pos = document.elementFromPoint(x, y)
-  return pos?.getAttribute('data-id')
+  if (!pos) {
+    return undefined
+  }
+  const _rect = pos.getBoundingClientRect()
+  const _x = _rect.left + (_rect.width / 2)
+  const id = pos.getAttribute('data-id')
+  return {
+    id,
+    isFront: _x < x
+  }
 }
 </script>
 <template>

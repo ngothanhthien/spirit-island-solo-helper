@@ -3,6 +3,7 @@
 <script setup lang="ts">
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { useInvaderCardStore } from '@/stores/InvaderCardStore'
+import BaseButton from './base/BaseButton.vue'
 import { ref } from 'vue'
 
 const showRussiaStage2 = ref(true)
