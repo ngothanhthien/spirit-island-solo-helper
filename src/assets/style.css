@@ -136,3 +136,7 @@ body {
   opacity: 1;
   transform: translateX(0px);
 }
+
+img.whitify {
+  filter: invert(1) brightness(2);
+}

@@ -1,30 +1,28 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch, type Ref, defineAsyncComponent } from 'vue'
-import type { Aspect, Element } from '@/types'
+import type { Aspect } from '@/types'
 import CardGroupView from '@/components/CardGroupView.vue'
 import {
-  IconCards,
   IconAlbum,
-  IconAdjustments,
   IconX,
-  IconPlus,
-  IconMinus,
   IconBolt,
   IconLayersOff,
   IconAlbumOff,
+  IconSettings,
+  IconHourglassHigh
 } from '@tabler/icons-vue'
 import ElementTrack from '@/components/ElementTrack.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 import { changePosition, getSpiritAvatar, removeCard } from '@/utils'
 import EventZoomModal from '@/components/EventZoomModal.vue'
 import ModalDiscardCommon from '@/components/ModalDiscardCommon.vue'
-import FearIcon from '@/components/icons/FearIcon.vue'
 import ModalEarnedFear from '@/components/ModalEarnedFear.vue'
 import ModalFearReveal from '@/components/ModalFearReveal.vue'
 import ModalFearDeck from '@/components/ModalFearDeck.vue'
 import AspectPower from '@/components/AspectPower.vue'
 import AspectDetail from '@/components/AspectDetail.vue'
 import PowerDiscard from '@/components/PowerDiscard.vue'
+import IconReclaim from '@/components/icons/IconReclaim.vue'
 
 const DaysThatNeverWere = defineAsyncComponent(() => import('@/components/DaysThatNeverWere.vue'))
 const DaysThatNeverWerePick = defineAsyncComponent(() => import('@/components/DaysThatNeverWerePick.vue'))
@@ -47,6 +45,7 @@ import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
 import AdversaryText from '@/components/base/AdversaryText.vue'
 import MessageInfo from '@/components/MessageInfo.vue'
+import GameSettingModal from '@/components/GameSettingModal.vue'
 
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
@@ -64,13 +63,8 @@ const MENU_1 = {
   PLAY: 0,
   TAB_2: 1, //discard
 }
-const MENU_2 = {
-  HAND: 0,
-  CONTROL: 1,
-}
 
 const currentMenu1 = ref(MENU_1.PLAY)
-const currentMenu2 = ref(MENU_2.HAND)
 
 const playerCard = usePlayerCardStore()
 const eventDeck = useEventDeckStore()
@@ -100,8 +94,8 @@ const isShowDaysThatNeverWere = ref(false)
 const showHabsburgReminderCard = ref(true)
 const isShowSetupRef = ref(true)
 const isShowVisionsOfAShiftingFutureEvent = ref(false)
-const modeIncrease = ref(true)
 const isShowInvaderControl = ref(false)
+const isShowGameSettings = ref(false)
 
 if (
   !eventDeck.isAvailable ||
@@ -175,22 +169,7 @@ if (gameOption.isHasAspect) {
     && isHasAspect
     && isHasAspect.value
     && playerCard.showAspect
-    && currentMenu2.value === MENU_2.HAND
   })
-
-  watch(() => playerCard.aspectMode, (mode) => {
-    if (mode === '2x') {
-      currentMenu2.value = MENU_2.HAND
-    }
-  })
-}
-
-function adjustElement(element: Element) {
-  if (modeIncrease.value) {
-    playerCard.increaseElement(element)
-  } else {
-    playerCard.decreaseElement(element)
-  }
 }
 
 function discardViewSwipeUp(cardId: string) {
@@ -246,21 +225,13 @@ function switchMenu(menu: number) {
   if (menu === 1) {
     const length = Object.keys(MENU_1).length
     currentMenu1.value = (currentMenu1.value + 1) % length
-  } else if (menu === 2) {
-    const length = Object.keys(MENU_2).length
-    currentMenu2.value = (currentMenu2.value + 1) % length
   }
 }
 
 function timePassed() {
   playerCard.cleanUp()
   fearDeck.cleanUp()
-  currentMenu2.value = MENU_2.HAND
-}
-
-function reclaimAll() {
-  playerCard.reclaim()
-  currentMenu2.value = MENU_2.HAND
+  messageStore.setMessage('Time passed')
 }
 
 function resetPicking() {
@@ -278,19 +249,14 @@ function finishPickDaysThatNeverWere() {
   currentMenu1.value = MENU_1.PLAY
   daysThatNeverWereDeck.picking = []
 }
-function manageAspectButtonClick() {
-  playerCard.toggleShowAspect()
-}
 
 function reclaimOneCard(card: string) {
   playerCard.reclaimOneCard(card)
-  currentMenu2.value = MENU_2.HAND
 }
 
 function returnCardFromForget(card: string) {
   playerCard.returnCardFromForget(card)
   isShowModalForgetPower.value = false
-  currentMenu2.value = MENU_2.HAND
 }
 
 function addCardToDaysThatNeverWere(cardId: string) {
@@ -317,7 +283,6 @@ watch(() => cardZoom.waiting.card,
 
         case 'player-discard': {
           playerCard.reclaimOneCard(cardId)
-          currentMenu2.value = MENU_2.HAND
           break
         }
 
@@ -394,10 +359,6 @@ watch(() => eventDeck.reveal, function (newValue) {
   }
 })
 
-watch(() => playerCard.current, () => {
-  currentMenu2.value = MENU_2.HAND
-})
-
 onMounted(() => {
   messageStore.setMessage('Welcome to Spirit Island!')
 })
@@ -411,6 +372,10 @@ onMounted(() => {
         class="h-12 bg-orange-800 flex items-center z-40 text-white w-full"
       >
         <div class="flex items-center h-full pr-3">
+          <icon-settings
+            class="w-10"
+            @click="isShowGameSettings = true"
+          />
           <button
             class="h-full px-2 flex items-center bg-orange-600"
             @click="playerCard.addEnergy"
@@ -653,189 +618,27 @@ onMounted(() => {
               id="game-showing-bottom"
               class="bg-stone-300 flex px-2 relative h-1/2"
             >
-              <template v-if="currentMenu2 === MENU_2.HAND">
-                <div class="flex flex-1 relative">
-                  <card-group-view
-                    from="hand"
-                    :cards="playerCard.hand"
-                    class="pt-2"
-                    @swipe-down="playerCard.forgetCardFromHand"
-                    @swipe-up="handSwipeUp"
-                    @change-position="(cardId: string, posId: string) => changePosition(playerCard.hand ,cardId, posId)"
-                  />
-                  <base-button
-                    v-if="
-                      playerCard.hand.length === 0 &&
-                        playerCard.play.length === 0 &&
-                        playerCard.discard.length > 0
-                    "
-                    button-style="secondary"
-                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                    @click="reclaimAll"
-                  >
-                    Reclaim All
-                  </base-button>
-                </div>
-              </template>
-              <div
-                v-if="currentMenu2 === MENU_2.CONTROL"
-                class="w-full flex items-center justify-end space-x-4 mx-4"
-              >
-                <div class="space-y-3 w-28 flex flex-col h-full overflow-hidden">
-                  <div
-                    class="flex flex-row h-10 w-full rounded-lg relative bg-orange-700 mt-1 text-white"
-                  >
-                    <button
-                      class="h-full px-2 rounded-l bg-inherit"
-                      @click="playerCard.reduceEnergy"
-                    >
-                      <icon-minus class="w-4 h-4 mx-auto" />
-                    </button>
-                    <div class="bg-orange-700 flex items-center">
-                      <input
-                        type="number"
-                        :value="playerCard.energy"
-                        class="outline-none focus:outline-none bg-inherit text-center w-full flex items-center font-semibold text-lg"
-                        @change="
-                          playerCard.setEnergy(
-                            Number(($event.target as HTMLInputElement).value),
-                          )
-                        "
-                      >
-                      <icon-bolt class="w-10 h-10 -ml-1" />
-                    </div>
-                    <button
-                      class="bg-inherit h-full px-2 rounded-r"
-                      @click="playerCard.addEnergy"
-                    >
-                      <icon-plus class="w-4 h-4 mx-auto" />
-                    </button>
-                  </div>
-                  <div
-                    class="flex w-full h-10 rounded-lg relative bg-gray-800 mt-1 text-white shrink-0"
-                  >
-                    <button
-                      class="h-full px-2 rounded-l bg-inherit"
-                      @click="fearDeck.decreaseFear"
-                    >
-                      <icon-minus class="w-4 h-4 mx-auto" />
-                    </button>
-                    <div class="flex items-center justify-center font-semibold text-lg w-full">
-                      <div>{{ fearDeck.currentFear }}</div>
-                      <fear-icon class="w-5 h-5 ml-1.5" />
-                    </div>
-                    <button
-                      class="bg-inherit h-full px-2 rounded-r"
-                      @click="fearDeck.increaseFear"
-                    >
-                      <icon-plus class="w-4 h-4 mx-auto" />
-                    </button>
-                  </div>
-                  <div class="flex flex-1 items-center space-x-1 justify-center">
-                    <div
-                      class="rounded-full inline-block h-fit bg-purple-900 text-white p-1"
-                      @click="fearDeck.unEarn"
-                    >
-                      <icon-minus class="w-3.5 h-3.5" />
-                    </div>
-                    <div class="h-full w-12 relative flex justify-center">
-                      <img
-                        src="/img/card-back/fear.webp"
-                        alt="Fear Back"
-                        class="absolute h-full"
-                      >
-                      <div class="absolute top-1/2 -translate-y-1/2 text-xl pb-1 font-semibold text-white">
-                        {{ fearDeck.totalEarned }}
-                      </div>
-                    </div>
-                    <div
-                      class="rounded-full inline-block h-fit bg-purple-900 text-white p-1"
-                      @click="fearDeck.earn"
-                    >
-                      <icon-plus class="w-3.5 h-3.5" />
-                    </div>
-                  </div>
-                </div>
-                <div class="grow">
-                  <div
-                    :class="modeIncrease ? 'bg-gray-800' : 'bg-red-800'"
-                    class="w-6 h-6 rounded-full text-white p-1 mb-1 flex items-center"
-                    @click="modeIncrease = !modeIncrease"
-                  >
-                    <icon-plus
-                      v-if="modeIncrease"
-                      class="w-full"
-                    />
-                    <icon-minus
-                      v-else
-                      class="w-full"
-                    />
-                  </div>
-                  <div class="flex select-none w-20 flex-wrap">
-                    <div
-                      v-for="element in ['Sun', 'Moon', 'Fire', 'Air', 'Water', 'Earth', 'Plant', 'Animal']"
-                      :key="element"
-                      class="flex items-center w-1/2 space-x-0.5 my-1"
-                    >
-                      <img
-                        class="h-6"
-                        :src="`/img/elements/${element.toLocaleLowerCase()}.webp`"
-                        :alt="`${element} element`"
-                        @click="adjustElement(element as Element)"
-                      >
-                      {{ playerCard.permanentElements[element as Element] }}
-                    </div>
-                  </div>
-                </div>
-                <div class="flex flex-col relative w-32 space-y-2 mt-2">
-                  <base-button
-                    v-if="isHasAspect"
-                    button-style="secondary"
-                    class="w-full"
-                    @click="manageAspectButtonClick"
-                  >
-                    {{ playerCard.showAspect ? 'Hide' : 'Show' }} Aspect
-                  </base-button>
-                  <base-button
-                    v-if="isHasAspect && playerCard.showAspect"
-                    button-style="secondary"
-                    class="w-full"
-                    @click="playerCard.switchAspectMode"
-                  >
-                    Aspect: {{ playerCard.aspectMode }}
-                  </base-button>
-                  <base-button
-                    button-style="secondary"
-                    class="mx-auto"
-                    @click="router.push({ name: 'HomeView' })"
-                  >
-                    Exit Game
-                  </base-button>
-                </div>
-                <div class="flex flex-col relative w-32 space-y-2 mt-2">
-                  <base-button
-                    class="h-fit w-full"
-                    button-style="secondary"
-                    @click="timePassed"
-                  >
-                    Time Passed
-                  </base-button>
-                  <base-button
-                    class="h-fit w-full"
-                    button-style="secondary"
-                    :disabled="playerCard.forget.length === 0"
-                    @click="isShowModalForgetPower = true"
-                  >
-                    Show Forget
-                  </base-button>
-                  <base-button
-                    class="h-fit w-full"
-                    button-style="secondary"
-                    @click="reclaimAll"
-                  >
-                    Reclaim All
-                  </base-button>
-                </div>
+              <div class="flex flex-1 relative">
+                <card-group-view
+                  from="hand"
+                  :cards="playerCard.hand"
+                  class="pt-2"
+                  @swipe-down="playerCard.forgetCardFromHand"
+                  @swipe-up="handSwipeUp"
+                  @change-position="(cardId: string, posId: string) => changePosition(playerCard.hand ,cardId, posId)"
+                />
+                <base-button
+                  v-if="
+                    playerCard.hand.length === 0 &&
+                      playerCard.play.length === 0 &&
+                      playerCard.discard.length > 0
+                  "
+                  button-style="secondary"
+                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                  @click="playerCard.reclaim"
+                >
+                  Reclaim All
+                </base-button>
               </div>
             </div>
           </div>
@@ -863,6 +666,26 @@ onMounted(() => {
             </div>
           </div>
 
+          <div class="absolute -right-10 bottom-1 space-x-2 z-10 flex">
+            <div
+              class="h-11 w-11 p-2 rounded-full text-white bg-orange-800 border-2 border-orange-900"
+              @click="timePassed"
+            >
+              <icon-hourglass-high
+                class="w-full h-full"
+                style="stroke-width: 1px;"
+              />
+            </div>
+            <div
+              class="h-11 w-11 p-2 rounded-full text-white bg-orange-800 border-2 border-orange-900"
+              @click="playerCard.reclaim"
+            >
+              <icon-reclaim
+                class="w-full h-full"
+              />
+            </div>
+          </div>
+          
           <div
             v-if="daysThatNeverWereDeck.current === playerCard.current"
             class="absolute w-12 h-12 rounded-full bg-green-800 border-2 border-purple-700 overflow-hidden bottom-2 right-2"
@@ -920,29 +743,7 @@ onMounted(() => {
               />
             </transition>
           </div>
-          <div class="flex flex-col justify-center items-center bg-stone-900 px-2">
-            <transition
-              name="switch"
-              mode="out-in"
-            >
-              <icon-cards
-                v-if="currentMenu2 === MENU_2.HAND"
-                class="w-8 h-8"
-                @click="switchMenu(2)"
-              />
-            </transition>
-            <transition
-              name="switch"
-              mode="out-in"
-            >
-              <icon-adjustments
-                v-if="currentMenu2 === MENU_2.CONTROL"
-                class="w-8 h-8"
-                @click="switchMenu(2)"
-              />
-            </transition>
-            <div class="h-8" />
-          </div>
+          <div class="flex flex-col justify-center items-center bg-stone-900 px-2" />
         </div>
         <message-info />
       </div>
@@ -971,6 +772,11 @@ onMounted(() => {
         @close="isShowFearDeck = false"
       />
       <modal-fear-reveal v-if="fearDeck.currentReveal" />
+      <game-setting-modal
+        v-if="isShowGameSettings"
+        @close="isShowGameSettings = false"
+        @show-forget="isShowModalForgetPower = true"
+      />
       <card-zoom-modal v-if="cardZoom.isShow" />
       <event-zoom-modal v-if="eventDeck.reveal" />
       <aspect-detail

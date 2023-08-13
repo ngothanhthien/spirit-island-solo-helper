@@ -19,8 +19,9 @@ function createPlayer(): Player {
     aspectMode: '1x',
   }
 }
-function createDefaultElement() {
+function createDefaultElement(): { [K in Element]: number } {
   return {
+    'Any': 0,
     'Sun': 0,
     'Moon': 0,
     'Fire': 0,
@@ -58,9 +59,6 @@ export const usePlayerCardStore = defineStore('playerCard', {
     showAspect(state) {
       return state.players[state.current].showAspect
     },
-    aspectPos(state) {
-      return state.players[state.current].aspectPos
-    },
     aspectMode(state) {
       return state.players[state.current].aspectMode
     },
@@ -82,7 +80,7 @@ export const usePlayerCardStore = defineStore('playerCard', {
         }
       })
       Object.entries(state.players[state.current].permanentElements).forEach(([key, value]) => {
-        elements[key as Element] += value
+        elements[key] += value || 0
       })
       return elements
     },
@@ -112,6 +110,7 @@ export const usePlayerCardStore = defineStore('playerCard', {
       const player = this.players[this.current]
       player.hand = [...player.hand, ...player.discard]
       player.discard = []
+      useMessageStore().setMessage('Reclaim cards')
     },
     reclaimOneCard(card: string) {
       const player = this.players[this.current]
@@ -230,15 +229,11 @@ export const usePlayerCardStore = defineStore('playerCard', {
         (this.players[this.current].permanentElements[element] as number)--
       }
     },
-    toggleShowAspect() {
-      this.players[this.current].showAspect = !this.players[this.current].showAspect
+    setShowAspect(value: boolean) {
+      this.players[this.current].showAspect = value
     },
-    switchAspectMode() {
-      if (this.players[this.current].aspectMode === '1x') {
-        this.players[this.current].aspectMode = '2x'
-      } else {
-        this.players[this.current].aspectMode = '1x'
-      }
+    setAspectMode(mode: '1x' | '2x') {
+      this.players[this.current].aspectMode = mode
     },
   },
   persist: true,
