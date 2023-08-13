@@ -559,73 +559,71 @@ onMounted(() => {
               class="bg-neutral-100 flex px-2 relative h-1/2"
               :style="menu1Tab1BackgroundStyle ? `${menu1Tab1BackgroundStyle}` : undefined"
             >
-              <template v-if="currentMenu1 === MENU_1.PLAY">
-                <div
-                  class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0"
-                >
-                  <span v-if="playerCard.isPicking">Picking Power</span>
-                  <span
-                    v-else-if="isPickingDaysThatNeverWere"
-                    class="text-gray-200 opacity-60"
-                  >Days That Never Were</span>
-                  <span v-else>Player Play</span>
-                </div>
-                <div
-                  v-if="playerCard.isPicking"
-                  class="flex items-stretch relative w-full"
-                >
-                  <power-pick />
-                  <icon-x
-                    class="w-8 h-8 absolute right-1 -top-1 text-red-600 z-50"
-                    style="stroke-width: 3px"
-                    @click="resetPicking"
-                  />
-                </div>
-                <div
+              <div
+                v-if="currentMenu1 === MENU_1.PLAY"
+                class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0"
+              >
+                <span v-if="playerCard.isPicking">Picking Power</span>
+                <span
                   v-else-if="isPickingDaysThatNeverWere"
-                  class="flex items-stretch relative w-full"
-                >
-                  <!-- v-if="daysThatNeverWereDeck.picking.length > 0" -->
-                  <days-that-never-were-pick
-                    :picking="daysThatNeverWereDeck.picking"
-                    @swipe-down="addCardToDaysThatNeverWere"
-                  />
-                  <icon-x
-                    class="w-7 h-7 absolute -right-2 -top-2 text-blue-900 z-50"
-                    style="stroke-width: 3px"
-                    @click="finishPickDaysThatNeverWere"
+                  class="text-gray-200 opacity-60"
+                >Days That Never Were</span>
+                <span v-else>Player Play</span>
+              </div>
+              <div
+                v-if="playerCard.isPicking && currentMenu1 === MENU_1.PLAY"
+                class="flex items-stretch relative w-full"
+              >
+                <power-pick />
+                <icon-x
+                  class="w-8 h-8 absolute right-1 -top-1 text-red-600 z-50"
+                  style="stroke-width: 3px"
+                  @click="resetPicking"
+                />
+              </div>
+              <div
+                v-else-if="isPickingDaysThatNeverWere && currentMenu1 === MENU_1.PLAY"
+                class="flex items-stretch relative w-full"
+              >
+                <!-- v-if="daysThatNeverWereDeck.picking.length > 0" -->
+                <days-that-never-were-pick
+                  :picking="daysThatNeverWereDeck.picking"
+                  @swipe-down="addCardToDaysThatNeverWere"
+                />
+                <icon-x
+                  class="w-7 h-7 absolute -right-2 -top-2 text-blue-900 z-50"
+                  style="stroke-width: 3px"
+                  @click="finishPickDaysThatNeverWere"
+                />
+              </div>
+              <div
+                v-show="!playerCard.isPicking && !isPickingDaysThatNeverWere && currentMenu1 === MENU_1.PLAY"
+                class="w-full flex"
+              >
+                <div class="relative flex-1">
+                  <card-group-view
+                    from="play"
+                    :cards="playerCard.play"
+                    @swipe-down="putFromPlayToHand"
+                    @swipe-up="playerCard.putFromPlayToDiscard"
                   />
                 </div>
-                <div
-                  v-else
-                  class="w-full flex"
+                <template
+                  v-for="(player, index) in playerCard.players"
+                  :key="`player-${index}`"
                 >
-                  <div class="relative flex-1">
-                    <card-group-view
-                      from="play"
-                      :cards="playerCard.play"
-                      @swipe-down="putFromPlayToHand"
-                      @swipe-up="playerCard.putFromPlayToDiscard"
+                  <div
+                    v-if="gameOption.aspectsDetail[index] && player.showAspect && player.aspectMode === '1x'"
+                    v-show="playerCard.current === index"
+                    class="w-1/3 relative"
+                  >
+                    <aspect-power
+                      :aspect="(gameOption.aspectsDetail[index] as Aspect)"
+                      @show-aspect-detail="isShowAspectDetail = true"
                     />
                   </div>
-                  <template
-                    v-for="(player, index) in playerCard.players"
-                    :key="`player-${index}`"
-                  >
-                    <div
-                      v-if="gameOption.aspectsDetail[index] && player.showAspect"
-                      v-show="playerCard.current === index"
-                      class="w-1/3 relative"
-                    >
-                      <aspect-power
-                        :key="`1x-${index}`"
-                        :aspect="(gameOption.aspectsDetail[index] as Aspect)"
-                        @show-aspect-detail="isShowAspectDetail = true"
-                      />
-                    </div>
-                  </template>
-                </div>
-              </template>
+                </template>
+              </div>
               <div
                 v-if="currentMenu1 === MENU_1.TAB_2"
                 class="flex items-stretch relative w-full"
@@ -876,19 +874,25 @@ onMounted(() => {
               class="h-full"
             >
           </div>
-          <div
-            v-if="isShow2xAspect"
-            class="w-1/3 shrink-0 flex"
-            @click="isShowAspectDetail = true"
+          <template
+            v-for="(player, index) in playerCard.players"
+            :key="`player2x-${index}`"
           >
-            <div class="relative flex-1">
-              <aspect-power />
+            <div
+              v-if="player.showAspect && player.aspectMode === '2x'"
+              v-show="playerCard.current === index && currentMenu1 === MENU_1.PLAY"
+              class="w-1/3 shrink-0 flex"
+              @click="isShowAspectDetail = true"
+            >
+              <div class="relative flex-1">
+                <aspect-power :aspect="(gameOption.aspectsDetail[index] as Aspect)" />
+              </div>
+              <div class="w-6">
+                <div class="h-1/2 bg-neutral-100" />
+                <div class="h-1/2 bg-stone-300" />
+              </div>
             </div>
-            <div class="w-6">
-              <div class="h-1/2 bg-neutral-100" />
-              <div class="h-1/2 bg-stone-300" />
-            </div>
-          </div>
+          </template>
         </div>
         <div
           id="game-control-right-bar"
