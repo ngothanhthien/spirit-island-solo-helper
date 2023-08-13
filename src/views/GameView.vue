@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch, type Ref, defineAsyncComponent } from 'vue'
-import type { Element } from '@/types'
+import type { Aspect, Element } from '@/types'
 import CardGroupView from '@/components/CardGroupView.vue'
 import {
   IconCards,
@@ -608,15 +608,22 @@ onMounted(() => {
                       @swipe-up="playerCard.putFromPlayToDiscard"
                     />
                   </div>
-                  <div
-                    v-if="isHasAspect && playerCard.showAspect && playerCard.aspectMode === '1x'"
-                    class="w-1/3 relative"
+                  <template
+                    v-for="(player, index) in playerCard.players"
+                    :key="`player-${index}`"
                   >
-                    <aspect-power
-                      :key="`1x-${playerCard.current}`"
-                      @show-aspect-detail="isShowAspectDetail = true"
-                    />
-                  </div>
+                    <div
+                      v-if="gameOption.aspectsDetail[index] && player.showAspect"
+                      v-show="playerCard.current === index"
+                      class="w-1/3 relative"
+                    >
+                      <aspect-power
+                        :key="`1x-${index}`"
+                        :aspect="(gameOption.aspectsDetail[index] as Aspect)"
+                        @show-aspect-detail="isShowAspectDetail = true"
+                      />
+                    </div>
+                  </template>
                 </div>
               </template>
               <div

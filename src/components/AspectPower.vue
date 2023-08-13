@@ -8,50 +8,23 @@ import RangeIcon from '@/components/icons/RangeIcon.vue'
 import IconNoBlight from './icons/IconNoBlight.vue'
 import TextCompile from '@/components/TextCompile.vue'
 import JungleWetlandIcon from './icons/JungleWetlandIcon.vue'
-import { usePlayerCardStore } from '@/stores/PlayerCardStore'
-import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { nameToImage } from '@/utils'
-import { computed, onMounted, ref } from 'vue'
-import { useScroll, watchDebounced } from '@vueuse/core'
+import type { Aspect } from '@/types'
+import type { PropType } from 'vue'
 
 defineEmits(['showAspectDetail'])
-const playerCard = usePlayerCardStore()
-const gameOption = useGameOptionStore()
-
-const aspectLoading = ref(false)
-const aspectEl = ref<HTMLElement | null>(null)
-const { y: aspectPos } = useScroll(aspectEl, {
-  behavior: 'instant'
+defineProps({
+  aspect: {
+    type: Object as PropType<Aspect>,
+    required: true
+  }
 })
-
-const aspect = computed(() => {
-  return gameOption.aspectsDetail[playerCard.current]
-})
-
-watchDebounced(aspectPos,
-  (pos) => { 
-    playerCard.setAspectPos(pos)
-   },
-  { debounce: 300 },
-)
-
-onMounted(() => {
-  restoreAspectPos()
-})
-function restoreAspectPos() {
-  aspectLoading.value = true
-  setTimeout(() => {
-    aspectPos.value = playerCard.aspectPos
-    aspectLoading.value = false
-  }, 100)
-}
 </script>
 
 <template>
   <div
     ref="aspectEl"
     class="w-full overflow-y-auto absolute hide-scrollbar h-full bg-amber-100"
-    :class="aspectLoading ? 'opacity-0':''"
     @click="$emit('showAspectDetail')"
   >
     <div

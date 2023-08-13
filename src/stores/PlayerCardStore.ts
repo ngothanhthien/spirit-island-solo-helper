@@ -16,7 +16,6 @@ function createPlayer(): Player {
     energyThisTurn: 0,
     permanentElements: createDefaultElement(),
     showAspect: true,
-    aspectPos: 0,
     aspectMode: '1x',
   }
 }
@@ -240,9 +239,6 @@ export const usePlayerCardStore = defineStore('playerCard', {
       } else {
         this.players[this.current].aspectMode = '1x'
       }
-    },
-    setAspectPos(position: number) {
-      this.players[this.current].aspectPos = position
     },
   },
   persist: true,
