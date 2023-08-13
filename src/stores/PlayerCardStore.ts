@@ -131,7 +131,7 @@ export const usePlayerCardStore = defineStore('playerCard', {
     take(card: string) {
       this.players[this.current].hand.push(card)
     },
-    playCard(card: string, posId?: string) {
+    playCard(card: string, posId: { id: string, isFront: boolean } | undefined = undefined) {
       const cardData = getCard(card) as PowerCard
       const player = this.players[this.current]
       if (cardData.cost <= player.energy) {
@@ -150,7 +150,7 @@ export const usePlayerCardStore = defineStore('playerCard', {
       removeCard(player.hand, card)
       player.discard.push(card)
     },
-    returnCardFromPlay(card: string, posId?: string) {
+    returnCardFromPlay(card: string, posId: { id: string, isFront: boolean } | undefined = undefined) {
       const player = this.players[this.current]
       const cardData = getCard(card) as PowerCard
       player.energy += cardData.cost

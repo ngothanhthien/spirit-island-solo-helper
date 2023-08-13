@@ -205,7 +205,7 @@ function quickTake(type: 'minor' | 'major') {
   playerCard.addToPicking(card)
 }
 
-function handSwipeUp(cardId: string, posId: string) {
+function handSwipeUp(cardId: string, posId: { id: string, isFront: boolean }) {
   if (playerCard.isPicking && currentMenu1.value === MENU_1.PLAY) {
     playerCard.putCardToPicking(cardId)
     return
@@ -217,7 +217,7 @@ function handSwipeUp(cardId: string, posId: string) {
   playerCard.playCard(cardId, posId)
 }
 
-function putFromPlayToHand(cardId: string, posId: string) {
+function putFromPlayToHand(cardId: string, posId: { id: string, isFront: boolean }) {
   playerCard.returnCardFromPlay(cardId, posId)
 }
 

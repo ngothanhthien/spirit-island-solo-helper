@@ -36,10 +36,10 @@ const { lengthY, lengthX, isSwiping } = useSwipe(
     left.value = 0
     if ( cardHeight.value && (Math.abs(lengthY.value) / cardHeight.value) >= 0.5) {
       if (lengthY.value > 0 && cardEl.value) {
-        emit('swipeUp', cardId?.id)
+        emit('swipeUp', cardId)
       }
       if (lengthY.value < 0 && cardEl.value) {
-        emit('swipeDown', cardId?.id)
+        emit('swipeDown', cardId)
       }
       top.value = 0
     }
