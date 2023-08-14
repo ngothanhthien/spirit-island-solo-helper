@@ -21,6 +21,11 @@ const routes = [
     name: 'GameView'
   },
   {
+    path: '/statistics',
+    component: lazyLoad('StatisticsView'),
+    name: 'StatisticsView'
+  },
+  {
     path: '/testing',
     component: lazyLoad('TestView'),
     name: 'TestView'

@@ -9,14 +9,26 @@ import PowerElement from '@/components/PowerElement.vue'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { getSpiritAvatar } from '@/utils'
 import BaseButton from '@/components/base/BaseButton.vue'
+import { addResult } from '@/plugins/firebase'
+import { useInvaderCardStore } from '@/stores/InvaderCardStore'
+import { useMessageStore } from '@/stores/MessageStore'
+import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 
 const emit = defineEmits(['close', 'show-forget'])
 
 const playerCard = usePlayerCardStore()
 const fearDeck = useFearDeckStore()
 const gameOption = useGameOptionStore()
+const invaderCard = useInvaderCardStore()
+const minorDeck = usePowerDeckStore('minor')
+const majorDeck = usePowerDeckStore('major')
 
 const modeIncrease = ref(true)
+const showConfirmLogMatch = ref(false)
+const aspectMode = ref(playerCard.aspectMode)
+const showAspect = ref(playerCard.showAspect)
+const isLoading = ref(false)
+
 const isHasAspect = computed(() => Boolean(gameOption.aspectsDetail[playerCard.current]))
 
 function adjustElement(element: string) {
@@ -27,12 +39,29 @@ function adjustElement(element: string) {
   }
 }
 
-const aspectMode = ref(playerCard.aspectMode)
-const showAspect = ref(playerCard.showAspect)
-
 function showForget() {
   emit('show-forget')
   emit('close')
+}
+
+async function logMatch(win: boolean) {
+  isLoading.value = true
+  try {
+    await addResult({
+      spirits: gameOption.spiritsName,
+      adversary: gameOption.adversaryName,
+      win,
+      level: gameOption.adversaryLevel,
+      invader_card_left: invaderCard.draw.length,
+      fear_stage: fearDeck.draw.length === 0 ? 4 : fearDeck.currentStage,
+    })
+    minorDeck.$reset()
+    majorDeck.$reset()
+    router.push('/HomeView')
+  } catch (error) {
+    useMessageStore().setMessage('Log failed')
+    isLoading.value = false
+  }
 }
 
 watch(aspectMode, (value) => {
@@ -220,10 +249,48 @@ watch(showAspect, (value) => {
       </div>
       <div
         class="absolute bottom-2 right-2"
-        @click="router.push({name: 'HomeView'})"
+        @click="showConfirmLogMatch = true"
       >
         Exit Game
       </div>
     </div>
+    <Teleport to="#modal">
+      <div
+        v-if="showConfirmLogMatch"
+        class="absolute z-[99999] bg-gray-900/30 top-0 left-0 h-full w-full flex items-center justify-center"
+        @click.self="showConfirmLogMatch = false"
+      >
+        <div class="bg-white rounded-lg w-fit px-3 py-2">
+          <div class="mb-4 flex justify-between">
+            <div>Log this match?</div>
+            <div @click="showConfirmLogMatch = false">
+              <icon-x />
+            </div>
+          </div>
+          <div class="flex space-x-2 mt-2">
+            <base-button
+              button-style="secondary"
+              :disabled="isLoading"
+              @click="logMatch(true)"
+            >
+              Win
+            </base-button>
+            <base-button
+              button-style="secondary"
+              :disabled="isLoading"
+              @click="logMatch(false)"
+            >
+              Lose
+            </base-button>
+            <base-button
+              button-style="primary"
+              @click="router.push({name: 'HomeView'})"
+            >
+              No Log
+            </base-button>
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>

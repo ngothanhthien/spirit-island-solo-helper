@@ -88,6 +88,10 @@ export const getSpiritAvatar = (id: number) => {
   return name.replace(/'/g, "").replace(/[\s']/g, "_") + "_small.webp"
 }
 
+export const getSpiritAvatarByName = (name: string) => {
+  return name.replace(/'/g, "").replace(/[\s']/g, "_") + "_small.webp"
+}
+
 export const getPowerIdByName = (name: string, type?: 'unique' | 'minor-major' | 'extra') => {
   const search = name.toLowerCase()
   if (type === 'extra') {
@@ -132,6 +136,10 @@ export const getSpiritById = (id: number) => {
 
 export const nameToImage = (name: string) => {
   return name.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '_').toLowerCase() + '.webp'
+}
+
+export const adversaryNameToImage = (name: string) => {
+  return name.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '-').toLowerCase() + '-flag.webp'
 }
 
 export const changePosition = (arr: string[], cardId: string, posId: {

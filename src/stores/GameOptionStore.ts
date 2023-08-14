@@ -124,6 +124,12 @@ export const useGameOptionStore = defineStore("gameOption", {
     isHasAspect(state) {
       return state.aspects.length > 0
     },
+    adversaryName(state) {
+      return ADVERSARY[state.adversary as number].title
+    },
+    spiritsName(state) {
+      return state.spirits.map((spiritIndex) => SPIRIT[spiritIndex].name)
+    }
   },
   actions: {
     setSetupState(option: {
@@ -133,6 +139,7 @@ export const useGameOptionStore = defineStore("gameOption", {
       adversary: number;
       adversaryLevel: number;
       aspects: number[];
+      logged: boolean;
     }) {
       this.numberSpirit = option.numberSpirit;
       this.spirits = option.spirits;

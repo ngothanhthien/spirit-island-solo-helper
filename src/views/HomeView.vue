@@ -43,6 +43,13 @@ const canContinue = computed(() => {
       >
         Continue
       </base-button>
+      <base-button
+        class="w-full"
+        button-style="secondary"
+        @click="router.push({ name: 'StatisticsView' })"
+      >
+        Statistics
+      </base-button>
     </div>
     <available-tracking />
   </div>
