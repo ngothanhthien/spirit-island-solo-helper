@@ -16,7 +16,7 @@ export const useMessageStore = defineStore('messageStore', {
       this.timeoutId = setTimeout(() => {
         this.message = null
         this.timeoutId = null
-      }, time)
+      }, time) as unknown as number
     },
     clearMessage() {
       if (this.timeoutId) {

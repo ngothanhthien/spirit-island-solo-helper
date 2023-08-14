@@ -51,5 +51,13 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+  build: {
+    minify: 'terser',
+    terserOptions: {
+      output: {
+        comments: false,
+      },
+    },
+  },
 })

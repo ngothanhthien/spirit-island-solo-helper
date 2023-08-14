@@ -139,7 +139,6 @@ export const useGameOptionStore = defineStore("gameOption", {
       adversary: number;
       adversaryLevel: number;
       aspects: number[];
-      logged: boolean;
     }) {
       this.numberSpirit = option.numberSpirit;
       this.spirits = option.spirits;
