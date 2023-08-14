@@ -138,7 +138,7 @@ export const changePosition = (arr: string[], cardId: string, posId: {
   id: string,
   isFront: boolean,
 }) => {
-  if (posId) {
+  if (posId.id) {
     removeCard(arr, cardId)
     if (posId.isFront) {
       insertAfter(arr, cardId, posId.id)
