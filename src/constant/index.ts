@@ -3553,6 +3553,7 @@ export const ADVERSARY: Array<Adversary> = [
         {
           name: 'The Empire Ascendant',
           text: 'Setup and During the Explore Step: On boards with 3 or fewer Blight.png: Add +1 Explorericon.png in each land successfully explored. (Max. 2 lands per board per Explore Card.)',
+          isHighlight: true,
         },
       ],
     },

@@ -96,6 +96,9 @@ export const useGameOptionStore = defineStore("gameOption", {
     hasMining5(state) {
       return ADVERSARY[state.adversary as number].id === 'habsburg-mining' && state.adversaryLevel >= 5
     },
+    hasMining6(state) {
+      return ADVERSARY[state.adversary as number].id === 'habsburg-mining' && state.adversaryLevel === 6
+    },
     hasMining4(state) {
       return ADVERSARY[state.adversary as number].id === 'habsburg-mining' && state.adversaryLevel >= 4
     },

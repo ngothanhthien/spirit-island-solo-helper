@@ -404,6 +404,12 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               Scotland 1
             </div>
             <div
+              v-if="gameOption.hasMining6"
+              class="text-center text-xs bg-red-200 rounded"
+            >
+              Mining 6
+            </div>
+            <div
               v-if="invaderCard.explore.length === 0"
               class="relative flex-1 text-semibold rounded-lg overflow-hidden font-serif h-full text-white bg-gray-900 flex items-center justify-center"
               @click="showInvaderDraw = true"
