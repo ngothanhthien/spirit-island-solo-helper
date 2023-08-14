@@ -680,7 +680,7 @@ onMounted(() => {
               >
             </div>
             <div
-              class="h-11 w-11 p-2 rounded-full text-white bg-orange-800 border-2 border-orange-900"
+              class="h-11 w-11 p-2 rounded-full text-white bg-purple-800 border-2 border-purple-900"
               @click="timePassed"
             >
               <icon-hourglass-high

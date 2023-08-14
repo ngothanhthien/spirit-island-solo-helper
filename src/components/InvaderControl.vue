@@ -410,17 +410,23 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               Mining 6
             </div>
             <div
-              v-if="invaderCard.explore.length === 0"
+              v-if="invaderCard.explore.length === 0 && invaderCard.draw.length > 0"
               class="relative flex-1 text-semibold rounded-lg overflow-hidden font-serif h-full text-white bg-gray-900 flex items-center justify-center"
               @click="showInvaderDraw = true"
             >
               {{ invaderCard.getBackCardTop }}
               <div
                 class="absolute top-0 right-0 p-2"
-                @click="shuffle"
+                @click.stop="shuffle"
               >
                 <icon-reload />
               </div>
+            </div>
+            <div
+              v-else-if="invaderCard.explore.length === 0 && invaderCard.draw.length === 0"
+              class="flex-1 flex items-center justify-center text-red-700 font-bold"
+            >
+              Empty
             </div>
             <template v-else>
               <invader-box
@@ -440,7 +446,10 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
                 >
               </div>
             </template>
-            <div class="flex">
+            <div
+              :class="{'opacity-0': invaderCard.draw.length === 0}"
+              class="flex"
+            >
               <button
                 v-if="gameOption.hasSweden4 && invaderCard.draw.length === invaderCard.pos.length"
                 class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:bg-gray-800/60 text-sm"
