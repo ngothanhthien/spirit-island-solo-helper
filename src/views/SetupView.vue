@@ -276,7 +276,7 @@ watch(numberSpirit, randomSetup)
       Back to Home
     </button>
     <div class="space-x-2 grid grid-cols-12">
-      <div class="col-span-4 pr-10">
+      <div class="col-span-3">
         <base-select
           v-model="numberSpirit"
           class="w-full"
@@ -284,14 +284,14 @@ watch(numberSpirit, randomSetup)
           default-label="Number Spirits"
         />
         <div class="flex w-full space-x-2 mt-4">
-          <div
+          <!-- <div
             class="bg-gray-800 hover:bg-gray-800/90 transition rounded-full p-1 text-white self-start mt-3"
           >
             <icon-refresh
               class="w-4 h-4"
               @click="randomAdversary"
             />
-          </div>
+          </div> -->
           <div>
             <base-select
               v-model="adversary"
@@ -320,7 +320,7 @@ watch(numberSpirit, randomSetup)
       </div>
       <div
         v-if="numberSpirit"
-        class="col-span-8 flex flex-wrap"
+        class="col-span-9 flex flex-wrap"
       >
         <div
           v-for="n in numberSpirit"
@@ -339,7 +339,7 @@ watch(numberSpirit, randomSetup)
             <div class="text-xl">
               {{ MAP[islands[n - 1]] }}:
             </div>
-            <div class="relative grow">
+            <div class="relative">
               <div
                 class="w-14 h-14 rounded-full bg-white right-2 border-2 overflow-hidden"
                 @click="toggleSpiritSelect(n - 1)"
@@ -360,7 +360,7 @@ watch(numberSpirit, randomSetup)
             </div>
             <div
               v-if="aspectsOption[n-1]"
-              class="w-full mt-1"
+              class="mt-1 overflow-hidden"
             >
               <div
                 class="flex items-center space-x-1"
@@ -379,15 +379,15 @@ watch(numberSpirit, randomSetup)
                   v-else
                   class="flex items-center space-x-1"
                 >
-                  <div>
-                    {{ aspectsOption[n-1]?.[aspects[n-1]].label }}
-                  </div> 
                   <div
                     class="text-red-800"
                     @click.stop="aspects[n-1] = -1"
                   >
                     <icon-trash-x class="w-5 h-5" />
                   </div>
+                  <div>
+                    {{ aspectsOption[n-1]?.[aspects[n-1]].label }}
+                  </div> 
                 </div>
               </div>
             </div>
@@ -408,6 +408,7 @@ watch(numberSpirit, randomSetup)
     <modal-aspect
       v-if="currentAspectShowing"
       :aspects="currentAspectShowing.aspect"
+      :current="aspects[currentAspectShowing.spiritIndex]"
       @close="currentAspectShowing = null"
       @choose="chooseAspect"
     />

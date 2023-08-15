@@ -7,6 +7,7 @@ import useZoomCardSwipe from '@/composable/useZoomCardSwipe'
 
 const props = defineProps<{
   aspects: Array<Aspect>,
+  current: number,
 }>()
 const emit = defineEmits(['close', 'choose'])
 const aspectsImages = props.aspects.map((aspect) => {
@@ -15,7 +16,7 @@ const aspectsImages = props.aspects.map((aspect) => {
   }
   return [nameToImage(aspect.title)]
 })
-const current = ref(0)
+const current = ref(props.current === -1 ? 0 : props.current)
 const aspectEl = ref<HTMLElement | null>(null)
 const buttonEl = ref<HTMLElement | null>(null)
 const nextEl = ref<HTMLElement | null>(null)
