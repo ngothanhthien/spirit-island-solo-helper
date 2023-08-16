@@ -34,7 +34,6 @@ import { OnClickOutside } from '@vueuse/components'
 import ModalDiscardPower from '@/components/ModalDiscardPower.vue'
 import CardZoomModal from '@/components/CardZoomModal.vue'
 import PowerPick from '@/components/PowerPick.vue'
-import ModalForgetPower from '@/components/ModalForgetPower.vue'
 import ModalZoomBlightCard from '@/components/ModalZoomBlightCard.vue'
 import GameCard from '@/components/base/GameCard.vue'
 import InvaderBar from '@/components/InvaderBar.vue'
@@ -153,11 +152,13 @@ if (daysThatNeverWereDeck.current !== null) {
     return ''
   })
 
-  watch(() => playerCard.picking, (newDeck, oldDeck) => {
-    if (newDeck.length === 0 && oldDeck.length !== 1 && playerCard.current === daysThatNeverWereDeck.current) {
-      daysThatNeverWereDeck.picking = [...oldDeck]
+  watch(() => powerDiscardDeck.discard.length, (newLength, oldLength) => {
+    const gap = newLength - oldLength
+    if (gap > 1 && playerCard.current === daysThatNeverWereDeck.current) {
+      const newItems = powerDiscardDeck.discard.slice(-gap)
+      daysThatNeverWereDeck.picking = [...newItems]
     }
-  }, { deep: true })
+  })
 }
 
 let isHasAspect = null as null | Ref<boolean>
@@ -254,19 +255,12 @@ function reclaimOneCard(card: string) {
   playerCard.reclaimOneCard(card)
 }
 
-function returnCardFromForget(card: string) {
-  playerCard.returnCardFromForget(card)
-  isShowModalForgetPower.value = false
-}
-
 function addCardToDaysThatNeverWere(cardId: string) {
-  const [type] = cardId.split('-')
-  if (type === 'minor') {
-    daysThatNeverWereDeck.minor.push(cardId)
-  } else if (type === 'major') {
-    daysThatNeverWereDeck.major.push(cardId)
-  }
+  const [type] = cardId.split('-') as ['minor' | 'major']
+  powerDiscardDeck.removeFromDiscard(cardId)
+  daysThatNeverWereDeck[type].push(cardId)
   daysThatNeverWereDeck.picking = []
+  messageStore.setMessage('Add card to Days That Never Were')
 }
 
 watch(() => cardZoom.waiting.card,
@@ -295,12 +289,6 @@ watch(() => cardZoom.waiting.card,
           playerCard.playCard(cardId)
           break
         }
-
-        case 'forget': {
-          returnCardFromForget(cardId)
-          break
-        }
-
         case 'pick': {
           playerCard.takeCardFromPicking(cardId)
           break
@@ -550,13 +538,12 @@ onMounted(() => {
                 v-else-if="isPickingDaysThatNeverWere && currentMenu1 === MENU_1.PLAY"
                 class="flex items-stretch relative w-full"
               >
-                <!-- v-if="daysThatNeverWereDeck.picking.length > 0" -->
                 <days-that-never-were-pick
                   :picking="daysThatNeverWereDeck.picking"
                   @swipe-down="addCardToDaysThatNeverWere"
                 />
                 <icon-x
-                  class="w-7 h-7 absolute -right-2 -top-2 text-blue-900 z-50"
+                  class="w-7 h-7 absolute right-2 text-gray-800 z-50"
                   style="stroke-width: 3px"
                   @click="finishPickDaysThatNeverWere"
                 />
@@ -754,11 +741,6 @@ onMounted(() => {
       <modal-discard-power
         v-if="isShowModalDiscardPower"
         @close="isShowModalDiscardPower = false"
-      />
-      <modal-forget-power
-        v-if="isShowModalForgetPower"
-        @close="isShowModalForgetPower = false"
-        @take-back="returnCardFromForget"
       />
       <modal-zoom-blight-card
         v-if="isZoomBlightCard"

@@ -3,6 +3,7 @@ import { removeCard } from '@/utils'
 import type { Element, Player, PowerCard } from '@/types'
 import { getCard, changePosition } from '@/utils'
 import { useMessageStore } from './MessageStore'
+import { useDiscardPowerStore } from './PowerDeckStore'
 
 function createPlayer(): Player {
   return {
@@ -11,7 +12,6 @@ function createPlayer(): Player {
     play: [],
     used: [],
     picking: [],
-    forget: [],
     energy: 0,
     energyThisTurn: 0,
     permanentElements: createDefaultElement(),
@@ -52,9 +52,6 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     picking(state) {
       return state.players[state.current].picking.slice().reverse()
-    },
-    forget(state) {
-      return state.players[state.current].forget
     },
     showAspect(state) {
       return state.players[state.current].showAspect
@@ -169,19 +166,14 @@ export const usePlayerCardStore = defineStore('playerCard', {
     forgetCardFromHand(card: string) {
       const player = this.players[this.current]
       removeCard(player.hand, card)
-      player.forget.push(card)
+      useDiscardPowerStore().discard.push(card)
       useMessageStore().setMessage('Forget card')
     },
     forgetCardFromDiscard(card: string) {
       const player = this.players[this.current]
       removeCard(player.discard, card)
-      player.forget.push(card)
+      useDiscardPowerStore().discard.push(card)
       useMessageStore().setMessage('Forget card')
-    },
-    returnCardFromForget(card: string) {
-      const player = this.players[this.current]
-      removeCard(player.forget, card)
-      player.hand.push(card)
     },
     addToPicking(card: string) {
       this.players[this.current].picking.push(card)

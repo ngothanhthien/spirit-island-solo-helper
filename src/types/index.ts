@@ -19,7 +19,6 @@ export interface Player {
   play: string[]
   used: string[]
   picking: string[]
-  forget: string[]
   energy: number
   energyThisTurn: number
   permanentElements: { [K in Element]?: number }

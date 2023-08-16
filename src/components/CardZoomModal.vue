@@ -89,10 +89,6 @@ const cardZoomClass = computed(() => {
               v-if="cardZoom.waiting.from?.includes('player-discard')"
               class="px-2"
             >Reclaim</span>
-            <span
-              v-if="cardZoom.waiting.from === 'forget'"
-              class="px-2"
-            >Take Back</span>
             <span v-if="cardZoom.waiting.from === 'days-that-never-were-store'">
               Store
             </span>

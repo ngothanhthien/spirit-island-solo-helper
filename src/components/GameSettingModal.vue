@@ -14,7 +14,7 @@ import { useInvaderCardStore } from '@/stores/InvaderCardStore'
 import { useMessageStore } from '@/stores/MessageStore'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 
-const emit = defineEmits(['close', 'show-forget'])
+defineEmits(['close'])
 
 const playerCard = usePlayerCardStore()
 const fearDeck = useFearDeckStore()
@@ -37,11 +37,6 @@ function adjustElement(element: string) {
   } else {
     playerCard.decreaseElement(element)
   }
-}
-
-function showForget() {
-  emit('show-forget')
-  emit('close')
 }
 
 async function logMatch(win: boolean) {
@@ -167,13 +162,6 @@ watch(showAspect, (value) => {
               <icon-plus class="w-3 h-3" />
             </div>
           </div>
-          <base-button
-            button-style="secondary"
-            :disabled="playerCard.forget.length === 0"
-            @click="showForget"
-          >
-            Show forget
-          </base-button>
         </div>
         <div class="flex mt-4">
           <div>

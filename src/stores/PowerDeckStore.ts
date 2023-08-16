@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { MINOR_CARDS, MAJOR_CARDS } from '@/constant'
-import { shuffle } from '@/utils'
+import { removeCard, shuffle } from '@/utils'
 import { useMessageStore } from './MessageStore'
 
 export const useDiscardPowerStore = defineStore('discardPower', {
@@ -20,10 +20,7 @@ export const useDiscardPowerStore = defineStore('discardPower', {
       this.discard.push(card)
     },
     removeFromDiscard(card: string) {
-      const index = this.discard.indexOf(card)
-      if (index > -1) {
-        this.discard.splice(index, 1)
-      }
+      removeCard(this.discard, card)
     },
   },
   persist: true,
@@ -32,7 +29,6 @@ export const useDiscardPowerStore = defineStore('discardPower', {
 function createDeck() {
   return {
     draw: [] as string[],
-    forget: [] as string[],
   }
 }
 
@@ -55,7 +51,6 @@ function createDeckStore(name: string) {
         const shuffled = shuffle(unShuffle)
         this.draw = shuffled.map(i => `${name}-${i}`)
         discardPowerStore.discard = []
-        this.forget = []
       },
       addToDraw(card: string) {
         this.draw.push(card)
