@@ -11,6 +11,7 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
     ravage: [] as string[],
     extraBuild: null as string[] | null,
     discard: [] as string[],
+    hidden: [] as string[], // days that never were
     box: [[], [], []] as string[][],
     pos: POS_DEFAULT,
     lock: [] as Array<'build' | 'ravage'>,
@@ -244,10 +245,17 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
     },
     swapInvaderCard(swap: string) {
       const card = this.draw.pop()
+      if (card === 'D-2') {
+        this.draw.push(card)
+        useMessageStore().setMessage('Salt Deposits cannot be swapped')
+      }
       if (card) {
         this.discard.push(card)
+        this.hidden.push(card)
         removeCard(this.discard, swap)
         this.draw.push(swap)
+        removeCard(this.hidden, swap)
+        useMessageStore().setMessage('Invader Card swapped')
       } else {
         useMessageStore().setMessage('No Invader Card to swap')
       }

@@ -564,10 +564,10 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             <div
               v-for="(card, index) in invaderCard.discardView"
               :key="card"
-              class="flex flex-col justify-center items-center space-y-1"
+              class="flex flex-col justify-center items-center space-y-1 shrink-0"
             >
               <img
-                :src="`/img/invader/${card.toLowerCase()}.webp`"
+                :src="invaderCard.hidden.includes(card) ? `/img/card-back/stage${card.split('-')[1]}.webp` : `/img/invader/${card.toLowerCase()}.webp`"
                 alt="Invader Card"
                 class="rounded-lg"
                 :class="{
