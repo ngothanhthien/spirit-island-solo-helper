@@ -44,6 +44,7 @@ const slightLeft = computed(() => {
       :card="card"
       :m-left="index === 0 ? 0 : -slightLeft"
       :can-change-position="true"
+      :can-check="from === 'play'"
       @swipe-down="(posID) => { $emit('swipeDown', card, posID) }"
       @swipe-up="(posID) => { $emit('swipeUp', card, posID) }"
       @change-position="(posID) => { $emit('changePosition', card, posID) }"

@@ -32,6 +32,7 @@ function createDefaultElement(): { [K in Element]: number } {
     'Animal': 0,
   }
 }
+
 export const usePlayerCardStore = defineStore('playerCard', {
   state: () => ({
     current: 0,
@@ -45,7 +46,8 @@ export const usePlayerCardStore = defineStore('playerCard', {
       return state.players[state.current].discard
     },
     play(state) {
-      return state.players[state.current].play
+      const unused = state.players[state.current].play.filter((card) => !state.players[state.current].used.includes(card))
+      return [...state.players[state.current].used, ...unused]
     },
     used(state) {
       return state.players[state.current].used
@@ -152,6 +154,7 @@ export const usePlayerCardStore = defineStore('playerCard', {
       const cardData = getCard(card) as PowerCard
       player.energy += cardData.cost
       removeCard(player.play, card)
+      removeCard(player.used, card)
       player.hand.push(card)
       if (posId) {
         changePosition(player.hand, card, posId)
@@ -196,6 +199,7 @@ export const usePlayerCardStore = defineStore('playerCard', {
     putFromPlayToDiscard(card: string) {
       const player = this.players[this.current]
       removeCard(player.play, card)
+      removeCard(player.used, card)
       player.discard.push(card)
       useMessageStore().setMessage('Put card in discard')
     },
@@ -228,6 +232,14 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     setAspectMode(mode: '1x' | '2x') {
       this.players[this.current].aspectMode = mode
+    },
+    toggleUsed(card: string) {
+      const player = this.players[this.current]
+      if (player.used.includes(card)) {
+        removeCard(player.used, card)
+      } else {
+        player.used.push(card)
+      }
     },
   },
   persist: true,

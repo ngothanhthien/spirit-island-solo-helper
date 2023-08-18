@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import GameCard from './GameCard.vue'
-import { useSwipe } from '@vueuse/core';
+import { useSwipe } from '@vueuse/core'
+import { IconCheck } from '@tabler/icons-vue'
+import { usePlayerCardStore } from '@/stores/PlayerCardStore';
+
 const props = defineProps({
   card: {
     type: String,
@@ -14,9 +17,17 @@ const props = defineProps({
   canChangePosition: {
     type: Boolean,
     default: false
+  },
+  canCheck: {
+    type: Boolean,
+    default: false
   }
 })
 const emit = defineEmits(['swipeUp', 'swipeDown', 'changePosition'])
+
+const playerCard = usePlayerCardStore()
+const isCheck = computed(() => playerCard.used.includes(props.card))
+
 const cardEl = ref<HTMLElement | null>(null)
 const top = ref(0)
 const left = ref(0)
@@ -84,9 +95,22 @@ function getPosition(element: Element) {
   <div
     ref="cardEl"
     :style="cardStyle"
-    :class="{'z-[9999] pointer-events-none': isSwiping}"
+    :class="{
+      'z-[9999] pointer-events-none': isSwiping,
+    }"
     class="cs-transition relative shadow-lg shadow-stone-600 rounded-xl overflow-hidden flex-grow-0 flex-shrink-0 flex w-fit"
   >
     <game-card :id="card" />
+    <div
+      v-if="isCheck"
+      class="absolute left-0 top-0 h-full w-full bg-gray-500/70"
+    />
+    <div
+      v-if="props.canCheck"
+      class="absolute bottom-1 left-1 p-1 bg-green-800/20 rounded"
+      @click.stop="playerCard.toggleUsed(card)"
+    >
+      <icon-check class="w-4 h-4 text-green-400" />
+    </div>
   </div>
 </template>
