@@ -180,6 +180,11 @@ export function setupLocus(playerPos: number) {
     return false
   }
   removeCard(players.hand, unique)
+  if (players.permanentElements['Fire'] === undefined) {
+    console.error('Element --Fire-- not set on player')
+    return false
+  }
+  players.permanentElements['Fire']++
 
   const minor = getPowerIdByName('Pull Beneath the Hungry Earth', 'minor-major')
   if (!minor) {

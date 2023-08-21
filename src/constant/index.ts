@@ -1424,7 +1424,7 @@ export const EVENT_CARDS: Array<{ name: string, action?: { title: string, fn: ()
   { name: 'heavy_farming' },
   { name: 'interesting_discoveries' },
   { name: 'invaders_surge_inland' },
-  { name: 'invested_aristocracy' },
+  { name: 'invested_aristocracy', action: { title: 'Add Fear', fn: addFearToTop, } },
   { name: 'investigation_of_dangers' },
   { name: 'lifes_balance_tilts' },
   { name: 'mapmakers_chart_the_wild' },
