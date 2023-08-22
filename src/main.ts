@@ -6,9 +6,10 @@ import { registerSW } from 'virtual:pwa-register'
 import router from './router'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-import { firebaseApp } from './plugins/firebase'
+import { firebaseApp, addError } from './plugins/firebase'
 import App from './App.vue'
 import { VueFire } from 'vuefire'
+import { useMessageStore } from './stores/MessageStore'
 
 registerSW({ immediate: true })
 const app = createApp(App)
@@ -22,6 +23,26 @@ app.use(VueFire, {
   firebaseApp,
   modules: [],
 })
+
+app.config.errorHandler = (err, vm, info) => {
+  const { message, name, stack } = err as Error
+  const errorData = {
+    message,
+    name,
+    stack,
+    component: vm?.$options?.name || 'UnknownComponent',
+    info,
+    timestamp: new Date().toISOString()
+  };
+  addError(errorData);
+  useMessageStore().setMessage('Error occur, Please contact developer!')
+};
+
+app.config.warnHandler = (msg) => {
+  console.log(msg);
+}
+
+
 
 window.addEventListener('contextmenu', function (e) { 
   e.preventDefault(); 

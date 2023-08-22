@@ -27,3 +27,8 @@ export async function addResult(result: Result) {
   const docRef = await addDoc(collection(db, "result"), result)
   return docRef
 }
+
+export async function addError(error: Error) {
+  const docRef = await addDoc(collection(db, "error"), error)
+  return docRef
+}
