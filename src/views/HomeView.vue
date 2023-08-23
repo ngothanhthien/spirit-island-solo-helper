@@ -22,7 +22,7 @@ const canContinue = computed(() => {
   )
 })
 
-const appVersion = ref(import.meta.env.APP_VERSION);
+const appVersion = ref(import.meta.env.VITE_APP_VERSION);
 </script>
 
 <template>
