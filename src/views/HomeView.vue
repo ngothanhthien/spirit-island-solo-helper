@@ -6,6 +6,7 @@ import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 import AvailableTracking from '@/components/AvailableTracking.vue'
+import { ref } from 'vue'
 
 const eventDeck = useEventDeckStore()
 const fearDeck = useFearDeckStore()
@@ -20,13 +21,15 @@ const canContinue = computed(() => {
     fearDeck.isAvailable
   )
 })
+
+const appVersion = ref(import.meta.env.VITE_APP_VERSION);
 </script>
 
 <template>
   <div class="bg-gradient-to-r from-slate-200 to-slate-500 h-screen flex items-center justify-center relative">
     <div class="flex flex-col space-y-3 w-40">
       <div class="text-center">
-        Version 1.6.6
+        Version {{ appVersion }}
       </div>
       <base-button
         class="w-full"
