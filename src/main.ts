@@ -10,6 +10,7 @@ import { firebaseApp, addError } from './plugins/firebase'
 import App from './App.vue'
 import { VueFire } from 'vuefire'
 import { useMessageStore } from './stores/MessageStore'
+import { getCurrentTimeLocal } from './utils'
 
 registerSW({ immediate: true })
 const app = createApp(App)
@@ -32,7 +33,7 @@ app.config.errorHandler = (err, vm, info) => {
     stack,
     component: vm?.$options?.name || 'UnknownComponent',
     info,
-    timestamp: new Date().toISOString()
+    timestamp: getCurrentTimeLocal()
   };
   if (import.meta.env.VITE_APP_ENVIRONMENT === 'production') {
     addError(errorData);

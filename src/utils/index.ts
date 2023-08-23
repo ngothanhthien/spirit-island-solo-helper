@@ -156,6 +156,21 @@ export const changePosition = (arr: string[], cardId: string, posId: {
   }
 }
 
+export function getCurrentTimeLocal(): string {
+  const date = new Date();
+  
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  
+  const formattedDate = `${seconds}/${minutes}/${hours} ${day}/${month}/${year}`;
+  
+  return formattedDate;
+}
+
 function insertAfter(arr: string[] ,newElement: string, insertAfter: string) {
   const index = arr.indexOf(insertAfter);
   if (index !== -1) {
