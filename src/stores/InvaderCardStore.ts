@@ -18,6 +18,7 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
   }),
   getters: {
     getBackCardTop(state) {
+      if (state.draw.length === 0) return 'Empty'
       const stage = parseInt(state.draw[state.draw.length - 1].split('-')[1])
       if (stage === 1) return 'I'
       if (stage === 2) return 'II'

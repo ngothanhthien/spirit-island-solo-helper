@@ -52,8 +52,17 @@ const invaderCard = useInvaderCardStore()
         build
       </div>
     </div>
-    <div class="font-semibold text-lg font-serif h-full text-white bg-gray-900 flex items-center justify-center w-8">
+    <div
+      v-if="invaderCard.draw.length > 0"
+      class="font-semibold text-lg font-serif h-full text-white bg-gray-900 flex items-center justify-center w-8"
+    >
       {{ invaderCard.getBackCardTop }}
+    </div>
+    <div
+      v-else
+      class="font-semibold text-lg font-serif h-full text-red-800 border border-gray-800 bg-white flex items-center justify-center w-8"
+    >
+      E
     </div>
   </div>
 </template>
