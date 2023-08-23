@@ -34,7 +34,11 @@ app.config.errorHandler = (err, vm, info) => {
     info,
     timestamp: new Date().toISOString()
   };
-  addError(errorData);
+  if (import.meta.env.VITE_APP_ENVIRONMENT === 'production') {
+    addError(errorData);
+  } else {
+    console.log(errorData);
+  }
   useMessageStore().setMessage('Error occur, Please contact developer!')
 };
 
