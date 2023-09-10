@@ -52,7 +52,7 @@ async function logMatch(win: boolean) {
     })
     minorDeck.$reset()
     majorDeck.$reset()
-    router.push('/HomeView')
+    await router.push('/HomeView')
   } catch (error) {
     useMessageStore().setMessage('Log failed')
     isLoading.value = false
@@ -252,7 +252,7 @@ watch(showAspect, (value) => {
           <div class="mb-4 flex justify-between">
             <div>Log this match?</div>
             <div @click="showConfirmLogMatch = false">
-              <icon-x />
+              <icon-x />reshu
             </div>
           </div>
           <div class="flex space-x-2 mt-2">

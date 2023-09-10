@@ -143,24 +143,7 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
     },
     reShuffle() {
       let pos = this.pos.slice(-this.draw.length)
-
-      //Scotland setup
-      let coastalLandPos = null as number | null
       const draw = this.draw.slice().reverse()
-      if (pos.includes('C')) {
-        coastalLandPos = pos.indexOf('C')
-        pos = pos.replace('C', '')
-        removeCard(draw, 'C-2')
-      }
-
-      //Habsburg Mining setup
-      let saltDepositsPos = null as number | null
-      if (pos.includes('D')) {
-        saltDepositsPos = pos.indexOf('D')
-        pos = pos.replace('D', '')
-        removeCard(draw, 'D-2')
-      }
-
       const raw: Array<Array<string>> = [
         [...this.box[0]],
         [...this.box[1]],
@@ -169,6 +152,9 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
       //check if deck has not changed
       for (let i = 0; i < draw.length; i++) {
         const stage = draw[i].split('-')[1]
+        if (stage === '2' && (pos[i] === 'C' || pos[i] === 'D')) {
+          continue
+        }
         if (parseInt(stage) !== parseInt(pos[i])) {
           useMessageStore().setMessage(
             'Deck has changed. Cannot reset the deck.',
@@ -185,6 +171,14 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
       ]
       const deck = [] as string[]
       Array.from(pos).forEach((pos) => {
+        if (pos === 'C') {
+            deck.push('C-2')
+            return
+        }
+        if (pos === 'D') {
+            deck.push('D-2')
+            return
+        }
         const card = shuffled[parseInt(pos) - 1].pop()
         if (!card) {
           console.error('Some thing went wrong')
@@ -192,16 +186,6 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
         }
         deck.push(card)
       })
-      
-      //Scotland setup
-      if (coastalLandPos) {
-        deck.splice(deck.length - (coastalLandPos as number), 0, 'C-2')
-      }
-
-      //Habsburg Mining setup
-      if (saltDepositsPos) {
-        deck.splice(deck.length - (saltDepositsPos as number), 0, 'D-2')
-      }
 
       this.draw = deck.slice().reverse()
       this.box = [...shuffled]
@@ -224,7 +208,9 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
       useMessageStore().setMessage(`Added Stage ${stage} Invader Card to Build`)
     },
     doSweden() {
-      return this.draw.pop() as string
+      const card = this.draw.pop() as string
+      this.discard.push(card)
+      return card
     },
     visionShuffle() {
       if (this.draw.length >= 2) {

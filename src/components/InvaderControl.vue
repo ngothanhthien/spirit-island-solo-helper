@@ -447,7 +447,6 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               </div>
             </template>
             <div
-              :class="{'opacity-0': !invaderCard.canNext}"
               class="flex"
             >
               <button
@@ -459,14 +458,14 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               </button>
               <template v-else>
                 <button
-                  class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:bg-gray-800/60"
+                  class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:opacity-0"
                   :disabled="!invaderCard.canNext"
                   @click="next"
                 >
                   <icon-player-track-prev />
                 </button>
                 <button
-                  class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:bg-gray-800/60"
+                  class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:opacity-0"
                   :disabled="invaderCard.draw.length === 0"
                   @click="doExplore"
                 >

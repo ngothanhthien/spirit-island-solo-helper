@@ -184,7 +184,13 @@ export const useFearDeckStore = defineStore('fearDeck', {
     },
     decreaseFear() {
       this.currentFear--
-      this.fearThisTurn--
+      if (this.fearThisTurn > 0) {
+        this.fearThisTurn--
+      }
+      if (this.currentFear < 0 && this.earned.length === 0) {
+        this.currentFear = 0
+        return
+      }
       if (this.currentFear < 0 && this.earned.length > 0) {
         this.currentFear = this.maxFear - 1
         this.unEarn()
