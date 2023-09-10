@@ -526,7 +526,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             Royal Backing
           </div>
           <img
-            :src="`/img/invader/${sweden4.toLowerCase()}.webp`"
+            :src="`/img/invader/${(sweden4 as string).toLowerCase()}.webp`"
             alt="Invader Card"
             class="h-[90%]"
           >
