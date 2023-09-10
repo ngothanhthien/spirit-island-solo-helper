@@ -22,6 +22,7 @@ const gameOption = useGameOptionStore()
 const invaderCard = useInvaderCardStore()
 const minorDeck = usePowerDeckStore('minor')
 const majorDeck = usePowerDeckStore('major')
+const appEnviroment = ref(import.meta.env.VITE_APP_ENVIRONMENT);
 
 const modeIncrease = ref(true)
 const showConfirmLogMatch = ref(false)
@@ -37,6 +38,14 @@ function adjustElement(element: string) {
   } else {
     playerCard.decreaseElement(element)
   }
+}
+
+function onClickExitGame() {
+  if (appEnviroment.value === 'dev') {
+    router.push({ name: 'HomeView' })
+    return
+  }
+  showConfirmLogMatch.value = true
 }
 
 async function logMatch(win: boolean) {
@@ -237,7 +246,7 @@ watch(showAspect, (value) => {
       </div>
       <div
         class="absolute bottom-2 right-2"
-        @click="showConfirmLogMatch = true"
+        @click="onClickExitGame"
       >
         Exit Game
       </div>
@@ -252,7 +261,7 @@ watch(showAspect, (value) => {
           <div class="mb-4 flex justify-between">
             <div>Log this match?</div>
             <div @click="showConfirmLogMatch = false">
-              <icon-x />reshu
+              <icon-x />
             </div>
           </div>
           <div class="flex space-x-2 mt-2">
