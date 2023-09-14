@@ -5,7 +5,6 @@ import { computed } from 'vue'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
-import AvailableTracking from '@/components/AvailableTracking.vue'
 import { ref } from 'vue'
 
 const eventDeck = useEventDeckStore()
@@ -54,6 +53,5 @@ const appVersion = ref(import.meta.env.VITE_APP_VERSION);
         Statistics
       </base-button>
     </div>
-    <available-tracking />
   </div>
 </template>
