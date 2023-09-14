@@ -1,8 +1,9 @@
 import { EVENT_CARDS, MAJOR_CARDS, MINOR_CARDS, SPIRIT, FEAR_CARDS, BLIGHT_CARDS, EXTRA_POWERS } from "@/constant"
-
+import { Random } from "random-js"
+const random = new Random()
 export const getCardImage = (name: string, path: string) => {
   const sanitized = name.toLowerCase().replace(/[-',]/g, '').replace(/\s/g, '_');
-  return `/img/${path}/${sanitized}.webp`;
+  return `/img/${path}/${sanitized}.webp`
 }
 
 export const getCard = (id: string) => {
@@ -61,10 +62,7 @@ export const getCard = (id: string) => {
 
 export const shuffle = (array: Array<string | number>) => {
   const shuffled = [...array]
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
+  random.shuffle(shuffled)
   return shuffled
 }
 
