@@ -24,11 +24,9 @@ interface Result {
 export const results = collection(db, 'result')
 
 export async function addResult(result: Result) {
-  const docRef = await addDoc(collection(db, "result"), result)
-  return docRef
+  return await addDoc(collection(db, "result"), result)
 }
 
 export async function addError(error: Error) {
-  const docRef = await addDoc(collection(db, "error"), error)
-  return docRef
+  return await addDoc(collection(db, "error"), error)
 }

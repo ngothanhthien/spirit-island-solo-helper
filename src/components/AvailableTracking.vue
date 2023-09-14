@@ -32,12 +32,7 @@ function onResize() {
 }
 function testAvailable() {
   if (isSupported.value && orientation.value) {
-    if (orientation.value.includes('landscape')) {
-      goodOrientation.value = true
-    } else {
-      goodOrientation.value = false
-    }
-    return
+    return orientation.value?.includes('landscape')
   }
   if (width.value > height.value) {
     goodOrientation.value = true
