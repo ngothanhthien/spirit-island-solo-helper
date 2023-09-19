@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { results } from '@/plugins/firebase'
+import { results } from '@/database/result'
 import { computed } from 'vue'
 import router from '@/router'
 import { useCollection } from 'vuefire'
