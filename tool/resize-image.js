@@ -32,14 +32,16 @@ fs.readdir(directoryPath, async (err, files) => {
       const fileNameWithoutExt = path.basename(file, path.extname(file))
       const outputFilePath = path.join(
         outputDirectoryPath,
-        fileNameWithoutExt + '.webp',
+        formatFileName(fileNameWithoutExt, 'avatar') + '.webp',
       )
 
       try {
         await sharp(filePath)
           // .linear(1.05)
-          // .resize(450)
-          .resize(250)
+          // .resize(450) //power
+          // .resize(300)//avatar
+          // .resize(250)
+          .resize(400)
           .webp()
           .toFile(outputFilePath)
 
@@ -54,3 +56,17 @@ fs.readdir(directoryPath, async (err, files) => {
     }
   }
 })
+
+function formatFileName(fileName, type) {
+  let output = fileName.replace(/'/g, '')
+  output = output.replace(/ /g, '_')
+  output = output.replace(/,/g, '')
+  if (type === 'avatar') {
+    output += '_small'
+  } else {
+    output = output.toLowerCase()
+  }
+  //extra stuff
+  output = output.replace(/_\(ni\)/g, '')
+  return output
+}

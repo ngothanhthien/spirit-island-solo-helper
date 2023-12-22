@@ -1,8 +1,8 @@
 import type { PowerCard, Adversary, BlightCard, SpiritType } from '@/types'
 import { setupDarkFire, setupIntensify, setupLocus, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
-import { setupSparking } from '../utils/setup'
+import { setupSparking } from '@/utils/setup'
 import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox } from '@/utils/event'
-import { setupDaysThatNeverWere } from '@/utils/spirit'
+import { setupDaysThatNeverWere, setupHearthVigil, setupWoundedWaters } from '@/utils/spirit'
 import { setupInvadersFindTheLand } from '@/utils/blight'
 
 export const MINOR_CARDS: Array<PowerCard> = [
@@ -3120,6 +3120,286 @@ export const SPIRIT: Array<SpiritType> = [
         speed: 'Fast',
         elements: ['Sun', 'Air', 'Plant'],
         description: '',
+      },
+    ],
+  },
+  {
+    name: 'Ember-Eyed Behemoth',
+    cards: [
+      {
+        name: 'Blazing Intimidation',
+        cost: 2,
+        speed: 'Fast',
+        elements: ['Fire', 'Air', 'Earth'],
+        description: 'Push 2 invaders to a land without blight.',
+      },
+      {
+        name: 'Exaltation of Grasping Roots',
+        cost: 0,
+        speed: 'Fast',
+        elements: ['Fire'],
+        description: 'Target Spirit may Add 1 presence in one of their lands. You may do likewise.',
+      },
+      {
+        name: 'Terrifying Rampage',
+        cost: 1,
+        speed: 'Slow',
+        elements: ['Fire', 'Air', 'Animal'],
+        description: '1 Fear. Up to 2 Invaders don\'t participate in Ravage. (Choose when Ravaging; they don\'t do Damage or take counterattack Damage.) Push 3 Dahan.',
+      },
+      {
+        name: 'Surging Lahar',
+        cost: 2,
+        speed: 'Slow',
+        elements: ['Fire', 'Water', 'Earth'],
+        description: '2 Damage. If your Earth is present, Add 1 Fear.',
+      },
+    ],
+  },
+  {
+    name: 'Relentless Gaze of the Sun',
+    cards: [
+      {
+        name: 'Blinding Glare',
+        cost: 0,
+        speed: 'Fast',
+        elements: ['Sun', 'Air', 'Animal'],
+        description: 'Skip up to one Ravage Action. If you have 5 sun, instead, skip up to one Invader Action.',
+      },
+      {
+        name: 'Focus the Sun’s Rays',
+        cost: 0,
+        speed: 'Slow',
+        elements: ['Sun', 'Fire', 'Earth'],
+        description: '1 Damage. 2 Damage to Town. Move up to 3 Dahan directly to target land (from anywhere on the island). You may Bring 1 explorer (total) with those Dahan.',
+      },
+      {
+        name: 'Unbearable Gaze',
+        cost: 1,
+        speed: 'Fast',
+        elements: ['Sun', 'Fire'],
+        description: 'Push 2 Dahan from origin or target land (or 1 Dahan from each).'
+      },
+      {
+        name: 'Wither Bodies, Scar Stones',
+        cost: 1,
+        speed: 'Fast',
+        elements: ['Sun', 'Fire', 'Earth'],
+        description: '1 Damage. or Add 1 Blight.'
+      },
+    ],
+  },
+  {
+    name: 'Wounded Waters Bleeding',
+    cards: [
+      {
+        name: 'Blood Water and Bloodlust',
+        cost: 1,
+        speed: 'Slow',
+        elements: ['Water', 'Earth', 'Animal'],
+        description: 'Add 1 beast and 1 wilds.',
+      },
+      {
+        name: 'Boon of Corrupted Blood',
+        cost: 1,
+        speed: 'Fast',
+        elements: ['Sun', 'Fire', 'Earth'],
+        description: '1 Damage in one of target Spirit’s lands. If you target another Spirit, in that land also: Destroy 1 of their presence. 1 Damage. Gather 1 beast.',
+      },
+      {
+        name: 'Draw to the Water’s Edge',
+        cost: 1,
+        speed: 'Fast',
+        elements: ['Sun', 'Water', 'Air'],
+        description: 'Gather up to 2 explorers from a single land.',
+      },
+      {
+        name: 'Wrack With Pain and Grief',
+        cost: 1,
+        speed: 'Slow',
+        elements: ['Sun', 'Water', 'Earth', 'Plant'],
+        description: 'Push 1 Explorer and 1 Town.'
+      }
+    ],
+    setup: setupWoundedWaters
+  },
+  {
+    name: 'Breath of Darkness Down Your Spine',
+    cards: [
+      {
+        name: 'Emerge from the Dread Night Wind',
+        cost: 1,
+        speed: 'Fast',
+        elements: ['Moon', 'Air', 'Beast'],
+        description: 'Add/Move 1 explorer to target land. 1 Fear. If exactly 1 Invader is present, Abduct it. Otherwise, Push up to 2 explorers/towns to different lands. Push up to 2 explorers.',
+      },
+      {
+        "name": "Reach From The Infinite Darkness",
+        "cost": 0,
+        "speed": "Fast",
+        "elements": ["Moon", "Water", "Air"],
+        "description": "Abduct up to 2 [Dahans] (total, with their owners' permission) from any lands on the island, ignoring land type restrictions on moving [Dahans]. Each Spirit's [presence] in [sacred site] grants them +1 [Energy] with all their Powers (this turn)."
+      },
+      {
+        name: 'Swallowed By The Endless Dark',
+        cost: 1,
+        speed: 'Fast',
+        elements: ['Moon', 'Water', 'Earth'],
+        description: '2 Fear. Abduct 1 Invader. If you have 3 Moon and 3 Water: Abduct 1 Invader.',
+      },
+      {
+        name: 'Terror of the Hunted',
+        cost: 1,
+        speed: 'Fast',
+        elements: ['Fire', 'Animal'],
+        description: 'If Explorers are present, Add 1 Beast and Add 1 Fear. Add 1 Fear per Terror Level. If target land is Mountain, Add 1 Fear. (Beast only Escapes with the Invader it’s attached to.)',
+      },
+    ],
+  },
+  {
+    name: 'Dances Up Earthquakes',
+    cards: [
+      {
+        name: 'Exaltation of Echoed Steps',
+        cost: 1,
+        speed: 'Fast',
+        elements: ['Moon', 'Water', 'Air', 'Mountain'],
+        description: 'Target Spirit may Push 1 town. Bringing up to 1 explorer/town. You may do likewise.',
+      },
+      {
+        name: 'Inspire a Winding Dance',
+        cost: 0,
+        speed: 'Slow',
+        elements: ['Moon', 'Water', 'Air'],
+        description: 'Push up to 1 explorer/town. Gather up to 1 Dahan.',
+      },
+      {
+        name: 'Gift of Seismic Energy',
+        cost: 3,
+        speed: 'Fast',
+        elements: ['Sun', 'Fire', 'Water', 'Earth'],
+        description: 'If you target yourself, gain 3 Energy. Otherwise, target Spirit gains 1 Energy per Power Card you have in play (max. 6). (Don’t count destroyed ones).',
+      },
+      {
+        name: 'Radiating Tremors',
+        cost: 2,
+        speed: 'Slow',
+        "elements": ["Sun", "Fire", "Earth"],
+        "description": "2 Damage. You may Push any number of [explorers/towns], dividing them as evenly as possible between adjacent lands."
+      },
+      {
+        "name": "Resounding Footfalls Sow Dismay",
+        "cost": 3,
+        "speed": "Slow",
+        "elements": ["Sun", "Fire", "Air", "Mountain"],
+        "description": "1 Fear. Add 1 [explorer/town]. Skip all Ravage Actions."
+      },
+      {
+        "name": "Rumblings Portend A Greater Quake",
+        "cost": 1,
+        "speed": "Slow",
+        "elements": ["Sun", "Water", "Mountain"],
+        "description": "If you have at least as many [presence] as Power Cards in play, 1 Fear and Add 1 [explorer/town]. Push up to 3 [Dahans]."
+      }
+    ],
+  },
+  {
+    name: 'Towering Roots of the Jungle',
+    cards: [
+      {
+        name: 'Blooming of the Rocks and Trees',
+        cost: 0,
+        speed: 'Slow',
+        elements: ['Sun', 'Earth', 'Plant'],
+        description: 'If no blight is present, add 1 wilds. If no invaders are present, add 1 wilds. If you have 3 sun, you may do both.',
+      },
+      {
+        name: 'Boon of Resilient Power',
+        cost: 1,
+        speed: 'Fast',
+        elements: ['Sun', 'Water', 'Air'],
+        description: 'Target Spirit may Add 1 presence to one of your lands. If you target yourself, gain a Major Power. Otherwise, target Spirit gains a Power Card.',
+      },
+      {
+        name: 'Entwine the Fates of All',
+        cost: 1,
+        speed: 'Slow',
+        elements: ['Moon', 'Fire', 'Water', 'Plant'],
+        description: 'In one of target Spirit’s lands, Defend 2 per presence (from all Spirits).',
+      },
+      {
+        name: 'Radiant and Hallowed Grove',
+        cost: 2,
+        speed: 'Fast',
+        elements: ['Sun', 'Fire', 'Water', 'Plant'],
+        description: 'Add 2 Fear if Invaders are present or adjacent. In both target and one adjacent land, you may Remove an Invader with Health less than or equal to the Terror Level. (Damage doesn’t reduce Health.)',
+      },
+    ],
+  },
+  {
+    name: 'Hearth-Vigil',
+    cards: [
+      {
+        name: 'Call to Vigilance',
+        cost: 2,
+        speed: 'Slow',
+        elements: ['Sun', 'Water', 'Earth'],
+        description: '2 Fear if Invaders are present. For each town/city in origin land, Push up to 1 town/city.',
+      },
+      {
+        name: 'Coordinated Raid',
+        cost: 1,
+        speed: 'Fast',
+        elements: ['Sun', 'Water', 'Animal'],
+        description: '1 Damage. If towns/cities are present, 1 Damage.',
+      },
+      {
+        name: 'Favors of Story and Season',
+        cost: 1,
+        speed: 'Slow',
+        elements: ['Sun', 'Water', 'Animal'],
+        description: 'Target Spirit may Gather up to 3 Dahan into one of their lands. If they have at least 3 Dahan among their lands, they gain 1 Energy and may Reclaim 1 Power Card instead of discarding it at the end of turn.',
+      },
+      {
+        name: 'Surrounded By The Dahan',
+        cost: 0,
+        speed: 'Fast',
+        elements: ['Moon', 'Air', 'Animal'],
+        description: '2 Fear if Invaders are present. 1 Fear if Dahan outnumber Invaders. Isolate target land.',
+      },
+    ],
+    setup: setupHearthVigil,
+  },
+  {
+    name: 'Wandering Voice Keens Delirium',
+    cards: [
+      {
+        name: 'Exhale Confusion and Delirium',
+        cost: 0,
+        speed: 'Slow',
+        elements: ['Sun', 'Air', 'Animal'],
+        description: 'Invaders with disease don’t participate in Ravage. (Check when Ravaging; they don’t do Damage or take counterattack Damage.)',
+      },
+      {
+        name: 'Frightful Keening',
+        cost: 1,
+        speed: 'Slow',
+        elements: ['Sun', 'Fire', 'Water', 'Moon'],
+        description: 'Push Dahan. If this pushes Dahan into a land with Invaders, add 2 Fear there (before adding Dahan).',
+      },
+      {
+        name: 'Twist Perceptions',
+        cost: 1,
+        speed: 'Fast',
+        elements: ['Sun', 'Moon', 'Water', 'Animal'],
+        description: 'Add 1 Fear. You may Push the Invader you added Fear to. (If you add Fear to Town/City, you can push that Invader first with Senseless Roaming before pushing it with this Power.)',
+      },
+      {
+        name: "Turmoil's Touch",
+        cost: 0,
+        speed: 'Slow',
+        elements: ['Sun', 'Moon', 'Water', 'Earth'],
+        description: 'Target Spirit may either pay 1 Energy or discard a Power Card (from hand) to Take a Minor Power into their discard. You may do likewise.',
       },
     ],
   },

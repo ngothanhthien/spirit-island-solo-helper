@@ -1,6 +1,7 @@
-import { useGameOptionStore } from "@/stores/GameOptionStore";
-import { usePowerDeckStore } from "@/stores/PowerDeckStore";
-import { useDaysThatNeverWereStore } from "@/stores/DaysThatNeverWhereStore";
+import { useGameOptionStore } from "@/stores/GameOptionStore"
+import { usePowerDeckStore } from "@/stores/PowerDeckStore"
+import { useDaysThatNeverWereStore } from "@/stores/DaysThatNeverWhereStore"
+import { usePlayerCardStore } from "@/stores/PlayerCardStore"
 
 export function setupDaysThatNeverWere(playerIndex: number) {
     const minor = usePowerDeckStore('minor')
@@ -19,4 +20,14 @@ export function setupDaysThatNeverWere(playerIndex: number) {
     }
 
     deck.current = playerIndex
+}
+
+export function setupHearthVigil(playerIndex: number) {
+    const players = usePlayerCardStore().players[playerIndex]
+    players.energy++
+}
+
+export function setupWoundedWaters(playerIndex: number) {
+    const players = usePlayerCardStore().players[playerIndex]
+    players.energy+= 4
 }
