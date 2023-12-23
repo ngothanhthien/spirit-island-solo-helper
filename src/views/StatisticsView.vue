@@ -1,67 +1,80 @@
 <script setup lang="ts">
-import { results } from '@/database/result'
-import { computed } from 'vue'
+import { ref } from 'vue'
 import router from '@/router'
-import { useCollection } from 'vuefire'
-import { adversaryNameToImage, getSpiritAvatarByName } from '@/utils'
+import { adversaryNameToImage, getDayAgo, getSpiritAvatarByName } from '@/utils'
 import { SPIRIT } from '@/constant'
+import axios from "axios";
+import {API_LIST_MATCH_LOG} from "@/constant/api";
+import { useLocalStorageStore } from "@/stores/LocalStorageStore";
+import type {ChartData, SpiritsChart} from "@/types";
 
-interface SpiritsWinRate {
-  [spirit: string]: {
-    total: number;
-    adversaries: {
-      [adversary: string]: {
-        win: number;
-        total: number;
-      };
-    };
-  };
+interface Result {
+  win: number
+  lose: number
 }
 
-const resultsRef = useCollection(results)
-const totalGame = computed(() => resultsRef.value.length)
+const isLoading = ref(false)
+const spiritsChart = ref<SpiritsChart>({})
+const totalGame = ref(0)
+const lastTime = ref('unknown')
+const lastUpdate = ref('Failed')
 const ADVERSARIES = ['England', 'France', 'Habsburg', 'Habsburg Mining', 'Prussia', 'Russia', 'Sweden', 'Scotland']
-const spiritsWinRate = computed(() => {
-  const output: SpiritsWinRate = {}
+const SPIRIT_NAMES = SPIRIT.map(spirit => spirit.name)
+const localStorage = useLocalStorageStore()
+initChart()
 
-  for (let i = 0; i < SPIRIT.length; i++) {
-    const spiritName = SPIRIT[i].name as string
-    output[spiritName] = {
-        total: 0,
-        adversaries: {}
-    }
-    for (let j = 0; j < ADVERSARIES.length; j++) {
-      const adversary = ADVERSARIES[j]
-      output[spiritName].adversaries[adversary] = {
-        win: 0,
-        total: 0
+async function initChart() {
+  isLoading.value = true
+  try {
+    const { data: { data } } = await axios.get(API_LIST_MATCH_LOG)
+    localStorage.setChart(data)
+    renderChart(data)
+    lastUpdate.value = getDayAgo(new Date())
+  } catch (e) {
+    isLoading.value = false
+    const chart = localStorage.chart
+    if (chart) {
+      renderChart(chart)
+      if (chart.lastUpdate) {
+        lastUpdate.value = getDayAgo(chart.lastUpdate)
       }
     }
   }
-  for (let i = 0; i < resultsRef.value.length; i++) {
-    const { adversary, spirits, win } = resultsRef.value[i]
-    for(let j = 0; j < spirits.length; j++) {
-      const spirit = spirits[j]
-      if (output[spirit] && output[spirit].adversaries[adversary]) {
-        output[spirit].total++
-        output[spirit].adversaries[adversary].total++
-        if (win) {
-            output[spirit].adversaries[adversary].win++
-        }
-      } else {
-        console.warn(`Unexpected spirit or adversary: ${spirit}, ${adversary}`)
-      }
-    }
+}
+
+function renderChart(data: ChartData) {
+  isLoading.value = false
+  totalGame.value = data.total
+  spiritsChart.value = data.spirit_chart ?? {}
+
+  const pendingResult = localStorage.pendingResult
+  if (pendingResult.length > 0) {
+    lastTime.value = getDayAgo(pendingResult[pendingResult.length - 1].createdAt)
+  } else {
+    lastTime.value = getDayAgo(data.last.createdAt)
+  }
+}
+
+function getWin(result: Result) {
+  if (!result) {
+    return console.error('Invalid adversary name')
   }
 
-  return output
-})
+  const{ win, lose } = result
+  if (win === 0 && lose === 0) return 'x'
+  return (win / (win + lose) * 100).toFixed(0) + '%'
+}
 </script>
 
 <template>
   <div class="h-screen w-full bg-amber-100 flex flex-col px-4 py-2">
     <div class="flex">
-      <div>Total: {{ totalGame }}</div>
+      <div>
+        <span class="mr-6">Total: {{ totalGame }}</span>
+        <span class="mr-6">Last play: {{ lastTime }}</span>
+        <span class="mr-6">Last update: {{ lastUpdate }}</span>
+        <span>Pending Result: {{ localStorage.pendingResult.length }}</span>
+      </div>
       <div
         class="ml-auto text-orange-800"
         @click="router.push({ name: 'HomeView'})"
@@ -88,11 +101,11 @@ const spiritsWinRate = computed(() => {
         </thead>
         <tbody class="h-32 overflow-y-auto">
           <tr
-            v-for="(spirit, index) in Object.keys(spiritsWinRate)"
+            v-for="(spirit, index) in SPIRIT_NAMES"
             :key="spirit"
             class="border-gray-500"
             :class="{
-              'border-b': index !== Object.keys(spiritsWinRate).length - 1,
+              'border-b': index !== SPIRIT_NAMES.length - 1,
               'bg-amber-200': index % 2 === 0
             }"
           >
@@ -101,15 +114,26 @@ const spiritsWinRate = computed(() => {
                 :src="`/img/spirit_avatar/${getSpiritAvatarByName(spirit)}`"
                 alt="spirit avatar"
                 class="h-8 inline-block mr-1"
-              >({{ spiritsWinRate[spirit].total }})
+              >({{ spiritsChart[spirit] ? spiritsChart[spirit].total : 0 }})
             </td>
-            <td
-              v-for="(value, key) in spiritsWinRate[spirit].adversaries"
-              :key="key"
-              class="text-center"
-            >
-              {{ value.total === 0 ? 'x' : ((value.win / value.total) * 100) + '%' }}
-            </td>
+            <template v-if="spiritsChart[spirit]">
+              <td
+                  v-for="adversary in ADVERSARIES"
+                  :key="spirit + adversary"
+                  class="text-center"
+              >
+                {{ getWin(spiritsChart[spirit][adversary] as Result) }}
+              </td>
+            </template>
+            <template v-else>
+              <td
+                  v-for="adversary in ADVERSARIES"
+                  :key="adversary"
+                  class="text-center"
+              >
+                x
+              </td>
+            </template>
           </tr>
         </tbody>
       </table>

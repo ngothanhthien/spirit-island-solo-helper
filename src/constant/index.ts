@@ -3167,7 +3167,7 @@ export const SPIRIT: Array<SpiritType> = [
         description: 'Skip up to one Ravage Action. If you have 5 sun, instead, skip up to one Invader Action.',
       },
       {
-        name: 'Focus the Sun’s Rays',
+        name: "Focus the Sun's Rays",
         cost: 0,
         speed: 'Slow',
         elements: ['Sun', 'Fire', 'Earth'],

@@ -23,6 +23,7 @@ import AspectPower from '@/components/AspectPower.vue'
 import AspectDetail from '@/components/AspectDetail.vue'
 import PowerDiscard from '@/components/PowerDiscard.vue'
 import IconReclaim from '@/components/icons/IconReclaim.vue'
+import {addResult} from "@/database/result";
 
 const DaysThatNeverWere = defineAsyncComponent(() => import('@/components/DaysThatNeverWere.vue'))
 const DaysThatNeverWerePick = defineAsyncComponent(() => import('@/components/DaysThatNeverWerePick.vue'))
@@ -57,6 +58,7 @@ import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
 import { useGameStateStore } from '@/stores/GameStateStore'
 import { useMessageStore } from '@/stores/MessageStore'
 import FearCounter from '@/components/FearCounter.vue'
+import { useLocalStorageStore } from "@/stores/LocalStorageStore";
 
 const MENU_1 = {
   PLAY: 0,
@@ -78,6 +80,7 @@ const blightDeck = useBlightDeckStore()
 const gameState = useGameStateStore()
 const daysThatNeverWereDeck = useDaysThatNeverWereStore()
 const messageStore = useMessageStore()
+const localStorage = useLocalStorageStore()
 
 const menuControlEl = ref<HTMLElement | null>(null)
 
@@ -349,7 +352,23 @@ watch(() => eventDeck.reveal, function (newValue) {
 
 onMounted(() => {
   messageStore.setMessage('Welcome to Spirit Island!')
+
+  setTimeout(() => {
+    isShowSetupRef.value = false
+  }, 10000)
 })
+
+async function tryUploadResult() {
+  const pendingResult = localStorage.pendingResult
+  if (pendingResult.length > 0) {
+    const isSuccess = await addResult(pendingResult[0], { fromPending: true })
+    if (isSuccess) {
+      setTimeout(() => {
+        tryUploadResult()
+      }, 10000)
+    }
+  }
+}
 </script>
 
 <template>

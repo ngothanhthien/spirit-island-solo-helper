@@ -87,3 +87,36 @@ export interface SpiritType {
   aspects?: Aspect[]
   setup?: (playerIndex: number) => void
 }
+
+export interface Result {
+  adversary: string
+  fear_stage: number
+  level: number
+  invader_card_left: number
+  win: boolean
+  spirits: string[]
+}
+
+export interface PendingResult {
+  createdAt: Date,
+  offset: number,
+  result: Result,
+  id: number,
+}
+
+export interface SpiritsChart {
+  [spirit: string]: {
+    [adversary: string]: {
+      win: number;
+      lose: number;
+    } | number;
+    total: number;
+  };
+}
+
+export interface ChartData {
+  total: number;
+  spirit_chart: SpiritsChart;
+  last: { createdAt: Date }
+  lastUpdate?: Date;
+}
