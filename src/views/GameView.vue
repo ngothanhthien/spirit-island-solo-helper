@@ -354,7 +354,7 @@ onMounted(() => {
   messageStore.setMessage('Welcome to Spirit Island!')
 
   setTimeout(() => {
-    isShowSetupRef.value = false
+    tryUploadResult()
   }, 10000)
 })
 
@@ -692,14 +692,6 @@ async function tryUploadResult() {
               <icon-hourglass-high
                 class="w-full h-full"
                 style="stroke-width: 1px;"
-              />
-            </div>
-            <div
-              class="h-11 w-11 p-2 rounded-full text-white bg-orange-800 border-2 border-orange-900"
-              @click="playerCard.reclaim"
-            >
-              <icon-reclaim
-                class="w-full h-full"
               />
             </div>
           </div>
