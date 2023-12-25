@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import SlowIcon from '@/components/icons/SlowIcon.vue'
-import FastIcon from '@/components/icons/FastIcon.vue'
 import NoRangeIcon from '@/components/icons/NoRangeIcon.vue'
 import SpiritIcon from '@/components/icons/SpiritIcon.vue'
-import SacredSiteIcon from '@/components/icons/SacredSiteIcon.vue'
 import RangeIcon from '@/components/icons/RangeIcon.vue'
 import IconNoBlight from './icons/IconNoBlight.vue'
 import TextCompile from '@/components/TextCompile.vue'
@@ -85,23 +82,11 @@ defineProps({
               <div
                 class="col-span-3 flex items-center justify-center border-r border-black"
               >
-                <slow-icon
-                  v-if="card.target.speed === 'Slow'"
-                  class="w-3.5 h-3.5"
-                />
-                <fast-icon
-                  v-else-if="card.target.speed === 'Fast'"
-                  class="w-3.5 h-3.5"
-                />
+                <span :class="`icon-${card.target.speed.toLowerCase()}`"></span>
               </div>
               <div class="col-span-3 flex items-center justify-center">
                 <template v-if="card.target.range !== null">
-                  <div
-                    v-if="card.target.scaredSite"
-                    style="display:inline-block; vertical-align:middle;"
-                  >
-                    <sacred-site-icon class="w-5 h-5 -mb-1" />
-                  </div>
+                  <span v-if="card.target.scaredSite" class="icon-scared-site"></span>
                   <range-icon
                     num="1"
                     :class="{'ml-1': card.target.scaredSite}"

@@ -2,7 +2,6 @@
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import BaseModal from '@/components/base/BaseModal.vue'
 import GameCard from '@/components/base/GameCard.vue'
-import { IconEye, IconPlayerPlay } from '@tabler/icons-vue'
 
 defineEmits(['close'])
 const fearDeck = useFearDeckStore()
@@ -33,9 +32,9 @@ const fearDeck = useFearDeckStore()
               class="absolute p-6 text-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900/30 rounded-lg"
               @click="fearDeck.setReveal(card)"
             >
-              <icon-player-play
+              <span
                 style="stroke-width: 1px;"
-                class="w-20 h-20"
+                class="w-20 h-20 icon-player-play"
               />
             </button>
           </div>
@@ -51,9 +50,9 @@ const fearDeck = useFearDeckStore()
               class="absolute p-6 text-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900/30 rounded-lg"
               @click="fearDeck.setReveal(card)"
             >
-              <icon-eye
+              <span
                 style="stroke-width: 1px;"
-                class="w-20 h-20"
+                class="icon-eye text-4xl"
               />
             </button>
           </div>

@@ -9,14 +9,12 @@ import router from '@/router'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
-import { IconRefresh } from '@tabler/icons-vue'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 import SpiritDropdown from '@/components/SpiritDropdown.vue'
 import { getSpiritAvatar } from '@/utils'
 import { onClickOutside } from '@vueuse/core'
 import { useBlightDeckStore } from '@/stores/BlightDeckStore'
 import ModalAspect from '@/components/ModalAspect.vue'
-import { IconPencil, IconTrashX } from '@tabler/icons-vue'
 import type { Aspect } from '@/types'
 import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
 import { useGameStateStore } from '@/stores/GameStateStore'
@@ -284,14 +282,6 @@ watch(numberSpirit, randomSetup)
           default-label="Number Spirits"
         />
         <div class="flex w-full space-x-2 mt-4">
-          <!-- <div
-            class="bg-gray-800 hover:bg-gray-800/90 transition rounded-full p-1 text-white self-start mt-3"
-          >
-            <icon-refresh
-              class="w-4 h-4"
-              @click="randomAdversary"
-            />
-          </div> -->
           <div>
             <base-select
               v-model="adversary"
@@ -329,10 +319,10 @@ watch(numberSpirit, randomSetup)
         >
           <div class="flex space-x-1 space-y-2 items-center">
             <div
-              class="bg-gray-800 hover:bg-gray-800/90 transition rounded-full p-1 text-white mt-3"
+              class="bg-gray-800 hover:bg-gray-800/90 transition rounded-full p-1 text-white mt-3 flex items-center"
             >
-              <icon-refresh
-                class="w-4 h-4"
+              <span
+                class="icon-refresh"
                 @click="randomSpiritAndMap(n - 1)"
               />
             </div>
@@ -368,7 +358,7 @@ watch(numberSpirit, randomSetup)
               >
                 <div>Aspect</div>
                 <div> 
-                  <icon-pencil class="w-4 h-4" />
+                  <span class="icon-pencil" />
                 </div>
               </div>
               <div class="text-lg font-semibold">
@@ -383,7 +373,7 @@ watch(numberSpirit, randomSetup)
                     class="text-red-800"
                     @click.stop="aspects[n-1] = -1"
                   >
-                    <icon-trash-x class="w-5 h-5" />
+                    <span class="icon-trash-x" />
                   </div>
                   <div>
                     {{ aspectsOption[n-1]?.[aspects[n-1]].label }}

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onClickOutside, useScroll, useSwipe } from '@vueuse/core'
 import { ref, useSlots } from 'vue'
-import { IconX } from '@tabler/icons-vue'
 interface BaseModalProps {
   showCloseIcon?: boolean
   isHeightFixed?: boolean
@@ -42,9 +41,9 @@ const { lengthY } = useSwipe(modalContentEl, {
     >
       <div class="bg-gray-900 text-white py-2 px-4 text-lg relative rounded-t-md">
         <slot name="header" />
-        <icon-x
+        <span
           v-if="showCloseIcon"
-          class="absolute right-4 top-3 cursor-pointer hover:opacity-70 transition"
+          class="icon-x text-2xl absolute right-4 top-3 cursor-pointer hover:opacity-70 transition"
           @click="emit('close')"
         />
       </div>

@@ -1,4 +1,5 @@
 import './assets/style.css'
+import './assets/icon.css'
 
 import { createApp } from 'vue'
 import { registerSW } from 'virtual:pwa-register'

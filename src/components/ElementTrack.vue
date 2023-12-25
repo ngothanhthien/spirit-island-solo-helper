@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
-import PowerElement from './PowerElement.vue'
 
 const playerCard = usePlayerCardStore()
 </script>
@@ -15,10 +14,12 @@ const playerCard = usePlayerCardStore()
         v-if="value > 0"
         class="flex items-center space-x-0.5"
       >
-        <power-element
-          class="h-5"
-          :element="key"
-        />
+        <span :class="`icon-${key.toLowerCase()} text-lg`">
+          <span class="path1"></span>
+          <span class="path2"></span>
+          <span class="path3"></span>
+          <span class="path4"></span>
+        </span>
         {{ value }}
       </div>
     </template>

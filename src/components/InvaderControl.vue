@@ -1,17 +1,9 @@
 <script setup lang="ts">
 import { useInvaderCardStore } from '@/stores/InvaderCardStore'
-import {
-  IconX,
-  IconTrash,
-  IconPlayerTrackPrev,
-  IconEyeUp,
-  IconReload,
-} from '@tabler/icons-vue'
 import InvaderBox from '@/components/InvaderBox.vue'
 import { useManualRefHistory, watchDebounced } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import BaseButton from './base/BaseButton.vue'
-import { IconChevronLeft, IconLock, IconLockOff } from '@tabler/icons-vue'
 import { type Ref, ref, computed } from 'vue'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { ADVERSARY } from '@/constant'
@@ -146,7 +138,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
           class="ml-auto mr-2"
           @click="$emit('close')"
         >
-          <icon-x />
+          <span class="icon-x text-2xl"></span>
         </div>
       </div>
       <div class="flex-1 flex flex-col">
@@ -202,22 +194,19 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               @click="showInvaderDiscard = true"
             >
               <span class="text-4xl">{{ invaderCard.discard.length }}</span>
-              <icon-trash
-                class="w-10 h-10"
-                style="stroke-width: 1px"
-              />
+              <span class="icon-trash text-4xl"></span>
             </button>
             <div
               class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 opacity-0"
             >
-              <icon-player-track-prev />
+              <span class="icon-player-track-prev"></span>
             </div>
           </div>
           <div
             v-if="invaderCard.extraBuildView"
             class="flex items-center mb-3"
           >
-            <icon-chevron-left class="h-10" />
+            <span class="icon-chevron-left text-3xl" />
           </div>
           <div
             v-if="invaderCard.extraBuildView"
@@ -251,11 +240,11 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 opacity-0"
               :disabled="invaderCard.extraBuildView.length === 0"
             >
-              <icon-player-track-prev />
+              <span class="icon-player-track-prev text-3xl" />
             </button>
           </div>
           <div class="flex items-center mb-3">
-            <icon-chevron-left class="h-10" />
+            <span class="text-3xl icon-chevron-left" />
           </div>
           <div class="basis-full flex-col flex">
             <div class="h-10">
@@ -315,12 +304,12 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               :disabled="invaderCard.ravage.length === 0"
               @click="invaderCard.lockToggle('ravage')"
             >
-              <icon-lock v-if="invaderCard.lock.includes('ravage')" />
-              <icon-lock-off v-else />
+              <span v-if="invaderCard.lock.includes('ravage')" class="icon-lock"></span>
+              <span v-else class="icon-lock-off"></span>
             </button>
           </div>
           <div class="flex items-center mb-3">
-            <icon-chevron-left class="h-10" />
+            <span class="icon-chevron-left text-3xl"></span>
           </div>
           <div class="basis-full flex-col flex">
             <div class="h-10">
@@ -380,12 +369,12 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               :disabled="invaderCard.build.length === 0"
               @click="invaderCard.lockToggle('build')"
             >
-              <icon-lock v-if="invaderCard.lock.includes('build')" />
-              <icon-lock-off v-else />
+              <span v-if="invaderCard.lock.includes('build')" class="icon-lock"></span>
+              <span v-else class="icon-lock-off"></span>
             </button>
           </div>
           <div class="flex items-center mb-3">
-            <icon-chevron-left class="h-10" />
+            <span class="icon-chevron-left text-3xl"></span>
           </div>
           <div class="basis-full flex-col flex">
             <div class="text-center text-base">
@@ -419,7 +408,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
                 class="absolute top-0 right-0 p-2"
                 @click.stop="shuffle"
               >
-                <icon-reload />
+                <span class="icon-reload"></span>
               </div>
             </div>
             <div
@@ -462,14 +451,14 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
                   :disabled="!invaderCard.canNext"
                   @click="next"
                 >
-                  <icon-player-track-prev />
+                  <span class="icon-player-track-prev"></span>
                 </button>
                 <button
                   class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:opacity-0"
                   :disabled="invaderCard.draw.length === 0"
                   @click="doExplore"
                 >
-                  <icon-eye-up />
+                  <span class="icon-eye"></span>
                 </button>
               </template>
             </div>
@@ -557,7 +546,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               class="text-white absolute top-2 right-2"
               @click="showInvaderDiscard = false"
             >
-              <icon-x />
+              <span class="icon-x text-2xl"></span>
             </div>
           </div>
           <div class="bg-white flex-1 overflow-x-auto py-2 px-3 flex hide-scrollbar">
@@ -598,7 +587,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               class="text-white absolute top-2 right-2"
               @click="showInvaderDraw = false"
             >
-              <icon-x />
+              <span class="icon-x text-2xl"></span>
             </div>
           </div>
           <div class="bg-white flex-1 overflow-x-auto py-2 px-3 flex hide-scrollbar">

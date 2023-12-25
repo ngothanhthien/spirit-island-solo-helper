@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import IconEscalation from './icons/IconEscalation.vue';
 
 defineProps({
   deck: {
@@ -30,10 +29,7 @@ defineProps({
       }"
       class="flex items-center justify-center border border-gray-400 border-collapse relative"
     >
-      <icon-escalation
-        v-if="card.includes('2') && !card.includes('C') && !card.includes('D')"
-        class="absolute h-[80%] text-stone-800"
-      />
+      <span v-if="card.includes('2') && !card.includes('C') && !card.includes('D')" class="icon-escalation absolute h-[80%] text-stone-800"></span>
       <div class="absolute">
         {{ card.replace('2', '') }}
       </div>

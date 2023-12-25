@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue'
 import GameCard from './GameCard.vue'
 import { useSwipe } from '@vueuse/core'
-import { IconCheck } from '@tabler/icons-vue'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore';
 
 const props = defineProps({
@@ -110,7 +109,7 @@ function getPosition(element: Element) {
       class="absolute bottom-1 left-1 p-1 bg-green-800/20 rounded"
       @click.stop="playerCard.toggleUsed(card)"
     >
-      <icon-check class="w-4 h-4 text-green-400" />
+      <span class="text-green-400 icon-check text-lg" />
     </div>
   </div>
 </template>

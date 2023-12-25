@@ -5,8 +5,6 @@ import { ADVERSARY } from '@/constant'
 import { useGameOptionStore } from '@/stores/GameOptionStore';
 import AdversaryText from '@/components/base/AdversaryText.vue'
 import { onClickOutside, useWindowSize } from '@vueuse/core';
-import IconEscalation from '@/components/icons/EscalationIcon.vue'
-import { IconX } from '@tabler/icons-vue'
 
 const emit =defineEmits(['close'])
 const FIXED_WIDTH = 1100
@@ -93,8 +91,8 @@ const fearArr = computed(() => {
           border-left: 20px solid black;
           border-top: 20px solid black;
           border-color: rgb(225, 220, 190);
-          border-radius: 18px 0px 0px 0px;
-          box-shadow: 0px 3px 0px 0px rgba(0, 0, 0, 0.6);
+          border-radius: 18px 0 0 0;
+          box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.6);
           z-index: 2;
         "
       >
@@ -108,7 +106,7 @@ const fearArr = computed(() => {
           background-color: rgb(225, 220, 190);
           border-top: 20px solid black;
           border-color: rgb(225, 220, 190);
-          box-shadow: 0px 3px 0px 0px rgba(0, 0, 0, 0.6);
+          box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.6);
           z-index: 2;
         "
       >
@@ -122,8 +120,8 @@ const fearArr = computed(() => {
           border-top: 20px solid black;
           border-right: 20px solid black;
           border-color: rgb(225, 220, 190);
-          border-radius: 0px 18px 0px 0px;
-          box-shadow: 0px 3px 0px 0px rgba(0, 0, 0, 0.6);
+          border-radius: 0 18px 0 0;
+          box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.6);
           z-index: 2;
         "
       >
@@ -143,11 +141,11 @@ const fearArr = computed(() => {
           border-left: 20px solid black;
           border-color: rgb(145, 125, 100);
           background-color: rgb(235, 230, 215);
-          box-shadow: 20px 3px 0px 0px rgba(90, 90, 90, 1);
+          box-shadow: 20px 3px 0 0 rgba(90, 90, 90, 1);
           z-index: 1;
         "
       >
-        <div class="font-bold italic">
+        <div class="font-bold italic mt-2">
           Additional Loss Condition
         </div>
         <div>
@@ -162,15 +160,15 @@ const fearArr = computed(() => {
         style="
           grid-column: 4 / 6;
           background-color: rgb(235, 230, 215);
-          box-shadow: 0px 3px 0px 0px rgba(90, 90, 90, 1);
+          box-shadow: 0 3px 0 0 rgba(90, 90, 90, 1);
           z-index: 1;
         "
       >
-        <div class="flex items-center">
+        <div class="flex items-center mt-2">
           <div class="font-bold italic">
             Escalation
           </div>
-          <IconEscalation class="w-5 h-5 fill-current mb-0.5" />
+          <span class="fill-current icon-escalation text-2xl ml-2 -mt-2" />
         </div>
         <div class="space-x-2">
           <adversary-text
@@ -185,7 +183,7 @@ const fearArr = computed(() => {
           background-color: rgb(235, 230, 215);
           border-right: 20px solid black;
           border-color: rgb(145, 125, 100);
-          box-shadow: -20px 3px 0px 0px rgba(90, 90, 90, 1);
+          box-shadow: -20px 3px 0 0 rgba(90, 90, 90, 1);
         "
       >
         <div
@@ -201,9 +199,9 @@ const fearArr = computed(() => {
       <div
         style="
           grid-column: 1 / -1;
-          border-left: 20px solid black;
-          border-right: 20px solid black;
-          border-color: rgb(145, 125, 100);
+          border-left: 20px solid;
+          border-right: 20px solid;
+          border-color: rgb(145, 125, 100) black black rgb(145, 125, 100);
         "
       >
         <div class="mx-6 mt-0.5">
@@ -300,7 +298,7 @@ const fearArr = computed(() => {
           border-left: 20px solid black;
           border-right: 20px solid black;
           border-bottom: 20px solid black;
-          border-radius: 0px 0px 18px 18px;
+          border-radius: 0 0 18px 18px;
           border-color: rgb(145, 125, 100);
         "
       />
@@ -308,7 +306,7 @@ const fearArr = computed(() => {
         class="inline-block absolute top-0 right-0 text-gray-500 z-50"
         @click="emit('close')"
       >
-        <icon-x class="w-14 h-14" />
+        <span class="icon-x text-4xl" />
       </div>
     </div>
   </div>

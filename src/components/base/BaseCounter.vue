@@ -3,10 +3,10 @@
     <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
       <button
         :disabled="counter === min"
-        class=" bg-white h-full px-2 rounded-l disabled:text-gray-400"
+        class=" bg-white h-full px-2 rounded-l disabled:text-gray-400 flex items-center"
         @click="counter--"
       >
-        <icon-minus class="w-4 h-4 mx-auto" />
+        <span class="icon-minus text-xl" />
       </button>
       <input
         v-model="counter"
@@ -15,17 +15,16 @@
       >
       <button
         :disabled="counter === max"
-        class="bg-white h-full px-2 rounded-r disabled:text-gray-400"
+        class="bg-white h-full px-2 rounded-r disabled:text-gray-400 flex items-center"
         @click="counter++"
       >
-        <icon-plus class="w-4 h-4 mx-auto" />
+        <span class="icon-plus text-xl" />
       </button>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core'
-import { IconPlus, IconMinus } from '@tabler/icons-vue'
 import { watch } from 'vue';
 const props = defineProps({
   modelValue: {

@@ -2,7 +2,6 @@
 import GameCard from '@/components/base/GameCard.vue'
 import { useCardZoomStore } from '@/stores/CardZoomStore';
 import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
-import { IconX } from '@tabler/icons-vue'
 import { computed } from 'vue';
 defineEmits(['close', 'doVisionsOfAShiftingFuture'])
 const daysThatNeverWere = useDaysThatNeverWereStore()
@@ -15,8 +14,8 @@ const cardZoom = useCardZoomStore()
     <div class="flex flex-col h-[90%] w-full absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900">
       <div class="bg-gray-800 text-white px-3 py-2 relative grow">
         <div>Days That Never Were</div>
-        <icon-x
-          class="w-8 h-8 absolute top-1 right-4"
+        <span
+          class="absolute top-1 right-4 icon-x text-2xl"
           @click="$emit('close')"
         />
       </div>

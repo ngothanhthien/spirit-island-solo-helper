@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useInvaderCardStore } from '@/stores/InvaderCardStore'
-import { IconChevronLeft } from '@tabler/icons-vue'
 import InvaderBox from '@/components/InvaderBox.vue'
 
 const invaderCard = useInvaderCardStore()
@@ -24,7 +23,7 @@ const invaderCard = useInvaderCardStore()
         </div>
       </div>
       <div class="flex items-center">
-        <icon-chevron-left class="w-3.5 h-3.5 mb-3 text-white mx-0.5" />
+        <span class="w-3.5 h-3.5 mb-3 text-white mx-0.5 icon-chevron-left" />
       </div>
     </template>
     <div class="flex flex-col">
@@ -39,7 +38,7 @@ const invaderCard = useInvaderCardStore()
       </div>
     </div>
     <div class="flex items-center">
-      <icon-chevron-left class="w-3.5 h-3.5 mb-3 text-white mx-0.5" />
+      <span class="icon-chevron-left mb-3 text-white mx-0.5" />
     </div>
     <div class="flex flex-col flex-wrap">
       <invader-box

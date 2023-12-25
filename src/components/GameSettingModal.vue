@@ -3,9 +3,6 @@ import router from '@/router'
 import { computed, ref, watch } from 'vue'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
-import { IconX, IconBolt, IconPlus, IconMinus } from '@tabler/icons-vue'
-import FearIcon from '@/components/icons/FearIcon.vue'
-import PowerElement from '@/components/PowerElement.vue'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { getSpiritAvatar } from '@/utils'
 import BaseButton from '@/components/base/BaseButton.vue'
@@ -94,8 +91,8 @@ watch(showAspect, (value) => {
             >
           </div>
         </div>
-        <icon-x
-          class="w-7 h-7"
+        <span
+          class="icon-x text-2xl"
           style="stroke-width: 1px;"
           @click="$emit('close')"
         />
@@ -112,19 +109,19 @@ watch(showAspect, (value) => {
               class="h-full px-2 rounded-l bg-inherit"
               @click="playerCard.reduceEnergy"
             >
-              <icon-minus class="w-4 h-4 mx-auto" />
+              <span class="icon-minus" />
             </button>
             <div class="bg-orange-700 flex items-center justify-center w-10">
-              <div class="flex-1 text-right">
+              <div class="flex-1 text-right text-lg font-bold">
                 {{ playerCard.energy }}
               </div>
-              <icon-bolt class="w-5 h-5 shrink-0" />
+              <span class="icon-bolt text-xl" />
             </div>
             <button
               class="bg-inherit h-full px-2 rounded-r"
               @click="playerCard.addEnergy"
             >
-              <icon-plus class="w-4 h-4 mx-auto" />
+              <span class="icon-plus" />
             </button>
           </div>
           <div
@@ -134,25 +131,25 @@ watch(showAspect, (value) => {
               class="h-full px-2 rounded-l bg-inherit"
               @click="fearDeck.decreaseFear"
             >
-              <icon-minus class="w-4 h-4 mx-auto" />
+              <span class="w-4 h-4 mx-auto icon-minus" />
             </button>
             <div class="flex items-center justify-center font-semibold text-lg w-full">
               <div>{{ fearDeck.currentFear }}</div>
-              <fear-icon class="w-5 h-5 ml-1.5" />
+              <span class="icon-fear" />
             </div>
             <button
               class="bg-inherit h-full px-2 rounded-r"
               @click="fearDeck.increaseFear"
             >
-              <icon-plus class="w-4 h-4 mx-auto" />
+              <span class="icon-plus" />
             </button>
           </div>
           <div class="flex items-center justify-center">
             <div
-              class="rounded-full inline-block h-fit bg-purple-900 text-white p-1"
+              class="rounded-full inline-flex justify-center bg-purple-900 text-white p-1 w-6 h-6"
               @click="fearDeck.unEarn"
             >
-              <icon-minus class="w-3 h-3" />
+              <span class="icon-minus" />
             </div>
             <div class="h-full w-12 relative flex justify-center">
               <img
@@ -165,10 +162,10 @@ watch(showAspect, (value) => {
               </div>
             </div>
             <div
-              class="rounded-full inline-block h-fit bg-purple-900 text-white p-1"
+              class="rounded-full inline-flex justify-center bg-purple-900 text-white p-1 w-6 h-6"
               @click="fearDeck.earn"
             >
-              <icon-plus class="w-3 h-3" />
+              <span class="icon-plus" />
             </div>
           </div>
         </div>
@@ -179,13 +176,13 @@ watch(showAspect, (value) => {
               class="w-6 h-6 rounded-full text-white p-1 mb-1 flex items-center"
               @click="modeIncrease = !modeIncrease"
             >
-              <icon-plus
+              <span
                 v-if="modeIncrease"
-                class="w-full"
+                class="w-full icon-plus"
               />
-              <icon-minus
+              <span
                 v-else
-                class="w-full"
+                class="w-full icon-minus"
               />
             </div>
             <div class="flex select-none w-28 flex-wrap">
@@ -195,9 +192,12 @@ watch(showAspect, (value) => {
                 class="flex items-center w-1/3 my-1 px-1"
                 @click="adjustElement(element)"
               >
-                <power-element
-                  :element="element"
-                />
+                <span :class="`icon-${element.toLowerCase()} text-lg`">
+                  <span class="path1"></span>
+                  <span class="path2"></span>
+                  <span class="path3"></span>
+                  <span class="path4"></span>
+                </span>
                 <div>
                   {{ playerCard.permanentElements[element] }}
                 </div>
@@ -261,7 +261,7 @@ watch(showAspect, (value) => {
           <div class="mb-4 flex justify-between">
             <div>Log this match?</div>
             <div @click="showConfirmLogMatch = false">
-              <icon-x />
+              <span class="icon-x text-2xl" />
             </div>
           </div>
           <div class="flex space-x-2 mt-2">

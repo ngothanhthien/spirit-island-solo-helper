@@ -2,15 +2,6 @@
 import { computed, onMounted, ref, watch, type Ref, defineAsyncComponent } from 'vue'
 import type { Aspect } from '@/types'
 import CardGroupView from '@/components/CardGroupView.vue'
-import {
-  IconAlbum,
-  IconX,
-  IconBolt,
-  IconLayersOff,
-  IconAlbumOff,
-  IconSettings,
-  IconHourglassHigh
-} from '@tabler/icons-vue'
 import ElementTrack from '@/components/ElementTrack.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 import { changePosition, getSpiritAvatar, removeCard } from '@/utils'
@@ -22,8 +13,7 @@ import ModalFearDeck from '@/components/ModalFearDeck.vue'
 import AspectPower from '@/components/AspectPower.vue'
 import AspectDetail from '@/components/AspectDetail.vue'
 import PowerDiscard from '@/components/PowerDiscard.vue'
-import IconReclaim from '@/components/icons/IconReclaim.vue'
-import {addResult} from "@/database/result";
+import { addResult } from "@/database/result";
 
 const DaysThatNeverWere = defineAsyncComponent(() => import('@/components/DaysThatNeverWere.vue'))
 const DaysThatNeverWerePick = defineAsyncComponent(() => import('@/components/DaysThatNeverWerePick.vue'))
@@ -379,15 +369,17 @@ async function tryUploadResult() {
         class="h-12 bg-orange-800 flex items-center z-40 text-white w-full"
       >
         <div class="flex items-center h-full pr-3">
-          <icon-settings
-            class="w-10"
-            @click="isShowGameSettings = true"
-          />
+          <div class="w-10 flex justify-center">
+            <span
+                class="icon-settings text-xl"
+                @click="isShowGameSettings = true"
+            />
+          </div>
           <button
             class="h-full px-2 flex items-center bg-orange-600"
             @click="playerCard.addEnergy"
           >
-            <icon-bolt /> {{ playerCard.energy }}
+            <span class="icon-bolt" /> {{ playerCard.energy }}
             <span
               class="text-xs relative -top-2"
             >+{{ playerCard.energyThisTurn }}</span>
@@ -500,8 +492,8 @@ async function tryUploadResult() {
                 class="flex items-center justify-center border-2"
                 @click="showPowerDiscard"
               >
-                <icon-layers-off
-                  class="w-9 h-9 text-white"
+                <span
+                  class="w-9 h-9 text-white icon-layers-off"
                   style="stroke-width: 1px;"
                 />
               </div>
@@ -547,8 +539,8 @@ async function tryUploadResult() {
                 class="flex items-stretch relative w-full"
               >
                 <power-pick />
-                <icon-x
-                  class="w-8 h-8 absolute right-1 -top-1 text-red-600 z-50"
+                <span
+                  class="icon-x text-3xl absolute right-1 -top-1 text-red-600 z-50"
                   style="stroke-width: 3px"
                   @click="resetPicking"
                 />
@@ -561,8 +553,8 @@ async function tryUploadResult() {
                   :picking="daysThatNeverWereDeck.picking"
                   @swipe-down="addCardToDaysThatNeverWere"
                 />
-                <icon-x
-                  class="w-7 h-7 absolute right-2 text-gray-800 z-50"
+                <span
+                  class="icon-x text-3xl absolute right-2 text-gray-800 z-50"
                   style="stroke-width: 3px"
                   @click="finishPickDaysThatNeverWere"
                 />
@@ -686,13 +678,10 @@ async function tryUploadResult() {
               >
             </div>
             <div
-              class="h-11 w-11 p-2 rounded-full text-white bg-purple-800 border-2 border-purple-900"
+              class="h-11 w-11 p-2 rounded-full text-white bg-purple-800 border-2 border-purple-900 flex justify-center items-center"
               @click="timePassed"
             >
-              <icon-hourglass-high
-                class="w-full h-full"
-                style="stroke-width: 1px;"
-              />
+              <span class="icon-hourglass-high text-xl" />
             </div>
           </div>
           
@@ -725,9 +714,9 @@ async function tryUploadResult() {
               name="switch"
               mode="out-in"
             >
-              <icon-album
+              <span
                 v-if="currentMenu1 === MENU_1.PLAY"
-                class="w-8 h-8"
+                class="icon-album text-4xl"
                 @click="switchMenu(1)"
               />
             </transition>
@@ -735,9 +724,9 @@ async function tryUploadResult() {
               name="switch"
               mode="out-in"
             >
-              <icon-album-off
+              <span
                 v-if="currentMenu1 === MENU_1.TAB_2"
-                class="w-8 h-8"
+                class="icon-album-off text-4xl"
                 @click="switchMenu(1)"
               />
             </transition>
