@@ -73,14 +73,6 @@ export const removeCard = (array: string[], card: string) => {
   }
 }
 
-export const generateTestCards = (type: string, n: number) => {
-  const cards = []
-  for (let i = 0; i < n; i++) {
-    cards.push(`${type}-${i}`)
-  }
-  return cards
-}
-
 export const getSpiritAvatar = (id: number) => {
   const name = SPIRIT[id].name
   return name.replace(/'/g, "").replace(/[\s']/g, "_") + "_small.webp"
@@ -161,7 +153,7 @@ export function getDayAgo(date: Date) {
   const diffInMs = now - lastMatch;
   const diffInHours = diffInMs / 1000 / 60 / 60;
 
-  if (diffInHours === 0) {
+  if (diffInHours < 1) {
     return 'Recently'
   }
 

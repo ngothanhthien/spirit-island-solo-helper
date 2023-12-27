@@ -19,6 +19,7 @@ import type { Aspect } from '@/types'
 import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
 import { useGameStateStore } from '@/stores/GameStateStore'
 import { useInvaderCardStore } from '@/stores/InvaderCardStore'
+import {useImpendingCardStore} from "@/stores/ImpendingCardStore";
 
 interface AspectOption {
   label: string
@@ -37,6 +38,7 @@ const blightDeck = useBlightDeckStore()
 const daysThatNeverWereDeck = useDaysThatNeverWereStore()
 const gameState = useGameStateStore()
 const invaderCard = useInvaderCardStore()
+const impendingCardStore = useImpendingCardStore()
 
 const adversary = ref<undefined | number>()
 const numberSpirit = ref<undefined | number>()
@@ -205,6 +207,7 @@ function startGame() {
     })
   }
 
+  impendingCardStore.clear()
   blightDeck.newDeck()
   eventDeck.newDeck(gameOption.hasFranceEvent)
   majorDeck.newDeck()

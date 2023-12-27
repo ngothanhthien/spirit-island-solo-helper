@@ -144,6 +144,10 @@ export const usePlayerCardStore = defineStore('playerCard', {
         useMessageStore().setMessage('Not enough energy')
       }
     },
+    addCardToPlay(card: string, playerIndex: number | undefined = undefined) {
+      const player = this.players[playerIndex || this.current]
+      player.play.push(card)
+    },
     putCardInDiscard(card: string) {
       const player = this.players[this.current]
       removeCard(player.hand, card)
@@ -160,17 +164,15 @@ export const usePlayerCardStore = defineStore('playerCard', {
         changePosition(player.hand, card, posId)
       }
     },
-    removeCardFromPlay(card: string) {
-      removeCard(this.players[this.current].play, card)
-    },
-    addToPlay(card: string) {
-      this.players[this.current].play.push(card)
-    },
     forgetCardFromHand(card: string) {
       const player = this.players[this.current]
       removeCard(player.hand, card)
       useDiscardPowerStore().discard.push(card)
       useMessageStore().setMessage('Forget card')
+    },
+    removeCardFromHand(card: string, playerIndex: number | undefined = undefined) {
+      const player = this.players[playerIndex || this.current]
+      removeCard(player.hand, card)
     },
     forgetCardFromDiscard(card: string) {
       const player = this.players[this.current]

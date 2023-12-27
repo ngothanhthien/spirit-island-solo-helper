@@ -4,9 +4,9 @@ import router from '@/router'
 import { adversaryNameToImage, getDayAgo, getSpiritAvatarByName } from '@/utils'
 import { SPIRIT } from '@/constant'
 import axios from "axios";
-import {API_LIST_MATCH_LOG} from "@/constant/api";
+import { API_LIST_MATCH_LOG } from "@/constant/api";
 import { useLocalStorageStore } from "@/stores/LocalStorageStore";
-import type {ChartData, SpiritsChart} from "@/types";
+import type { ChartData, SpiritsChart } from "@/types";
 
 interface Result {
   win: number
@@ -69,12 +69,6 @@ function getWin(result: Result) {
 <template>
   <div class="h-screen w-full bg-amber-100 flex flex-col px-4 py-2">
     <div class="flex">
-      <div>
-        <span class="mr-6">Total: {{ totalGame }}</span>
-        <span class="mr-6">Last play: {{ lastTime }}</span>
-        <span class="mr-6">Last update: {{ lastUpdate }}</span>
-        <span>Pending Result: {{ localStorage.pendingResult.length }}</span>
-      </div>
       <div
         class="ml-auto text-orange-800"
         @click="router.push({ name: 'HomeView'})"
@@ -82,38 +76,39 @@ function getWin(result: Result) {
         Back to menu
       </div>
     </div>
-    <div class="overflow-y-auto block flex-1 w-fit border border-gray-500 rounded">
-      <table class="table-auto">
-        <thead class="sticky top-0">
+    <div class="flex-1 flex" style="max-height: 90vh;">
+      <div class="block overflow-y-auto h-full w-fit border border-gray-500 rounded">
+        <table class="table-auto">
+          <thead class="sticky top-0">
           <tr class="border-b border-gray-500">
             <th />
             <th
-              v-for="adversary in ADVERSARIES"
-              :key="adversary"
+                v-for="adversary in ADVERSARIES"
+                :key="adversary"
             >
               <img
-                :src="`/img/adversary/${adversaryNameToImage(adversary)}`"
-                alt="Adversary Image"
-                class="h-8"
+                  :src="`/img/adversary/${adversaryNameToImage(adversary)}`"
+                  alt="Adversary Image"
+                  class="h-8"
               >
             </th>
           </tr>
-        </thead>
-        <tbody class="h-32 overflow-y-auto">
+          </thead>
+          <tbody class="h-32 overflow-y-auto">
           <tr
-            v-for="(spirit, index) in SPIRIT_NAMES"
-            :key="spirit"
-            class="border-gray-500"
-            :class="{
+              v-for="(spirit, index) in SPIRIT_NAMES"
+              :key="spirit"
+              class="border-gray-500"
+              :class="{
               'border-b': index !== SPIRIT_NAMES.length - 1,
               'bg-amber-200': index % 2 === 0
             }"
           >
             <td class="border-r border-gray-500 pr-1">
               <img
-                :src="`/img/spirit_avatar/${getSpiritAvatarByName(spirit)}`"
-                alt="spirit avatar"
-                class="h-8 inline-block mr-1"
+                  :src="`/img/spirit_avatar/${getSpiritAvatarByName(spirit)}`"
+                  alt="spirit avatar"
+                  class="h-8 inline-block mr-1"
               >({{ spiritsChart[spirit] ? spiritsChart[spirit].total : 0 }})
             </td>
             <template v-if="spiritsChart[spirit]">
@@ -135,8 +130,15 @@ function getWin(result: Result) {
               </td>
             </template>
           </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
+      <div class="ml-4 mt-4">
+        <div class="mr-6">Total: {{ totalGame }}</div>
+        <div class="mr-6">Last play: {{ lastTime }}</div>
+        <div class="mr-6">Last update: {{ lastUpdate }}</div>
+        <div>Pending Result: {{ localStorage.pendingResult.length }}</div>
+      </div>
     </div>
   </div>
 </template>

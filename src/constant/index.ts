@@ -2,7 +2,7 @@ import type { PowerCard, Adversary, BlightCard, SpiritType } from '@/types'
 import { setupDarkFire, setupIntensify, setupLocus, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
 import { setupSparking } from '@/utils/setup'
 import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox } from '@/utils/event'
-import { setupDaysThatNeverWere, setupHearthVigil, setupWoundedWaters } from '@/utils/spirit'
+import {setupDancesUpEarthquakes, setupDaysThatNeverWere, setupHearthVigil, setupWoundedWaters} from '@/utils/spirit'
 import { setupInvadersFindTheLand } from '@/utils/blight'
 
 export const MINOR_CARDS: Array<PowerCard> = [
@@ -3207,7 +3207,7 @@ export const SPIRIT: Array<SpiritType> = [
         description: '1 Damage in one of target Spirit’s lands. If you target another Spirit, in that land also: Destroy 1 of their presence. 1 Damage. Gather 1 beast.',
       },
       {
-        name: 'Draw to the Water’s Edge',
+        name: "Draw to the Water's Edge",
         cost: 1,
         speed: 'Fast',
         elements: ['Sun', 'Water', 'Plant'],
@@ -3302,6 +3302,7 @@ export const SPIRIT: Array<SpiritType> = [
         description: "If you have at least as many [presence] as Power Cards in play, 1 Fear and Add 1 [explorer/town]. Push up to 3 [Dahans]."
       }
     ],
+    setup: setupDancesUpEarthquakes
   },
   {
     name: 'Towering Roots of the Jungle',

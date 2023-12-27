@@ -20,6 +20,7 @@ const DaysThatNeverWerePick = defineAsyncComponent(() => import('@/components/Da
 const VisionOfAShiftingFutureEvent = defineAsyncComponent(() => import('@/components/VisionOfAShiftingFutureEvent.vue'))
 const HabsburgReminder = defineAsyncComponent(() => import('@/components/HabsburgReminder.vue'))
 const Russia5Modal = defineAsyncComponent(() => import('@/components/Russia5Modal.vue'))
+const ImpedingCardModal = defineAsyncComponent(() => import('@/components/ImpendingCardModal.vue'))
 
 import { OnClickOutside } from '@vueuse/components'
 import ModalDiscardPower from '@/components/ModalDiscardPower.vue'
@@ -49,6 +50,7 @@ import { useGameStateStore } from '@/stores/GameStateStore'
 import { useMessageStore } from '@/stores/MessageStore'
 import FearCounter from '@/components/FearCounter.vue'
 import { useLocalStorageStore } from "@/stores/LocalStorageStore";
+import {useImpendingCardStore} from "@/stores/ImpendingCardStore";
 
 const MENU_1 = {
   PLAY: 0,
@@ -71,6 +73,7 @@ const gameState = useGameStateStore()
 const daysThatNeverWereDeck = useDaysThatNeverWereStore()
 const messageStore = useMessageStore()
 const localStorage = useLocalStorageStore()
+const impedingCardStore = useImpendingCardStore()
 
 const menuControlEl = ref<HTMLElement | null>(null)
 
@@ -88,6 +91,7 @@ const isShowSetupRef = ref(true)
 const isShowVisionsOfAShiftingFutureEvent = ref(false)
 const isShowInvaderControl = ref(false)
 const isShowGameSettings = ref(false)
+const isShowImpendingCardModal = ref(false)
 
 if (
   !eventDeck.isAvailable ||
@@ -371,8 +375,8 @@ async function tryUploadResult() {
         <div class="flex items-center h-full pr-3">
           <div class="w-10 flex justify-center">
             <span
-                class="icon-settings text-xl"
-                @click="isShowGameSettings = true"
+              class="icon-settings text-xl"
+              @click="isShowGameSettings = true"
             />
           </div>
           <button
@@ -678,6 +682,24 @@ async function tryUploadResult() {
               >
             </div>
             <div
+              v-if="impedingCardStore.index !== null"
+              class="w-11 h-11 rounded-full bg-red-500 border-2 border-purple-700 overflow-hidden flex items-center justify-center text-2xl"
+              @click="isShowImpendingCardModal = true"
+            >
+              <span class="icon-impending">
+                <span class="path1" />
+                <span class="path2" />
+                <span class="path3" />
+                <span class="path4" />
+                <span class="path5" />
+                <span class="path6" />
+                <span class="path7" />
+                <span class="path8" />
+                <span class="path9" />
+                <span class="path10" />
+              </span>
+            </div>
+            <div
               class="h-11 w-11 p-2 rounded-full text-white bg-purple-800 border-2 border-purple-900 flex justify-center items-center"
               @click="timePassed"
             >
@@ -797,6 +819,10 @@ async function tryUploadResult() {
       <habsburg-reminder
         v-if="showHabsburgReminderCard && gameOption.hasHabsburg5"
         @close="showHabsburgReminderCard = false"
+      />
+      <impeding-card-modal
+        v-if="impedingCardStore.index !== null && isShowImpendingCardModal"
+        @close="isShowImpendingCardModal = false"
       />
     </div>
   </div>

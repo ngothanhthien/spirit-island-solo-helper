@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-type ZoomFrom = 'pick' | 'discard' | 'hand' | 'play' | 'player-discard' | 'player-discard-forget' | 'days-that-never-were' | 'days-that-never-were-store'
+type ZoomFrom = 'pick' | 'discard' | 'hand' | 'play' | 'player-discard' | 'player-discard-forget' | 'days-that-never-were' | 'days-that-never-were-store' | 'impending-card'
 export const useCardZoomStore = defineStore('cardZoom', {
   state: () => ({
     current: null as null | string,
