@@ -5,9 +5,11 @@ import { useCardZoomStore } from "@/stores/CardZoomStore"
 import ImpendingCard from "@/components/ImpendingCard.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 
-const emit = defineEmits<{
-  close: () => void
-}>()
+const emit = defineEmits({
+  close: () => {
+    return true
+  }
+})
 const impendingCardStore = useImpendingCardStore()
 const cardZoom = useCardZoomStore()
 
@@ -34,7 +36,7 @@ const autoPlayClick = () => {
         <div class="flex h-[90%] space-x-4 overflow-y-auto hide-scrollbar px-2 py-2">
           <div
             v-for="card in impendingCardStore.cardsDeck"
-            :key="card"
+            :key="card.card"
             class="shrink-0 flex bg-gray-500/30 py-2 pr-2 rounded-lg"
           >
             <impending-card

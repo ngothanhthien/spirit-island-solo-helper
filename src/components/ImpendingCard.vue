@@ -12,10 +12,14 @@ defineProps({
   }
 })
 
-defineEmits<{
-  increaseEnergy: () => void
-  decreaseEnergy: () => void
-}>()
+defineEmits({
+  increaseEnergy: () => {
+    return true
+  },
+  decreaseEnergy: () => {
+    return true
+  }
+})
 </script>
 
 <template>
