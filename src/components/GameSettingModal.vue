@@ -107,7 +107,7 @@ watch(showAspect, (value) => {
           >
             <button
               class="h-full px-2 rounded-l bg-inherit"
-              @click="playerCard.reduceEnergy"
+              @click="playerCard.reduceEnergy()"
             >
               <span class="icon-minus" />
             </button>
@@ -193,10 +193,10 @@ watch(showAspect, (value) => {
                 @click="adjustElement(element)"
               >
                 <span :class="`icon-${element.toLowerCase()} text-lg`">
-                  <span class="path1"></span>
-                  <span class="path2"></span>
-                  <span class="path3"></span>
-                  <span class="path4"></span>
+                  <span class="path1" />
+                  <span class="path2" />
+                  <span class="path3" />
+                  <span class="path4" />
                 </span>
                 <div>
                   {{ playerCard.permanentElements[element] }}

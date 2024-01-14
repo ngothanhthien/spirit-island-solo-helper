@@ -7,7 +7,6 @@ import { registerSW } from 'virtual:pwa-register'
 import router from './router'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-// @ts-ignore
 import App from './App.vue'
 import { useMessageStore } from './stores/MessageStore'
 import axios from 'axios'
@@ -26,6 +25,9 @@ app.use(router)
 
 app.config.errorHandler = (err, vm, info) => {
   useMessageStore().setMessage('Error occur, Please contact developer!')
+  if (import.meta.env.VITE_APP_ENVIRONMENT !== 'production') {
+    console.error(err, vm, info)
+  }
 };
 
 app.config.warnHandler = (msg) => {
