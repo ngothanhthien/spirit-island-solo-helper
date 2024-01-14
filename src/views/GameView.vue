@@ -344,9 +344,17 @@ watch(() => eventDeck.reveal, function (newValue) {
   }
 })
 
-onMounted(() => {
+onMounted(async () => {
   messageStore.setMessage('Welcome to Spirit Island!')
-
+  try {
+    const wakeLock = await navigator.wakeLock.request('screen');
+    wakeLock.addEventListener('release', () => {
+      console.log('Screen Wake Lock was released');
+    });
+    console.log('Screen Wake Lock is active');
+  } catch (err) {
+    console.error(`${err.name}, ${err.message}`);
+  }
   setTimeout(() => {
     tryUploadResult()
   }, 10000)
