@@ -25,6 +25,10 @@ export const useImpendingCardStore = defineStore("impendingCardStore", {
     },
     cardsDeck(state) {
         return state.cards.reverse()
+    },
+    hasImpendingFeature(state) {
+      const playerCardStore = usePlayerCardStore()
+      return state.index === playerCardStore.current
     }
   },
   actions: {

@@ -21,7 +21,7 @@ const autoPlayClick = () => {
 
 <template>
   <div
-    class="absolute z-[9999] bg-gray-900/30 top-0 left-0 h-full w-full flex items-center justify-center"
+    class="absolute z-[99] bg-gray-900/30 top-0 left-0 h-full w-full flex items-center justify-center"
     @click.self="$emit('close')"
   >
     <div class="h-[90%] w-[90%] absolute z-50 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 rounded-xl overflow-hidden bg-red-200">
@@ -43,7 +43,7 @@ const autoPlayClick = () => {
               :card="card.card"
               :energy="card.energy"
               class="h-full pt-1 pb-0.5 pl-1"
-              @click="cardZoom.setZoom(card.card, impendingCardStore.cardIds, 'impending-card')"
+              @card-click="cardZoom.setZoom(card.card, impendingCardStore.cardIds, 'impending-card')"
               @increase-energy="impendingCardStore.increaseEnergy(card.card)"
               @decrease-energy="impendingCardStore.decreaseEnergy(card.card)"
             />

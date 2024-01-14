@@ -42,17 +42,17 @@ const cardZoomClass = computed(() => {
 })
 
 function buttonClick() {
-  if (impendingCardStore.index !== null && cardZoom.waiting.from === 'hand') {
-    if (usePlayerCardStore().players[impendingCardStore.index].energy < impendingEnergy.value) {
+  if (impendingCardStore.hasImpendingFeature && cardZoom.waiting.from === 'hand') {
+    if (usePlayerCardStore().players[impendingCardStore.index as number].energy < impendingEnergy.value) {
       useMessageStore().setMessage('Not enough energy')
       return
     }
 
     for (let i = 0; i < impendingEnergy.value; i++) {
-      usePlayerCardStore().reduceEnergy(impendingCardStore.index)
+      usePlayerCardStore().reduceEnergy(impendingCardStore.index as number)
     }
     impendingCardStore.add(cardZoom.current as string, impendingEnergy.value)
-    usePlayerCardStore().removeCardFromHand(cardZoom.current as string, impendingCardStore.index)
+    usePlayerCardStore().removeCardFromHand(cardZoom.current as string, impendingCardStore.index as number)
     cardZoom.reset()
 
     return
@@ -103,18 +103,18 @@ function buttonClick() {
           />
         </div>
         <div
-          v-if="isPowerCard"
-          :class="impendingCardStore.index === null ? 'w-24' : 'w-28 ml-12'"
+          v-if="isPowerCard && cardZoom.waiting.from !== 'impending-card'"
+          :class="impendingCardStore.hasImpendingFeature ? 'w-28 ml-12': 'w-24'"
         >
           <base-button
-            :button-style="impendingCardStore.index === null ? 'secondary' : 'impending'"
+            :button-style="impendingCardStore.hasImpendingFeature ? 'impending' : 'secondary'"
             class="mt-1 w-full"
             @click="buttonClick"
           >
             <span
               v-if="cardZoom.waiting.from === 'hand'"
               class="px-2"
-            >{{ impendingCardStore.index === null ? 'Play' : 'Impending' }}</span>
+            >{{ impendingCardStore.hasImpendingFeature ? 'Impending' : 'Play' }}</span>
             <span
               v-if="['discard', 'play', 'pick', 'days-that-never-were'].includes(cardZoom.waiting.from as string)"
               class="px-2"

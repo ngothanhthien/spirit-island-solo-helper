@@ -679,7 +679,7 @@ async function tryUploadResult() {
               >
             </div>
             <div
-              v-if="impedingCardStore.index !== null"
+              v-if="impedingCardStore.hasImpendingFeature"
               class="w-11 h-11 rounded-full bg-red-500 border-2 border-purple-700 overflow-hidden flex items-center justify-center text-2xl"
               @click="isShowImpendingCardModal = true"
             >
