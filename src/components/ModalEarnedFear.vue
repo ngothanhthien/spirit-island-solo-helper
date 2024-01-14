@@ -34,7 +34,7 @@ const fearDeck = useFearDeckStore()
             >
               <span
                 style="stroke-width: 1px;"
-                class="w-20 h-20 icon-player-play"
+                class="w-20 h-20 text-3xl icon-player-play"
               />
             </button>
           </div>

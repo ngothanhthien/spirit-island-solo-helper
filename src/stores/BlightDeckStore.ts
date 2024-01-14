@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { BLIGHT_CARDS } from '@/constant'
 import { getCard, shuffle } from '@/utils'
 import type { BlightCard } from '@/types'
+
 export const useBlightDeckStore = defineStore('blightDeck', {
   state: () => ({
     draw: [] as string[],

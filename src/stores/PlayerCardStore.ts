@@ -212,11 +212,11 @@ export const usePlayerCardStore = defineStore('playerCard', {
       this.players[this.current].energy++
       this.players[this.current].energyThisTurn++
     },
-    reduceEnergy() {
-      if(this.players[this.current].energy > 0) {
-        this.players[this.current].energy--
-        if (this.players[this.current].energyThisTurn > 0) {
-          this.players[this.current].energyThisTurn--
+    reduceEnergy(playerIndex: number | undefined = undefined) {
+      if(this.players[playerIndex ?? this.current].energy > 0) {
+        this.players[playerIndex ?? this.current].energy--
+        if (this.players[playerIndex ?? this.current].energyThisTurn > 0) {
+          this.players[playerIndex ?? this.current].energyThisTurn--
         }
       }
     },

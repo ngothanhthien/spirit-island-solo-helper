@@ -1,6 +1,7 @@
 import { useEventDeckStore } from "@/stores/EventDeckStore";
 import { useFearDeckStore } from "@/stores/FearDeckStore";
 import { useGameOptionStore } from "@/stores/GameOptionStore";
+import {useInvaderCardStore} from "@/stores/InvaderCardStore";
 
 export function addFearToTop() {
   const fearDeck = useFearDeckStore()
@@ -27,4 +28,9 @@ export function moveBack2FearPerPlayer() {
 export function returnTopFearToBox() {
   const fearDeck = useFearDeckStore()
   fearDeck.draw.pop()
+}
+
+export function returnTopInvaderCardToBox() {
+  const invaderDeck = useInvaderCardStore()
+  invaderDeck.draw.pop()
 }

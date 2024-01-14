@@ -496,10 +496,7 @@ async function tryUploadResult() {
                 class="flex items-center justify-center border-2"
                 @click="showPowerDiscard"
               >
-                <span
-                  class="w-9 h-9 text-white icon-layers-off"
-                  style="stroke-width: 1px;"
-                />
+                <span class="text-2xl w-9 text-center text-white icon-layers-off" />
               </div>
               <img
                 :src="`/img/card-back/minor.webp`"

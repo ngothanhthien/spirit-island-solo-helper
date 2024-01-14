@@ -7,6 +7,7 @@ import { useCardZoomStore } from '@/stores/CardZoomStore'
 import useZoomCardSwipe from '@/composable/useZoomCardSwipe'
 import { useImpendingCardStore } from "@/stores/ImpendingCardStore";
 import {usePlayerCardStore} from "@/stores/PlayerCardStore";
+import {useMessageStore} from "@/stores/MessageStore";
 const ImpendingCard = defineAsyncComponent(() => import('@/components/ImpendingCard.vue'))
 
 const content = ref<HTMLElement | null>(null)
@@ -42,9 +43,18 @@ const cardZoomClass = computed(() => {
 
 function buttonClick() {
   if (impendingCardStore.index !== null && cardZoom.waiting.from === 'hand') {
+    if (usePlayerCardStore().players[impendingCardStore.index].energy < impendingEnergy.value) {
+      useMessageStore().setMessage('Not enough energy')
+      return
+    }
+
+    for (let i = 0; i < impendingEnergy.value; i++) {
+      usePlayerCardStore().reduceEnergy(impendingCardStore.index)
+    }
     impendingCardStore.add(cardZoom.current as string, impendingEnergy.value)
     usePlayerCardStore().removeCardFromHand(cardZoom.current as string, impendingCardStore.index)
     cardZoom.reset()
+
     return
   }
   cardZoom.setWaiting()

@@ -1,7 +1,7 @@
 import type { PowerCard, Adversary, BlightCard, SpiritType } from '@/types'
 import { setupDarkFire, setupIntensify, setupLocus, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
 import { setupSparking } from '@/utils/setup'
-import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox } from '@/utils/event'
+import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox, returnTopInvaderCardToBox } from '@/utils/event'
 import {setupDancesUpEarthquakes, setupDaysThatNeverWere, setupHearthVigil, setupWoundedWaters} from '@/utils/spirit'
 import { setupInvadersFindTheLand } from '@/utils/blight'
 
@@ -1409,7 +1409,7 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     description: '',
   },
 ]
-export const EVENT_CARDS: Array<{ name: string, action?: { title: string, fn: () => void }}> = [
+export const EVENT_CARDS: Array<{ name: string, action?: { title: string, fn: () => void }, action_2?: { title: string, fn: () => void }}> = [
   { name: 'bureaucrats_adjust_funding' },
   { name: 'cities_rise' },
   { name: 'civic_engagement' },
@@ -1440,7 +1440,7 @@ export const EVENT_CARDS: Array<{ name: string, action?: { title: string, fn: ()
   { name: 'relentless_optimism' },
   { name: 'remnants_of_a_spirits_heart' },
   { name: 'resourceful_populace' },
-  { name: 'rising_interest_in_the_island', action: { title: 'Return top fear to box', fn: returnTopFearToBox } },
+  { name: 'rising_interest_in_the_island', action: { title: 'Return top fear card', fn: returnTopFearToBox }, action_2: { title: 'Return top invader card', fn: returnTopInvaderCardToBox } },
   { name: 'sacred_sites_under_threat' },
   { name: 'search_for_new_lands' },
   { name: 'seeking_the_interior' },

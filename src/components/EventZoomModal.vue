@@ -6,6 +6,7 @@ import BaseButton from './base/BaseButton.vue';
 
 const eventDeck = useEventDeckStore()
 const isRunAction = ref(false)
+const isRunAction_2 = ref(false)
 watch(() => eventDeck.draw.length, () => {
   isRunAction.value = false
 })
@@ -41,10 +42,20 @@ watch(() => eventDeck.draw.length, () => {
         </div>
         <div v-if="eventDeck.revealDetail && eventDeck.revealDetail.action && !isRunAction">
           <base-button
-            button-style="secondary"
+            class="mt-4 w-full"
+            button-style="warning"
             @click="eventDeck.revealDetail.action.fn(); isRunAction = true"
           >
             {{ eventDeck.revealDetail.action.title }}
+          </base-button>
+        </div>
+        <div v-if="eventDeck.revealDetail && eventDeck.revealDetail.action_2 && !isRunAction_2">
+          <base-button
+            class="mt-4 w-full"
+            button-style="warning"
+            @click="eventDeck.revealDetail.action_2.fn(); isRunAction_2 = true"
+          >
+            {{ eventDeck.revealDetail.action_2.title }}
           </base-button>
         </div>
       </template>

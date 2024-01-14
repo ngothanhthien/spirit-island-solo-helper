@@ -6,28 +6,32 @@ const { mkdirSync, promises: { readdir } } = fs;
 
 const cutSpriteSheet = async (filename, numSpritesWidth, numSpritesHeight) => {
   console.log(`Processing file: ${filename}`);
-  
-  const image = sharp(filename);
-  const metadata = await image.metadata();
 
-  const spriteWidth = Math.floor(metadata.width / numSpritesWidth);
-  const spriteHeight = Math.floor(metadata.height / numSpritesHeight);
+  try {
+    const image = sharp(filename);
+    const metadata = await image.metadata();
 
-  // specify output directory
-  const outputDir = join('sprites', filename);
-  
-  // ensure the directory exists
-  mkdirSync(outputDir, { recursive: true });
+    const spriteWidth = Math.floor(metadata.width / numSpritesWidth);
+    const spriteHeight = Math.floor(metadata.height / numSpritesHeight);
 
-  let counter = 1;
-  for (let y = 0; y < metadata.height; y += spriteHeight) {
-    for (let x = 0; x < metadata.width; x += spriteWidth) {
-      console.log(`\tCreating sprite at position (${x}, ${y})`);
-      await sharp(filename)
-        .extract({ left: x, top: y, width: spriteWidth, height: spriteHeight })
-        .toFile(join(outputDir, `sprite_${counter}.png`));
-      counter++;
+    // specify output directory
+    const outputDir = join('sprites', filename);
+
+    // ensure the directory exists
+    mkdirSync(outputDir, { recursive: true });
+
+    let counter = 5;
+    for (let y = 0; y + spriteHeight <= metadata.height; y += spriteHeight) {
+      for (let x = 0; x + spriteWidth <= metadata.width; x += spriteWidth) {
+        console.log(`\tCreating sprite at position (${x}, ${y})`);
+        await sharp(filename)
+            .extract({ left: x, top: y, width: spriteWidth, height: spriteHeight })
+            .toFile(join(outputDir, `${counter}.png`));
+        counter++;
+      }
     }
+  } catch (error) {
+    console.error('Error processing file:', error);
   }
 }
 
@@ -44,6 +48,6 @@ const processDirectory = async (directory, size) => {
 }
 
 // example usage
-processDirectory('images', '2x3'); // For a 2x2 grid of sprites
+processDirectory('images', '3x3'); // For a 2x2 grid of sprites
 // processDirectory('images', '4x4'); // For a 4x4 grid of sprites
 // processDirectory('images', '6x6'); // For a 6x6 grid of sprites, and so on...
