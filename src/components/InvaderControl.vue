@@ -138,7 +138,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
           class="ml-auto mr-2"
           @click="$emit('close')"
         >
-          <span class="icon-x text-2xl"></span>
+          <span class="icon-x text-2xl" />
         </div>
       </div>
       <div class="flex-1 flex flex-col">
@@ -154,6 +154,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
           <div class="ml-auto flex space-x-2">
             <base-button
               v-if="daysThatNeverWereDeck.current === playerCard.current"
+              :button-style="'daysThatNeverWere'"
               @click="showingVision = true"
             >
               Visions of a shifting future
@@ -194,12 +195,12 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               @click="showInvaderDiscard = true"
             >
               <span class="text-4xl">{{ invaderCard.discard.length }}</span>
-              <span class="icon-trash text-4xl"></span>
+              <span class="icon-trash text-4xl" />
             </button>
             <div
               class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 opacity-0"
             >
-              <span class="icon-player-track-prev"></span>
+              <span class="icon-player-track-prev" />
             </div>
           </div>
           <div
@@ -304,12 +305,18 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               :disabled="invaderCard.ravage.length === 0"
               @click="invaderCard.lockToggle('ravage')"
             >
-              <span v-if="invaderCard.lock.includes('ravage')" class="icon-lock"></span>
-              <span v-else class="icon-lock-off"></span>
+              <span
+                v-if="invaderCard.lock.includes('ravage')"
+                class="icon-lock"
+              />
+              <span
+                v-else
+                class="icon-lock-off"
+              />
             </button>
           </div>
           <div class="flex items-center mb-3">
-            <span class="icon-chevron-left text-3xl"></span>
+            <span class="icon-chevron-left text-3xl" />
           </div>
           <div class="basis-full flex-col flex">
             <div class="h-10">
@@ -369,12 +376,18 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               :disabled="invaderCard.build.length === 0"
               @click="invaderCard.lockToggle('build')"
             >
-              <span v-if="invaderCard.lock.includes('build')" class="icon-lock"></span>
-              <span v-else class="icon-lock-off"></span>
+              <span
+                v-if="invaderCard.lock.includes('build')"
+                class="icon-lock"
+              />
+              <span
+                v-else
+                class="icon-lock-off"
+              />
             </button>
           </div>
           <div class="flex items-center mb-3">
-            <span class="icon-chevron-left text-3xl"></span>
+            <span class="icon-chevron-left text-3xl" />
           </div>
           <div class="basis-full flex-col flex">
             <div class="text-center text-base">
@@ -408,7 +421,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
                 class="absolute top-0 right-0 p-2"
                 @click.stop="shuffle"
               >
-                <span class="icon-reload"></span>
+                <span class="icon-reload" />
               </div>
             </div>
             <div
@@ -451,14 +464,14 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
                   :disabled="!invaderCard.canNext"
                   @click="next"
                 >
-                  <span class="icon-player-track-prev"></span>
+                  <span class="icon-player-track-prev" />
                 </button>
                 <button
                   class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:opacity-0"
                   :disabled="invaderCard.draw.length === 0"
                   @click="doExplore"
                 >
-                  <span class="icon-eye"></span>
+                  <span class="icon-eye" />
                 </button>
               </template>
             </div>
@@ -546,7 +559,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               class="text-white absolute top-2 right-2"
               @click="showInvaderDiscard = false"
             >
-              <span class="icon-x text-2xl"></span>
+              <span class="icon-x text-2xl" />
             </div>
           </div>
           <div class="bg-white flex-1 overflow-x-auto py-2 px-3 flex hide-scrollbar">
@@ -587,7 +600,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               class="text-white absolute top-2 right-2"
               @click="showInvaderDraw = false"
             >
-              <span class="icon-x text-2xl"></span>
+              <span class="icon-x text-2xl" />
             </div>
           </div>
           <div class="bg-white flex-1 overflow-x-auto py-2 px-3 flex hide-scrollbar">

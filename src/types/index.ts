@@ -120,3 +120,5 @@ export interface ChartData {
   last: { createdAt: Date }
   lastUpdate?: Date;
 }
+
+export type ButtonStyle = 'primary' | 'secondary' | 'warning' | 'success' | 'impending' | 'daysThatNeverWere'

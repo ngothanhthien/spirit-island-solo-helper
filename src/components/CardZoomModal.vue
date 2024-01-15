@@ -6,13 +6,16 @@ import { onClickOutside } from '@vueuse/core'
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import useZoomCardSwipe from '@/composable/useZoomCardSwipe'
 import { useImpendingCardStore } from "@/stores/ImpendingCardStore";
-import {usePlayerCardStore} from "@/stores/PlayerCardStore";
-import {useMessageStore} from "@/stores/MessageStore";
+import { usePlayerCardStore } from "@/stores/PlayerCardStore";
+import { useMessageStore } from "@/stores/MessageStore";
+import {useDaysThatNeverWereStore} from "@/stores/DaysThatNeverWhereStore";
+import type { ButtonStyle } from "@/types";
 const ImpendingCard = defineAsyncComponent(() => import('@/components/ImpendingCard.vue'))
 
 const content = ref<HTMLElement | null>(null)
 const cardEl = ref<HTMLElement | null>(null)
 const cardZoom = useCardZoomStore()
+const daysThatNeverWere = useDaysThatNeverWereStore()
 const impendingCardStore = useImpendingCardStore()
 const impendingEnergy = ref(0)
 
@@ -42,23 +45,84 @@ const cardZoomClass = computed(() => {
 })
 
 function buttonClick() {
-  if (impendingCardStore.hasImpendingFeature && cardZoom.waiting.from === 'hand') {
-    if (usePlayerCardStore().players[impendingCardStore.index as number].energy < impendingEnergy.value) {
-      useMessageStore().setMessage('Not enough energy')
-      return
-    }
-
-    for (let i = 0; i < impendingEnergy.value; i++) {
-      usePlayerCardStore().reduceEnergy(impendingCardStore.index as number)
-    }
-    impendingCardStore.add(cardZoom.current as string, impendingEnergy.value)
-    usePlayerCardStore().removeCardFromHand(cardZoom.current as string, impendingCardStore.index as number)
-    cardZoom.reset()
-
-    return
-  }
   cardZoom.setWaiting()
 }
+
+function doImpendingCard() {
+  if (usePlayerCardStore().players[impendingCardStore.index as number].energy < impendingEnergy.value) {
+    useMessageStore().setMessage('Not enough energy')
+    return
+  }
+
+  for (let i = 0; i < impendingEnergy.value; i++) {
+    usePlayerCardStore().reduceEnergy(impendingCardStore.index as number)
+  }
+  impendingCardStore.add(cardZoom.current as string, impendingEnergy.value)
+  usePlayerCardStore().removeCardFromHand(cardZoom.current as string, impendingCardStore.index as number)
+  cardZoom.reset()
+}
+
+function addToDaysThatNeverWere() {
+  daysThatNeverWere.add(cardZoom.current as string)
+  cardZoom.reset()
+}
+
+interface ButtonInfo {
+  text: string
+  style?: ButtonStyle
+  class?: string
+  fn: () => void
+}
+
+const buttonInfo = computed<ButtonInfo | null>(() => {
+  if (!isPowerCard.value) {
+    return null
+  }
+  switch (cardZoom.waiting.from) {
+    case 'hand':
+      if (impendingCardStore.hasImpendingFeature) {
+        return {
+          text: 'Impending',
+          style: 'impending',
+          class: 'w-28 ml-12',
+          fn: doImpendingCard,
+        }
+      }
+      return {
+        text: 'Play',
+        fn: buttonClick,
+      }
+    case 'discard':
+    case 'play':
+    case 'days-that-never-were':
+      return {
+        text: 'Take',
+        fn: buttonClick,
+      }
+    case 'pick':
+      if (daysThatNeverWere.hasDaysThatNeverWere) {
+        return {
+          text: 'Days That Never Were',
+          class: 'w-48',
+          style: 'daysThatNeverWere',
+          fn: addToDaysThatNeverWere,
+        }
+      }
+      return {
+        text: 'Take',
+        fn: buttonClick,
+      }
+    case 'player-discard':
+    case 'player-discard-forget':
+      return {
+        text: 'Reclaim',
+        fn: buttonClick,
+      }
+    case 'impending-card':
+    default:
+      return null
+  }
+})
 </script>
 
 <template>
@@ -103,29 +167,15 @@ function buttonClick() {
           />
         </div>
         <div
-          v-if="isPowerCard && cardZoom.waiting.from !== 'impending-card'"
-          :class="impendingCardStore.hasImpendingFeature ? 'w-28 ml-12': 'w-24'"
+          v-if="buttonInfo"
+          :class="buttonInfo.class ?? 'w-24'"
         >
           <base-button
-            :button-style="impendingCardStore.hasImpendingFeature ? 'impending' : 'secondary'"
+            :button-style="buttonInfo.style ?? 'secondary'"
             class="mt-1 w-full"
-            @click="buttonClick"
+            @click="buttonInfo.fn"
           >
-            <span
-              v-if="cardZoom.waiting.from === 'hand'"
-              class="px-2"
-            >{{ impendingCardStore.hasImpendingFeature ? 'Impending' : 'Play' }}</span>
-            <span
-              v-if="['discard', 'play', 'pick', 'days-that-never-were'].includes(cardZoom.waiting.from as string)"
-              class="px-2"
-            >Take</span>
-            <span
-              v-if="cardZoom.waiting.from?.includes('player-discard')"
-              class="px-2"
-            >Reclaim</span>
-            <span v-if="cardZoom.waiting.from === 'days-that-never-were-store'">
-              Store
-            </span>
+            {{ buttonInfo.text }}
           </base-button>
         </div>
       </div>

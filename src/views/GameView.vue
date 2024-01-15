@@ -16,7 +16,6 @@ import PowerDiscard from '@/components/PowerDiscard.vue'
 import { addResult } from "@/database/result";
 
 const DaysThatNeverWere = defineAsyncComponent(() => import('@/components/DaysThatNeverWere.vue'))
-const DaysThatNeverWerePick = defineAsyncComponent(() => import('@/components/DaysThatNeverWerePick.vue'))
 const VisionOfAShiftingFutureEvent = defineAsyncComponent(() => import('@/components/VisionOfAShiftingFutureEvent.vue'))
 const HabsburgReminder = defineAsyncComponent(() => import('@/components/HabsburgReminder.vue'))
 const Russia5Modal = defineAsyncComponent(() => import('@/components/Russia5Modal.vue'))
@@ -133,30 +132,6 @@ const adversarySetup = computed(() => {
   return null
 })
 
-let isPickingDaysThatNeverWere = null as null | Ref<boolean>
-let menu1Tab1BackgroundStyle = null as null | Ref<string>
-if (daysThatNeverWereDeck.current !== null) {
-  isPickingDaysThatNeverWere = computed(() => 
-    playerCard.current === daysThatNeverWereDeck.current
-    && daysThatNeverWereDeck.picking && daysThatNeverWereDeck.picking.length > 0
-  )
-
-  menu1Tab1BackgroundStyle = computed(() => {
-    if (isPickingDaysThatNeverWere && isPickingDaysThatNeverWere.value) {
-      return `background-image: url('/img/icon/days_that_never_were.webp');`
-    }
-    return ''
-  })
-
-  watch(() => powerDiscardDeck.discard.length, (newLength, oldLength) => {
-    const gap = newLength - oldLength
-    if (gap > 1 && playerCard.current === daysThatNeverWereDeck.current) {
-      const newItems = powerDiscardDeck.discard.slice(-gap)
-      daysThatNeverWereDeck.picking = [...newItems]
-    }
-  })
-}
-
 let isHasAspect = null as null | Ref<boolean>
 let isShow2xAspect = null as null | Ref<boolean | null>
 if (gameOption.isHasAspect) {
@@ -242,21 +217,9 @@ function resetPicking() {
   })
   playerCard.resetPicking()
 }
-function finishPickDaysThatNeverWere() {
-  currentMenu1.value = MENU_1.PLAY
-  daysThatNeverWereDeck.picking = []
-}
 
 function reclaimOneCard(card: string) {
   playerCard.reclaimOneCard(card)
-}
-
-function addCardToDaysThatNeverWere(cardId: string) {
-  const [type] = cardId.split('-') as ['minor' | 'major']
-  powerDiscardDeck.removeFromDiscard(cardId)
-  daysThatNeverWereDeck[type].push(cardId)
-  daysThatNeverWereDeck.picking = []
-  messageStore.setMessage('Add card to Days That Never Were')
 }
 
 watch(() => cardZoom.waiting.card,
@@ -308,11 +271,6 @@ watch(() => cardZoom.waiting.card,
           break
         }
 
-        case 'days-that-never-were-store': {
-          addCardToDaysThatNeverWere(cardId)
-          break
-        }
-
         default:
       }
 
@@ -339,8 +297,8 @@ onMounted(async () => {
       console.log('Screen Wake Lock was released');
     });
     console.log('Screen Wake Lock is active');
-  } catch (err) {
-    console.error(`${err.name}, ${err.message}`);
+  } catch (e) {
+    console.log(e)
   }
   setTimeout(() => {
     tryUploadResult()
@@ -517,17 +475,12 @@ async function tryUploadResult() {
               id="game-showing-top"
               ref="menuControlEl"
               class="bg-neutral-100 flex px-2 relative h-1/2"
-              :style="menu1Tab1BackgroundStyle ? `${menu1Tab1BackgroundStyle}` : undefined"
             >
               <div
                 v-if="currentMenu1 === MENU_1.PLAY"
                 class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0"
               >
                 <span v-if="playerCard.isPicking">Picking Power</span>
-                <span
-                  v-else-if="isPickingDaysThatNeverWere"
-                  class="text-gray-200 opacity-60"
-                >Days That Never Were</span>
                 <span v-else>Player Play</span>
               </div>
               <div
@@ -542,21 +495,7 @@ async function tryUploadResult() {
                 />
               </div>
               <div
-                v-else-if="isPickingDaysThatNeverWere && currentMenu1 === MENU_1.PLAY"
-                class="flex items-stretch relative w-full"
-              >
-                <days-that-never-were-pick
-                  :picking="daysThatNeverWereDeck.picking"
-                  @swipe-down="addCardToDaysThatNeverWere"
-                />
-                <span
-                  class="icon-x text-3xl absolute right-2 text-gray-800 z-50"
-                  style="stroke-width: 3px"
-                  @click="finishPickDaysThatNeverWere"
-                />
-              </div>
-              <div
-                v-show="!playerCard.isPicking && !isPickingDaysThatNeverWere && currentMenu1 === MENU_1.PLAY"
+                v-show="!playerCard.isPicking && currentMenu1 === MENU_1.PLAY"
                 class="w-full flex"
               >
                 <div class="relative flex-1">
@@ -663,7 +602,7 @@ async function tryUploadResult() {
 
           <div class="absolute -right-10 bottom-1 space-x-2 z-10 flex">
             <div
-              v-if="daysThatNeverWereDeck.current === playerCard.current"
+              v-if="daysThatNeverWereDeck.hasDaysThatNeverWere"
               class="w-11 h-11 rounded-full bg-green-800 border-2 border-purple-700 overflow-hidden"
               @click="isShowDaysThatNeverWere = true"
             >
