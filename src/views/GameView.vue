@@ -83,7 +83,6 @@ const isShowFearDeck = ref(false)
 const isShowAspectDetail = ref(false)
 const showQuickPower = ref(false)
 const isZoomBlightCard = ref(false)
-const isPingEvent = ref(false)
 const isShowModalDiscardPower = ref(false)
 const isShowDaysThatNeverWere = ref(false)
 const showHabsburgReminderCard = ref(true)
@@ -332,18 +331,6 @@ watch(() => playerCard.isPicking, () => {
   currentMenu1.value = MENU_1.PLAY
 })
 
-watch(() => eventDeck.discard.length, function () {
-  setTimeout(() => {
-    isPingEvent.value = false
-  }, 200);
-})
-
-watch(() => eventDeck.reveal, function (newValue) {
-  if (!newValue) {
-    isPingEvent.value = true
-  }
-})
-
 onMounted(async () => {
   messageStore.setMessage('Welcome to Spirit Island!')
   try {
@@ -454,7 +441,7 @@ async function tryUploadResult() {
               First
             </div>
             <span
-              v-if="isPingEvent"
+              v-if="eventDeck.isPingEvent"
               class="absolute -top-1 right-0 flex h-3 w-3"
             >
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-500 opacity-75" />
@@ -486,7 +473,7 @@ async function tryUploadResult() {
                 :src="`/img/card-back/minor.webp`"
                 alt="Card back"
                 class="h-full absolute"
-                style="transform: rotate(-10deg);;"
+                style="transform: rotate(-10deg);"
               >
               <img
                 :src="`/img/card-back/major.webp`"

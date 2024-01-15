@@ -7,6 +7,7 @@ export const useEventDeckStore = defineStore('eventDeck', {
     discard: [] as string[],
     reveal: null as string | null,
     franceEvent: null as number | null,
+    isPingEvent: false,
   }),
   getters: {
     isAvailable(state) {
@@ -41,6 +42,7 @@ export const useEventDeckStore = defineStore('eventDeck', {
       if (popped) {
         this.discard.push(popped)
         this.reveal = null
+        this.isPingEvent = false
         return popped
       }
     },
@@ -59,12 +61,14 @@ export const useEventDeckStore = defineStore('eventDeck', {
         if (lastItem) {
           this.draw.splice(-2, 0, lastItem)
           this.reveal = null
+          this.isPingEvent = false
           return lastItem
         }
       }
     },
     revealEvent() {
       this.reveal = this.draw[this.draw.length - 1]
+      this.isPingEvent = true
     },
     doFranceEvent() {
       if (!this.franceEvent) {

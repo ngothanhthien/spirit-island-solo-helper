@@ -11,7 +11,6 @@ export function addFearToTop() {
 export function putEventUnderTwo() {
   const eventDeck = useEventDeckStore()
   eventDeck.putUnderTwoTopCard()
-  eventDeck.reveal = null 
 }
 
 export function moveBack2FearPerPlayer() {
