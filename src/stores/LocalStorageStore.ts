@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import type {Result, PendingResult, SpiritsChart, ChartData} from "@/types"
+import type {Result, PendingResult, ChartData} from "@/types"
 
 export const useLocalStorageStore = defineStore("localStorage", {
     state: () => ({

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch, type Ref, defineAsyncComponent } from 'vue'
+import NoSleep from 'nosleep.js'
 import type { Aspect } from '@/types'
 import CardGroupView from '@/components/CardGroupView.vue'
 import ElementTrack from '@/components/ElementTrack.vue'
@@ -50,6 +51,7 @@ import { useMessageStore } from '@/stores/MessageStore'
 import FearCounter from '@/components/FearCounter.vue'
 import { useLocalStorageStore } from "@/stores/LocalStorageStore";
 import {useImpendingCardStore} from "@/stores/ImpendingCardStore";
+import injectWakeScreen from "@/plugins/wakeScreen";
 
 const MENU_1 = {
   PLAY: 0,
@@ -231,6 +233,8 @@ watch(() => playerCard.isPicking, () => {
   currentMenu1.value = MENU_1.PLAY
 })
 
+injectWakeScreen()
+
 onMounted(async () => {
   messageStore.setMessage('Welcome to Spirit Island!')
   setTimeout(() => {
@@ -252,7 +256,10 @@ async function tryUploadResult() {
 </script>
 
 <template>
-  <div class="relative h-screen bg-gray-100 flex flex-col overflow-hidden">
+  <div
+    id="game-view"
+    class="relative h-screen bg-gray-100 flex flex-col overflow-hidden"
+  >
     <div class="h-screen flex flex-col">
       <div
         id="game-header"

@@ -6,11 +6,14 @@ import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 import { ref } from 'vue'
+import injectWakeScreen from "@/plugins/wakeScreen";
 
 const eventDeck = useEventDeckStore()
 const fearDeck = useFearDeckStore()
 const minorDeck = usePowerDeckStore('minor')
 const majorDeck = usePowerDeckStore('major')
+
+injectWakeScreen()
 
 const canContinue = computed(() => {
   return (
