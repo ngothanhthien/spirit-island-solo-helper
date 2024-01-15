@@ -1,5 +1,6 @@
 import './assets/style.css'
 import './assets/icon.css'
+import '@khmyznikov/pwa-install'
 
 import { createApp } from 'vue'
 import { registerSW } from 'virtual:pwa-register'
@@ -21,7 +22,6 @@ pinia.use(piniaPluginPersistedstate)
 app.use(pinia)
 app.use(VueAxios, axios)
 app.use(router)
-
 
 app.config.errorHandler = (err, vm, info) => {
   useMessageStore().setMessage('Error occur, Please contact developer!')
