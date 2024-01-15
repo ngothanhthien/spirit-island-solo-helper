@@ -4,7 +4,7 @@ import type { Aspect } from '@/types'
 import CardGroupView from '@/components/CardGroupView.vue'
 import ElementTrack from '@/components/ElementTrack.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
-import { changePosition, getSpiritAvatar, removeCard } from '@/utils'
+import { changePosition, getSpiritAvatar } from '@/utils'
 import EventZoomModal from '@/components/EventZoomModal.vue'
 import ModalDiscardCommon from '@/components/ModalDiscardCommon.vue'
 import ModalEarnedFear from '@/components/ModalEarnedFear.vue'
@@ -83,7 +83,6 @@ const isShowAspectDetail = ref(false)
 const showQuickPower = ref(false)
 const isZoomBlightCard = ref(false)
 const isShowModalDiscardPower = ref(false)
-const isShowDaysThatNeverWere = ref(false)
 const showHabsburgReminderCard = ref(true)
 const isShowSetupRef = ref(true)
 const isShowVisionsOfAShiftingFutureEvent = ref(false)
@@ -222,63 +221,6 @@ function reclaimOneCard(card: string) {
   playerCard.reclaimOneCard(card)
 }
 
-watch(() => cardZoom.waiting.card,
-  (cardId) => {
-    if (cardId) {
-      switch (cardZoom.waiting.from) {
-        case 'discard': {
-          playerCard.take(cardId)
-          const [type] = cardId.split('-')
-          usePowerDeckStore(type).removeFromDiscard(cardId)
-          modalDiscard.removeFromModal(cardId)
-          break
-        }
-
-        case 'player-discard': {
-          playerCard.reclaimOneCard(cardId)
-          break
-        }
-
-        case 'player-discard-forget': {
-          playerCard.forgetCardFromDiscard(cardId)
-          break
-        }
-
-        case 'hand': {
-          playerCard.playCard(cardId)
-          break
-        }
-        case 'pick': {
-          playerCard.takeCardFromPicking(cardId)
-          break
-        }
-
-        case 'play': {
-          playerCard.returnCardFromPlay(cardId)
-          break
-        }
-
-        case 'days-that-never-were': {
-          const type = cardId.split('-')[0]
-          if (type === 'minor') {
-            removeCard(daysThatNeverWereDeck.minor, cardId)
-          }
-          if (type === 'major') {
-            removeCard(daysThatNeverWereDeck.major, cardId)
-          }
-          playerCard.take(cardId)
-          isShowDaysThatNeverWere.value = false
-          break
-        }
-
-        default:
-      }
-
-      cardZoom.reset()
-    }
-  },
-)
-
 watch(() => fearDeck.earned.length, (newValue) => {
   if (newValue === 0) {
     isShowEarnedFear.value = false
@@ -291,15 +233,6 @@ watch(() => playerCard.isPicking, () => {
 
 onMounted(async () => {
   messageStore.setMessage('Welcome to Spirit Island!')
-  try {
-    const wakeLock = await navigator.wakeLock.request('screen');
-    wakeLock.addEventListener('release', () => {
-      console.log('Screen Wake Lock was released');
-    });
-    console.log('Screen Wake Lock is active');
-  } catch (e) {
-    console.log(e)
-  }
   setTimeout(() => {
     tryUploadResult()
   }, 10000)
@@ -604,7 +537,7 @@ async function tryUploadResult() {
             <div
               v-if="daysThatNeverWereDeck.hasDaysThatNeverWere"
               class="w-11 h-11 rounded-full bg-green-800 border-2 border-purple-700 overflow-hidden"
-              @click="isShowDaysThatNeverWere = true"
+              @click="daysThatNeverWereDeck.showModal()"
             >
               <img
                 src="/img/icon/days_that_never_were.webp"
@@ -721,8 +654,8 @@ async function tryUploadResult() {
       />
       <russia5-modal v-if="gameOption.hasRussia5" />
       <days-that-never-were
-        v-if="isShowDaysThatNeverWere"
-        @close="isShowDaysThatNeverWere = false"
+        v-if="daysThatNeverWereDeck.isShowModal"
+        @close="daysThatNeverWereDeck.hideModal()"
         @do-visions-of-a-shifting-future="isShowVisionsOfAShiftingFutureEvent = true"
       />
       <VisionOfAShiftingFutureEvent

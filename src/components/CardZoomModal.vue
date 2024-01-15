@@ -8,14 +8,24 @@ import useZoomCardSwipe from '@/composable/useZoomCardSwipe'
 import { useImpendingCardStore } from "@/stores/ImpendingCardStore";
 import { usePlayerCardStore } from "@/stores/PlayerCardStore";
 import { useMessageStore } from "@/stores/MessageStore";
-import {useDaysThatNeverWereStore} from "@/stores/DaysThatNeverWhereStore";
+import { useDaysThatNeverWereStore } from "@/stores/DaysThatNeverWhereStore";
 import type { ButtonStyle } from "@/types";
+import { usePowerDeckStore } from "@/stores/PowerDeckStore";
+import { useModalDiscardStore } from "@/stores/ModalDiscardStore";
+interface ButtonInfo {
+  text: string
+  style?: ButtonStyle
+  class?: string
+  fn: () => void
+}
 const ImpendingCard = defineAsyncComponent(() => import('@/components/ImpendingCard.vue'))
 
 const content = ref<HTMLElement | null>(null)
 const cardEl = ref<HTMLElement | null>(null)
 const cardZoom = useCardZoomStore()
 const daysThatNeverWere = useDaysThatNeverWereStore()
+const playerCard = usePlayerCardStore()
+const modalDiscard = useModalDiscardStore()
 const impendingCardStore = useImpendingCardStore()
 const impendingEnergy = ref(0)
 
@@ -37,28 +47,24 @@ const cardZoomClass = computed(() => {
     return 'h-full'
   }
 
-  if (cardZoom.waiting.from?.includes('player-discard')) {
+  if (cardZoom.from?.includes('player-discard')) {
     return 'h-[80%]'
   }
 
   return 'h-[90%]'
 })
 
-function buttonClick() {
-  cardZoom.setWaiting()
-}
-
 function doImpendingCard() {
-  if (usePlayerCardStore().players[impendingCardStore.index as number].energy < impendingEnergy.value) {
+  if (playerCard.players[impendingCardStore.index as number].energy < impendingEnergy.value) {
     useMessageStore().setMessage('Not enough energy')
     return
   }
 
   for (let i = 0; i < impendingEnergy.value; i++) {
-    usePlayerCardStore().reduceEnergy(impendingCardStore.index as number)
+    playerCard.reduceEnergy(impendingCardStore.index as number)
   }
   impendingCardStore.add(cardZoom.current as string, impendingEnergy.value)
-  usePlayerCardStore().removeCardFromHand(cardZoom.current as string, impendingCardStore.index as number)
+  playerCard.removeCardFromHand(cardZoom.current as string, impendingCardStore.index as number)
   cardZoom.reset()
 }
 
@@ -67,18 +73,49 @@ function addToDaysThatNeverWere() {
   cardZoom.reset()
 }
 
-interface ButtonInfo {
-  text: string
-  style?: ButtonStyle
-  class?: string
-  fn: () => void
+function takeFromDaysThatNeverWere() {
+  daysThatNeverWere.takeToHand(cardZoom.current as string)
+  cardZoom.reset()
+}
+
+function returnCardToHand() {
+  playerCard.returnCardFromPlay(cardZoom.current as string)
+  cardZoom.reset()
+}
+
+function takeCardFromPick() {
+  playerCard.takeCardFromPicking(cardZoom.current as string)
+  cardZoom.reset()
+}
+
+function playCard() {
+  playerCard.takeCardFromPicking(cardZoom.current as string)
+  cardZoom.reset()
+}
+
+function takeFromDiscard() {
+  const card = cardZoom.current as string
+  playerCard.take(card)
+  const [type] = card.split('-') as ['minor' | 'major']
+  usePowerDeckStore(type).removeFromDiscard(card)
+  modalDiscard.removeFromModal(card)
+}
+
+function reclaim() {
+  playerCard.forgetCardFromDiscard(cardZoom.current as string)
+  cardZoom.reset()
+}
+
+function forgetFromDiscard() {
+  playerCard.forgetCardFromDiscard(cardZoom.current as string)
+  cardZoom.reset()
 }
 
 const buttonInfo = computed<ButtonInfo | null>(() => {
   if (!isPowerCard.value) {
     return null
   }
-  switch (cardZoom.waiting.from) {
+  switch (cardZoom.from) {
     case 'hand':
       if (impendingCardStore.hasImpendingFeature) {
         return {
@@ -90,14 +127,22 @@ const buttonInfo = computed<ButtonInfo | null>(() => {
       }
       return {
         text: 'Play',
-        fn: buttonClick,
+        fn: playCard,
       }
     case 'discard':
+      return {
+        text: 'Take',
+        fn: takeFromDiscard
+      }
     case 'play':
+      return {
+        text: 'Take',
+        fn: returnCardToHand,
+      }
     case 'days-that-never-were':
       return {
         text: 'Take',
-        fn: buttonClick,
+        fn: takeFromDaysThatNeverWere,
       }
     case 'pick':
       if (daysThatNeverWere.hasDaysThatNeverWere) {
@@ -110,13 +155,12 @@ const buttonInfo = computed<ButtonInfo | null>(() => {
       }
       return {
         text: 'Take',
-        fn: buttonClick,
+        fn: takeCardFromPick,
       }
     case 'player-discard':
-    case 'player-discard-forget':
       return {
         text: 'Reclaim',
-        fn: buttonClick,
+        fn: reclaim
       }
     case 'impending-card':
     default:
@@ -135,13 +179,13 @@ const buttonInfo = computed<ButtonInfo | null>(() => {
     >
       <div class="flex flex-col items-center">
         <div
-          v-if="cardZoom.waiting.from?.includes('player-discard')"
+          v-if="cardZoom.from?.includes('player-discard')"
           class="w-24"
         >
           <base-button
             button-style="secondary"
             class="mb-1 w-full"
-            @click="cardZoom.setWaiting('player-discard-forget')"
+            @click="forgetFromDiscard()"
           >
             Forget
           </base-button>
@@ -153,7 +197,7 @@ const buttonInfo = computed<ButtonInfo | null>(() => {
           :style="`left: ${-left}px;`"
         >
           <game-card
-            v-if="impendingCardStore.index === null || cardZoom.waiting.from !== 'hand'"
+            v-if="impendingCardStore.index === null || cardZoom.from !== 'hand'"
             :id="(cardZoom.current as string)"
             class="rounded-xl h-full"
           />

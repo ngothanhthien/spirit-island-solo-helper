@@ -4,10 +4,7 @@ type ZoomFrom = 'pick' | 'discard' | 'hand' | 'play' | 'player-discard' | 'playe
 export const useCardZoomStore = defineStore('cardZoom', {
   state: () => ({
     current: null as null | string,
-    waiting: {} as {
-      from: ZoomFrom | null,
-      card: string | null
-    }, 
+    from: null as ZoomFrom | null,
     deck: [] as string[],
   }),
   getters: {
@@ -43,29 +40,12 @@ export const useCardZoomStore = defineStore('cardZoom', {
     setZoom(card: string, deck: string[], from: ZoomFrom) {
       this.current = card
       this.deck = [...deck]
-      this.waiting.from = from
+      this.from = from
     },
     reset() {
       this.current = null
-      this.waiting = {
-        from: null,
-        card: null
-      }
+      this.from = null
       this.deck = []
-    },
-    setWaiting(from: ZoomFrom | null = null) {
-      this.waiting = {
-        card: this.current,
-        from: from || this.waiting.from
-      }
-    },
-    getWaiting() {
-      const card = this.waiting.card
-      this.waiting = {
-        card: null,
-        from: null
-      }
-      return card
     }
   },
 })
