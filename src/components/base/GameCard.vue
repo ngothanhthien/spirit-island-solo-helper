@@ -18,5 +18,6 @@ const card = computed(() => {
     :data-id="id"
     :src="getCardImage(card.name, card.path)"
     :alt="card.name"
+    style="aspect-ratio: 278/390; object-fit: cover;"
   >
 </template>

@@ -76,67 +76,76 @@ function getWin(result: Result) {
         Back to menu
       </div>
     </div>
-    <div class="flex-1 flex" style="max-height: 90vh;">
-      <div class="block overflow-y-auto h-full w-fit border border-gray-500 rounded">
-        <table class="table-auto">
+    <div
+      class="flex-1 flex"
+      style="max-height: 90vh;"
+    >
+      <div class="block overflow-y-auto h-full flex-1 border border-gray-500 rounded">
+        <table class="table-auto w-full">
           <thead class="sticky top-0">
-          <tr class="border-b border-gray-500">
-            <th />
-            <th
+            <tr class="border-b border-gray-500">
+              <th />
+              <th
                 v-for="adversary in ADVERSARIES"
                 :key="adversary"
-            >
-              <img
+              >
+                <img
                   :src="`/img/adversary/${adversaryNameToImage(adversary)}`"
                   alt="Adversary Image"
                   class="h-8"
-              >
-            </th>
-          </tr>
+                >
+              </th>
+            </tr>
           </thead>
           <tbody class="h-32 overflow-y-auto">
-          <tr
+            <tr
               v-for="(spirit, index) in SPIRIT_NAMES"
               :key="spirit"
               class="border-gray-500"
               :class="{
-              'border-b': index !== SPIRIT_NAMES.length - 1,
-              'bg-amber-200': index % 2 === 0
-            }"
-          >
-            <td class="border-r border-gray-500 pr-1">
-              <img
+                'border-b': index !== SPIRIT_NAMES.length - 1,
+                'bg-amber-200': index % 2 === 0
+              }"
+            >
+              <td class="border-r border-gray-500 pr-1">
+                <img
                   :src="`/img/spirit_avatar/${getSpiritAvatarByName(spirit)}`"
                   alt="spirit avatar"
                   class="h-8 inline-block mr-1"
-              >({{ spiritsChart[spirit] ? spiritsChart[spirit].total : 0 }})
-            </td>
-            <template v-if="spiritsChart[spirit]">
-              <td
+                >({{ spiritsChart[spirit] ? spiritsChart[spirit].total : 0 }})
+              </td>
+              <template v-if="spiritsChart[spirit]">
+                <td
                   v-for="adversary in ADVERSARIES"
                   :key="spirit + adversary"
                   class="text-center"
-              >
-                {{ getWin(spiritsChart[spirit][adversary] as Result) }}
-              </td>
-            </template>
-            <template v-else>
-              <td
+                >
+                  {{ getWin(spiritsChart[spirit][adversary] as Result) }}
+                </td>
+              </template>
+              <template v-else>
+                <td
                   v-for="adversary in ADVERSARIES"
                   :key="adversary"
                   class="text-center"
-              >
-                x
-              </td>
-            </template>
-          </tr>
+                >
+                  x
+                </td>
+              </template>
+            </tr>
           </tbody>
         </table>
       </div>
       <div class="ml-4 mt-4">
-        <div class="mr-6">Total: {{ totalGame }}</div>
-        <div class="mr-6">Last play: {{ lastTime }}</div>
-        <div class="mr-6">Last update: {{ lastUpdate }}</div>
+        <div class="mr-6">
+          Total: {{ totalGame }}
+        </div>
+        <div class="mr-6">
+          Last play: {{ lastTime }}
+        </div>
+        <div class="mr-6">
+          Last update: {{ lastUpdate }}
+        </div>
         <div>Pending Result: {{ localStorage.pendingResult.length }}</div>
       </div>
     </div>
