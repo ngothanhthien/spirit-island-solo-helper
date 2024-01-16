@@ -29,8 +29,9 @@ const pwaInstall = ref<PWAInstallElement | null>(null)
 const isUnderStandaloneMode = ref(false)
 
 onMounted(() => {
-  const pwaInstallEl = document.getElementById('pwa-install') as PWAInstallElement
-  isUnderStandaloneMode.value = pwaInstallEl.isUnderStandaloneMode
+  if (window.matchMedia('(display-mode: standalone)').matches) {
+    isUnderStandaloneMode.value = true
+  }
 })
 
 injectWakeScreen()
@@ -39,7 +40,7 @@ function installApp() {
   if (!pwaInstall.value?.isInstallAvailable) {
     useMessageStore().setMessage('Installation is not available. Have you already installed the app? If not, please contact the developer.')
   }
-  pwaInstall.value?.showDialog(true)
+  pwaInstall.value?.showDialog()
 }
 </script>
 
