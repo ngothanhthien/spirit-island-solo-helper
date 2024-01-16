@@ -79,13 +79,21 @@ export interface Aspect {
         | 'Coastal'
         | 'j-w'
     }
-  }[]
+  }[],
+  faq?: FAQ[]
+}
+
+export interface FAQ {
+  title: string
+  description: string | null
+  links: string[]
 }
 export interface SpiritType {
   name: string
   cards: Array<PowerCard>
   aspects?: Aspect[]
-  setup?: (playerIndex: number) => void
+  setup?: (playerIndex: number) => void,
+  faq?: FAQ[]
 }
 
 export interface Result {

@@ -2586,6 +2586,30 @@ export const SPIRIT: Array<SpiritType> = [
             4Moon 1Air Once for every 6 Explorer/Dahan present (at Lair)::break:
             Gather any invader within air_range one land towards Lair.`
           }
+        ],
+        faq: [
+          {
+            title: 'There is no way to bring back the Lair.',
+            description: null,
+            links: [
+              'https://querki.net/u/darker/spirit-island-faq/#!incarna-that-cannot-be-returned-to-play',
+              'https://boardgamegeek.com/thread/3156615/two-questions-about-lair-adding-it-and-moving-it'
+            ]
+          },
+          {
+            title: 'Any effect that move presence cannot move Lair.',
+            description: "As rule have mentioned: Invaders/Dahan/Beasts/Presence (of any Spirit) at your Incarna can't move. (You can reposition your Incarna by adding it with your second Growth option instead of adding Presence.)",
+            links: [
+              'https://boardgamegeek.com/thread/3156615/two-questions-about-lair-adding-it-and-moving-it'
+            ]
+          },
+          {
+            title: 'The final threshold of the Lair Aspect allow move an Invader more than once.',
+            description: 'If at least 12 Explorers/Dahan are present, the Gathers are resolved sequentially, you can choose the same Invader each time to be the one being gathered',
+            links: [
+              'https://querki.net/u/darker/spirit-island-faq/#!lair-gathering-an-invader-multiple-times'
+            ]
+          }
         ]
       }
     ]

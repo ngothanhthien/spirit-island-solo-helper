@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import router from '@/router'
-import { computed, ref, watch } from 'vue'
+import {computed, defineAsyncComponent, ref, watch} from 'vue'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
@@ -10,6 +10,7 @@ import { addResult } from '@/database/result'
 import { useInvaderCardStore } from '@/stores/InvaderCardStore'
 import { useMessageStore } from '@/stores/MessageStore'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
+const FaqModal = defineAsyncComponent(() => import('@/components/FaqModal.vue'))
 
 defineEmits(['close'])
 
@@ -26,6 +27,7 @@ const showConfirmLogMatch = ref(false)
 const aspectMode = ref(playerCard.aspectMode)
 const showAspect = ref(playerCard.showAspect)
 const isLoading = ref(false)
+const isShowFaq = ref(false)
 
 const isHasAspect = computed(() => Boolean(gameOption.aspectsDetail[playerCard.current]))
 
@@ -250,6 +252,12 @@ watch(showAspect, (value) => {
       >
         Exit Game
       </div>
+      <div class="absolute bottom-1 left-2">
+        <span
+          class="icon-help text-2xl text-orange-700"
+          @click="isShowFaq = true"
+        />
+      </div>
     </div>
     <Teleport to="#modal">
       <div
@@ -288,6 +296,10 @@ watch(showAspect, (value) => {
           </div>
         </div>
       </div>
+      <faq-modal
+        v-if="isShowFaq"
+        @close="isShowFaq = false"
+      />
     </Teleport>
   </div>
 </template>

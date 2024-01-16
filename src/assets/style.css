@@ -102,6 +102,16 @@ body {
   display: none;
 }
 
+.expand-move,
+.expand-enter-active {
+  transition: all 0.5s;
+}
+
+.expand-leave-active {
+  position: absolute;
+  display: none;
+}
+
 .toast-enter-from, .toast-leave-to {
   opacity: 0;
   transform: translateY(-60px);
