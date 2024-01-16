@@ -107,11 +107,11 @@ function getWin(result: Result) {
                 'bg-amber-200': index % 2 === 0
               }"
             >
-              <td class="border-r border-gray-500 pr-1">
+              <td class="border-r border-gray-500 pr-1 flex items-center">
                 <img
                   :src="`/img/spirit_avatar/${getSpiritAvatarByName(spirit)}`"
                   alt="spirit avatar"
-                  class="h-8 inline-block mr-1"
+                  class="h-8 inline-block mr-1 flex-1"
                 >({{ spiritsChart[spirit] ? spiritsChart[spirit].total : 0 }})
               </td>
               <template v-if="spiritsChart[spirit]">
@@ -136,17 +136,17 @@ function getWin(result: Result) {
           </tbody>
         </table>
       </div>
-      <div class="ml-4 mt-4">
+      <div class="ml-4 mt-4 text-xs w-48">
         <div class="mr-6">
-          Total: {{ totalGame }}
+          Total: <strong>{{ totalGame }}</strong>
         </div>
         <div class="mr-6">
-          Last play: {{ lastTime }}
+          Last play: <strong>{{ lastTime }}</strong>
         </div>
         <div class="mr-6">
-          Last update: {{ lastUpdate }}
+          Last update: <strong>{{ lastUpdate }}</strong>
         </div>
-        <div>Pending Result: {{ localStorage.pendingResult.length }}</div>
+        <div>Pending Result: <strong>{{ localStorage.pendingResult.length }}</strong></div>
       </div>
     </div>
   </div>
