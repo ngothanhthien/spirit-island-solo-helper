@@ -1,13 +1,13 @@
-import { defineStore } from "pinia"
-import { EVENT_CARDS } from "@/constant"
-import { shuffle } from "@/utils"
+import { defineStore } from 'pinia'
+import { EVENT_CARDS } from '@/constant'
+import { shuffle } from '@/utils'
 export const useEventDeckStore = defineStore('eventDeck', {
   state: () => ({
     draw: [] as string[],
     discard: [] as string[],
     reveal: null as string | null,
     franceEvent: null as number | null,
-    isPingEvent: false,
+    isPingEvent: false
   }),
   getters: {
     isAvailable(state) {
@@ -28,7 +28,7 @@ export const useEventDeckStore = defineStore('eventDeck', {
     newDeck(hasFranceEvent = false) {
       const unShuffle = Array.from(Array(EVENT_CARDS.length).keys())
       const shuffled = shuffle(unShuffle)
-      this.draw = shuffled.map(i => `event-${i}`)
+      this.draw = shuffled.map((i) => `event-${i}`)
       this.discard = []
       this.reveal = null
       this.franceEvent = null
@@ -37,7 +37,7 @@ export const useEventDeckStore = defineStore('eventDeck', {
         this.draw.splice(-3, 0, 'event-france')
       }
     },
-    popEvent () {
+    popEvent() {
       const popped = this.draw.pop()
       if (popped) {
         this.discard.push(popped)
@@ -49,13 +49,13 @@ export const useEventDeckStore = defineStore('eventDeck', {
     shuffle() {
       this.draw = shuffle(this.draw) as string[]
     },
-    remove () {
+    remove() {
       const removed = this.draw.pop()
       if (removed) {
         return removed
       }
     },
-    putUnderTwoTopCard () {
+    putUnderTwoTopCard() {
       if (this.draw.length > 2) {
         const lastItem = this.draw.pop()
         if (lastItem) {
@@ -90,5 +90,5 @@ export const useEventDeckStore = defineStore('eventDeck', {
       }
     }
   },
-  persist: true,
+  persist: true
 })

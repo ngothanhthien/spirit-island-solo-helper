@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import router from '@/router'
-import {computed, defineAsyncComponent, ref, watch} from 'vue'
+import { computed, defineAsyncComponent, ref, watch } from 'vue'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
@@ -20,7 +20,7 @@ const gameOption = useGameOptionStore()
 const invaderCard = useInvaderCardStore()
 const minorDeck = usePowerDeckStore('minor')
 const majorDeck = usePowerDeckStore('major')
-const appEnviroment = ref(import.meta.env.VITE_APP_ENVIRONMENT);
+const appEnviroment = ref(import.meta.env.VITE_APP_ENVIRONMENT)
 
 const modeIncrease = ref(true)
 const showConfirmLogMatch = ref(false)
@@ -29,7 +29,9 @@ const showAspect = ref(playerCard.showAspect)
 const isLoading = ref(false)
 const isShowFaq = ref(false)
 
-const isHasAspect = computed(() => Boolean(gameOption.aspectsDetail[playerCard.current]))
+const isHasAspect = computed(() =>
+  Boolean(gameOption.aspectsDetail[playerCard.current])
+)
 
 function adjustElement(element: string) {
   if (modeIncrease.value) {
@@ -56,7 +58,7 @@ async function logMatch(win: boolean) {
       win,
       level: gameOption.adversaryLevel,
       invader_card_left: invaderCard.draw.length,
-      fear_stage: fearDeck.draw.length === 0 ? 4 : fearDeck.currentStage,
+      fear_stage: fearDeck.draw.length === 0 ? 4 : fearDeck.currentStage
     })
     minorDeck.$reset()
     majorDeck.$reset()
@@ -81,8 +83,12 @@ watch(showAspect, (value) => {
     class="absolute z-[9999] bg-gray-900/30 top-0 left-0 h-full w-full flex items-center justify-center"
     @click.self="$emit('close')"
   >
-    <div class="w-[90%] h-[90%] bg-orange-200 rounded-lg flex flex-col relative">
-      <div class="flex justify-between px-3 py-2 rounded-t-lg bg-gray-900 text-white">
+    <div
+      class="w-[90%] h-[90%] bg-orange-200 rounded-lg flex flex-col relative"
+    >
+      <div
+        class="flex justify-between px-3 py-2 rounded-t-lg bg-gray-900 text-white"
+      >
         <div class="flex items-center">
           Settings
           <div class="w-8 h-8 ml-2 rounded-full overflow-hidden">
@@ -90,19 +96,16 @@ watch(showAspect, (value) => {
               :src="`/img/spirit_avatar/${getSpiritAvatar(gameOption.spirits[playerCard.current])}`"
               alt="Spirit avatar"
               class="h-full max-w-max"
-            >
+            />
           </div>
         </div>
         <span
           class="icon-x text-2xl"
-          style="stroke-width: 1px;"
+          style="stroke-width: 1px"
           @click="$emit('close')"
         />
       </div>
-      <div
-        id="aspect-setting"
-        class="overflow-y-auto flex-1 px-3 py-1"
-      >
+      <div id="aspect-setting" class="overflow-y-auto flex-1 px-3 py-1">
         <div class="flex space-x-4">
           <div
             class="flex flex-row h-10 w-fit rounded-lg relative bg-orange-700 mt-1 text-white"
@@ -135,7 +138,9 @@ watch(showAspect, (value) => {
             >
               <span class="w-4 h-4 mx-auto icon-minus" />
             </button>
-            <div class="flex items-center justify-center font-semibold text-lg w-full">
+            <div
+              class="flex items-center justify-center font-semibold text-lg w-full"
+            >
               <div>{{ fearDeck.currentFear }}</div>
               <span class="icon-fear" />
             </div>
@@ -158,8 +163,10 @@ watch(showAspect, (value) => {
                 src="/img/card-back/fear.webp"
                 alt="Fear Back"
                 class="absolute h-full"
+              />
+              <div
+                class="absolute top-1/2 -translate-y-1/2 text-xl pb-1 font-semibold text-white"
               >
-              <div class="absolute top-1/2 -translate-y-1/2 text-xl pb-1 font-semibold text-white">
                 {{ fearDeck.totalEarned }}
               </div>
             </div>
@@ -178,18 +185,22 @@ watch(showAspect, (value) => {
               class="w-6 h-6 rounded-full text-white p-1 mb-1 flex items-center"
               @click="modeIncrease = !modeIncrease"
             >
-              <span
-                v-if="modeIncrease"
-                class="w-full icon-plus"
-              />
-              <span
-                v-else
-                class="w-full icon-minus"
-              />
+              <span v-if="modeIncrease" class="w-full icon-plus" />
+              <span v-else class="w-full icon-minus" />
             </div>
             <div class="flex select-none w-28 flex-wrap">
               <div
-                v-for="element in ['Sun', 'Moon', 'Fire', 'Air', 'Water', 'Earth', 'Plant', 'Animal', 'Any']"
+                v-for="element in [
+                  'Sun',
+                  'Moon',
+                  'Fire',
+                  'Air',
+                  'Water',
+                  'Earth',
+                  'Plant',
+                  'Animal',
+                  'Any'
+                ]"
                 :key="element"
                 class="flex items-center w-1/3 my-1 px-1"
                 @click="adjustElement(element)"
@@ -206,19 +217,14 @@ watch(showAspect, (value) => {
               </div>
             </div>
           </div>
-          <div
-            v-if="isHasAspect"
-            class="ml-auto"
-          >
+          <div v-if="isHasAspect" class="ml-auto">
             <div class="flex items-center">
               <input
                 v-model="showAspect"
                 type="checkbox"
                 class="accent-orange-700 mt-0.5"
-              >
-              <div class="ml-1">
-                Show Aspect
-              </div>
+              />
+              <div class="ml-1">Show Aspect</div>
             </div>
             <div class="mt-2">
               <div>Aspect mode</div>
@@ -229,7 +235,7 @@ watch(showAspect, (value) => {
                     type="radio"
                     class="accent-orange-700 mt-0.5"
                     value="1x"
-                  >
+                  />
                   1x
                 </div>
                 <div class="flex items-center ml-3">
@@ -238,7 +244,7 @@ watch(showAspect, (value) => {
                     type="radio"
                     class="accent-orange-700 mt-0.5"
                     value="2x"
-                  >
+                  />
                   2x
                 </div>
               </div>
@@ -246,10 +252,7 @@ watch(showAspect, (value) => {
           </div>
         </div>
       </div>
-      <div
-        class="absolute bottom-2 right-2"
-        @click="onClickExitGame"
-      >
+      <div class="absolute bottom-2 right-2" @click="onClickExitGame">
         Exit Game
       </div>
       <div class="absolute bottom-1 left-2">
@@ -289,17 +292,14 @@ watch(showAspect, (value) => {
             </base-button>
             <base-button
               button-style="primary"
-              @click="router.push({name: 'HomeView'})"
+              @click="router.push({ name: 'HomeView' })"
             >
               No Log
             </base-button>
           </div>
         </div>
       </div>
-      <faq-modal
-        v-if="isShowFaq"
-        @close="isShowFaq = false"
-      />
+      <faq-modal v-if="isShowFaq" @close="isShowFaq = false" />
     </Teleport>
   </div>
 </template>

@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const useMessageStore = defineStore('messageStore', {
   state: () => ({
     message: null as string | null,
-    timeoutId: null as number | null,
+    timeoutId: null as number | null
   }),
   actions: {
     setMessage(message: string, time = 3000) {
@@ -23,7 +23,7 @@ export const useMessageStore = defineStore('messageStore', {
         clearTimeout(this.timeoutId)
         this.timeoutId = null
       }
-        this.message = null
-    },
-  },
+      this.message = null
+    }
+  }
 })

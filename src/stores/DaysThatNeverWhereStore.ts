@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
-import { useMessageStore } from "@/stores/MessageStore"
-import { usePlayerCardStore } from "@/stores/PlayerCardStore"
-import {removeCard} from "@/utils";
+import { useMessageStore } from '@/stores/MessageStore'
+import { usePlayerCardStore } from '@/stores/PlayerCardStore'
+import { removeCard } from '@/utils'
 export const useDaysThatNeverWereStore = defineStore('daysThatNeverWere', {
   state: () => ({
     minor: [] as string[],
     major: [] as string[],
     current: null as number | null,
-    isShowModal: false,
+    isShowModal: false
   }),
   getters: {
     hasDaysThatNeverWere(state) {
@@ -16,9 +16,9 @@ export const useDaysThatNeverWereStore = defineStore('daysThatNeverWere', {
   },
   actions: {
     reset() {
-        this.minor = []
-        this.major = []
-        this.current = null
+      this.minor = []
+      this.major = []
+      this.current = null
     },
     add(card: string) {
       const [type] = card.split('-') as ['minor' | 'major']
@@ -39,5 +39,5 @@ export const useDaysThatNeverWereStore = defineStore('daysThatNeverWere', {
       this.isShowModal = false
     }
   },
-  persist: true,
+  persist: true
 })

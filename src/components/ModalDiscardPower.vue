@@ -3,17 +3,20 @@ import BaseModal from '@/components/base/BaseModal.vue'
 import GameCard from '@/components/base/GameCard.vue'
 
 import { useCardZoomStore } from '@/stores/CardZoomStore'
-import { useDiscardPowerStore } from '@/stores/PowerDeckStore';
-import { watch } from 'vue';
+import { useDiscardPowerStore } from '@/stores/PowerDeckStore'
+import { watch } from 'vue'
 
 const emit = defineEmits(['close'])
 const cardZoom = useCardZoomStore()
 const discardPower = useDiscardPowerStore()
-watch(() => discardPower.discard.length, (length) => {
-  if (length === 0) {
-    emit('close')
+watch(
+  () => discardPower.discard.length,
+  (length) => {
+    if (length === 0) {
+      emit('close')
+    }
   }
-})
+)
 </script>
 
 <template>
@@ -23,9 +26,7 @@ watch(() => discardPower.discard.length, (length) => {
     @click-out-side="$emit('close')"
   >
     <template #header>
-      <div class="capitalize">
-        Power discard
-      </div>
+      <div class="capitalize">Power discard</div>
     </template>
     <template #body>
       <div class="flex flex-wrap m-0.5">

@@ -7,7 +7,6 @@ import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
 
 const cardZoom = useCardZoomStore()
 const cardList = useModalDiscardStore()
-
 </script>
 
 <template>
@@ -16,9 +15,7 @@ const cardList = useModalDiscardStore()
     @close="cardList.reset()"
     @click-out-side="cardList.reset()"
   >
-    <template #header>
-      Discard pile
-    </template>
+    <template #header> Discard pile </template>
     <template #body>
       <div class="flex flex-wrap gap-x-1 gap-y-4 py-2 px-2">
         <div

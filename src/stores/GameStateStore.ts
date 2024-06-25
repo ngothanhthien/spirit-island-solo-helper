@@ -1,7 +1,7 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
-export const useGameStateStore = defineStore("gameState", {
+export const useGameStateStore = defineStore('gameState', {
   state: () => ({
-    isNewGame: false,
-  }),
-});
+    isNewGame: false
+  })
+})

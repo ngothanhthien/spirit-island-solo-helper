@@ -6,14 +6,8 @@ const playerCard = usePlayerCardStore()
 
 <template>
   <div class="flex space-x-2 select-none">
-    <template
-      v-for="(value, key) in playerCard.elements"
-      :key="key"
-    >
-      <div
-        v-if="value > 0"
-        class="flex items-center space-x-0.5"
-      >
+    <template v-for="(value, key) in playerCard.elements" :key="key">
+      <div v-if="value > 0" class="flex items-center space-x-0.5">
         <span :class="`icon-${key.toLowerCase()} text-lg`">
           <span class="path1"></span>
           <span class="path2"></span>

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import GameCard from "@/components/base/GameCard.vue"
+import GameCard from '@/components/base/GameCard.vue'
 
 defineProps({
   card: {
     type: String,
-    required: true,
+    required: true
   },
   energy: {
     type: Number,
-    required: true,
+    required: true
   }
 })
 

@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { type DeepReadonly, ref } from 'vue'
 import type { Aspect } from '@/types'
 import { nameToImage } from '@/utils'
 import { onClickOutside } from '@vueuse/core'
 import useZoomCardSwipe from '@/composable/useZoomCardSwipe'
 
 const props = defineProps<{
-  aspects: Array<Aspect>,
-  current: number,
+  aspects: ReadonlyArray<DeepReadonly<Aspect>>
+  current: number
 }>()
 const emit = defineEmits(['close', 'choose'])
 const aspectsImages = props.aspects.map((aspect) => {
@@ -23,20 +23,27 @@ const nextEl = ref<HTMLElement | null>(null)
 const prevEl = ref<HTMLElement | null>(null)
 
 const { left } = useZoomCardSwipe(aspectEl, next, prev)
-onClickOutside(aspectEl, () => {
-  emit('close')
-}, { ignore: [buttonEl, nextEl, prevEl] })
+onClickOutside(
+  aspectEl,
+  () => {
+    emit('close')
+  },
+  { ignore: [buttonEl, nextEl, prevEl] }
+)
 function next() {
   current.value = (current.value + 1) % aspectsImages.length
 }
 function prev() {
-  current.value = (current.value - 1 + aspectsImages.length) % aspectsImages.length
+  current.value =
+    (current.value - 1 + aspectsImages.length) % aspectsImages.length
 }
 </script>
 
 <template>
   <div class="absolute top-0 left-0 bg-gray-900/70 w-full h-full">
-    <div class="h-[95%] left-1/2 -translate-x-1/2 relative top-1/2 -translate-y-1/2 flex flex-col">
+    <div
+      class="h-[95%] left-1/2 -translate-x-1/2 relative top-1/2 -translate-y-1/2 flex flex-col"
+    >
       <div class="text-lg text-white font-semibold text-center">
         {{ current + 1 }} of {{ aspectsImages.length }}
       </div>
@@ -53,7 +60,7 @@ function prev() {
             :src="`/img/aspects/${image}`"
             alt="Aspect details"
             class="rounded-2xl h-full"
-          >
+          />
         </div>
       </div>
     </div>

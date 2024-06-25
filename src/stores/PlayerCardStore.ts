@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { removeCard } from '@/utils'
+import { insertAfter, insertBefore, removeCard } from '@/utils'
 import type { Element, Player, PowerCard } from '@/types'
 import { getCard, changePosition } from '@/utils'
 import { useMessageStore } from './MessageStore'
@@ -16,27 +16,27 @@ function createPlayer(): Player {
     energyThisTurn: 0,
     permanentElements: createDefaultElement(),
     showAspect: true,
-    aspectMode: '1x',
+    aspectMode: '1x'
   }
 }
 function createDefaultElement(): { [K in Element]: number } {
   return {
-    'Any': 0,
-    'Sun': 0,
-    'Moon': 0,
-    'Fire': 0,
-    'Air': 0,
-    'Water': 0,
-    'Earth': 0,
-    'Plant': 0,
-    'Animal': 0,
+    Any: 0,
+    Sun: 0,
+    Moon: 0,
+    Fire: 0,
+    Air: 0,
+    Water: 0,
+    Earth: 0,
+    Plant: 0,
+    Animal: 0
   }
 }
 
 export const usePlayerCardStore = defineStore('playerCard', {
   state: () => ({
     current: 0,
-    players: [] as Player[],
+    players: [] as Player[]
   }),
   getters: {
     hand(state) {
@@ -46,7 +46,9 @@ export const usePlayerCardStore = defineStore('playerCard', {
       return state.players[state.current].discard
     },
     play(state) {
-      const unused = state.players[state.current].play.filter((card) => !state.players[state.current].used.includes(card))
+      const unused = state.players[state.current].play.filter(
+        (card) => !state.players[state.current].used.includes(card)
+      )
       return [...state.players[state.current].used, ...unused]
     },
     used(state) {
@@ -78,9 +80,11 @@ export const usePlayerCardStore = defineStore('playerCard', {
           })
         }
       })
-      Object.entries(state.players[state.current].permanentElements).forEach(([key, value]) => {
-        elements[key] += value || 0
-      })
+      Object.entries(state.players[state.current].permanentElements).forEach(
+        ([key, value]) => {
+          elements[key] += value || 0
+        }
+      )
       return elements
     },
     permanentElements(state) {
@@ -91,6 +95,14 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     energyThisTurn(state) {
       return state.players[state.current].energyThisTurn
+    },
+    canReclaim(state) {
+      const player = state.players[state.current]
+      return (
+        player.hand.length === 0 &&
+        player.play.length === 0 &&
+        player.discard.length > 0
+      )
     }
   },
   actions: {
@@ -130,7 +142,10 @@ export const usePlayerCardStore = defineStore('playerCard', {
     take(card: string) {
       this.players[this.current].hand.push(card)
     },
-    playCard(card: string, posId: { id: string, isFront: boolean } | undefined = undefined) {
+    playCard(
+      card: string,
+      posId: { id: string; isFront: boolean } | undefined = undefined
+    ) {
       const cardData = getCard(card) as PowerCard
       const player = this.players[this.current]
       if (cardData.cost <= player.energy) {
@@ -153,7 +168,10 @@ export const usePlayerCardStore = defineStore('playerCard', {
       removeCard(player.hand, card)
       player.discard.push(card)
     },
-    returnCardFromPlay(card: string, posId: { id: string, isFront: boolean } | undefined = undefined) {
+    returnCardFromPlay(
+      card: string,
+      posId: { id: string; isFront: boolean } | undefined = undefined
+    ) {
       const player = this.players[this.current]
       const cardData = getCard(card) as PowerCard
       player.energy += cardData.cost
@@ -170,7 +188,10 @@ export const usePlayerCardStore = defineStore('playerCard', {
       useDiscardPowerStore().discard.push(card)
       useMessageStore().setMessage('Forget card')
     },
-    removeCardFromHand(card: string, playerIndex: number | undefined = undefined) {
+    removeCardFromHand(
+      card: string,
+      playerIndex: number | undefined = undefined
+    ) {
       const player = this.players[playerIndex || this.current]
       removeCard(player.hand, card)
     },
@@ -205,15 +226,12 @@ export const usePlayerCardStore = defineStore('playerCard', {
       player.discard.push(card)
       useMessageStore().setMessage('Put card in discard')
     },
-    setEnergy(energy: number) {
-      this.players[this.current].energy = energy
-    },
     addEnergy() {
       this.players[this.current].energy++
       this.players[this.current].energyThisTurn++
     },
     reduceEnergy(playerIndex: number | undefined = undefined) {
-      if(this.players[playerIndex ?? this.current].energy > 0) {
+      if (this.players[playerIndex ?? this.current].energy > 0) {
         this.players[playerIndex ?? this.current].energy--
         if (this.players[playerIndex ?? this.current].energyThisTurn > 0) {
           this.players[playerIndex ?? this.current].energyThisTurn--
@@ -221,12 +239,13 @@ export const usePlayerCardStore = defineStore('playerCard', {
       }
     },
     increaseElement(element: Element) {
-      (this.players[this.current].permanentElements[element] as number)++
+      ;(this.players[this.current].permanentElements[element] as number)++
     },
     decreaseElement(element: Element) {
-      if(this.players[this.current].permanentElements[element] as number > 0)
-      {
-        (this.players[this.current].permanentElements[element] as number)--
+      if (
+        (this.players[this.current].permanentElements[element] as number) > 0
+      ) {
+        ;(this.players[this.current].permanentElements[element] as number)--
       }
     },
     setShowAspect(value: boolean) {
@@ -243,6 +262,21 @@ export const usePlayerCardStore = defineStore('playerCard', {
         player.used.push(card)
       }
     },
+    changePosition(
+      type: 'hand',
+      card: string,
+      posId: { id: string; isFront: boolean }
+    ) {
+      const player = this.players[this.current]
+      if (posId.id) {
+        removeCard(player[type], card)
+        if (posId.isFront) {
+          insertAfter(player[type], card, posId.id)
+        } else {
+          insertBefore(player[type], card, posId.id)
+        }
+      }
+    }
   },
-  persist: true,
+  persist: true
 })

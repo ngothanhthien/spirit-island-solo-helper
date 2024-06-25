@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {computed, ref} from "vue";
-import { useGameOptionStore } from "@/stores/GameOptionStore";
-import { usePlayerCardStore } from "@/stores/PlayerCardStore";
-import {SPIRIT} from "@/constant";
-import type {SpiritType} from "@/types";
+import { computed, ref } from 'vue'
+import { useGameOptionStore } from '@/stores/GameOptionStore'
+import { usePlayerCardStore } from '@/stores/PlayerCardStore'
+import { SPIRIT } from '@/constant'
+import type { SpiritType } from '@/types'
 
 defineEmits(['close'])
 const gameOption = useGameOptionStore()
@@ -43,19 +43,18 @@ function getHostName(url: string) {
     @click.self="$emit('close')"
   >
     <div class="bg-white rounded-lg w-[90%]">
-      <div class="flex justify-between px-3 py-2 rounded-t-lg bg-stone-800 text-white">
+      <div
+        class="flex justify-between px-3 py-2 rounded-t-lg bg-stone-800 text-white"
+      >
         Reminder
         <span
           class="icon-x text-2xl -mr-1.5"
-          style="stroke-width: 1px;"
+          style="stroke-width: 1px"
           @click="$emit('close')"
         />
       </div>
       <div class="px-2 py-2 h-[70vh] overflow-y-auto">
-        <transition-group
-          v-if="faqs.length"
-          name="expand"
-        >
+        <transition-group v-if="faqs.length" name="expand">
           <div
             v-for="(faq, index) in faqs"
             :key="`fqa-${index}`"
@@ -65,7 +64,9 @@ function getHostName(url: string) {
               class="flex items-center py-2 space-x-2"
               @click="toggleExpand(index)"
             >
-              <div class="rounded-full bg-pink-700 text-white w-8 h-8 flex items-center text-center justify-center">
+              <div
+                class="rounded-full bg-pink-700 text-white w-8 h-8 flex items-center text-center justify-center"
+              >
                 {{ index + 1 }}
               </div>
               <div>{{ faq.title }}</div>
@@ -74,10 +75,7 @@ function getHostName(url: string) {
               v-if="expanding === index"
               class="pl-10 divide-y divide-dashed divide-gray-300"
             >
-              <div
-                v-if="faq.description"
-                class="py-1"
-              >
+              <div v-if="faq.description" class="py-1">
                 {{ faq.description }}
               </div>
               <div class="py-1 text-sm italic">
@@ -95,10 +93,7 @@ function getHostName(url: string) {
             </div>
           </div>
         </transition-group>
-        <div
-          v-else
-          class="text-gray-400 text-center py-10"
-        >
+        <div v-else class="text-gray-400 text-center py-10">
           No reminder. :)
         </div>
       </div>
@@ -106,6 +101,4 @@ function getHostName(url: string) {
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

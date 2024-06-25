@@ -16,15 +16,12 @@ const blightDeck = useBlightDeckStore()
       class="h-[90%] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-fit absolute z-50"
     >
       <game-card
-        :id="(blightDeck.current as string)"
+        :id="blightDeck.current as string"
         :class="blightDeck.isBlighted ? 'h-full' : 'h-[90%]'"
         class="rounded-lg"
       />
       <div v-if="!blightDeck.isBlighted" class="flex justify-center mt-2">
-        <base-button
-          button-style="secondary"
-          @click="blightDeck.turnUp"
-        >
+        <base-button button-style="secondary" @click="blightDeck.turnUp">
           Turn Up
         </base-button>
       </div>

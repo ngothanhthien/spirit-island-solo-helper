@@ -1,9 +1,9 @@
-import { removeCard } from "@/utils";
-import { defineStore } from "pinia";
+import { removeCard } from '@/utils'
+import { defineStore } from 'pinia'
 
 export const useModalDiscardStore = defineStore('modalDiscard', {
   state: () => ({
-    deck: [] as string[],
+    deck: [] as string[]
   }),
   getters: {
     getDeck(state) {
@@ -20,7 +20,7 @@ export const useModalDiscardStore = defineStore('modalDiscard', {
       if (type === 'major' || type === 'minor' || type.includes('unique')) {
         return 'power'
       }
-      
+
       return 'common'
     },
 
@@ -41,6 +41,6 @@ export const useModalDiscardStore = defineStore('modalDiscard', {
     },
     reset() {
       this.deck = []
-    },
-  },
+    }
+  }
 })

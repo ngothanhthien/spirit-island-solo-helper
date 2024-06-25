@@ -1,7 +1,7 @@
-import { useEventDeckStore } from "@/stores/EventDeckStore";
-import { useFearDeckStore } from "@/stores/FearDeckStore";
-import { useGameOptionStore } from "@/stores/GameOptionStore";
-import {useInvaderCardStore} from "@/stores/InvaderCardStore";
+import { useEventDeckStore } from '@/stores/EventDeckStore'
+import { useFearDeckStore } from '@/stores/FearDeckStore'
+import { useGameOptionStore } from '@/stores/GameOptionStore'
+import { useInvaderCardStore } from '@/stores/InvaderCardStore'
 
 export function addFearToTop() {
   const fearDeck = useFearDeckStore()
@@ -14,14 +14,14 @@ export function putEventUnderTwo() {
 }
 
 export function moveBack2FearPerPlayer() {
-    const fearDeck = useFearDeckStore()
-    const gameOption = useGameOptionStore()
-    const fearReduce = gameOption.numberSpirit as number * 2
-    if (fearDeck.currentFear <= fearReduce) {
-      fearDeck.currentFear = 0
-    } else {
-        fearDeck.currentFear -= fearReduce
-    }
+  const fearDeck = useFearDeckStore()
+  const gameOption = useGameOptionStore()
+  const fearReduce = (gameOption.numberSpirit as number) * 2
+  if (fearDeck.currentFear <= fearReduce) {
+    fearDeck.currentFear = 0
+  } else {
+    fearDeck.currentFear -= fearReduce
+  }
 }
 
 export function returnTopFearToBox() {

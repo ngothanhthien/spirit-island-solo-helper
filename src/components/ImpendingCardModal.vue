@@ -1,9 +1,8 @@
 <script setup lang="ts">
-
-import { useImpendingCardStore } from "@/stores/ImpendingCardStore"
-import { useCardZoomStore } from "@/stores/CardZoomStore"
-import ImpendingCard from "@/components/ImpendingCard.vue";
-import BaseButton from "@/components/base/BaseButton.vue";
+import { useImpendingCardStore } from '@/stores/ImpendingCardStore'
+import { useCardZoomStore } from '@/stores/CardZoomStore'
+import ImpendingCard from '@/components/ImpendingCard.vue'
+import BaseButton from '@/components/base/BaseButton.vue'
 
 const emit = defineEmits({
   close: () => {
@@ -24,7 +23,9 @@ const autoPlayClick = () => {
     class="absolute z-[99] bg-gray-900/30 top-0 left-0 h-full w-full flex items-center justify-center"
     @click.self="$emit('close')"
   >
-    <div class="h-[90%] w-[90%] absolute z-50 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 rounded-xl overflow-hidden bg-red-200">
+    <div
+      class="h-[90%] w-[90%] absolute z-50 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 rounded-xl overflow-hidden bg-red-200"
+    >
       <div class="bg-gray-800 text-white px-3 py-2 relative">
         <div>Impending Card</div>
         <span
@@ -33,7 +34,9 @@ const autoPlayClick = () => {
         />
       </div>
       <div class="h-[80%]">
-        <div class="flex h-[90%] space-x-4 overflow-y-auto hide-scrollbar px-2 py-2">
+        <div
+          class="flex h-[90%] space-x-4 overflow-y-auto hide-scrollbar px-2 py-2"
+        >
           <div
             v-for="card in impendingCardStore.cardsDeck"
             :key="card.card"
@@ -43,7 +46,13 @@ const autoPlayClick = () => {
               :card="card.card"
               :energy="card.energy"
               class="h-full pt-1 pb-0.5 pl-1"
-              @card-click="cardZoom.setZoom(card.card, impendingCardStore.cardIds, 'impending-card')"
+              @card-click="
+                cardZoom.setZoom(
+                  card.card,
+                  impendingCardStore.cardIds,
+                  'impending-card'
+                )
+              "
               @increase-energy="impendingCardStore.increaseEnergy(card.card)"
               @decrease-energy="impendingCardStore.decreaseEnergy(card.card)"
             />

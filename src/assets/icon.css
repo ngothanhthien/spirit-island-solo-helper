@@ -1,16 +1,18 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?aebvxd');
-  src:  url('fonts/icomoon.eot?aebvxd#iefix') format('embedded-opentype'),
-  url('fonts/icomoon.ttf?aebvxd') format('truetype'),
-  url('fonts/icomoon.woff?aebvxd') format('woff'),
-  url('fonts/icomoon.svg?aebvxd#icomoon') format('svg');
+  src: url('fonts/icomoon.eot?aebvxd');
+  src:
+    url('fonts/icomoon.eot?aebvxd#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?aebvxd') format('truetype'),
+    url('fonts/icomoon.woff?aebvxd') format('woff'),
+    url('fonts/icomoon.svg?aebvxd#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^='icon-'],
+[class*=' icon-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: never;
@@ -26,304 +28,304 @@
 }
 
 .icon-help:before {
-  content: "\e94f";
+  content: '\e94f';
 }
 .icon-arrow-down:before {
-  content: "\e949";
+  content: '\e949';
 }
 .icon-hourglass-high:before {
-  content: "\e938";
+  content: '\e938';
 }
 .icon-settings:before {
-  content: "\e939";
+  content: '\e939';
 }
 .icon-x:before {
-  content: "\e94b";
+  content: '\e94b';
 }
 .icon-layers-off:before {
-  content: "\e93a";
+  content: '\e93a';
 }
 .icon-album-off:before {
-  content: "\e93b";
+  content: '\e93b';
 }
 .icon-album:before {
-  content: "\e93c";
+  content: '\e93c';
 }
 .icon-selector:before {
-  content: "\e93d";
+  content: '\e93d';
 }
 .icon-check:before {
-  content: "\e93e";
+  content: '\e93e';
 }
 .icon-eye:before {
-  content: "\e93f";
+  content: '\e93f';
 }
 .icon-player-play:before {
-  content: "\e940";
+  content: '\e940';
 }
 .icon-bolt:before {
-  content: "\e941";
+  content: '\e941';
 }
 .icon-minus:before {
-  content: "\e942";
+  content: '\e942';
 }
 .icon-plus:before {
-  content: "\e943";
+  content: '\e943';
 }
 .icon-trash-x:before {
-  content: "\e944";
+  content: '\e944';
 }
 .icon-refresh:before {
-  content: "\e945";
+  content: '\e945';
 }
 .icon-pencil:before {
-  content: "\e946";
+  content: '\e946';
 }
 .icon-reload:before {
-  content: "\e947";
+  content: '\e947';
 }
 .icon-player-track-prev:before {
-  content: "\e948";
+  content: '\e948';
 }
 .icon-trash:before {
-  content: "\e94a";
+  content: '\e94a';
 }
 .icon-lock-off:before {
-  content: "\e94c";
+  content: '\e94c';
 }
 .icon-lock:before {
-  content: "\e94d";
+  content: '\e94d';
 }
 .icon-chevron-left:before {
-  content: "\e94e";
+  content: '\e94e';
 }
 .icon-deeps:before {
-  content: "\e927";
+  content: '\e927';
 }
 .icon-locus .path1:before {
-  content: "\e928";
+  content: '\e928';
   color: rgb(119, 65, 89);
 }
 .icon-locus .path2:before {
-  content: "\e929";
+  content: '\e929';
   margin-left: -0.9423828125em;
   color: rgb(119, 65, 89);
 }
 .icon-locus .path3:before {
-  content: "\e92a";
+  content: '\e92a';
   margin-left: -0.9423828125em;
   color: rgb(0, 0, 0);
 }
 .icon-locus .path4:before {
-  content: "\e92b";
+  content: '\e92b';
   margin-left: -0.9423828125em;
   color: rgb(0, 0, 0);
 }
 .icon-locus .path5:before {
-  content: "\e92c";
+  content: '\e92c';
   margin-left: -0.9423828125em;
   color: rgb(0, 0, 0);
 }
 .icon-lair .path1:before {
-  content: "\e92d";
+  content: '\e92d';
   color: rgb(46, 184, 141);
 }
 .icon-lair .path2:before {
-  content: "\e92e";
+  content: '\e92e';
   margin-left: -1.1630859375em;
   color: rgb(0, 0, 0);
 }
 .icon-town:before {
-  content: "\e930";
+  content: '\e930';
 }
 .icon-city:before {
-  content: "\e931";
+  content: '\e931';
 }
 .icon-explorer:before {
-  content: "\e932";
+  content: '\e932';
 }
 .icon-escalation:before {
-  content: "\e933";
+  content: '\e933';
 }
 .icon-scared-site:before {
-  content: "\e934";
+  content: '\e934';
 }
 .icon-destroy-presence-_2:before {
-  content: "\e92f";
+  content: '\e92f';
 }
 .icon-presence:before {
-  content: "\e910";
+  content: '\e910';
 }
 .icon-Wilds:before {
-  content: "\e935";
+  content: '\e935';
 }
 .icon-vitality:before {
-  content: "\e90a";
+  content: '\e90a';
 }
 .icon-strife:before {
-  content: "\e90b";
+  content: '\e90b';
 }
 .icon-badlands:before {
-  content: "\e90c";
+  content: '\e90c';
 }
 .icon-disease:before {
-  content: "\e90d";
+  content: '\e90d';
 }
 .icon-beasts:before {
-  content: "\e90e";
+  content: '\e90e';
 }
 .icon-dahan:before {
-  content: "\e90f";
+  content: '\e90f';
 }
 .icon-fear:before {
-  content: "\e911";
+  content: '\e911';
 }
 .icon-blight:before {
-  content: "\e912";
+  content: '\e912';
 }
 .icon-fast:before {
-  content: "\e913";
+  content: '\e913';
 }
 .icon-slow:before {
-  content: "\e914";
+  content: '\e914';
 }
 .icon-animal .path1:before {
-  content: "\e915";
+  content: '\e915';
   color: rgb(60, 20, 24);
 }
 .icon-animal .path2:before {
-  content: "\e916";
+  content: '\e916';
   margin-left: -0.9267578125em;
   color: rgb(215, 30, 37);
 }
 .icon-plant .path1:before {
-  content: "\e917";
+  content: '\e917';
   color: rgb(26, 56, 31);
 }
 .icon-plant .path2:before {
-  content: "\e918";
+  content: '\e918';
   margin-left: -0.9326171875em;
   color: rgb(43, 165, 67);
 }
 .icon-sun .path1:before {
-  content: "\e919";
+  content: '\e919';
   color: rgb(68, 60, 23);
 }
 .icon-sun .path2:before {
-  content: "\e91a";
+  content: '\e91a';
   margin-left: -0.9228515625em;
   color: rgb(253, 221, 16);
 }
 .icon-water .path1:before {
-  content: "\e91b";
+  content: '\e91b';
   color: rgb(38, 34, 98);
 }
 .icon-water .path2:before {
-  content: "\e91c";
+  content: '\e91c';
   margin-left: -0.9453125em;
   color: rgb(0, 114, 188);
 }
 .icon-water .path3:before {
-  content: "\e91d";
+  content: '\e91d';
   margin-left: -0.9453125em;
   color: rgb(0, 114, 188);
 }
 .icon-water .path4:before {
-  content: "\e91e";
+  content: '\e91e';
   margin-left: -0.9453125em;
   color: rgb(0, 114, 188);
 }
 .icon-air .path1:before {
-  content: "\e91f";
+  content: '\e91f';
   color: rgb(43, 23, 59);
 }
 .icon-air .path2:before {
-  content: "\e920";
+  content: '\e920';
   margin-left: -1.0478515625em;
   color: rgb(120, 47, 154);
 }
 .icon-moon .path1:before {
-  content: "\e921";
+  content: '\e921';
   color: rgb(102, 103, 103);
 }
 .icon-moon .path2:before {
-  content: "\e922";
+  content: '\e922';
   margin-left: -0.9287109375em;
   color: rgb(209, 211, 212);
 }
 .icon-earth .path1:before {
-  content: "\e923";
+  content: '\e923';
   color: rgb(35, 31, 32);
 }
 .icon-earth .path2:before {
-  content: "\e924";
+  content: '\e924';
   margin-left: -0.9111328125em;
   color: rgb(101, 98, 99);
 }
 .icon-fire .path1:before {
-  content: "\e925";
+  content: '\e925';
   color: rgb(68, 30, 21);
 }
 .icon-fire .path2:before {
-  content: "\e926";
+  content: '\e926';
   margin-left: -1.048828125em;
   color: rgb(242, 101, 33);
 }
 .icon-any .path1:before {
-  content: "\e936";
+  content: '\e936';
   color: rgb(80, 65, 26);
 }
 .icon-any .path2:before {
-  content: "\e937";
+  content: '\e937';
   margin-left: -0.9853515625em;
   color: rgb(202, 166, 106);
 }
 .icon-impending .path1:before {
-  content: "\e900";
+  content: '\e900';
   color: rgb(206, 196, 153);
 }
 .icon-impending .path2:before {
-  content: "\e901";
+  content: '\e901';
   margin-left: -0.7060546875em;
   color: rgb(35, 31, 32);
 }
 .icon-impending .path3:before {
-  content: "\e902";
+  content: '\e902';
   margin-left: -0.7060546875em;
   color: rgb(35, 31, 32);
 }
 .icon-impending .path4:before {
-  content: "\e903";
+  content: '\e903';
   margin-left: -0.7060546875em;
   color: rgb(35, 31, 32);
 }
 .icon-impending .path5:before {
-  content: "\e904";
+  content: '\e904';
   margin-left: -0.7060546875em;
   color: rgb(35, 31, 32);
 }
 .icon-impending .path6:before {
-  content: "\e905";
+  content: '\e905';
   margin-left: -0.7060546875em;
   color: rgb(35, 31, 32);
 }
 .icon-impending .path7:before {
-  content: "\e906";
+  content: '\e906';
   margin-left: -0.7060546875em;
   color: rgb(35, 31, 32);
 }
 .icon-impending .path8:before {
-  content: "\e907";
+  content: '\e907';
   margin-left: -0.7060546875em;
   color: rgb(35, 31, 32);
 }
 .icon-impending .path9:before {
-  content: "\e908";
+  content: '\e908';
   margin-left: -0.7060546875em;
   color: rgb(35, 31, 32);
 }
 .icon-impending .path10:before {
-  content: "\e909";
+  content: '\e909';
   margin-left: -0.7060546875em;
   color: rgb(35, 31, 32);
 }

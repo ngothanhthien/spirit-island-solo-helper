@@ -24,10 +24,7 @@ defineProps({
     class="w-full overflow-y-auto absolute hide-scrollbar h-full bg-amber-100"
     @click="$emit('showAspectDetail')"
   >
-    <div
-      v-if="aspect?.requirements"
-      class="mt-1"
-    >
+    <div v-if="aspect?.requirements" class="mt-1">
       <div
         v-for="requirement in aspect.requirements"
         :key="requirement"
@@ -39,19 +36,13 @@ defineProps({
         >
           {{ requirement }}
         </div>
-        <text-compile
-          v-else
-          :message="requirement"
-        />
+        <text-compile v-else :message="requirement" />
       </div>
     </div>
     <div class="bg-amber-100">
       <!-- custom render -->
       <template v-if="aspect?.cards">
-        <template
-          v-for="card in aspect.cards"
-          :key="card.name"
-        >
+        <template v-for="card in aspect.cards" :key="card.name">
           <div class="text-[11px] uppercase font-semibold px-1 truncate">
             {{ card.name }}
           </div>
@@ -63,7 +54,7 @@ defineProps({
             <div
               id="Header"
               class="grid grid-cols-12 font-bold uppercase text-[9px] text-white"
-              style="background-color:rgb(175,152,102);"
+              style="background-color: rgb(175, 152, 102)"
             >
               <div class="col-span-3 flex justify-center items-center max-h-3">
                 SPEED
@@ -75,10 +66,7 @@ defineProps({
                 target
               </div>
             </div>
-            <div
-              id="Values"
-              class="bg-amber-100 grid grid-cols-12 text-xs"
-            >
+            <div id="Values" class="bg-amber-100 grid grid-cols-12 text-xs">
               <div
                 class="col-span-3 flex items-center justify-center border-r border-black"
               >
@@ -86,19 +74,21 @@ defineProps({
               </div>
               <div class="col-span-3 flex items-center justify-center">
                 <template v-if="card.target.range !== null">
-                  <span v-if="card.target.scaredSite" class="icon-scared-site"></span>
+                  <span
+                    v-if="card.target.scaredSite"
+                    class="icon-scared-site"
+                  ></span>
                   <range-icon
                     num="1"
-                    :class="{'ml-1': card.target.scaredSite}"
+                    :class="{ 'ml-1': card.target.scaredSite }"
                     class="w-5 -mb-2"
                   />
                 </template>
-                <no-range-icon
-                  v-else
-                  class="w-2/3"
-                />
+                <no-range-icon v-else class="w-2/3" />
               </div>
-              <div class="uppercase text-[10px] font-semibold flex items-center justify-center border-l border-black col-span-6">
+              <div
+                class="uppercase text-[10px] font-semibold flex items-center justify-center border-l border-black col-span-6"
+              >
                 <div v-if="card.target.targetLand === 'Another Spirit'">
                   Another <spirit-icon class="w-3.5 h-3.5" />
                 </div>
@@ -126,14 +116,14 @@ defineProps({
           v-if="!aspect?.images"
           :src="`/img/aspects/${nameToImage(aspect?.title as string)}`"
           alt="Aspect"
-        >
+        />
         <template v-else>
           <img
             v-for="image in aspect.images"
             :key="image"
             :src="`/img/aspects/${nameToImage(image)}`"
             alt="Aspect"
-          >
+          />
         </template>
       </template>
     </div>

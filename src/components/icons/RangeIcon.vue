@@ -1,11 +1,11 @@
 <script lang="ts">
-export default{
+export default {
   props: {
     num: {
       type: String,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 }
 </script>
 
@@ -16,7 +16,7 @@ export default{
         v-if="num === 'air'"
         :src="`/img/elements/air.webp`"
         class="h-3 inline-block -translate-y-0.5 -my-0.5"
-      >
+      />
       <span v-else>{{ num }}</span>
     </div>
     <svg

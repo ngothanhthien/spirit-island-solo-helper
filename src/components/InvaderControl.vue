@@ -31,32 +31,32 @@ const { draw, explore, build, ravage, extraBuild, discard, box } =
 const deck = [
   {
     title: 'draw',
-    deck: draw,
+    deck: draw
   },
   {
     title: 'explore',
-    deck: explore,
+    deck: explore
   },
   {
     title: 'build',
-    deck: build,
+    deck: build
   },
   {
     title: 'ravage',
-    deck: ravage,
+    deck: ravage
   },
   {
     title: 'extraBuild',
-    deck: extraBuild,
+    deck: extraBuild
   },
   {
     title: 'discard',
-    deck: discard,
+    deck: discard
   },
   {
     title: 'box',
-    deck: box,
-  },
+    deck: box
+  }
 ]
 
 const adversaryImage = computed(() => {
@@ -65,7 +65,6 @@ const adversaryImage = computed(() => {
   }
   return null
 })
-
 
 const lastCommit = ref<string[][]>([])
 const history = deck.map((area) => {
@@ -107,21 +106,31 @@ function next() {
   invaderCard.next()
   commit(['explore', 'discard', 'ravage', 'build', 'extraBuild'])
 }
-
-if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
-  watchDebounced(() => invaderCard.extraBuild as string[], (newList) => {
-    console.log(1)
-    if (!newList || newList.length === 0) return
-    for(let i = 0; i < newList.length; i++) {
-      if (newList[i].includes('2')) {
-        invaderCard.extraBuild = null
-        invaderCard.discard = [...invaderCard.discard, ...newList]
-        break
-      }
-    }
-  }, { debounce: 300 })
+function visionShuffle() {
+  invaderCard.visionShuffle()
+  showingVision.value = false
+}
+function visionBottom() {
+  invaderCard.visionBottom()
+  showingVision.value = false
 }
 
+if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
+  watchDebounced(
+    () => invaderCard.extraBuild as string[],
+    (newList) => {
+      if (!newList || newList.length === 0) return
+      for (let i = 0; i < newList.length; i++) {
+        if (newList[i].includes('2')) {
+          invaderCard.extraBuild = null
+          invaderCard.discard = [...invaderCard.discard, ...newList]
+          break
+        }
+      }
+    },
+    { debounce: 300 }
+  )
+}
 </script>
 
 <template>
@@ -134,10 +143,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
     >
       <div class="bg-gray-900 text-white py-2 pl-3 rounded-t-lg flex">
         <div>Invader Card</div>
-        <div
-          class="ml-auto mr-2"
-          @click="$emit('close')"
-        >
+        <div class="ml-auto mr-2" @click="$emit('close')">
           <span class="icon-x text-2xl" />
         </div>
       </div>
@@ -169,26 +175,20 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
                 src="/img/invader/d-2.webp"
                 alt="Salt Deposit"
                 class="h-full w-8"
-              >
+              />
             </div>
             <div
               v-if="adversaryImage"
               class="w-fit h-10 bottom-2 border-t border-b border-orange-700"
               @click="isShowAdversary = true"
             >
-              <img
-                :src="adversaryImage"
-                alt="Adversary Flag"
-                class="h-full"
-              >
+              <img :src="adversaryImage" alt="Adversary Flag" class="h-full" />
             </div>
           </div>
         </div>
         <div class="flex-1 px-4 py-2 flex space-x-2 text-2xl">
           <div class="basis-full flex flex-col">
-            <div class="text-base">
-              &nbsp;
-            </div>
+            <div class="text-base">&nbsp;</div>
             <button
               class="flex justify-center items-center text-orange-600 w-full flex-1"
               :disabled="invaderCard.discard.length === 0"
@@ -203,19 +203,14 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               <span class="icon-player-track-prev" />
             </div>
           </div>
-          <div
-            v-if="invaderCard.extraBuildView"
-            class="flex items-center mb-3"
-          >
+          <div v-if="invaderCard.extraBuildView" class="flex items-center mb-3">
             <span class="icon-chevron-left text-3xl" />
           </div>
           <div
             v-if="invaderCard.extraBuildView"
             class="basis-full flex-col flex"
           >
-            <div class="text-center text-base">
-              Extra Build
-            </div>
+            <div class="text-center text-base">Extra Build</div>
             <div
               v-if="gameOption.hasEngland1"
               class="text-center text-xs bg-red-200 rounded"
@@ -235,7 +230,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
                 :src="`/img/invader/${invaderCard.extraBuild[0].toLowerCase()}.webp`"
                 alt="Invader Card"
                 class="absolute w-full max-h-full rounded-lg"
-              >
+              />
             </div>
             <button
               class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 opacity-0"
@@ -249,14 +244,13 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
           </div>
           <div class="basis-full flex-col flex">
             <div class="h-10">
-              <div class="text-center text-base">
-                Ravage
-              </div>
+              <div class="text-center text-base">Ravage</div>
               <div
                 v-if="gameOption.hasRussia1"
                 class="text-center text-xs bg-red-200 rounded"
               >
-                Russia 1<span v-if="gameOption.hasRussia3">,&nbsp;3</span><span v-if="gameOption.hasRussia6">,&nbsp;6</span>
+                Russia 1<span v-if="gameOption.hasRussia3">,&nbsp;3</span
+                ><span v-if="gameOption.hasRussia6">,&nbsp;6</span>
               </div>
               <div
                 v-if="gameOption.hasSweden1"
@@ -286,7 +280,9 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             <invader-box
               v-if="invaderCard.ravage.length !== 1"
               :deck="invaderCard.ravageView"
-              :class="{'border-4 border-red-700' :invaderCard.lock.includes('ravage')}"
+              :class="{
+                'border-4 border-red-700': invaderCard.lock.includes('ravage')
+              }"
               class="flex-1 rounded-lg overflow-hidden"
             />
             <div
@@ -296,9 +292,11 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               <img
                 :src="`/img/invader/${invaderCard.ravage[0].toLowerCase()}.webp`"
                 alt="Invader Card"
-                :class="{'border-4 border-red-700' :invaderCard.lock.includes('ravage')}"
+                :class="{
+                  'border-4 border-red-700': invaderCard.lock.includes('ravage')
+                }"
                 class="absolute w-full max-h-full rounded-lg"
-              >
+              />
             </div>
             <button
               class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:bg-gray-800/60"
@@ -309,10 +307,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
                 v-if="invaderCard.lock.includes('ravage')"
                 class="icon-lock"
               />
-              <span
-                v-else
-                class="icon-lock-off"
-              />
+              <span v-else class="icon-lock-off" />
             </button>
           </div>
           <div class="flex items-center mb-3">
@@ -320,9 +315,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
           </div>
           <div class="basis-full flex-col flex">
             <div class="h-10">
-              <div class="text-center text-base">
-                Build
-              </div>
+              <div class="text-center text-base">Build</div>
               <div
                 v-if="gameOption.hasEngland1"
                 class="text-center text-xs bg-red-200 rounded"
@@ -339,7 +332,8 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
                 v-if="gameOption.hasMining1"
                 class="text-center text-xs bg-red-200 rounded"
               >
-                Mining 1<span v-if="gameOption.hasMining5">, 5</span><span v-else-if="gameOption.hasMining3">, 3</span>
+                Mining 1<span v-if="gameOption.hasMining5">, 5</span
+                ><span v-else-if="gameOption.hasMining3">, 3</span>
               </div>
               <div
                 v-if="gameOption.hasHabsburg1"
@@ -351,13 +345,16 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
                 v-if="gameOption.hasFrance"
                 class="text-center text-xs bg-red-200 rounded"
               >
-                France loss<span v-if="gameOption.hasFranceEvent">, 2</span><span v-if="gameOption.hasFrance4">, 4</span>
+                France loss<span v-if="gameOption.hasFranceEvent">, 2</span
+                ><span v-if="gameOption.hasFrance4">, 4</span>
               </div>
             </div>
             <invader-box
               v-if="invaderCard.build.length !== 1"
               :deck="invaderCard.buildView"
-              :class="{'border-4 border-red-700' :invaderCard.lock.includes('build')}"
+              :class="{
+                'border-4 border-red-700': invaderCard.lock.includes('build')
+              }"
               class="flex-1 rounded-lg overflow-hidden"
             />
             <div
@@ -367,9 +364,11 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               <img
                 :src="`/img/invader/${invaderCard.build[0].toLowerCase()}.webp`"
                 alt="Invader Card"
-                :class="{'border-4 border-red-700' :invaderCard.lock.includes('build')}"
+                :class="{
+                  'border-4 border-red-700': invaderCard.lock.includes('build')
+                }"
                 class="absolute w-full max-h-full rounded-lg"
-              >
+              />
             </div>
             <button
               class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:bg-gray-800/60"
@@ -380,19 +379,14 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
                 v-if="invaderCard.lock.includes('build')"
                 class="icon-lock"
               />
-              <span
-                v-else
-                class="icon-lock-off"
-              />
+              <span v-else class="icon-lock-off" />
             </button>
           </div>
           <div class="flex items-center mb-3">
             <span class="icon-chevron-left text-3xl" />
           </div>
           <div class="basis-full flex-col flex">
-            <div class="text-center text-base">
-              Explore
-            </div>
+            <div class="text-center text-base">Explore</div>
             <div
               v-if="gameOption.hasFrance1"
               class="text-center text-xs bg-red-200 rounded"
@@ -412,20 +406,22 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               Mining 6
             </div>
             <div
-              v-if="invaderCard.explore.length === 0 && invaderCard.draw.length > 0"
+              v-if="
+                invaderCard.explore.length === 0 && invaderCard.draw.length > 0
+              "
               class="relative flex-1 text-semibold rounded-lg overflow-hidden font-serif h-full text-white bg-gray-900 flex items-center justify-center"
               @click="showInvaderDraw = true"
             >
               {{ invaderCard.getBackCardTop }}
-              <div
-                class="absolute top-0 right-0 p-2"
-                @click.stop="shuffle"
-              >
+              <div class="absolute top-0 right-0 p-2" @click.stop="shuffle">
                 <span class="icon-reload" />
               </div>
             </div>
             <div
-              v-else-if="invaderCard.explore.length === 0 && invaderCard.draw.length === 0"
+              v-else-if="
+                invaderCard.explore.length === 0 &&
+                invaderCard.draw.length === 0
+              "
               class="flex-1 flex items-center justify-center text-red-700 font-bold"
             >
               Empty
@@ -433,7 +429,6 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             <template v-else>
               <invader-box
                 v-if="invaderCard.explore.length !== 1"
-
                 :deck="invaderCard.exploreView"
                 class="flex-1 rounded-lg overflow-hidden"
               />
@@ -445,14 +440,15 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
                   :src="`/img/invader/${invaderCard.explore[0].toLowerCase()}.webp`"
                   alt="Invader Card"
                   class="absolute w-full max-h-full rounded-lg"
-                >
+                />
               </div>
             </template>
-            <div
-              class="flex"
-            >
+            <div class="flex">
               <button
-                v-if="gameOption.hasSweden4 && invaderCard.draw.length === invaderCard.pos.length"
+                v-if="
+                  gameOption.hasSweden4 &&
+                  invaderCard.draw.length === invaderCard.pos.length
+                "
                 class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:bg-gray-800/60 text-sm"
                 @click="doSweden4"
               >
@@ -489,10 +485,10 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
         v-if="showingVision"
         class="absolute top-0 left-0 w-full h-full bg-gray-900/30 z-50"
       >
-        <div class="h-[85%] rounded-lg overflow-hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center">
-          <div
-            class="text-center text-lg font-semibold text-white"
-          >
+        <div
+          class="h-[85%] rounded-lg overflow-hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center"
+        >
+          <div class="text-center text-lg font-semibold text-white">
             Visions of a shifting future
           </div>
           <div class="h-[90%] flex">
@@ -500,18 +496,12 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               :src="`/img/invader/${invaderCard.draw[invaderCard.draw.length - 1].toLowerCase()}.webp`"
               alt="Invader Card"
               class="h-full rounded-lg"
-            >
+            />
             <div class="flex flex-col space-y-4 items-center justify-center">
-              <base-button
-                button-style="secondary"
-                @click="invaderCard.visionShuffle(); showingVision = false"
-              >
+              <base-button button-style="secondary" @click="visionShuffle">
                 Shuffle
               </base-button>
-              <base-button
-                button-style="secondary"
-                @click="invaderCard.visionBottom(); showingVision = false"
-              >
+              <base-button button-style="secondary" @click="visionBottom">
                 Bottom
               </base-button>
             </div>
@@ -523,7 +513,9 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
         class="absolute top-0 left-0 w-full h-full bg-gray-900/30 z-50"
         @click.self="sweden4 = null"
       >
-        <div class="h-[85%] rounded-lg overflow-hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div
+          class="h-[85%] rounded-lg overflow-hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        >
           <div class="text-center text-lg font-semibold text-white">
             Royal Backing
           </div>
@@ -531,7 +523,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             :src="`/img/invader/${(sweden4 as string).toLowerCase()}.webp`"
             alt="Invader Card"
             class="h-[90%]"
-          >
+          />
         </div>
       </div>
       <div
@@ -539,12 +531,14 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
         class="absolute top-0 left-0 w-full h-full bg-gray-900/30 z-50"
         @click.self="showSaltDeposit = false"
       >
-        <div class="h-[85%] rounded-lg overflow-hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div
+          class="h-[85%] rounded-lg overflow-hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        >
           <img
             :src="`/img/invader/d-2.webp`"
             alt="Invader Card"
             class="h-full"
-          >
+          />
         </div>
       </div>
       <div
@@ -552,7 +546,9 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
         class="absolute top-0 left-0 w-full h-full bg-gray-900/30 z-50"
         @click.self="showInvaderDiscard = false"
       >
-        <div class="h-[90%] w-[85%] flex flex-col rounded-lg overflow-hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div
+          class="h-[90%] w-[85%] flex flex-col rounded-lg overflow-hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        >
           <div class="bg-gray-900 text-white px-4 py-2 relative">
             Invader Discard
             <div
@@ -562,24 +558,37 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               <span class="icon-x text-2xl" />
             </div>
           </div>
-          <div class="bg-white flex-1 overflow-x-auto py-2 px-3 flex hide-scrollbar">
+          <div
+            class="bg-white flex-1 overflow-x-auto py-2 px-3 flex hide-scrollbar"
+          >
             <div
               v-for="(card, index) in invaderCard.discardView"
               :key="card"
               class="flex flex-col justify-center items-center space-y-1 shrink-0"
             >
               <img
-                :src="invaderCard.hidden.includes(card) ? `/img/card-back/stage${card.split('-')[1]}.webp` : `/img/invader/${card.toLowerCase()}.webp`"
+                :src="
+                  invaderCard.hidden.includes(card)
+                    ? `/img/card-back/stage${card.split('-')[1]}.webp`
+                    : `/img/invader/${card.toLowerCase()}.webp`
+                "
                 alt="Invader Card"
                 class="rounded-lg"
                 :class="{
                   'ml-2': index !== 0,
-                  'h-[80%]': daysThatNeverWereDeck.current === playerCard.current && parseInt(card.split('-')[1]) >= invaderCard.getStage - 1,
-                  'h-full': daysThatNeverWereDeck.current !== playerCard.current || parseInt(card.split('-')[1]) < invaderCard.getStage - 1,
+                  'h-[80%]':
+                    daysThatNeverWereDeck.current === playerCard.current &&
+                    parseInt(card.split('-')[1]) >= invaderCard.getStage - 1,
+                  'h-full':
+                    daysThatNeverWereDeck.current !== playerCard.current ||
+                    parseInt(card.split('-')[1]) < invaderCard.getStage - 1
                 }"
-              >
+              />
               <base-button
-                v-if="daysThatNeverWereDeck.current === playerCard.current && parseInt(card.split('-')[1]) >= invaderCard.getStage - 1"
+                v-if="
+                  daysThatNeverWereDeck.current === playerCard.current &&
+                  parseInt(card.split('-')[1]) >= invaderCard.getStage - 1
+                "
                 @click="invaderCard.swapInvaderCard(card)"
               >
                 Swap
@@ -593,7 +602,9 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
         class="absolute top-0 left-0 w-full h-full bg-gray-900/30 z-50"
         @click.self="showInvaderDraw = false"
       >
-        <div class="h-[90%] w-[85%] flex flex-col rounded-lg overflow-hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div
+          class="h-[90%] w-[85%] flex flex-col rounded-lg overflow-hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        >
           <div class="bg-gray-900 text-white px-4 py-2 relative">
             Invader Draw
             <div
@@ -603,25 +614,30 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               <span class="icon-x text-2xl" />
             </div>
           </div>
-          <div class="bg-white flex-1 overflow-x-auto py-2 px-3 flex hide-scrollbar">
+          <div
+            class="bg-white flex-1 overflow-x-auto py-2 px-3 flex hide-scrollbar"
+          >
             <template
               v-for="(card, index) in invaderCard.drawView"
               :key="card.name"
             >
               <img
-                v-if="card.name === 'D-2' || (gameOption.hasScotland2 && card.name === 'C-2')"
+                v-if="
+                  card.name === 'D-2' ||
+                  (gameOption.hasScotland2 && card.name === 'C-2')
+                "
                 :src="`/img/invader/${card.name.toLowerCase()}.webp`"
                 alt="Invader Card"
                 class="h-full rounded-lg"
-                :class="{'ml-2': index !== 0}"
-              >
+                :class="{ 'ml-2': index !== 0 }"
+              />
               <img
                 v-else
                 :src="`/img/card-back/stage${card.stage}.webp`"
                 alt="Invader Card"
                 class="h-full rounded-lg"
-                :class="{'ml-2': index !== 0}"
-              >
+                :class="{ 'ml-2': index !== 0 }"
+              />
             </template>
           </div>
         </div>

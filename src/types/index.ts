@@ -6,10 +6,20 @@ export interface PowerCard {
   description: string
 }
 export type Speed = 'Slow' | 'Fast'
-const ELEMENT_VALUES = ['Fire', 'Moon', 'Air', 'Sun', 'Earth', 'Water', 'Animal', 'Plant', 'Any']
-export type Element = typeof ELEMENT_VALUES[number]
+const ELEMENT_VALUES = [
+  'Fire',
+  'Moon',
+  'Air',
+  'Sun',
+  'Earth',
+  'Water',
+  'Animal',
+  'Plant',
+  'Any'
+]
+export type Element = (typeof ELEMENT_VALUES)[number]
 export function isElement(value: Element): value is Element {
-  return ELEMENT_VALUES.includes(value);
+  return ELEMENT_VALUES.includes(value)
 }
 
 export type CardListStatus = 'pick-power' | 'view-discard' | ''
@@ -29,7 +39,7 @@ export interface Adversary {
   title: string
   fear: number[][]
   difficultly: number[]
-  invaders?: string[];
+  invaders?: string[]
   id: string
   detail: {
     title: string
@@ -46,10 +56,10 @@ export interface Adversary {
       text: string
       isHighlight?: boolean
     }>
-  },
+  }
   setup: Array<{
-    piece?: string,
-    invaders?: string,
+    piece?: string
+    invaders?: string
   }>
 }
 export interface BlightCard {
@@ -79,7 +89,7 @@ export interface Aspect {
         | 'Coastal'
         | 'j-w'
     }
-  }[],
+  }[]
   faq?: FAQ[]
 }
 
@@ -92,7 +102,7 @@ export interface SpiritType {
   name: string
   cards: Array<PowerCard>
   aspects?: Aspect[]
-  setup?: (playerIndex: number) => void,
+  setup?: (playerIndex: number) => void
   faq?: FAQ[]
 }
 
@@ -106,27 +116,40 @@ export interface Result {
 }
 
 export interface PendingResult {
-  createdAt: Date,
-  offset: number,
-  result: Result,
-  id: number,
+  createdAt: Date
+  offset: number
+  result: Result
+  id: number
 }
 
 export interface SpiritsChart {
   [spirit: string]: {
-    [adversary: string]: {
-      win: number;
-      lose: number;
-    } | number;
-    total: number;
-  };
+    [adversary: string]:
+      | {
+          win: number
+          lose: number
+        }
+      | number
+    total: number
+  }
 }
 
 export interface ChartData {
-  total: number;
-  spirit_chart: SpiritsChart;
+  total: number
+  spirit_chart: SpiritsChart
   last: { createdAt: Date }
-  lastUpdate?: Date;
+  lastUpdate?: Date
 }
 
-export type ButtonStyle = 'primary' | 'secondary' | 'warning' | 'success' | 'impending' | 'daysThatNeverWere'
+export type ButtonStyle =
+  | 'primary'
+  | 'secondary'
+  | 'warning'
+  | 'success'
+  | 'impending'
+  | 'daysThatNeverWere'
+
+export interface AspectOption {
+  label: string
+  value: number
+}

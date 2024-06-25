@@ -16,7 +16,7 @@ export function setupViolence(playerPos: number) {
 
   const cardId2 = getPowerIdByName(
     'Bats Scout for Raids by Darkness',
-    'minor-major',
+    'minor-major'
   )
   if (!cardId2) {
     console.error('Card --Bats Scout for Raids by Darkness-- not found')
@@ -191,7 +191,7 @@ export function setupLocus(playerPos: number) {
     console.error('Card --Pull Beneath the Hungry Earth-- not found')
     return false
   }
-  
+
   removeCard(minorDeck.draw, minor)
   players.hand.push(minor)
 

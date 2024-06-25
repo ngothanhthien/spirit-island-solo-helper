@@ -1,7 +1,7 @@
-import { defineStore } from "pinia"
-import { FEAR_CARDS } from "@/constant"
-import { removeCard, shuffle } from "@/utils"
-import { useMessageStore } from "./MessageStore"
+import { defineStore } from 'pinia'
+import { FEAR_CARDS } from '@/constant'
+import { removeCard, shuffle } from '@/utils'
+import { useMessageStore } from './MessageStore'
 export const useFearDeckStore = defineStore('fearDeck', {
   state: () => ({
     raw: [] as string[],
@@ -111,10 +111,10 @@ export const useFearDeckStore = defineStore('fearDeck', {
     shuffle() {
       this.draw = shuffle(this.draw) as string[]
     },
-    removeTop () {
+    removeTop() {
       return this.draw.pop()
     },
-    returnToTop () {
+    returnToTop() {
       const card = this.earned.pop()
       if (card) {
         this.draw.push(card)
@@ -163,7 +163,7 @@ export const useFearDeckStore = defineStore('fearDeck', {
       return card
     },
     unEarn() {
-      if(this.earned.length === 0) {
+      if (this.earned.length === 0) {
         return
       }
       const card = this.earned.pop() as string
@@ -202,7 +202,7 @@ export const useFearDeckStore = defineStore('fearDeck', {
     },
     cleanUp() {
       this.fearThisTurn = 0
-    },
+    }
   },
-  persist: true,
+  persist: true
 })

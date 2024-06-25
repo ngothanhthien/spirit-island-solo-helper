@@ -5,20 +5,22 @@ import BaseButton from './base/BaseButton.vue'
 import { onClickOutside } from '@vueuse/core'
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import useZoomCardSwipe from '@/composable/useZoomCardSwipe'
-import { useImpendingCardStore } from "@/stores/ImpendingCardStore";
-import { usePlayerCardStore } from "@/stores/PlayerCardStore";
-import { useMessageStore } from "@/stores/MessageStore";
-import { useDaysThatNeverWereStore } from "@/stores/DaysThatNeverWhereStore";
-import type { ButtonStyle } from "@/types";
-import { usePowerDeckStore } from "@/stores/PowerDeckStore";
-import { useModalDiscardStore } from "@/stores/ModalDiscardStore";
+import { useImpendingCardStore } from '@/stores/ImpendingCardStore'
+import { usePlayerCardStore } from '@/stores/PlayerCardStore'
+import { useMessageStore } from '@/stores/MessageStore'
+import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
+import type { ButtonStyle } from '@/types'
+import { usePowerDeckStore } from '@/stores/PowerDeckStore'
+import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
 interface ButtonInfo {
   text: string
   style?: ButtonStyle
   class?: string
   fn: () => void
 }
-const ImpendingCard = defineAsyncComponent(() => import('@/components/ImpendingCard.vue'))
+const ImpendingCard = defineAsyncComponent(
+  () => import('@/components/ImpendingCard.vue')
+)
 
 const content = ref<HTMLElement | null>(null)
 const cardEl = ref<HTMLElement | null>(null)
@@ -35,7 +37,11 @@ const type = computed(() => {
   return cardZoom.current?.split('-')[0]
 })
 const isPowerCard = computed(() => {
-  return type.value === 'minor' || type.value === 'major' || type.value?.includes('unique')
+  return (
+    type.value === 'minor' ||
+    type.value === 'major' ||
+    type.value?.includes('unique')
+  )
 })
 
 onClickOutside(content, () => {
@@ -55,7 +61,10 @@ const cardZoomClass = computed(() => {
 })
 
 function doImpendingCard() {
-  if (playerCard.players[impendingCardStore.index as number].energy < impendingEnergy.value) {
+  if (
+    playerCard.players[impendingCardStore.index as number].energy <
+    impendingEnergy.value
+  ) {
     useMessageStore().setMessage('Not enough energy')
     return
   }
@@ -64,7 +73,10 @@ function doImpendingCard() {
     playerCard.reduceEnergy(impendingCardStore.index as number)
   }
   impendingCardStore.add(cardZoom.current as string, impendingEnergy.value)
-  playerCard.removeCardFromHand(cardZoom.current as string, impendingCardStore.index as number)
+  playerCard.removeCardFromHand(
+    cardZoom.current as string,
+    impendingCardStore.index as number
+  )
   cardZoom.reset()
 }
 
@@ -122,12 +134,12 @@ const buttonInfo = computed<ButtonInfo | null>(() => {
           text: 'Impending',
           style: 'impending',
           class: 'w-28 ml-12',
-          fn: doImpendingCard,
+          fn: doImpendingCard
         }
       }
       return {
         text: 'Play',
-        fn: playCard,
+        fn: playCard
       }
     case 'discard':
       return {
@@ -137,12 +149,12 @@ const buttonInfo = computed<ButtonInfo | null>(() => {
     case 'play':
       return {
         text: 'Take',
-        fn: returnCardToHand,
+        fn: returnCardToHand
       }
     case 'days-that-never-were':
       return {
         text: 'Take',
-        fn: takeFromDaysThatNeverWere,
+        fn: takeFromDaysThatNeverWere
       }
     case 'pick':
       if (daysThatNeverWere.hasDaysThatNeverWere) {
@@ -150,12 +162,12 @@ const buttonInfo = computed<ButtonInfo | null>(() => {
           text: 'Days That Never Were',
           class: 'w-48',
           style: 'daysThatNeverWere',
-          fn: addToDaysThatNeverWere,
+          fn: addToDaysThatNeverWere
         }
       }
       return {
         text: 'Take',
-        fn: takeCardFromPick,
+        fn: takeCardFromPick
       }
     case 'player-discard':
       return {
@@ -173,15 +185,9 @@ const buttonInfo = computed<ButtonInfo | null>(() => {
   <div
     class="absolute h-full w-full bg-gray-900/30 top-0 left-0 flex items-center justify-center z-[100]"
   >
-    <div
-      ref="content"
-      class="h-[90%] flex"
-    >
+    <div ref="content" class="h-[90%] flex">
       <div class="flex flex-col items-center">
-        <div
-          v-if="cardZoom.from?.includes('player-discard')"
-          class="w-24"
-        >
+        <div v-if="cardZoom.from?.includes('player-discard')" class="w-24">
           <base-button
             button-style="secondary"
             class="mb-1 w-full"
@@ -198,22 +204,19 @@ const buttonInfo = computed<ButtonInfo | null>(() => {
         >
           <game-card
             v-if="impendingCardStore.index === null || cardZoom.from !== 'hand'"
-            :id="(cardZoom.current as string)"
+            :id="cardZoom.current as string"
             class="rounded-xl h-full"
           />
           <impending-card
             v-else
-            :card="(cardZoom.current as string)"
+            :card="cardZoom.current as string"
             :energy="impendingEnergy"
             class="rounded-xl h-full"
             @increase-energy="impendingEnergy++"
             @decrease-energy="impendingEnergy--"
           />
         </div>
-        <div
-          v-if="buttonInfo"
-          :class="buttonInfo.class ?? 'w-24'"
-        >
+        <div v-if="buttonInfo" :class="buttonInfo.class ?? 'w-24'">
           <base-button
             :button-style="buttonInfo.style ?? 'secondary'"
             class="mt-1 w-full"

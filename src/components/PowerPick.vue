@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import cardItem from '@/components/base/CardItem.vue'
-import { useCardZoomStore } from '@/stores/CardZoomStore';
-import { usePlayerCardStore } from '@/stores/PlayerCardStore';
-import { usePowerDeckStore } from '@/stores/PowerDeckStore';
+import { useCardZoomStore } from '@/stores/CardZoomStore'
+import { usePlayerCardStore } from '@/stores/PlayerCardStore'
+import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 
 const cardZoom = useCardZoomStore()
 const playerCard = usePlayerCardStore()
-
 
 const type = ref('minor')
 onMounted(() => {
@@ -31,7 +30,9 @@ function powerPickSwipeUp(cardId: string) {
 </script>
 
 <template>
-  <div class="flex h-full w-full flex-shrink-0 absolute pb-96 -mb-96 box-content">
+  <div
+    class="flex h-full w-full flex-shrink-0 absolute pb-96 -mb-96 box-content"
+  >
     <div
       key="button-add-power"
       class="flex shrink-0 items-center justify-center border-2 rounded-xl overflow-hidden"
@@ -41,7 +42,7 @@ function powerPickSwipeUp(cardId: string) {
         :src="`/img/card-back/${type}.webp`"
         alt="Power Back"
         class="h-full"
-      >
+      />
     </div>
     <transition-group
       name="fade"

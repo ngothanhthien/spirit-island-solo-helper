@@ -6,7 +6,7 @@ import type { BlightCard } from '@/types'
 export const useBlightDeckStore = defineStore('blightDeck', {
   state: () => ({
     draw: [] as string[],
-    current: null as string | null,
+    current: null as string | null
   }),
   getters: {
     isAvailable(state) {
@@ -18,7 +18,7 @@ export const useBlightDeckStore = defineStore('blightDeck', {
       }
       const card = getCard(state.current) as BlightCard
       return card.isBlighted
-    },
+    }
   },
   actions: {
     newDeck() {
@@ -34,7 +34,7 @@ export const useBlightDeckStore = defineStore('blightDeck', {
       if (blightCard.setup) {
         blightCard.setup()
       }
-    },
+    }
   },
-  persist: true,
+  persist: true
 })

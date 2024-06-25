@@ -28,16 +28,22 @@ app.config.errorHandler = (err, vm, info) => {
   if (import.meta.env.VITE_APP_ENVIRONMENT !== 'production') {
     console.error(err, vm, info)
   }
-};
-
-app.config.warnHandler = (msg) => {
-  console.log(msg);
 }
 
-app.config.performance = !(import.meta.env.VITE_APP_ENVIRONMENT === 'production')
+app.config.warnHandler = (msg) => {
+  console.log(msg)
+}
 
-window.addEventListener('contextmenu', function (e) { 
-  e.preventDefault(); 
-}, false);
+app.config.performance = !(
+  import.meta.env.VITE_APP_ENVIRONMENT === 'production'
+)
+
+window.addEventListener(
+  'contextmenu',
+  function (e) {
+    e.preventDefault()
+  },
+  false
+)
 
 app.mount('#app')

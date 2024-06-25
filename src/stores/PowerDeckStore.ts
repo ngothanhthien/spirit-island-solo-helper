@@ -8,7 +8,7 @@ export const useDiscardPowerStore = defineStore('discardPower', {
     discard: [] as string[]
   }),
   getters: {
-    isAvailable (state) {
+    isAvailable(state) {
       return state.discard.length > 0
     },
     discardView(state) {
@@ -21,14 +21,14 @@ export const useDiscardPowerStore = defineStore('discardPower', {
     },
     removeFromDiscard(card: string) {
       removeCard(this.discard, card)
-    },
+    }
   },
-  persist: true,
+  persist: true
 })
 
 function createDeck() {
   return {
-    draw: [] as string[],
+    draw: [] as string[]
   }
 }
 
@@ -38,18 +38,22 @@ function createDeckStore(name: string) {
   return defineStore(`${name}Deck`, {
     state: () => createDeck(),
     getters: {
-      isAvailable (state) {
+      isAvailable(state) {
         return state.draw.length > 0
       },
       canShowDiscardPile() {
         return discardPowerStore.discard.length > 0
-      },
+      }
     },
     actions: {
       newDeck() {
-        const unShuffle = Array.from(Array(name === 'minor' ? MINOR_CARDS.length : MAJOR_CARDS.length).keys())
+        const unShuffle = Array.from(
+          Array(
+            name === 'minor' ? MINOR_CARDS.length : MAJOR_CARDS.length
+          ).keys()
+        )
         const shuffled = shuffle(unShuffle)
-        this.draw = shuffled.map(i => `${name}-${i}`)
+        this.draw = shuffled.map((i) => `${name}-${i}`)
         discardPowerStore.discard = []
       },
       addToDraw(card: string) {
@@ -68,10 +72,11 @@ function createDeckStore(name: string) {
       },
       reveal() {
         return this.draw.pop() as string
-      },
+      }
     },
-    persist: true,
+    persist: true
   })
 }
 
-export const usePowerDeckStore = (type: string) => type === 'minor' ? createDeckStore('minor')() : createDeckStore('major')()
+export const usePowerDeckStore = (type: string) =>
+  type === 'minor' ? createDeckStore('minor')() : createDeckStore('major')()

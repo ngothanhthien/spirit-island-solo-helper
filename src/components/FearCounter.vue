@@ -10,9 +10,10 @@ const fearDeck = useFearDeckStore()
   >
     <span class="icon-fear text-white" />
     <span>
-      {{ fearDeck.currentFear }}<span
-        class="text-xs relative -top-2"
-      >+{{ fearDeck.fearThisTurn }}</span>
+      {{ fearDeck.currentFear
+      }}<span class="text-xs relative -top-2"
+        >+{{ fearDeck.fearThisTurn }}</span
+      >
     </span>
   </button>
 </template>

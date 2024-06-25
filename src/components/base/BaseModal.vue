@@ -9,7 +9,7 @@ interface BaseModalProps {
 withDefaults(defineProps<BaseModalProps>(), {
   showCloseIcon: true,
   isHeightFixed: true,
-  isOverFlowX: false,
+  isOverFlowX: false
 })
 const emit = defineEmits(['clickOutSide', 'close'])
 const slots = useSlots()
@@ -39,7 +39,9 @@ const { lengthY } = useSwipe(modalContentEl, {
       :class="{ 'h-[90%]': isHeightFixed }"
       class="w-[80%] max-h-[90%] overflow-hidden flex flex-col"
     >
-      <div class="bg-gray-900 text-white py-2 px-4 text-lg relative rounded-t-md">
+      <div
+        class="bg-gray-900 text-white py-2 px-4 text-lg relative rounded-t-md"
+      >
         <slot name="header" />
         <span
           v-if="showCloseIcon"
@@ -51,7 +53,7 @@ const { lengthY } = useSwipe(modalContentEl, {
         ref="modalContentEl"
         :class="{
           'overflow-x-auto': isOverFlowX,
-          'rounded-b-md': !slots.footer,
+          'rounded-b-md': !slots.footer
         }"
         class="overflow-y-auto border-2 border-gray-800 bg-white"
       >

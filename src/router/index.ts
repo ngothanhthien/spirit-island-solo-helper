@@ -32,10 +32,10 @@ const routes = [
   },
   {
     path: '/:catchAll(.*)',
-    redirect: '/',
-  },
+    redirect: '/'
+  }
 ]
 export default createRouter({
   history: createWebHistory(),
-  routes,
+  routes
 })

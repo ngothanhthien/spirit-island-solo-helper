@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref } from 'vue'
 
 import { ADVERSARY } from '@/constant'
-import { useGameOptionStore } from '@/stores/GameOptionStore';
+import { useGameOptionStore } from '@/stores/GameOptionStore'
 import AdversaryText from '@/components/base/AdversaryText.vue'
-import { onClickOutside, useWindowSize } from '@vueuse/core';
+import { onClickOutside, useWindowSize } from '@vueuse/core'
 
-const emit =defineEmits(['close'])
+const emit = defineEmits(['close'])
 const FIXED_WIDTH = 1100
 const FIXED_HEIGHT = 600
 
-const gameOption = useGameOptionStore();
+const gameOption = useGameOptionStore()
 
 const adversaryEl = ref<HTMLElement | null>(null)
 const { height } = useWindowSize()
 const scale = computed(() => {
-  return (height.value * 0.9 / FIXED_HEIGHT).toFixed(2)
+  return ((height.value * 0.9) / FIXED_HEIGHT).toFixed(2)
 })
 
 onClickOutside(adversaryEl, () => {
   emit('close')
 })
 const currentAdversary = computed(() => {
-  return ADVERSARY[gameOption.adversary || 0];
+  return ADVERSARY[gameOption.adversary || 0]
 })
 const title = computed(() => {
   return currentAdversary.value.detail.title
@@ -42,13 +42,18 @@ const levelDetail = computed(() => {
     }
 
     //handle Habsburg Mining
-    if (gameOption.adversary && ADVERSARY[gameOption.adversary].id === 'habsburg-mining' && gameOption.adversaryLevel >=5 && level === 3) {
+    if (
+      gameOption.adversary &&
+      ADVERSARY[gameOption.adversary].id === 'habsburg-mining' &&
+      gameOption.adversaryLevel >= 5 &&
+      level === 3
+    ) {
       isHighlight = false
     }
 
     return {
       ...detail,
-      isHighlight,
+      isHighlight
     }
   })
 })
@@ -66,9 +71,7 @@ const fearArr = computed(() => {
 })
 </script>
 <template>
-  <div
-    class="absolute top-0 left-0 w-full h-full z-40 bg-gray-900/50"
-  >
+  <div class="absolute top-0 left-0 w-full h-full z-40 bg-gray-900/50">
     <div
       ref="adversaryEl"
       class="grid overflow-hidden absolute rounded-2xl shadow-lg left-1/2 top-1/2"
@@ -131,7 +134,7 @@ const fearArr = computed(() => {
             alt="Adversary Flag"
             width="170"
             height="108"
-          >
+          />
         </div>
       </div>
       <div
@@ -145,14 +148,9 @@ const fearArr = computed(() => {
           z-index: 1;
         "
       >
-        <div class="font-bold italic mt-2">
-          Additional Loss Condition
-        </div>
+        <div class="font-bold italic mt-2">Additional Loss Condition</div>
         <div>
-          <adversary-text
-            :message="loss"
-            :is-highlight="loss.name !== null"
-          />
+          <adversary-text :message="loss" :is-highlight="loss.name !== null" />
         </div>
       </div>
       <div
@@ -165,16 +163,11 @@ const fearArr = computed(() => {
         "
       >
         <div class="flex items-center mt-2">
-          <div class="font-bold italic">
-            Escalation
-          </div>
+          <div class="font-bold italic">Escalation</div>
           <span class="fill-current icon-escalation text-2xl ml-2 -mt-2" />
         </div>
         <div class="space-x-2">
-          <adversary-text
-            :message="escalation"
-            :is-highlight="true"
-          />
+          <adversary-text :message="escalation" :is-highlight="true" />
         </div>
       </div>
       <div
@@ -186,10 +179,7 @@ const fearArr = computed(() => {
           box-shadow: -20px 3px 0 0 rgba(90, 90, 90, 1);
         "
       >
-        <div
-          class="relative"
-          style="top: 526px; left: 170px"
-        >
+        <div class="relative" style="top: 526px; left: 170px">
           <div
             class="flex justify-center items-center"
             style="height: 30px; width: 30px"
@@ -205,15 +195,12 @@ const fearArr = computed(() => {
         "
       >
         <div class="mx-6 mt-0.5">
-          <div
-            class="grid"
-            style="grid-template-columns: 10% 12% 79%"
-          >
+          <div class="grid" style="grid-template-columns: 10% 12% 79%">
             <div
               class="items-center text-center flex justify-center font-bold italic"
               style="grid-column: 1 / 2"
             >
-              Level<br>(Difficulty)
+              Level<br />(Difficulty)
             </div>
             <div
               class="font-bold italic flex justify-center items-center"
@@ -221,11 +208,10 @@ const fearArr = computed(() => {
             >
               Fear Cards
             </div>
-            <div
-              class="italic flex items-center"
-              style="grid-column: 3 / -1"
-            >
-              <div><span class="font-bold">Game Effects</span> (cumulative)</div>
+            <div class="italic flex items-center" style="grid-column: 3 / -1">
+              <div>
+                <span class="font-bold">Game Effects</span> (cumulative)
+              </div>
             </div>
           </div>
         </div>
@@ -239,13 +225,10 @@ const fearArr = computed(() => {
           border-right: 20px solid black;
           border-color: rgb(145, 125, 100);
         "
-        :class="{'text-gray-300':i > gameOption.adversaryLevel}"
+        :class="{ 'text-gray-300': i > gameOption.adversaryLevel }"
       >
         <div class="mx-6 mt-0.5">
-          <div
-            class="grid"
-            style="grid-template-columns: 10% 12% 79%"
-          >
+          <div class="grid" style="grid-template-columns: 10% 12% 79%">
             <div
               class="flex justify-center items-center"
               style="grid-column: 1 / 2"
@@ -268,20 +251,14 @@ const fearArr = computed(() => {
             >
               {{ fearArr[i - 1] }}
             </div>
-            <div
-              style="grid-column: 3 / -1"
-              class="flex items-center"
-            >
+            <div style="grid-column: 3 / -1" class="flex items-center">
               <adversary-text
                 :message="levelDetail[i - 1]"
-                :is-highlight="levelDetail[i-1].isHighlight"
+                :is-highlight="levelDetail[i - 1].isHighlight"
               />
             </div>
           </div>
-          <div
-            v-if="i!=6"
-            class="mt-1"
-          >
+          <div v-if="i != 6" class="mt-1">
             <div
               style="
                 border-bottom: 1px solid black;
@@ -291,7 +268,7 @@ const fearArr = computed(() => {
           </div>
         </div>
       </div>
-  
+
       <div
         style="
           grid-column: 1 / -1;

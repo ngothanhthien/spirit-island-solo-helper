@@ -1,11 +1,19 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
-type ZoomFrom = 'pick' | 'discard' | 'hand' | 'play' | 'player-discard' | 'player-discard-forget' | 'days-that-never-were' | 'impending-card'
+type ZoomFrom =
+  | 'pick'
+  | 'discard'
+  | 'hand'
+  | 'play'
+  | 'player-discard'
+  | 'player-discard-forget'
+  | 'days-that-never-were'
+  | 'impending-card'
 export const useCardZoomStore = defineStore('cardZoom', {
   state: () => ({
     current: null as null | string,
     from: null as ZoomFrom | null,
-    deck: [] as string[],
+    deck: [] as string[]
   }),
   getters: {
     isShow: (state) => state.current !== null,
@@ -22,7 +30,7 @@ export const useCardZoomStore = defineStore('cardZoom', {
         return index > 0
       }
       return false
-    },
+    }
   },
   actions: {
     next() {
@@ -47,5 +55,5 @@ export const useCardZoomStore = defineStore('cardZoom', {
       this.from = null
       this.deck = []
     }
-  },
+  }
 })

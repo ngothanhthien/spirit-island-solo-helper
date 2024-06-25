@@ -1,5 +1,3 @@
-
-
 <script setup lang="ts">
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { useInvaderCardStore } from '@/stores/InvaderCardStore'
@@ -20,7 +18,6 @@ function doRussiaStage3() {
   showRussiaStage3.value = false
   invaderCard.doRussia(3)
 }
-
 </script>
 
 <template>
@@ -34,7 +31,7 @@ function doRussiaStage3() {
           src="/img/card-back/stage2.webp"
           alt="Russia Invaders Card"
           class="h-full"
-        >
+        />
       </div>
       <base-button
         button-style="secondary"
@@ -55,7 +52,7 @@ function doRussiaStage3() {
           src="/img/card-back/stage3.webp"
           alt="Russia Invaders Card"
           class="h-full"
-        >
+        />
       </div>
       <base-button
         button-style="secondary"

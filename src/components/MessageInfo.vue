@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMessageStore } from '@/stores/MessageStore';
+import { useMessageStore } from '@/stores/MessageStore'
 
 const messageStore = useMessageStore()
 </script>

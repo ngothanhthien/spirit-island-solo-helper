@@ -1,8 +1,16 @@
-import { EVENT_CARDS, MAJOR_CARDS, MINOR_CARDS, SPIRIT, FEAR_CARDS, BLIGHT_CARDS, EXTRA_POWERS } from "@/constant"
-import { Random } from "random-js"
+import {
+  EVENT_CARDS,
+  MAJOR_CARDS,
+  MINOR_CARDS,
+  SPIRIT,
+  FEAR_CARDS,
+  BLIGHT_CARDS,
+  EXTRA_POWERS
+} from '@/constant'
+import { Random } from 'random-js'
 const random = new Random()
 export const getCardImage = (name: string, path: string) => {
-  const sanitized = name.toLowerCase().replace(/[-',]/g, '').replace(/\s/g, '_');
+  const sanitized = name.toLowerCase().replace(/[-',]/g, '').replace(/\s/g, '_')
   return `/img/${path}/${sanitized}.webp`
 }
 
@@ -55,7 +63,7 @@ export const getCard = (id: string) => {
     default:
       return {
         path: 'default',
-        name: 'default',
+        name: 'default'
       }
   }
 }
@@ -75,17 +83,20 @@ export const removeCard = (array: string[], card: string) => {
 
 export const getSpiritAvatar = (id: number) => {
   const name = SPIRIT[id].name
-  return name.replace(/'/g, "").replace(/[\s']/g, "_") + "_small.webp"
+  return name.replace(/'/g, '').replace(/[\s']/g, '_') + '_small.webp'
 }
 
 export const getSpiritAvatarByName = (name: string) => {
-  return name.replace(/'/g, "").replace(/[\s']/g, "_") + "_small.webp"
+  return name.replace(/'/g, '').replace(/[\s']/g, '_') + '_small.webp'
 }
 
-export const getPowerIdByName = (name: string, type?: 'unique' | 'minor-major' | 'extra') => {
+export const getPowerIdByName = (
+  name: string,
+  type?: 'unique' | 'minor-major' | 'extra'
+) => {
   const search = name.toLowerCase()
   if (type === 'extra') {
-    for(let i = 0; i < EXTRA_POWERS.length; i++) {
+    for (let i = 0; i < EXTRA_POWERS.length; i++) {
       if (EXTRA_POWERS[i].name.toLowerCase() === search) {
         return `extra-${i}`
       }
@@ -93,7 +104,7 @@ export const getPowerIdByName = (name: string, type?: 'unique' | 'minor-major' |
   }
 
   if (!type || type !== 'unique') {
-    for(let i = 0; i < MINOR_CARDS.length; i++) {
+    for (let i = 0; i < MINOR_CARDS.length; i++) {
       if (MINOR_CARDS[i].name.toLowerCase() === search) {
         return `minor-${i}`
       }
@@ -101,18 +112,18 @@ export const getPowerIdByName = (name: string, type?: 'unique' | 'minor-major' |
   }
 
   if (!type || type !== 'minor-major') {
-    const spiritCards = SPIRIT.map(spirit => spirit.cards)
-    for(let i = 0; i < spiritCards.length; i++) {
-      for(let j = 0; j < spiritCards[i].length; j++) {
+    const spiritCards = SPIRIT.map((spirit) => spirit.cards)
+    for (let i = 0; i < spiritCards.length; i++) {
+      for (let j = 0; j < spiritCards[i].length; j++) {
         if (spiritCards[i][j].name.toLowerCase() === search) {
           return `unique${i}-${j}`
         }
       }
     }
   }
-  
-  if(!type || type !== 'unique') {
-    for(let i = 0; i < MAJOR_CARDS.length; i++) {
+
+  if (!type || type !== 'unique') {
+    for (let i = 0; i < MAJOR_CARDS.length; i++) {
       if (MAJOR_CARDS[i].name.toLowerCase() === search) {
         return `major-${i}`
       }
@@ -125,17 +136,31 @@ export const getSpiritById = (id: number) => {
 }
 
 export const nameToImage = (name: string) => {
-  return name.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '_').toLowerCase() + '.webp'
+  return (
+    name
+      .replace(/[^a-zA-Z0-9 ]/g, '')
+      .replace(/\s+/g, '_')
+      .toLowerCase() + '.webp'
+  )
 }
 
 export const adversaryNameToImage = (name: string) => {
-  return name.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '-').toLowerCase() + '-flag.webp'
+  return (
+    name
+      .replace(/[^a-zA-Z0-9 ]/g, '')
+      .replace(/\s+/g, '-')
+      .toLowerCase() + '-flag.webp'
+  )
 }
 
-export const changePosition = (arr: string[], cardId: string, posId: {
-  id: string,
-  isFront: boolean,
-}) => {
+export const changePosition = (
+  arr: string[],
+  cardId: string,
+  posId: {
+    id: string
+    isFront: boolean
+  }
+) => {
   if (posId.id) {
     removeCard(arr, cardId)
     if (posId.isFront) {
@@ -150,8 +175,8 @@ export function getDayAgo(date: Date) {
   const now = new Date()
   const lastMatch = new Date(date)
   // @ts-ignore
-  const diffInMs = now - lastMatch;
-  const diffInHours = diffInMs / 1000 / 60 / 60;
+  const diffInMs = now - lastMatch
+  const diffInHours = diffInMs / 1000 / 60 / 60
 
   if (diffInHours < 1) {
     return 'Recently'
@@ -164,16 +189,18 @@ export function getDayAgo(date: Date) {
   }
 }
 
-function insertAfter(arr: string[] ,newElement: string, insertAfter: string) {
-  const index = arr.indexOf(insertAfter);
+function insertAfter(arr: string[], newElement: string, insertAfter: string) {
+  const index = arr.indexOf(insertAfter)
   if (index !== -1) {
-    arr.splice(index + 1, 0, newElement);
+    arr.splice(index + 1, 0, newElement)
   }
 }
 
 function insertBefore(arr: string[], newElement: string, insertBefore: string) {
-  const index = arr.indexOf(insertBefore);
+  const index = arr.indexOf(insertBefore)
   if (index !== -1) {
-    arr.splice(index, 0, newElement);
+    arr.splice(index, 0, newElement)
   }
 }
+
+export { insertAfter, insertBefore }

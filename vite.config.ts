@@ -17,7 +17,7 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,webp}']
+        globPatterns: ['**/*.{js,css,html,webp,eot,svg,ttf,woff}']
       },
       manifest: {
         name: 'Spirit Island Solo App',
@@ -50,7 +50,7 @@ export default defineConfig({
             purpose: 'maskable'
           }
         ]
-      },
+      }
     })
   ],
   resolve: {
@@ -62,8 +62,8 @@ export default defineConfig({
     minify: 'terser',
     terserOptions: {
       output: {
-        comments: false,
-      },
-    },
-  },
+        comments: false
+      }
+    }
+  }
 })

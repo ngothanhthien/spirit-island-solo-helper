@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import CardItem from './base/CardItem.vue'
-import { useCardZoomStore } from '@/stores/CardZoomStore';
+import { useCardZoomStore } from '@/stores/CardZoomStore'
 
 defineProps<{
   discard: string[]

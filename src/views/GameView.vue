@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch, type Ref, defineAsyncComponent } from 'vue'
-import NoSleep from 'nosleep.js'
+import { onMounted, watch, defineAsyncComponent, reactive } from 'vue'
 import type { Aspect } from '@/types'
 import CardGroupView from '@/components/CardGroupView.vue'
 import ElementTrack from '@/components/ElementTrack.vue'
@@ -14,13 +13,16 @@ import ModalFearDeck from '@/components/ModalFearDeck.vue'
 import AspectPower from '@/components/AspectPower.vue'
 import AspectDetail from '@/components/AspectDetail.vue'
 import PowerDiscard from '@/components/PowerDiscard.vue'
-import { addResult } from "@/database/result";
 
-const DaysThatNeverWere = defineAsyncComponent(() => import('@/components/DaysThatNeverWere.vue'))
-const VisionOfAShiftingFutureEvent = defineAsyncComponent(() => import('@/components/VisionOfAShiftingFutureEvent.vue'))
-const HabsburgReminder = defineAsyncComponent(() => import('@/components/HabsburgReminder.vue'))
-const Russia5Modal = defineAsyncComponent(() => import('@/components/Russia5Modal.vue'))
-const ImpedingCardModal = defineAsyncComponent(() => import('@/components/ImpendingCardModal.vue'))
+const HabsburgReminder = defineAsyncComponent(
+  () => import('@/components/HabsburgReminder.vue')
+)
+const Russia5Modal = defineAsyncComponent(
+  () => import('@/components/Russia5Modal.vue')
+)
+const ImpedingCardModal = defineAsyncComponent(
+  () => import('@/components/ImpendingCardModal.vue')
+)
 
 import { OnClickOutside } from '@vueuse/components'
 import ModalDiscardPower from '@/components/ModalDiscardPower.vue'
@@ -30,132 +32,57 @@ import ModalZoomBlightCard from '@/components/ModalZoomBlightCard.vue'
 import GameCard from '@/components/base/GameCard.vue'
 import InvaderBar from '@/components/InvaderBar.vue'
 import InvaderControl from '@/components/InvaderControl.vue'
-import { ADVERSARY } from '@/constant'
+import { MENU_1 } from '@/constant'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
-import AdversaryText from '@/components/base/AdversaryText.vue'
 import MessageInfo from '@/components/MessageInfo.vue'
 import GameSettingModal from '@/components/GameSettingModal.vue'
 
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
-import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { useBlightDeckStore } from '@/stores/BlightDeckStore'
 import { useDiscardPowerStore } from '@/stores/PowerDeckStore'
-import router from '@/router'
 import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
-import { useGameStateStore } from '@/stores/GameStateStore'
 import { useMessageStore } from '@/stores/MessageStore'
 import FearCounter from '@/components/FearCounter.vue'
-import { useLocalStorageStore } from "@/stores/LocalStorageStore";
-import {useImpendingCardStore} from "@/stores/ImpendingCardStore";
-import injectWakeScreen from "@/plugins/wakeScreen";
-
-const MENU_1 = {
-  PLAY: 0,
-  TAB_2: 1, //discard
-}
-
-const currentMenu1 = ref(MENU_1.PLAY)
+import { useImpendingCardStore } from '@/stores/ImpendingCardStore'
+import injectWakeScreen from '@/plugins/wakeScreen'
+import { useFieldFunctional } from '@/composable/useFieldFunctional'
+import { exitPicking, timePassed } from '@/utils/interact'
+import { canInGameView } from '@/utils/middleware'
+import { tryUploadResult } from '@/utils/result'
+import { useTakePowerMenu } from '@/composable/useTakePowerMenu'
+import AdversarySetupInfo from '@/components/AdversarySetupInfo.vue'
+import DayThatNeverWereTrigger from '@/components/DayThatNeverWereTrigger.vue'
+import { useAspectView } from '@/composable/useAspectView'
 
 const playerCard = usePlayerCardStore()
 const eventDeck = useEventDeckStore()
 const modalDiscard = useModalDiscardStore()
 const cardZoom = useCardZoomStore()
 const fearDeck = useFearDeckStore()
-const minorDeck = usePowerDeckStore('minor')
-const majorDeck = usePowerDeckStore('major')
-const powerDiscardDeck = useDiscardPowerStore()
 const gameOption = useGameOptionStore()
 const blightDeck = useBlightDeckStore()
-const gameState = useGameStateStore()
-const daysThatNeverWereDeck = useDaysThatNeverWereStore()
-const messageStore = useMessageStore()
-const localStorage = useLocalStorageStore()
-const impedingCardStore = useImpendingCardStore()
 
-const menuControlEl = ref<HTMLElement | null>(null)
-
-const isShowModalForgetPower = ref(false)
-const isShowEarnedFear = ref(false)
-const isShowFearDeck = ref(false)
-const isShowAspectDetail = ref(false)
-const showQuickPower = ref(false)
-const isZoomBlightCard = ref(false)
-const isShowModalDiscardPower = ref(false)
-const showHabsburgReminderCard = ref(true)
-const isShowSetupRef = ref(true)
-const isShowVisionsOfAShiftingFutureEvent = ref(false)
-const isShowInvaderControl = ref(false)
-const isShowGameSettings = ref(false)
-const isShowImpendingCardModal = ref(false)
-
-if (
-  !eventDeck.isAvailable ||
-  !minorDeck.isAvailable ||
-  !majorDeck.isAvailable ||
-  !fearDeck.isAvailable
-) {
-  router.push({ name: 'HomeView' })
-}
-
-const adversaryName = computed(() => {
-  if (gameOption.adversary !== undefined) {
-    return ADVERSARY[gameOption.adversary].title
-  }
-  return null
+const modal = reactive({
+  discardPower: false,
+  aspectDetail: false,
+  zoomBlightCard: false,
+  impendingCardModel: false,
+  fearDeck: false,
+  invaderControl: false,
+  gameSettings: false,
+  adversarySetup: false,
+  habsburgReminder: false,
+  earnedFear: false
 })
 
-const adversarySetup = computed(() => {
-  if (gameOption.adversary !== undefined) {
-    const setup = ADVERSARY[gameOption.adversary].setup
-    const pieces = []
-    let invaders = ''
-    for(let i = 0; i < gameOption.adversaryLevel + 1; i++) {
-      if (setup[i].invaders) {
-        invaders = setup[i].invaders as string
-      }
-      if (setup[i].piece) {
-        pieces.push(`- ${setup[i].piece}`)
-      }
-    }
-    const invadersText = invaders === '' ? '' : `:break:- Invaders: ${invaders}`
-    if (pieces.length === 0 && invaders === '') {
-      return null
-    }
-    return {
-      name: null,
-      text: pieces.join(':break:') + invadersText
-    }
-  }
-  return null
-})
-
-let isHasAspect = null as null | Ref<boolean>
-let isShow2xAspect = null as null | Ref<boolean | null>
-if (gameOption.isHasAspect) {
-  isHasAspect = computed(() => Boolean(gameOption.aspectsDetail[playerCard.current]))
-  isShow2xAspect = computed(() => {
-    return playerCard.aspectMode === '2x'
-    && isHasAspect
-    && isHasAspect.value
-    && playerCard.showAspect
-  })
-}
-
-function discardViewSwipeUp(cardId: string) {
-  playerCard.forgetCardFromDiscard(cardId)
-  currentMenu1.value = MENU_1.PLAY
-}
-
-function showPowerDiscard() {
-  isShowModalDiscardPower.value = true
-}
+const { isShow2xAspect } = useAspectView()
 
 function buttonQuickBlightClick() {
-  isZoomBlightCard.value = true
+  modal.zoomBlightCard = true
   if (blightDeck.current) {
     return
   }
@@ -166,93 +93,43 @@ function quickShowEarnedFear() {
   if (fearDeck.earned.length === 0) {
     return
   }
-  isShowEarnedFear.value = true
+  modal.earnedFear = true
 }
 
-function quickTake(type: 'minor' | 'major') {
-  showQuickPower.value = false
-  if (playerCard.isPicking) {
-    return
-  }
-  const card = usePowerDeckStore(type).reveal()
-  playerCard.addToPicking(card)
-}
+const { isShowQuickPower, quickTake, closeQuickPower, toggleQuickPower } =
+  useTakePowerMenu()
 
-function handSwipeUp(cardId: string, posId: { id: string, isFront: boolean }) {
-  if (playerCard.isPicking && currentMenu1.value === MENU_1.PLAY) {
-    playerCard.putCardToPicking(cardId)
-    return
-  }
-  if (currentMenu1.value === MENU_1.TAB_2) {
-    playerCard.putCardInDiscard(cardId)
-    return
-  }
-  playerCard.playCard(cardId, posId)
-}
+const {
+  discardViewSwipeDown,
+  handSwipeUp,
+  discardViewSwipeUp,
+  switchMenu,
+  switchToPlayField,
+  playViewSwipeUp,
+  playViewSwipeDown,
+  handChangePosition,
 
-function putFromPlayToHand(cardId: string, posId: { id: string, isFront: boolean }) {
-  playerCard.returnCardFromPlay(cardId, posId)
-}
+  currentMenu1
+} = useFieldFunctional()
 
-function switchMenu(menu: number) {
-  if (menu === 1) {
-    const length = Object.keys(MENU_1).length
-    currentMenu1.value = (currentMenu1.value + 1) % length
-  }
-}
-
-function timePassed() {
-  playerCard.cleanUp()
-  fearDeck.cleanUp()
-  messageStore.setMessage('Time passed')
-}
-
-function resetPicking() {
-  playerCard.picking.forEach((card) => {
-    const [type] = card.split('-')
-    if (type === 'minor') {
-      minorDeck.addToDiscard(card)
-    } else if (type === 'major') {
-      majorDeck.addToDiscard(card)
+watch(() => playerCard.isPicking, switchToPlayField)
+watch(
+  () => fearDeck.earned.length,
+  (newValue) => {
+    if (newValue === 0) {
+      modal.earnedFear = false
     }
-  })
-  playerCard.resetPicking()
-}
-
-function reclaimOneCard(card: string) {
-  playerCard.reclaimOneCard(card)
-}
-
-watch(() => fearDeck.earned.length, (newValue) => {
-  if (newValue === 0) {
-    isShowEarnedFear.value = false
   }
-})
-
-watch(() => playerCard.isPicking, () => {
-  currentMenu1.value = MENU_1.PLAY
-})
-
+)
+canInGameView()
 injectWakeScreen()
 
 onMounted(async () => {
-  messageStore.setMessage('Welcome to Spirit Island!')
-  setTimeout(() => {
-    tryUploadResult()
+  useMessageStore().setMessage('Welcome to Spirit Island!')
+  setTimeout(async () => {
+    await tryUploadResult()
   }, 10000)
 })
-
-async function tryUploadResult() {
-  const pendingResult = localStorage.pendingResult
-  if (pendingResult.length > 0) {
-    const isSuccess = await addResult(pendingResult[0], { fromPending: true })
-    if (isSuccess) {
-      setTimeout(() => {
-        tryUploadResult()
-      }, 10000)
-    }
-  }
-}
 </script>
 
 <template>
@@ -269,7 +146,7 @@ async function tryUploadResult() {
           <div class="w-10 flex justify-center">
             <span
               class="icon-settings text-xl"
-              @click="isShowGameSettings = true"
+              @click="modal.gameSettings = true"
             />
           </div>
           <button
@@ -277,32 +154,24 @@ async function tryUploadResult() {
             @click="playerCard.addEnergy"
           >
             <span class="icon-bolt" /> {{ playerCard.energy }}
-            <span
-              class="text-xs relative -top-2"
-            >+{{ playerCard.energyThisTurn }}</span>
+            <span class="text-xs relative -top-2"
+              >+{{ playerCard.energyThisTurn }}</span
+            >
           </button>
           <element-track class="ml-3" />
         </div>
         <div class="flex ml-auto h-full">
-          <invader-bar @click="isShowInvaderControl = true" />
+          <invader-bar @click="modal.invaderControl = true" />
           <fear-counter />
-          <div
-            class="px-2"
-            @click="isShowFearDeck = true"
-          >
-            <div class="text-sm">
-              Fear Level
-            </div>
+          <div class="px-2" @click="modal.fearDeck = true">
+            <div class="text-sm">Fear Level</div>
             <div class="text-center text-lg font-serif">
               {{ fearDeck.currentStageRoman }}
             </div>
           </div>
         </div>
       </div>
-      <div
-        id="game-area"
-        class="flex flex-1 relative"
-      >
+      <div id="game-area" class="flex flex-1 relative">
         <div
           id="game-quick-bar"
           class="w-14 bg-gray-900 flex flex-col justify-end space-y-4"
@@ -321,7 +190,7 @@ async function tryUploadResult() {
               src="/img/card-back/blight.webp"
               alt="Card back"
               class="h-full"
-            >
+            />
           </div>
           <div
             class="h-14 w-full flex justify-center relative"
@@ -331,7 +200,7 @@ async function tryUploadResult() {
               src="/img/card-back/event.webp"
               alt="Card back"
               class="h-full"
-            >
+            />
             <div
               v-if="eventDeck.discard.length === 0"
               class="absolute text-xs font-semibold text-white flex items-center justify-center w-full h-full"
@@ -342,8 +211,12 @@ async function tryUploadResult() {
               v-if="eventDeck.isPingEvent"
               class="absolute -top-1 right-0 flex h-3 w-3"
             >
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-500 opacity-75" />
-              <span class="relative inline-flex rounded-full h-3 w-3 bg-purple-600" />
+              <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-500 opacity-75"
+              />
+              <span
+                class="relative inline-flex rounded-full h-3 w-3 bg-purple-600"
+              />
             </span>
           </div>
           <div
@@ -354,66 +227,66 @@ async function tryUploadResult() {
               src="/img/card-back/fear.webp"
               alt="Card back"
               class="h-full"
+            />
+            <div
+              class="text-2xl font-semibold text-white absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             >
-            <div class="text-2xl font-semibold text-white absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               {{ fearDeck.totalEarned }}
             </div>
           </div>
           <OnClickOutside
             class="h-14 w-full relative"
-            @trigger="showQuickPower = false"
+            @trigger="closeQuickPower"
           >
             <div
               class="relative overflow-hidden h-full"
-              @click="showQuickPower = !showQuickPower"
+              @click="toggleQuickPower"
             >
               <img
                 :src="`/img/card-back/minor.webp`"
                 alt="Card back"
                 class="h-full absolute"
-                style="transform: rotate(-10deg);"
-              >
+                style="transform: rotate(-10deg)"
+              />
               <img
                 :src="`/img/card-back/major.webp`"
                 alt="Card back"
                 class="h-full absolute"
-                style="transform: translateX(20px) rotate(10deg);"
-              >
+                style="transform: translateX(20px) rotate(10deg)"
+              />
             </div>
             <div
-              v-if="showQuickPower"
+              v-if="isShowQuickPower"
               class="bg-gray-900/30 absolute z-20 top-0 right-0 translate-x-full h-full flex px-1"
             >
               <div
-                v-if="powerDiscardDeck.discard.length > 0"
+                v-if="useDiscardPowerStore().discard.length > 0"
                 class="flex items-center justify-center border-2"
-                @click="showPowerDiscard"
+                @click="modal.discardPower = true"
               >
-                <span class="text-2xl w-9 text-center text-white icon-layers-off" />
+                <span
+                  class="text-2xl w-9 text-center text-white icon-layers-off"
+                />
               </div>
               <img
                 :src="`/img/card-back/minor.webp`"
                 alt="Card back"
                 class="h-full ml-1"
                 @click="quickTake('minor')"
-              >
+              />
               <img
                 :src="`/img/card-back/major.webp`"
                 alt="Card back"
                 class="h-full ml-1"
                 @click="quickTake('major')"
-              >
+              />
             </div>
           </OnClickOutside>
         </div>
-        <div
-          id="game-showing-area"
-          class="w-full relative h-full flex"
-        >
+        <div id="game-showing-area" class="w-full relative h-full flex">
           <div class="w-full relative h-full">
             <div
               id="game-showing-top"
-              ref="menuControlEl"
               class="bg-neutral-100 flex px-2 relative h-1/2"
             >
               <div
@@ -431,7 +304,7 @@ async function tryUploadResult() {
                 <span
                   class="icon-x text-3xl absolute right-1 -top-1 text-red-600 z-50"
                   style="stroke-width: 3px"
-                  @click="resetPicking"
+                  @click="exitPicking()"
                 />
               </div>
               <div
@@ -442,9 +315,12 @@ async function tryUploadResult() {
                   <card-group-view
                     from="play"
                     :cards="playerCard.play"
-                    @swipe-down="putFromPlayToHand"
-                    @swipe-up="playerCard.putFromPlayToDiscard"
-                    @change-position="(cardId, posId) => changePosition(playerCard.play ,cardId, posId)"
+                    @swipe-down="playViewSwipeDown"
+                    @swipe-up="playViewSwipeUp"
+                    @change-position="
+                      (cardId, posId) =>
+                        changePosition(playerCard.play, cardId, posId)
+                    "
                   />
                 </div>
                 <template
@@ -452,13 +328,17 @@ async function tryUploadResult() {
                   :key="`player-${index}`"
                 >
                   <div
-                    v-if="gameOption.aspectsDetail[index] && player.showAspect && player.aspectMode === '1x'"
+                    v-if="
+                      gameOption.aspectsDetail[index] &&
+                      player.showAspect &&
+                      player.aspectMode === '1x'
+                    "
                     v-show="playerCard.current === index"
                     class="w-1/3 relative"
                   >
                     <aspect-power
-                      :aspect="(gameOption.aspectsDetail[index] as Aspect)"
-                      @show-aspect-detail="isShowAspectDetail = true"
+                      :aspect="gameOption.aspectsDetail[index] as Aspect"
+                      @show-aspect-detail="modal.aspectDetail = true"
                     />
                   </div>
                 </template>
@@ -467,9 +347,7 @@ async function tryUploadResult() {
                 v-if="currentMenu1 === MENU_1.TAB_2"
                 class="flex items-stretch relative w-full"
               >
-                <div
-                  class="space-x-2 absolute h-full w-full"
-                >
+                <div class="space-x-2 absolute h-full w-full">
                   <div
                     class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0"
                   >
@@ -477,17 +355,14 @@ async function tryUploadResult() {
                   </div>
                   <power-discard
                     :discard="playerCard.discard"
-                    @swipe-down="reclaimOneCard"
+                    @swipe-down="discardViewSwipeDown"
                     @swipe-up="discardViewSwipeUp"
                   />
                 </div>
               </div>
-              <div
-                v-if="!isShow2xAspect"
-                class="w-8"
-              />
+              <div v-if="!isShow2xAspect" class="w-8" />
             </div>
-  
+
             <div
               id="game-showing-bottom"
               class="bg-stone-300 flex px-2 relative h-1/2"
@@ -499,17 +374,13 @@ async function tryUploadResult() {
                   class="pt-2"
                   @swipe-down="playerCard.forgetCardFromHand"
                   @swipe-up="handSwipeUp"
-                  @change-position="(cardId, posId) => changePosition(playerCard.hand ,cardId, posId)"
+                  @change-position="handChangePosition"
                 />
                 <base-button
-                  v-if="
-                    playerCard.hand.length === 0 &&
-                      playerCard.play.length === 0 &&
-                      playerCard.discard.length > 0
-                  "
+                  v-if="playerCard.canReclaim"
                   button-style="secondary"
                   class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                  @click="playerCard.reclaim"
+                  @click="playerCard.reclaim()"
                 >
                   Reclaim All
                 </base-button>
@@ -524,7 +395,7 @@ async function tryUploadResult() {
               :class="[
                 playerCard.current === index
                   ? 'border-orange-800'
-                  : 'border-gray-800/50',
+                  : 'border-gray-800/50'
               ]"
               class="w-12 h-12 rounded-full bg-white border-2 overflow-hidden"
               @click="playerCard.changeCurrent(index)"
@@ -533,29 +404,21 @@ async function tryUploadResult() {
                 :src="`/img/spirit_avatar/${getSpiritAvatar(spirit)}`"
                 alt="Spirit avatar"
                 :class="[
-                  playerCard.current === index ? 'opacity-100' : 'opacity-50',
+                  playerCard.current === index ? 'opacity-100' : 'opacity-50'
                 ]"
                 class="h-full max-w-max"
-              >
+              />
             </div>
           </div>
 
           <div class="absolute -right-10 bottom-1 space-x-2 z-10 flex">
+            <day-that-never-were-trigger
+              v-if="useDaysThatNeverWereStore().hasDaysThatNeverWere"
+            />
             <div
-              v-if="daysThatNeverWereDeck.hasDaysThatNeverWere"
-              class="w-11 h-11 rounded-full bg-green-800 border-2 border-purple-700 overflow-hidden"
-              @click="daysThatNeverWereDeck.showModal()"
-            >
-              <img
-                src="/img/icon/days_that_never_were.webp"
-                alt="days that never were"
-                class="h-full"
-              >
-            </div>
-            <div
-              v-if="impedingCardStore.hasImpendingFeature"
+              v-if="useImpendingCardStore().hasImpendingFeature"
               class="w-11 h-11 rounded-full bg-red-500 border-2 border-purple-700 overflow-hidden flex items-center justify-center text-2xl"
-              @click="isShowImpendingCardModal = true"
+              @click="modal.impendingCardModel = true"
             >
               <span class="icon-impending">
                 <span class="path1" />
@@ -572,24 +435,28 @@ async function tryUploadResult() {
             </div>
             <div
               class="h-11 w-11 p-2 rounded-full text-white bg-purple-800 border-2 border-purple-900 flex justify-center items-center"
-              @click="timePassed"
+              @click="timePassed()"
             >
               <span class="icon-hourglass-high text-xl" />
             </div>
           </div>
-          
+
           <template
             v-for="(player, index) in playerCard.players"
             :key="`player2x-${index}`"
           >
             <div
               v-if="player.showAspect && player.aspectMode === '2x'"
-              v-show="playerCard.current === index && currentMenu1 === MENU_1.PLAY"
+              v-show="
+                playerCard.current === index && currentMenu1 === MENU_1.PLAY
+              "
               class="w-1/3 shrink-0 flex"
-              @click="isShowAspectDetail = true"
+              @click="modal.aspectDetail = true"
             >
               <div class="relative flex-1">
-                <aspect-power :aspect="(gameOption.aspectsDetail[index] as Aspect)" />
+                <aspect-power
+                  :aspect="gameOption.aspectsDetail[index] as Aspect"
+                />
               </div>
               <div class="w-6">
                 <div class="h-1/2 bg-neutral-100" />
@@ -603,20 +470,14 @@ async function tryUploadResult() {
           class="ml-auto grid grid-rows-2 text-white relative"
         >
           <div class="bg-neutral-700 px-2 flex items-center">
-            <transition
-              name="switch"
-              mode="out-in"
-            >
+            <transition name="switch" mode="out-in">
               <span
                 v-if="currentMenu1 === MENU_1.PLAY"
                 class="icon-album text-4xl"
                 @click="switchMenu(1)"
               />
             </transition>
-            <transition
-              name="switch"
-              mode="out-in"
-            >
+            <transition name="switch" mode="out-in">
               <span
                 v-if="currentMenu1 === MENU_1.TAB_2"
                 class="icon-album-off text-4xl"
@@ -624,7 +485,9 @@ async function tryUploadResult() {
               />
             </transition>
           </div>
-          <div class="flex flex-col justify-center items-center bg-stone-900 px-2" />
+          <div
+            class="flex flex-col justify-center items-center bg-stone-900 px-2"
+          />
         </div>
         <message-info />
       </div>
@@ -632,68 +495,50 @@ async function tryUploadResult() {
     <div id="modal">
       <modal-discard-common v-if="modalDiscard.getType === 'common'" />
       <modal-discard-power
-        v-if="isShowModalDiscardPower"
-        @close="isShowModalDiscardPower = false"
+        v-if="modal.discardPower"
+        @close="modal.discardPower = false"
       />
       <modal-zoom-blight-card
-        v-if="isZoomBlightCard"
-        @close="isZoomBlightCard = false"
+        v-if="modal.zoomBlightCard"
+        @close="modal.zoomBlightCard = false"
       />
       <modal-earned-fear
-        v-if="isShowEarnedFear"
-        @close="isShowEarnedFear = false"
+        v-if="modal.earnedFear"
+        @close="modal.earnedFear = false"
       />
       <modal-fear-deck
-        v-if="isShowFearDeck && fearDeck.draw.length > 0"
-        @close="isShowFearDeck = false"
+        v-if="modal.fearDeck && fearDeck.draw.length > 0"
+        @close="modal.fearDeck = false"
       />
       <modal-fear-reveal v-if="fearDeck.currentReveal" />
       <game-setting-modal
-        v-if="isShowGameSettings"
-        @close="isShowGameSettings = false"
-        @show-forget="isShowModalForgetPower = true"
+        v-if="modal.gameSettings"
+        @close="modal.gameSettings = false"
       />
       <card-zoom-modal v-if="cardZoom.isShow" />
       <event-zoom-modal v-if="eventDeck.reveal" />
       <aspect-detail
-        v-if="isShowAspectDetail"
-        @close="isShowAspectDetail = false"
+        v-if="modal.aspectDetail"
+        @close="modal.aspectDetail = false"
       />
       <russia5-modal v-if="gameOption.hasRussia5" />
-      <days-that-never-were
-        v-if="daysThatNeverWereDeck.isShowModal"
-        @close="daysThatNeverWereDeck.hideModal()"
-        @do-visions-of-a-shifting-future="isShowVisionsOfAShiftingFutureEvent = true"
-      />
-      <VisionOfAShiftingFutureEvent
-        v-if="isShowVisionsOfAShiftingFutureEvent"
-        @close="isShowVisionsOfAShiftingFutureEvent = false"
-      />
       <invader-control
-        v-if="isShowInvaderControl"
-        @close="isShowInvaderControl = false"
+        v-if="modal.invaderControl"
+        @close="modal.invaderControl = false"
       />
-      <div
-        v-if="adversaryName && isShowSetupRef && adversarySetup && gameState.isNewGame"
-        class="absolute w-full h-full bg-gray-900/30 top-0 left-0"
-        @click.self="isShowSetupRef = false"
-      >
-        <div class="bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md max-w-[60%]">
-          <div class="bg-orange-800 text-white font-semibold text-lg py-1 px-2 rounded-t-md">
-            {{ `${adversaryName} ${gameOption.adversaryLevel}` }} setup
-          </div>
-          <div class="px-3 py-1.5">
-            <adversary-text :message="adversarySetup" />
-          </div>
-        </div>
-      </div>
+      <adversary-setup-info
+        v-if="modal.adversarySetup"
+        @close="modal.adversarySetup = false"
+      />
       <habsburg-reminder
-        v-if="showHabsburgReminderCard && gameOption.hasHabsburg5"
-        @close="showHabsburgReminderCard = false"
+        v-if="modal.habsburgReminder && gameOption.hasHabsburg5"
+        @close="modal.habsburgReminder = false"
       />
       <impeding-card-modal
-        v-if="impedingCardStore.index !== null && isShowImpendingCardModal"
-        @close="isShowImpendingCardModal = false"
+        v-if="
+          useImpendingCardStore().index !== null && modal.impendingCardModel
+        "
+        @close="modal.impendingCardModel = false"
       />
     </div>
   </div>

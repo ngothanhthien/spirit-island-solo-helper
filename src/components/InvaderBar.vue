@@ -6,10 +6,7 @@ const invaderCard = useInvaderCardStore()
 </script>
 
 <template>
-  <div
-    id="invader-bar"
-    class="flex h-12 bg-orange-800"
-  >
+  <div id="invader-bar" class="flex h-12 bg-orange-800">
     <template v-if="invaderCard.extraBuildView">
       <div class="flex flex-col">
         <invader-box
@@ -18,9 +15,7 @@ const invaderCard = useInvaderCardStore()
           class="text-xs flex-1"
           :class="[invaderCard.ravage.length > 4 ? 'w-12' : 'w-8']"
         />
-        <div class="uppercase text-[9px] text-white text-center">
-          build
-        </div>
+        <div class="uppercase text-[9px] text-white text-center">build</div>
       </div>
       <div class="flex items-center">
         <span class="w-3.5 h-3.5 mb-3 text-white mx-0.5 icon-chevron-left" />
@@ -33,9 +28,7 @@ const invaderCard = useInvaderCardStore()
         class="text-xs flex-1"
         :class="[invaderCard.ravage.length > 4 ? 'w-12' : 'w-8']"
       />
-      <div class="uppercase text-[9px] text-white text-center">
-        ravage
-      </div>
+      <div class="uppercase text-[9px] text-white text-center">ravage</div>
     </div>
     <div class="flex items-center">
       <span class="icon-chevron-left mb-3 text-white mx-0.5" />
@@ -47,9 +40,7 @@ const invaderCard = useInvaderCardStore()
         class="text-xs flex-1"
         :class="[invaderCard.build.length > 4 ? 'w-12' : 'w-8']"
       />
-      <div class="uppercase text-[9px] text-white text-center">
-        build
-      </div>
+      <div class="uppercase text-[9px] text-white text-center">build</div>
     </div>
     <div
       v-if="invaderCard.draw.length > 0"

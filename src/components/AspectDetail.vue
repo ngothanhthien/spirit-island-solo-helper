@@ -2,8 +2,8 @@
 import { computed } from 'vue'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
-import { nameToImage } from '@/utils';
-import type { Aspect } from '@/types';
+import { nameToImage } from '@/utils'
+import type { Aspect } from '@/types'
 
 defineEmits(['close'])
 
@@ -13,10 +13,10 @@ const aspect = computed(() => {
   return gameOption.aspectsDetail[playerCard.current] as Aspect
 })
 const aspectImage = computed(() => {
-    if (aspect.value.images) {
-      return aspect.value.images.map((image) => nameToImage(image))
-    }
-    return [nameToImage(aspect.value.title)]
+  if (aspect.value.images) {
+    return aspect.value.images.map((image) => nameToImage(image))
+  }
+  return [nameToImage(aspect.value.title)]
 })
 </script>
 
@@ -35,7 +35,7 @@ const aspectImage = computed(() => {
         :src="`/img/aspects/${image}`"
         alt="Aspect details"
         class="rounded-2xl h-full w-auto"
-      >
+      />
     </div>
   </div>
 </template>

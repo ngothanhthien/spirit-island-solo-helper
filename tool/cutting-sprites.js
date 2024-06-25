@@ -1,53 +1,67 @@
-import fs from 'fs';
-import { join, extname } from 'path';
-import sharp from 'sharp';
+import fs from 'fs'
+import { join, extname } from 'path'
+import sharp from 'sharp'
 
-const { mkdirSync, promises: { readdir } } = fs;
+const {
+  mkdirSync,
+  promises: { readdir }
+} = fs
 
 const cutSpriteSheet = async (filename, numSpritesWidth, numSpritesHeight) => {
-  console.log(`Processing file: ${filename}`);
+  console.log(`Processing file: ${filename}`)
 
   try {
-    const image = sharp(filename);
-    const metadata = await image.metadata();
+    const image = sharp(filename)
+    const metadata = await image.metadata()
 
-    const spriteWidth = Math.floor(metadata.width / numSpritesWidth);
-    const spriteHeight = Math.floor(metadata.height / numSpritesHeight);
+    const spriteWidth = Math.floor(metadata.width / numSpritesWidth)
+    const spriteHeight = Math.floor(metadata.height / numSpritesHeight)
 
     // specify output directory
-    const outputDir = join('sprites', filename);
+    const outputDir = join('sprites', filename)
 
     // ensure the directory exists
-    mkdirSync(outputDir, { recursive: true });
+    mkdirSync(outputDir, { recursive: true })
 
-    let counter = 5;
+    let counter = 5
     for (let y = 0; y + spriteHeight <= metadata.height; y += spriteHeight) {
       for (let x = 0; x + spriteWidth <= metadata.width; x += spriteWidth) {
-        console.log(`\tCreating sprite at position (${x}, ${y})`);
+        console.log(`\tCreating sprite at position (${x}, ${y})`)
         await sharp(filename)
-            .extract({ left: x, top: y, width: spriteWidth, height: spriteHeight })
-            .toFile(join(outputDir, `${counter}.png`));
-        counter++;
+          .extract({
+            left: x,
+            top: y,
+            width: spriteWidth,
+            height: spriteHeight
+          })
+          .toFile(join(outputDir, `${counter}.png`))
+        counter++
       }
     }
   } catch (error) {
-    console.error('Error processing file:', error);
+    console.error('Error processing file:', error)
   }
 }
 
 const processDirectory = async (directory, size) => {
   // Parse sprite dimensions from input string
-  const [numSpritesWidth, numSpritesHeight] = size.split('x').map(Number);
+  const [numSpritesWidth, numSpritesHeight] = size.split('x').map(Number)
 
-  const files = await readdir(directory);
-  const imageFiles = files.filter(file => ['.png', '.jpg', '.jpeg'].includes(extname(file).toLowerCase()));
+  const files = await readdir(directory)
+  const imageFiles = files.filter((file) =>
+    ['.png', '.jpg', '.jpeg'].includes(extname(file).toLowerCase())
+  )
 
   for (const file of imageFiles) {
-    await cutSpriteSheet(join(directory, file), numSpritesWidth, numSpritesHeight);
+    await cutSpriteSheet(
+      join(directory, file),
+      numSpritesWidth,
+      numSpritesHeight
+    )
   }
 }
 
 // example usage
-processDirectory('images', '3x3'); // For a 2x2 grid of sprites
+processDirectory('images', '3x3') // For a 2x2 grid of sprites
 // processDirectory('images', '4x4'); // For a 4x4 grid of sprites
 // processDirectory('images', '6x6'); // For a 6x6 grid of sprites, and so on...

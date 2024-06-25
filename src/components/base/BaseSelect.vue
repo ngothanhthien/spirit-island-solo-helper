@@ -1,41 +1,38 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed } from 'vue'
 import {
   Listbox,
   ListboxButton,
   ListboxOptions,
-  ListboxOption,
-} from "@headlessui/vue";
-import { useVModel } from "@vueuse/core";
+  ListboxOption
+} from '@headlessui/vue'
+import { useVModel } from '@vueuse/core'
 
 const props = defineProps({
   modelValue: {
     type: [String, Number],
-    default: undefined,
+    default: undefined
   },
   options: {
     type: Array<{
-      label: string;
-      value: string | number;
+      label: string
+      value: string | number
     }>,
-    required: true,
+    required: true
   },
   defaultLabel: {
     type: String,
-    default: "Select",
-  },
-});
-const emit = defineEmits(["update:modelValue"]);
-const selectedModal = useVModel(props, "modelValue", emit);
+    default: 'Select'
+  }
+})
+const emit = defineEmits(['update:modelValue'])
+const selectedModal = useVModel(props, 'modelValue', emit)
 const selectedOption = computed(() => {
-  return props.options.find((option) => option.value === selectedModal.value);
-});
+  return props.options.find((option) => option.value === selectedModal.value)
+})
 </script>
 <template>
-  <Listbox
-    v-model="selectedModal"
-    class="inline-block"
-  >
+  <Listbox v-model="selectedModal" class="inline-block">
     <div class="relative mt-1">
       <ListboxButton
         class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
@@ -46,7 +43,7 @@ const selectedOption = computed(() => {
         <span
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
         >
-          <span class="text-gray-400 icon-selector"/>
+          <span class="text-gray-400 icon-selector" />
         </span>
       </ListboxButton>
 
@@ -68,15 +65,16 @@ const selectedOption = computed(() => {
             <li
               :class="[
                 active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
-                'relative cursor-default select-none py-2 pl-10 pr-4',
+                'relative cursor-default select-none py-2 pl-10 pr-4'
               ]"
             >
               <span
                 :class="[
                   selected ? 'font-medium' : 'font-normal',
-                  'block truncate',
+                  'block truncate'
                 ]"
-              >{{ item.label }}</span>
+                >{{ item.label }}</span
+              >
               <span
                 v-if="selected"
                 class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"

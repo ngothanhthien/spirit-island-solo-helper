@@ -5,22 +5,16 @@ import useTextCompile from '@/composable/useTextCompile'
 const props = defineProps({
   message: {
     type: String,
-    required: true,
-  },
+    required: true
+  }
 })
 const { compileText, iconList } = useTextCompile(props.message)
 </script>
 
 <template>
   <div class="px-2 py-0.5 text-xs">
-    <template
-      v-for="(part, index) in compileText"
-      :key="index"
-    >
-      <span
-        v-if="!iconList.includes(part)"
-        v-html="part"
-      />
+    <template v-for="(part, index) in compileText" :key="index">
+      <span v-if="!iconList.includes(part)" v-html="part" />
       <template v-if="part === ':break:'">
         <div class="mt-1" />
       </template>

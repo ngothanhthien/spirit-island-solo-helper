@@ -14,7 +14,7 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
     hidden: [] as string[], // days that never were
     box: [[], [], []] as string[][],
     pos: POS_DEFAULT,
-    lock: [] as Array<'build' | 'ravage'>,
+    lock: [] as Array<'build' | 'ravage'>
   }),
   getters: {
     getBackCardTop(state) {
@@ -44,20 +44,28 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
       return state.discard.slice().reverse()
     },
     drawView(state) {
-      return state.draw.slice().reverse().map((card) => {
-        const stage = parseInt(card.split('-')[1])
-        return {
-          stage,
-          name: card,
-        }
-      })
+      return state.draw
+        .slice()
+        .reverse()
+        .map((card) => {
+          const stage = parseInt(card.split('-')[1])
+          return {
+            stage,
+            name: card
+          }
+        })
     },
     canNext(state) {
-      return state.explore.length > 0 || state.build.length > 0 || state.ravage.length > 0 || (state.extraBuild !== null && state.extraBuild.length > 0)
+      return (
+        state.explore.length > 0 ||
+        state.build.length > 0 ||
+        state.ravage.length > 0 ||
+        (state.extraBuild !== null && state.extraBuild.length > 0)
+      )
     },
     isShowHabsburg(state) {
       return state.explore.length === 0 && state.draw.length === 6
-    },
+    }
   },
   actions: {
     newDeck(pos = POS_DEFAULT) {
@@ -73,13 +81,13 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
       const shuffled = [
         [...(shuffle(INVADER_CARD[0]) as string[])],
         [...(shuffle(INVADER_CARD[1]) as string[])],
-        [...(shuffle(INVADER_CARD[2]) as string[])],
+        [...(shuffle(INVADER_CARD[2]) as string[])]
       ]
       const deck = [] as string[]
 
       //Habsburg Mining setup
       //Scotland setup
-      if (pos.includes('C') || pos.includes('D')) { 
+      if (pos.includes('C') || pos.includes('D')) {
         removeCard(shuffled[1] as string[], 'C-2')
       }
 
@@ -147,7 +155,7 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
       const raw: Array<Array<string>> = [
         [...this.box[0]],
         [...this.box[1]],
-        [...this.box[2]],
+        [...this.box[2]]
       ]
       //check if deck has not changed
       for (let i = 0; i < draw.length; i++) {
@@ -157,7 +165,7 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
         }
         if (parseInt(stage) !== parseInt(pos[i])) {
           useMessageStore().setMessage(
-            'Deck has changed. Cannot reset the deck.',
+            'Deck has changed. Cannot reset the deck.'
           )
           return
         }
@@ -167,17 +175,17 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
       const shuffled = [
         [...(shuffle(raw[0]) as string[])],
         [...(shuffle(raw[1]) as string[])],
-        [...(shuffle(raw[2]) as string[])],
+        [...(shuffle(raw[2]) as string[])]
       ]
       const deck = [] as string[]
       Array.from(pos).forEach((pos) => {
         if (pos === 'C') {
-            deck.push('C-2')
-            return
+          deck.push('C-2')
+          return
         }
         if (pos === 'D') {
-            deck.push('D-2')
-            return
+          deck.push('D-2')
+          return
         }
         const card = shuffled[parseInt(pos) - 1].pop()
         if (!card) {
@@ -217,7 +225,7 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
         if (Math.random() < 0.5) {
           const lastIndex = this.draw.length - 1
           const secondLastIndex = this.draw.length - 2
-    
+
           const temp = this.draw[lastIndex]
           this.draw[lastIndex] = this.draw[secondLastIndex]
           this.draw[secondLastIndex] = temp
@@ -248,7 +256,7 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
       }
     }
   },
-  persist: true,
+  persist: true
 })
 
 function compile(deck: string[]) {

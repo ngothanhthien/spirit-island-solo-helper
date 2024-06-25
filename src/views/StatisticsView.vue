@@ -3,10 +3,10 @@ import { ref } from 'vue'
 import router from '@/router'
 import { adversaryNameToImage, getDayAgo, getSpiritAvatarByName } from '@/utils'
 import { SPIRIT } from '@/constant'
-import axios from "axios";
-import { API_LIST_MATCH_LOG } from "@/constant/api";
-import { useLocalStorageStore } from "@/stores/LocalStorageStore";
-import type { ChartData, SpiritsChart } from "@/types";
+import axios from 'axios'
+import { API_LIST_MATCH_LOG } from '@/constant/api'
+import { useLocalStorageStore } from '@/stores/LocalStorageStore'
+import type { ChartData, SpiritsChart } from '@/types'
 
 interface Result {
   win: number
@@ -18,15 +18,26 @@ const spiritsChart = ref<SpiritsChart>({})
 const totalGame = ref(0)
 const lastTime = ref('unknown')
 const lastUpdate = ref('Failed')
-const ADVERSARIES = ['England', 'France', 'Habsburg', 'Habsburg Mining', 'Prussia', 'Russia', 'Sweden', 'Scotland']
-const SPIRIT_NAMES = SPIRIT.map(spirit => spirit.name)
+const ADVERSARIES = [
+  'England',
+  'France',
+  'Habsburg',
+  'Habsburg Mining',
+  'Prussia',
+  'Russia',
+  'Sweden',
+  'Scotland'
+]
+const SPIRIT_NAMES = SPIRIT.map((spirit) => spirit.name)
 const localStorage = useLocalStorageStore()
 initChart()
 
 async function initChart() {
   isLoading.value = true
   try {
-    const { data: { data } } = await axios.get(API_LIST_MATCH_LOG)
+    const {
+      data: { data }
+    } = await axios.get(API_LIST_MATCH_LOG)
     localStorage.setChart(data)
     renderChart(data)
     lastUpdate.value = getDayAgo(new Date())
@@ -49,7 +60,9 @@ function renderChart(data: ChartData) {
 
   const pendingResult = localStorage.pendingResult
   if (pendingResult.length > 0) {
-    lastTime.value = getDayAgo(pendingResult[pendingResult.length - 1].createdAt)
+    lastTime.value = getDayAgo(
+      pendingResult[pendingResult.length - 1].createdAt
+    )
   } else {
     lastTime.value = getDayAgo(data.last.createdAt)
   }
@@ -60,9 +73,9 @@ function getWin(result: Result) {
     return console.error('Invalid adversary name')
   }
 
-  const{ win, lose } = result
+  const { win, lose } = result
   if (win === 0 && lose === 0) return 'x'
-  return (win / (win + lose) * 100).toFixed(0) + '%'
+  return ((win / (win + lose)) * 100).toFixed(0) + '%'
 }
 </script>
 
@@ -71,29 +84,25 @@ function getWin(result: Result) {
     <div class="flex">
       <div
         class="ml-auto text-orange-800"
-        @click="router.push({ name: 'HomeView'})"
+        @click="router.push({ name: 'HomeView' })"
       >
         Back to menu
       </div>
     </div>
-    <div
-      class="flex-1 flex"
-      style="max-height: 90vh;"
-    >
-      <div class="block overflow-y-auto h-full flex-1 border border-gray-500 rounded">
+    <div class="flex-1 flex" style="max-height: 90vh">
+      <div
+        class="block overflow-y-auto h-full flex-1 border border-gray-500 rounded"
+      >
         <table class="table-auto w-full">
           <thead class="sticky top-0">
             <tr class="border-b border-gray-500">
               <th />
-              <th
-                v-for="adversary in ADVERSARIES"
-                :key="adversary"
-              >
+              <th v-for="adversary in ADVERSARIES" :key="adversary">
                 <img
                   :src="`/img/adversary/${adversaryNameToImage(adversary)}`"
                   alt="Adversary Image"
                   class="h-8"
-                >
+                />
               </th>
             </tr>
           </thead>
@@ -112,7 +121,7 @@ function getWin(result: Result) {
                   :src="`/img/spirit_avatar/${getSpiritAvatarByName(spirit)}`"
                   alt="spirit avatar"
                   class="h-8 inline-block mr-1 flex-1"
-                >({{ spiritsChart[spirit] ? spiritsChart[spirit].total : 0 }})
+                />({{ spiritsChart[spirit] ? spiritsChart[spirit].total : 0 }})
               </td>
               <template v-if="spiritsChart[spirit]">
                 <td
@@ -146,7 +155,10 @@ function getWin(result: Result) {
         <div class="mr-6">
           Last update: <strong>{{ lastUpdate }}</strong>
         </div>
-        <div>Pending Result: <strong>{{ localStorage.pendingResult.length }}</strong></div>
+        <div>
+          Pending Result:
+          <strong>{{ localStorage.pendingResult.length }}</strong>
+        </div>
       </div>
     </div>
   </div>

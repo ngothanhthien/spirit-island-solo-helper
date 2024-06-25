@@ -12,10 +12,7 @@ const fearDeck = useFearDeckStore()
     @click.self="fearDeck.markShowing"
   >
     <div class="h-[90%] w-fit flex-col flex justify-center space-y-2">
-      <game-card
-        :id="(fearDeck.currentReveal as string)"
-        class="h-[90%] grow"
-      />
+      <game-card :id="fearDeck.currentReveal as string" class="h-[90%] grow" />
       <base-button
         button-style="secondary"
         class="mx-auto"
