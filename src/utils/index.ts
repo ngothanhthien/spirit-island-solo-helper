@@ -203,4 +203,50 @@ function insertBefore(arr: string[], newElement: string, insertBefore: string) {
   }
 }
 
-export { insertAfter, insertBefore }
+function downloadObjectAsJson(obj: object, exportName: string) {
+  function customStringify(obj: object, space = 2) {
+    return JSON.stringify(
+      obj,
+      (key, value) => {
+        if (Array.isArray(value)) {
+          return JSON.stringify(value)
+        }
+        return value
+      },
+      space
+    )
+      .replace(/"\[/g, '[')
+      .replace(/]"/g, ']')
+  }
+
+  const formattedJson = customStringify(obj, 2)
+  const dataStr =
+    'data:text/json;charset=utf-8,' + encodeURIComponent(formattedJson)
+  const downloadAnchorNode = document.createElement('a')
+  downloadAnchorNode.setAttribute('href', dataStr)
+  downloadAnchorNode.setAttribute('download', exportName + '.json')
+  document.body.appendChild(downloadAnchorNode) // required for Firefox
+  downloadAnchorNode.click()
+  downloadAnchorNode.remove()
+}
+
+function toFixed(num: number, fixed = 2) {
+  return parseFloat(num.toFixed(fixed))
+}
+
+function toPercent(num: number, compare: number) {
+  return toFixed((num / compare) * 100)
+}
+
+function toAbsolute(num: number, compare: number) {
+  return (num / 100) * compare
+}
+
+export {
+  insertAfter,
+  insertBefore,
+  downloadObjectAsJson,
+  toFixed,
+  toPercent,
+  toAbsolute
+}

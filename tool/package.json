@@ -1,0 +1,15 @@
+{
+  "name": "tool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cutting-sprites.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "sharp": "^0.33.4"
+  }
+}

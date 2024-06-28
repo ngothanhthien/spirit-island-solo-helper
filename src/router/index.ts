@@ -31,6 +31,10 @@ const routes = [
     name: 'TestView'
   },
   {
+    path: '/tools',
+    component: lazyLoad('ToolsView')
+  },
+  {
     path: '/:catchAll(.*)',
     redirect: '/'
   }

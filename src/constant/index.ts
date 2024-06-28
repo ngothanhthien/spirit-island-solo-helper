@@ -2897,7 +2897,25 @@ export const SPIRIT: Array<SpiritType> = [
         ],
         setupFunction: setupNourishing
       }
-    ]
+    ],
+    panel: {
+      location: {
+        last: {
+          x: 51.43,
+          y: 30.3
+        },
+        WIDTH: 7.3,
+        TOP: 5,
+        BOT: 5,
+        SPACE_Y: 15.5
+      },
+      value: {
+        BASE_ENERGY: 2,
+        ENERGY: [1, 1, 2, 1, 1],
+        BASE_CARD_PLAY: 1,
+        CARD_PLAY: [0, 1, 0, 1, 1]
+      }
+    }
   },
   {
     name: 'Keeper Of The Forbidden Wilds',

@@ -104,6 +104,24 @@ export interface SpiritType {
   aspects?: Aspect[]
   setup?: (playerIndex: number) => void
   faq?: FAQ[]
+  panel?: {
+    location: {
+      last: {
+        x: number
+        y: number
+      }
+      WIDTH: number
+      TOP: number
+      BOT: number
+      SPACE_Y: number
+    }
+    value: {
+      BASE_ENERGY: number
+      ENERGY: number[]
+      BASE_CARD_PLAY: number
+      CARD_PLAY: number[]
+    }
+  }
 }
 
 export interface Result {
