@@ -12,10 +12,5 @@ const card = computed(() => {
 </script>
 
 <template>
-  <img
-    :data-id="id"
-    :src="getCardImage(card.name, card.path)"
-    :alt="card.name"
-    style="aspect-ratio: 278/390; object-fit: cover"
-  />
+  <img :data-id="id" :src="getCardImage(card.name, card.path)" :alt="card.name" style="aspect-ratio: 278/390; object-fit: cover" />
 </template>

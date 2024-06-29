@@ -1,29 +1,8 @@
 import type { PowerCard, Adversary, BlightCard, SpiritType } from '@/types'
-import {
-  setupDarkFire,
-  setupIntensify,
-  setupLocus,
-  setupNourishing,
-  setupSpreadingHostility,
-  setupSunshine,
-  setupTangles,
-  setupViolence,
-  setupWarrior
-} from '@/utils/setup'
+import { setupDarkFire, setupIntensify, setupLocus, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
 import { setupSparking } from '@/utils/setup'
-import {
-  addFearToTop,
-  moveBack2FearPerPlayer,
-  putEventUnderTwo,
-  returnTopFearToBox,
-  returnTopInvaderCardToBox
-} from '@/utils/event'
-import {
-  setupDancesUpEarthquakes,
-  setupDaysThatNeverWere,
-  setupHearthVigil,
-  setupWoundedWaters
-} from '@/utils/spirit'
+import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox, returnTopInvaderCardToBox } from '@/utils/event'
+import { setupDancesUpEarthquakes, setupDaysThatNeverWere, setupHearthVigil, setupWoundedWaters } from '@/utils/spirit'
 import { setupInvadersFindTheLand } from '@/utils/blight'
 
 export const MINOR_CARDS: Array<PowerCard> = [
@@ -32,40 +11,35 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 0,
     speed: 'Slow',
     elements: ['Fire', 'Animal'],
-    description:
-      'If target land is Jungle / Wetland, 1 Fear and 1 Damage. -If you have- 3 Animal: 1 Damage.'
+    description: 'If target land is Jungle / Wetland, 1 Fear and 1 Damage. -If you have- 3 Animal: 1 Damage.'
   },
   {
     name: 'Shadows of the Burning Forest',
     cost: 0,
     speed: 'Slow',
     elements: ['Moon', 'Fire', 'Plant'],
-    description:
-      '2 Fear. If target land is Mountain / Jungle, Push 1 Explorer and 1 Town.'
+    description: '2 Fear. If target land is Mountain / Jungle, Push 1 Explorer and 1 Town.'
   },
   {
     name: 'Sap the Strength of Multitudes',
     cost: 0,
     speed: 'Fast',
     elements: ['Water', 'Animal'],
-    description:
-      "Defend 5. -If you have- 1 Air: Increase this Power's Range by 1"
+    description: "Defend 5. -If you have- 1 Air: Increase this Power's Range by 1"
   },
   {
     name: 'Drift down into Slumber',
     cost: 0,
     speed: 'Fast',
     elements: ['Air', 'Earth', 'Plant'],
-    description:
-      'Defend 1. If target land is Jungle / Sands, instead, Defend 4.'
+    description: 'Defend 1. If target land is Jungle / Sands, instead, Defend 4.'
   },
   {
     name: 'Land of Haunts and Embers',
     cost: 0,
     speed: 'Fast',
     elements: ['Moon', 'Fire', 'Air'],
-    description:
-      '2 Fear. Push up to 2 Explorer / Town. If target land has Blight, +2 Fear. Push up to 2 more Explorer / Town. Add 1 Blight.'
+    description: '2 Fear. Push up to 2 Explorer / Town. If target land has Blight, +2 Fear. Push up to 2 more Explorer / Town. Add 1 Blight.'
   },
   {
     name: 'Call to Isolation',
@@ -94,8 +68,7 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 0,
     speed: 'Fast',
     elements: ['Sun', 'Fire', 'Plant'],
-    description:
-      'Target Spirit gains 1 Energy, +1 Energy if target Spirit is not yourself. If you have at least 2 SacredSite, target Spirit gains +1 Energy.'
+    description: 'Target Spirit gains 1 Energy, +1 Energy if target Spirit is not yourself. If you have at least 2 SacredSite, target Spirit gains +1 Energy.'
   },
   {
     name: 'Gift of Power',
@@ -144,16 +117,14 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 0,
     speed: 'Slow',
     elements: ['Moon', 'Air', 'Animal'],
-    description:
-      'You may Push 1 Explorer / Town / Dahan. 2 Fear. If target land has any Beasts, 1 Fear.'
+    description: 'You may Push 1 Explorer / Town / Dahan. 2 Fear. If target land has any Beasts, 1 Fear.'
   },
   {
     name: 'Portents of Disaster',
     cost: 0,
     speed: 'Fast',
     elements: ['Sun', 'Moon', 'Air'],
-    description:
-      '2 Fear. The next time an Invader is destroyed in target land this turn, 1 Fear.'
+    description: '2 Fear. The next time an Invader is destroyed in target land this turn, 1 Fear.'
   },
   // {
   //   name: 'Growth through Sacrifice',
@@ -168,8 +139,7 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 0,
     speed: 'Fast',
     elements: ['Fire', 'Air', 'Animal'],
-    description:
-      'Add 1 Beasts. -or- If target land has Beasts, Push up to 2 Explorer.'
+    description: 'Add 1 Beasts. -or- If target land has Beasts, Push up to 2 Explorer.'
   },
   {
     name: 'Animated Wrackroot',
@@ -183,24 +153,21 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 0,
     speed: 'Fast',
     elements: ['Sun', 'Earth', 'Animal'],
-    description:
-      'Gather up to 2 Dahan. Dahan have +2 Health while in target land.'
+    description: 'Gather up to 2 Dahan. Dahan have +2 Health while in target land.'
   },
   {
     name: 'Call to Ferocity',
     cost: 0,
     speed: 'Slow',
     elements: ['Sun', 'Fire', 'Earth'],
-    description:
-      'Gather up to 3 Dahan. -or- If target land has Dahan, 1 Fear and Push 1 Explorer and 1 Town.'
+    description: 'Gather up to 3 Dahan. -or- If target land has Dahan, 1 Fear and Push 1 Explorer and 1 Town.'
   },
   {
     name: 'Twilight Fog brings Madness',
     cost: 0,
     speed: 'Slow',
     elements: ['Sun', 'Moon', 'Air', 'Water'],
-    description:
-      'Add 1 Strife. Push 1 Dahan. Each remaining Dahan takes 1 Damage.'
+    description: 'Add 1 Strife. Push 1 Dahan. Each remaining Dahan takes 1 Damage.'
   },
   {
     name: 'Hazards Spread Across The Island',
@@ -215,24 +182,21 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 0,
     speed: 'Fast',
     elements: ['Earth', 'Plant', 'Animal'],
-    description:
-      'If targeting a land with Beasts, this Power has +1 Range. Defend 3. -If you have- 2 Earth: Defend +3.'
+    description: 'If targeting a land with Beasts, this Power has +1 Range. Defend 3. -If you have- 2 Earth: Defend +3.'
   },
   {
     name: 'Call To Guard',
     cost: 0,
     speed: 'Fast',
     elements: ['Sun', 'Air', 'Earth'],
-    description:
-      'Gather up to 1 Dahan. Then, if Dahan are present, either: Defend 1 per Dahan. -or- After Invaders are added or moved to target land, 1 Damage to each added or moved Invader.'
+    description: 'Gather up to 1 Dahan. Then, if Dahan are present, either: Defend 1 per Dahan. -or- After Invaders are added or moved to target land, 1 Damage to each added or moved Invader.'
   },
   {
     name: "Gift of Nature's Connection",
     cost: 0,
     speed: 'Fast',
     elements: [],
-    description:
-      'Target Spirit gains either 2 Energy or 2 of a single Element (their choice). If you target another Spirit, you gain an Element of your choice.'
+    description: 'Target Spirit gains either 2 Energy or 2 of a single Element (their choice). If you target another Spirit, you gain an Element of your choice.'
   },
   {
     name: 'Mesmerized Tranquility',
@@ -253,16 +217,14 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 0,
     speed: 'Slow',
     elements: ['Sun', 'Fire', 'Plant'],
-    description:
-      'Add 1 Badlands. -or- If Wilds and Invaders are present, 1 Fear and 1 Damage.'
+    description: 'Add 1 Badlands. -or- If Wilds and Invaders are present, 1 Fear and 1 Damage.'
   },
   {
     name: 'Strong And Constant Currents',
     cost: 0,
     speed: 'Fast',
     elements: ['Sun', 'Water', 'Earth'],
-    description:
-      'Push 1 Explorer / Town to an adjacent Coastal land. -or- Move up to 2 Dahan between target land and one other Coastal land. -If you have- 2 Water: You may do both.'
+    description: 'Push 1 Explorer / Town to an adjacent Coastal land. -or- Move up to 2 Dahan between target land and one other Coastal land. -If you have- 2 Water: You may do both.'
   },
   {
     name: 'Sucking Ooze',
@@ -276,8 +238,7 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 0,
     speed: 'Slow',
     elements: ['Moon', 'Air', 'Water'],
-    description:
-      'If the Terror Level is... Terror Level 1: 3 Fear. Terror Level 2: 2 Fear or add 1 Strife. Terror Level 3: Add 1 Strife.'
+    description: 'If the Terror Level is... Terror Level 1: 3 Fear. Terror Level 2: 2 Fear or add 1 Strife. Terror Level 3: Add 1 Strife.'
   },
   {
     name: 'Treacherous Waterways',
@@ -298,8 +259,7 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 0,
     speed: 'Slow',
     elements: ['Fire', 'Water', 'Animal'],
-    description:
-      '1 Fear per type of Invader present. Push up to 1 Explorer / Town per Blight.'
+    description: '1 Fear per type of Invader present. Push up to 1 Explorer / Town per Blight.'
   },
   {
     name: 'Voracious Growth',
@@ -327,48 +287,42 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 1,
     speed: 'Slow',
     elements: ['Sun', 'Water', 'Plant'],
-    description:
-      'If target land has 1 Explorer, Push all Explorer. Otherwise, remove 1 Blight.'
+    description: 'If target land has 1 Explorer, Push all Explorer. Otherwise, remove 1 Blight.'
   },
   {
     name: 'Uncanny Melting',
     cost: 1,
     speed: 'Slow',
     elements: ['Sun', 'Moon', 'Water'],
-    description:
-      'If Invaders are present, 1 Fear. If target land is Sands / Wetland, remove 1 Blight'
+    description: 'If Invaders are present, 1 Fear. If target land is Sands / Wetland, remove 1 Blight'
   },
   {
     name: 'Steam Vents',
     cost: 1,
     speed: 'Fast',
     elements: ['Fire', 'Air', 'Water', 'Earth'],
-    description:
-      'Destroy 1 Explorer. -If you have- 3 Earth: You may instead destroy 1 Town.'
+    description: 'Destroy 1 Explorer. -If you have- 3 Earth: You may instead destroy 1 Town.'
   },
   {
     name: "Veil the Night's Hunt",
     cost: 1,
     speed: 'Fast',
     elements: ['Moon', 'Air', 'Animal'],
-    description:
-      'Each Dahan deals 1 Damage to a different Invader. -or- Push up to 3 Dahan.'
+    description: 'Each Dahan deals 1 Damage to a different Invader. -or- Push up to 3 Dahan.'
   },
   {
     name: 'Elemental Boon',
     cost: 1,
     speed: 'Fast',
     elements: [],
-    description:
-      'Target Spirit gains 3 different Elements of their choice. If you target another Spirit, you also gain the chosen Elements.'
+    description: 'Target Spirit gains 3 different Elements of their choice. If you target another Spirit, you also gain the chosen Elements.'
   },
   {
     name: 'Devouring Ants',
     cost: 1,
     speed: 'Slow',
     elements: ['Sun', 'Earth', 'Animal'],
-    description:
-      '1 Fear. 1 Damage. Destroy 1 Dahan. If target land is Jungle / Sands, +1 Damage.'
+    description: '1 Fear. 1 Damage. Destroy 1 Dahan. If target land is Jungle / Sands, +1 Damage.'
   },
   {
     name: 'Dark and Tangled Woods',
@@ -382,32 +336,28 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 1,
     speed: 'Fast',
     elements: ['Earth', 'Plant', 'Animal'],
-    description:
-      'Defend 6. -If you have- 2 Water: You may instead remove 1 Blight.'
+    description: 'Defend 6. -If you have- 2 Water: You may instead remove 1 Blight.'
   },
   {
     name: 'Visions of Fiery Doom',
     cost: 1,
     speed: 'Fast',
     elements: ['Moon', 'Fire'],
-    description:
-      '1 Fear. Push 1 Explorer / Town. -If you have- 2 Fire: +1 Fear.'
+    description: '1 Fear. Push 1 Explorer / Town. -If you have- 2 Fire: +1 Fear.'
   },
   {
     name: 'Pull Beneath the Hungry Earth',
     cost: 1,
     speed: 'Slow',
     elements: ['Moon', 'Water', 'Earth'],
-    description:
-      'If target land has your Presence, 1 Fear and 1 Damage. If target land is Sands / Wetland, 1 Damage.'
+    description: 'If target land has your Presence, 1 Fear and 1 Damage. If target land is Sands / Wetland, 1 Damage.'
   },
   {
     name: 'Call of the Dahan Ways',
     cost: 1,
     speed: 'Slow',
     elements: ['Moon', 'Water', 'Animal'],
-    description:
-      'Replace 1 Explorer with 1 Dahan. -If you have- 2 Moon: You may instead replace 1 Town with 1 Dahan.'
+    description: 'Replace 1 Explorer with 1 Dahan. -If you have- 2 Moon: You may instead replace 1 Town with 1 Dahan.'
   },
   {
     name: 'Call to Bloodshed',
@@ -449,32 +399,28 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 1,
     speed: 'Slow',
     elements: ['Sun', 'Fire', 'Earth'],
-    description:
-      'Destroy 3 Town. 1 Damage to each Town / City. Add 1 Blight. -If you have- 3 Sun: Destroy 1 City.'
+    description: 'Destroy 3 Town. 1 Damage to each Town / City. Add 1 Blight. -If you have- 3 Sun: Destroy 1 City.'
   },
   {
     name: 'Entrancing Apparitions',
     cost: 1,
     speed: 'Fast',
     elements: ['Moon', 'Air', 'Water'],
-    description:
-      'Defend 2. If no Invaders are present, gather up to 2 Explorer.'
+    description: 'Defend 2. If no Invaders are present, gather up to 2 Explorer.'
   },
   {
     name: 'Purifying Flame',
     cost: 1,
     speed: 'Slow',
     elements: ['Sun', 'Fire', 'Air', 'Plant'],
-    description:
-      '1 Damage per Blight. If target land is Mountain / Sands, you may instead remove 1 Blight.'
+    description: '1 Damage per Blight. If target land is Mountain / Sands, you may instead remove 1 Blight.'
   },
   {
     name: 'Inflame the Fires of Life',
     cost: 1,
     speed: 'Slow',
     elements: ['Moon', 'Fire', 'Plant', 'Animal'],
-    description:
-      "Add 1 Disease. -or'- 1 Fear. Add 1 Strife. -If you have- 3 Animal: You may do both."
+    description: "Add 1 Disease. -or'- 1 Fear. Add 1 Strife. -If you have- 3 Animal: You may do both."
   },
   {
     name: 'Fire in the Sky',
@@ -495,56 +441,49 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 1,
     speed: 'Fast',
     elements: ['Sun', 'Moon', 'Earth', 'Animal'],
-    description:
-      "Add 1 Beasts in one of target Spirit's lands. If target Spirit has a SacredSite in that land: Defend 4 there."
+    description: "Add 1 Beasts in one of target Spirit's lands. If target Spirit has a SacredSite in that land: Defend 4 there."
   },
   {
     name: 'Infested Aquifers',
     cost: 1,
     speed: 'Slow',
     elements: ['Moon', 'Water', 'Earth', 'Animal'],
-    description:
-      'If target land has any Disease, 1 Damage to each Invader. -or- If target land is Mountain / Wetland, 1 Fear and add 1 Disease.'
+    description: 'If target land has any Disease, 1 Damage to each Invader. -or- If target land is Mountain / Wetland, 1 Fear and add 1 Disease.'
   },
   {
     name: 'Poisoned Dew',
     cost: 1,
     speed: 'Slow',
     elements: ['Fire', 'Water', 'Plant'],
-    description:
-      'Destroy 1 Explorer. If target land is Jungle / Wetland, destroy all Explorer.'
+    description: 'Destroy 1 Explorer. If target land is Jungle / Wetland, destroy all Explorer.'
   },
   {
     name: 'Prowling Panthers',
     cost: 1,
     speed: 'Slow',
     elements: ['Moon', 'Fire', 'Animal'],
-    description:
-      '1 Fear. Add 1 Beasts. -or- If target land has Beasts, destroy 1 Explorer / Town.'
+    description: '1 Fear. Add 1 Beasts. -or- If target land has Beasts, destroy 1 Explorer / Town.'
   },
   {
     name: 'Renewing Rain',
     cost: 1,
     speed: 'Slow',
     elements: ['Water', 'Earth', 'Plant'],
-    description:
-      'If target land is Jungle / Sands, remove 1 Blight. -If you have- 3 Plant: Add 1 Wilds.'
+    description: 'If target land is Jungle / Sands, remove 1 Blight. -If you have- 3 Plant: Add 1 Wilds.'
   },
   {
     name: "Rites of the Land's Rejection",
     cost: 1,
     speed: 'Fast',
     elements: ['Moon', 'Fire', 'Earth'],
-    description:
-      'Invaders do not Build in target land this turn. 1 Fear per Town / City or 1 Fear per Dahan, whichever is less. -or- Push up to 3 Dahan.'
+    description: 'Invaders do not Build in target land this turn. 1 Fear per Town / City or 1 Fear per Dahan, whichever is less. -or- Push up to 3 Dahan.'
   },
   {
     name: 'Pact of the Joined Hunt',
     cost: 1,
     speed: 'Slow',
     elements: ['Sun', 'Plant', 'Animal'],
-    description:
-      'Target Spirit Gathers 1 Dahan into one of their lands. 1 Damage in that land per Dahan present.'
+    description: 'Target Spirit Gathers 1 Dahan into one of their lands. 1 Damage in that land per Dahan present.'
   },
   {
     name: 'Razor-Sharp Undergrowth',
@@ -558,56 +497,49 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 1,
     speed: 'Slow',
     elements: ['Air', 'Earth'],
-    description:
-      'Destroy 3 Town and all Explorer. Add 1 Blight. -If you have- 3 Air: This power may be Fast.'
+    description: 'Destroy 3 Town and all Explorer. Add 1 Blight. -If you have- 3 Air: This power may be Fast.'
   },
   {
     name: 'Sky Stretches to Shore',
     cost: 1,
     speed: 'Fast',
     elements: ['Sun', 'Air', 'Water', 'Earth'],
-    description:
-      'This turn, target Spirit may use 1 Slow Power as if it were Fast, or vice versa. Target Spirit gains +3 Range for targeting Coastal lands only.'
+    description: 'This turn, target Spirit may use 1 Slow Power as if it were Fast, or vice versa. Target Spirit gains +3 Range for targeting Coastal lands only.'
   },
   {
     name: 'Absorb Corruption',
     cost: 1,
     speed: 'Slow',
     elements: ['Sun', 'Earth', 'Plant'],
-    description:
-      'Gather 1 Blight. -or- Pay 1 Energy to remove 1 Blight. -If you have- 2 Plant: You may do both.'
+    description: 'Gather 1 Blight. -or- Pay 1 Energy to remove 1 Blight. -If you have- 2 Plant: You may do both.'
   },
   {
     name: 'Call to Trade',
     cost: 1,
     speed: 'Fast',
     elements: ['Air', 'Water', 'Earth', 'Plant'],
-    description:
-      'You may Gather 1 Dahan. If the Terror Level is 2 or lower, Gather 1 Town and the first Ravage in target land this turn becomes a Build there instead.'
+    description: 'You may Gather 1 Dahan. If the Terror Level is 2 or lower, Gather 1 Town and the first Ravage in target land this turn becomes a Build there instead.'
   },
   {
     name: 'Confounding Mists',
     cost: 1,
     speed: 'Fast',
     elements: ['Air', 'Water'],
-    description:
-      'Defend 4. -or- Each Invader added to target land this turn may be immediately Pushed to any adjacent land.'
+    description: 'Defend 4. -or- Each Invader added to target land this turn may be immediately Pushed to any adjacent land.'
   },
   {
     name: 'Cycles of Time and Tide',
     cost: 1,
     speed: 'Fast',
     elements: ['Sun', 'Moon', 'Water'],
-    description:
-      'If there are Dahan, add 1 Dahan. If there are no Dahan, remove 1 Blight.'
+    description: 'If there are Dahan, add 1 Dahan. If there are no Dahan, remove 1 Blight.'
   },
   {
     name: 'Disorienting Landscape',
     cost: 1,
     speed: 'Fast',
     elements: ['Moon', 'Air', 'Plant'],
-    description:
-      'Push 1 Explorer. If target land is Mountain / Jungle, add 1 Wilds.'
+    description: 'Push 1 Explorer. If target land is Mountain / Jungle, add 1 Wilds.'
   },
   {
     name: 'Elusive Ambushes',
@@ -621,16 +553,14 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 1,
     speed: 'Slow',
     elements: ['Air', 'Plant', 'Animal'],
-    description:
-      'Add 1 Disease. -or- If target land has Invaders, 2 Fear. If Disease is present, +1 Fear. If Blight is present, +1 Fear.'
+    description: 'Add 1 Disease. -or- If target land has Invaders, 2 Fear. If Disease is present, +1 Fear. If Blight is present, +1 Fear.'
   },
   {
     name: 'Teeming Rivers',
     cost: 1,
     speed: 'Slow',
     elements: ['Sun', 'Water', 'Plant', 'Animal'],
-    description:
-      'If target land has no Blight, add 1 Beasts. If target land has exactly 1 Blight, remove it.'
+    description: 'If target land has no Blight, add 1 Beasts. If target land has exactly 1 Blight, remove it.'
   },
   {
     name: 'Spur on with Words of Fire',
@@ -645,24 +575,21 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 1,
     speed: 'Slow',
     elements: ['Moon', 'Air', 'Animal'],
-    description:
-      'For each Dahan, 1 Damage to Town / City. -or- 1 Fear. Gather up to 2 Dahan.'
+    description: 'For each Dahan, 1 Damage to Town / City. -or- 1 Fear. Gather up to 2 Dahan.'
   },
   {
     name: 'Birds Cry Warning',
     cost: 1,
     speed: 'Fast',
     elements: ['Sun', 'Air', 'Animal'],
-    description:
-      'The next time Dahan would be Destroyed in target land, Destroy 2 fewer Dahan. -or- Push up to 3 Dahan.'
+    description: 'The next time Dahan would be Destroyed in target land, Destroy 2 fewer Dahan. -or- Push up to 3 Dahan.'
   },
   {
     name: 'Blood Draws Predators',
     cost: 1,
     speed: 'Fast',
     elements: ['Sun', 'Fire', 'Water', 'Animal'],
-    description:
-      'After the next time Invaders are Destroyed in target land: Add 1 Beasts, then 1 Damage per Beasts (max. 3 Damage).'
+    description: 'After the next time Invaders are Destroyed in target land: Add 1 Beasts, then 1 Damage per Beasts (max. 3 Damage).'
   },
   {
     name: 'Desiccating Winds',
@@ -676,16 +603,14 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 1,
     speed: 'Slow',
     elements: ['Fire', 'Air', 'Plant'],
-    description:
-      'You may spend 1 Energy to make this Power Fast. 2 Fear. 1 Damage.'
+    description: 'You may spend 1 Energy to make this Power Fast. 2 Fear. 1 Damage.'
   },
   {
     name: 'Entrap The Forces Of Corruption',
     cost: 1,
     speed: 'Fast',
     elements: ['Earth', 'Plant', 'Animal'],
-    description:
-      "Gather up to 1 Blight. Isolate target land. When Blight is added to target land, it doesn't cascade."
+    description: "Gather up to 1 Blight. Isolate target land. When Blight is added to target land, it doesn't cascade."
   },
   {
     name: 'Domesticated Animals Go Berserk',
@@ -699,24 +624,21 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 1,
     speed: 'Slow',
     elements: ['Moon', 'Air', 'Earth', 'Animal'],
-    description:
-      '1 Fear. 1 Damage. 1 Damage to Dahan. Add 1 Badlands, 1 Beasts, 1 Disease, 1 Strife, 1 Wilds, and 1 Blight.'
+    description: '1 Fear. 1 Damage. 1 Damage to Dahan. Add 1 Badlands, 1 Beasts, 1 Disease, 1 Strife, 1 Wilds, and 1 Blight.'
   },
   {
     name: 'Skies Herald The Season Of Return',
     cost: 1,
     speed: 'Fast',
     elements: ['Sun', 'Moon', 'Plant', 'Animal'],
-    description:
-      'A Spirit with Presence on target board may add 1 of their Destroyed Presence. Gather up to 2 Dahan. Push 1 Blight.'
+    description: 'A Spirit with Presence on target board may add 1 of their Destroyed Presence. Gather up to 2 Dahan. Push 1 Blight.'
   },
   {
     name: 'Gift of Twinned Days',
     cost: 1,
     speed: 'Fast',
     elements: ['Sun', 'Moon'],
-    description:
-      "Once this turn, target Spirit may Repeat the lowest-cost Power Card they have in play by paying it's cost again. You may do likewise."
+    description: "Once this turn, target Spirit may Repeat the lowest-cost Power Card they have in play by paying it's cost again. You may do likewise."
   },
   {
     name: 'Haunted By Primal Memories',
@@ -730,24 +652,21 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 1,
     speed: 'Slow',
     elements: ['Sun', 'Water', 'Plant'],
-    description:
-      'If target land has Explorer, Gather up to 1 Explorer. Do likewise for Town, Dahan, Blight, and Beasts.'
+    description: 'If target land has Explorer, Gather up to 1 Explorer. Do likewise for Town, Dahan, Blight, and Beasts.'
   },
   {
     name: 'Unquenchable Flames',
     cost: 1,
     speed: 'Slow',
     elements: ['Moon', 'Fire', 'Earth'],
-    description:
-      '1 Fear. 1 Damage to Town / City. Invaders do not heal Damage at end of turn. -If you have- 2 Fire: Add 1 Badlands.'
+    description: '1 Fear. 1 Damage to Town / City. Invaders do not heal Damage at end of turn. -If you have- 2 Fire: Add 1 Badlands.'
   },
   {
     name: 'Renewing Boon',
     cost: 1,
     speed: 'Slow',
     elements: ['Sun', 'Earth', 'Plant'],
-    description:
-      'Choose a land where you and target Spirit both have Presence. In that land: Remove 1 Blight, and target Spirit may add 1 of their Destroyed Presence.'
+    description: 'Choose a land where you and target Spirit both have Presence. In that land: Remove 1 Blight, and target Spirit may add 1 of their Destroyed Presence.'
   },
   {
     name: 'Scream Disease Into The Wind',
@@ -769,8 +688,7 @@ export const MINOR_CARDS: Array<PowerCard> = [
     cost: 1,
     speed: 'Slow',
     elements: ['Sun', 'Moon', 'Fire', 'Water'],
-    description:
-      '1 Fear. 1 Damage. You may pay 1 Energy to deal 1 Damage in an adjacent land.'
+    description: '1 Fear. 1 Damage. You may pay 1 Energy to deal 1 Damage in an adjacent land.'
   },
   {
     name: 'The Shore Seethes With Hatred',
@@ -808,8 +726,7 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     cost: 2,
     speed: 'Fast',
     elements: ['Sun', 'Earth', 'Plant'],
-    description:
-      "For each Dahan in target land, 1 Damage and Defend 2. -If you have- 2 Sun, 2 Earth, 2 Plant: You may Push up to 2 Dahan, moving each's Defend with them."
+    description: "For each Dahan in target land, 1 Damage and Defend 2. -If you have- 2 Sun, 2 Earth, 2 Plant: You may Push up to 2 Dahan, moving each's Defend with them."
   },
   {
     name: 'Entwined Power',
@@ -832,8 +749,7 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     cost: 2,
     speed: 'Slow',
     elements: ['Moon', 'Animal'],
-    description:
-      '2 Fear. Replace 1 Explorer with 1 Beasts. -If you have- 2 Moon, 3 Animal: Replace 1 additional Explorer with 1 Beasts in either target or adjacent land.'
+    description: '2 Fear. Replace 1 Explorer with 1 Beasts. -If you have- 2 Moon, 3 Animal: Replace 1 additional Explorer with 1 Beasts in either target or adjacent land.'
   },
   {
     name: 'Tigers Hunting',
@@ -848,8 +764,7 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     cost: 2,
     speed: 'Fast',
     elements: ['Sun', 'Moon', 'Fire', 'Water'],
-    description:
-      'Gain 4 energy. You may forget a power card to gain 4 more energy. -or- Pay X energy (min. 1) to deal X damage in a land at 0 Range.  -If you have- 2 Sun, 3 Fire: You may do both.'
+    description: 'Gain 4 energy. You may forget a power card to gain 4 more energy. -or- Pay X energy (min. 1) to deal X damage in a land at 0 Range.  -If you have- 2 Sun, 3 Fire: You may do both.'
   },
   {
     name: 'Bargains of Power and Protection',
@@ -864,8 +779,7 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     cost: 3,
     speed: 'Slow',
     elements: ['Earth', 'Plant', 'Animal'],
-    description:
-      '1 Fear. 7 Damage. Add 1 Blight and destroy all Dahan. -If you have- 3 Earth, 2 Plant, 2 Animal: For each Blight then present, +1 Fear and +4 Damage.'
+    description: '1 Fear. 7 Damage. Add 1 Blight and destroy all Dahan. -If you have- 3 Earth, 2 Plant, 2 Animal: For each Blight then present, +1 Fear and +4 Damage.'
   },
   {
     name: 'Powerstorm',
@@ -880,16 +794,14 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     cost: 3,
     speed: 'Slow',
     elements: ['Moon', 'Plant'],
-    description:
-      'Destroy all Explorer and all Town. Destroy all Dahan. -If you have- 2 Moon, 3 Plant: Destroy 1 City. Do not destroy any Dahan.'
+    description: 'Destroy all Explorer and all Town. Destroy all Dahan. -If you have- 2 Moon, 3 Plant: Destroy 1 City. Do not destroy any Dahan.'
   },
   {
     name: 'Vigor of the Breaking Dawn',
     cost: 3,
     speed: 'Fast',
     elements: ['Sun', 'Animal'],
-    description:
-      '2 Damage per Dahan in target land. -If you have- 3 Sun, 2 Animal: You may Push up to 2 Dahan. In lands you Pushed Dahan to, 2 Damage per Dahan.'
+    description: '2 Damage per Dahan in target land. -If you have- 3 Sun, 2 Animal: You may Push up to 2 Dahan. In lands you Pushed Dahan to, 2 Damage per Dahan.'
   },
   {
     name: 'Vengeance of the Dead',
@@ -904,16 +816,14 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     cost: 3,
     speed: 'Fast',
     elements: ['Sun', 'Air', 'Animal'],
-    description:
-      'Move up to 5 Dahan from target land to any land. Defend 5 in that land. -If you have- 2 Sun, 2 Air, 2 Animal: First, Gather up to 3 Dahan.'
+    description: 'Move up to 5 Dahan from target land to any land. Defend 5 in that land. -If you have- 2 Sun, 2 Air, 2 Animal: First, Gather up to 3 Dahan.'
   },
   {
     name: 'Winds of Rust and Atrophy',
     cost: 3,
     speed: 'Fast',
     elements: ['Air', 'Water', 'Animal'],
-    description:
-      '1 Fear and Defend 6. Replace 1 City with 1 Town or 1 Town with 1 Explorer. -If you have- 3 Air, 3 Water, 2 Animal: Repeat this Power.'
+    description: '1 Fear and Defend 6. Replace 1 City with 1 Town or 1 Town with 1 Explorer. -If you have- 3 Air, 3 Water, 2 Animal: Repeat this Power.'
   },
   {
     name: 'Infinite Vitality',
@@ -936,16 +846,14 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     cost: 3,
     speed: 'Fast',
     elements: ['Fire', 'Air', 'Earth'],
-    description:
-      '2 Damage. Destroy all Explorer. If target land is Jungle / Wetland, add 1 Blight. -If you have- 2 Fire, 3 Air, 2 Earth: +4 Damage. Add 1 Wilds.'
+    description: '2 Damage. Destroy all Explorer. If target land is Jungle / Wetland, add 1 Blight. -If you have- 2 Fire, 3 Air, 2 Earth: +4 Damage. Add 1 Wilds.'
   },
   {
     name: 'Smothering Infestation',
     cost: 3,
     speed: 'Slow',
     elements: ['Water', 'Plant'],
-    description:
-      'Add 1 Disease. If target land is Jungle / Wetland, 2 Fear and 3 Damage. -If you have- 2 Water, 2 Plant: 1 Damage to each Invader.'
+    description: 'Add 1 Disease. If target land is Jungle / Wetland, 2 Fear and 3 Damage. -If you have- 2 Water, 2 Plant: 1 Damage to each Invader.'
   },
   {
     name: 'Angry Bears',
@@ -1000,48 +908,42 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     cost: 3,
     speed: 'Fast',
     elements: ['Sun', 'Moon', 'Plant'],
-    description:
-      '3 Fear. Defend 6. Invaders skip the next build. (In target land this turn.) -If you have- 3 Sun, 2 Moon, 2 Plant: 1 Damage per Sun you have.'
+    description: '3 Fear. Defend 6. Invaders skip the next build. (In target land this turn.) -If you have- 3 Sun, 2 Moon, 2 Plant: 1 Damage per Sun you have.'
   },
   {
     name: 'Thickets Erupt with Every Touch of Breeze',
     cost: 3,
     speed: 'Fast',
     elements: ['Air', 'Plant'],
-    description:
-      '2 Damage. Then either: Add 3 Wilds. -or- Remove 1 Blight. -If you have- 3 Plant: 1 Fear. +2 Damage.'
+    description: '2 Damage. Then either: Add 3 Wilds. -or- Remove 1 Blight. -If you have- 3 Plant: 1 Fear. +2 Damage.'
   },
   {
     name: 'Accelerated Rot',
     cost: 4,
     speed: 'Slow',
     elements: ['Sun', 'Water', 'Plant'],
-    description:
-      '2 Fear. 4 Damage. -If you have- 3 Sun, 2 Water, 3 Plant: +5 Damage. Remove 1 Blight.'
+    description: '2 Fear. 4 Damage. -If you have- 3 Sun, 2 Water, 3 Plant: +5 Damage. Remove 1 Blight.'
   },
   {
     name: 'Terrifying Nightmares',
     cost: 4,
     speed: 'Fast',
     elements: ['Moon', 'Air'],
-    description:
-      '2 Fear. Push up to 4 Explorer / Town. -If you have- 4 Moon: +4 Fear.'
+    description: '2 Fear. Push up to 4 Explorer / Town. -If you have- 4 Moon: +4 Fear.'
   },
   {
     name: 'Paralyzing Fright',
     cost: 4,
     speed: 'Fast',
     elements: ['Air', 'Earth'],
-    description:
-      '4 Fear. Invaders skip all Actions in target land this turn. -If you have- 2 Air, 3 Earth: +4 Fear.'
+    description: '4 Fear. Invaders skip all Actions in target land this turn. -If you have- 2 Air, 3 Earth: +4 Fear.'
   },
   {
     name: 'The Land Thrashes in Furious Pain',
     cost: 4,
     speed: 'Slow',
     elements: ['Moon', 'Fire', 'Earth'],
-    description:
-      '2 Damage per Blight in target land. +1 Damage per Blight in adjacent lands. -If you have- 3 Moon, 3 Earth: Repeat on an adjacent land.'
+    description: '2 Damage per Blight in target land. +1 Damage per Blight in adjacent lands. -If you have- 3 Moon, 3 Earth: Repeat on an adjacent land.'
   },
   {
     name: 'Indomitable Claim',
@@ -1056,8 +958,7 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     cost: 4,
     speed: 'Slow',
     elements: ['Moon', 'Air', 'Water'],
-    description:
-      '1 Fear per Town / City this Power destroys (to a maximum of 4). 1 Damage to each Invader. -If you have- 2 Moon, 3 Air, 2 Water: 3 Damage.'
+    description: '1 Fear per Town / City this Power destroys (to a maximum of 4). 1 Damage to each Invader. -If you have- 2 Moon, 3 Air, 2 Water: 3 Damage.'
   },
   {
     name: 'Dissolve the Bonds of Kinship',
@@ -1088,8 +989,7 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     cost: 4,
     speed: 'Slow',
     elements: ['Moon', 'Air', 'Plant'],
-    description:
-      '4 Damage. If any Invaders remain, add 1 Disease. -If you have- 3 Air, 3 Plant: 3 Fear. Add 1 Disease to 2 adjacent lands with Invaders.'
+    description: '4 Damage. If any Invaders remain, add 1 Disease. -If you have- 3 Air, 3 Plant: 3 Fear. Add 1 Disease to 2 adjacent lands with Invaders.'
   },
   // {
   //   name: 'Grant Hatred a Ravenous Form',
@@ -1135,16 +1035,7 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     name: 'Unlock the Gates of Deepest Power',
     cost: 4,
     speed: 'Fast',
-    elements: [
-      'Sun',
-      'Moon',
-      'Fire',
-      'Air',
-      'Water',
-      'Earth',
-      'Plant',
-      'Animal'
-    ],
+    elements: ['Sun', 'Moon', 'Fire', 'Air', 'Water', 'Earth', 'Plant', 'Animal'],
     description:
       'Target Spirit gains a Major Power by drawing 2 and keeping 1, without having to Forget another Power Card. -If you have- 2 Sun, 2 Moon, 2 Fire, 2 Air, 2 Water, 2 Earth, 2 Plant, 2 Animal: Target Spirit may now play the Major Power they keep by paying half its cost (round up) OR by Forgetting it at the end of turn. It gains all elemental thresholds.'
   },
@@ -1169,16 +1060,14 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     cost: 4,
     speed: 'Fast',
     elements: ['Sun', 'Earth', 'Plant'],
-    description:
-      '2 Damage. Defend 8. Add 1 Wilds. Isolate target land. -If you have- 2 Earth, 2 Plant: +2 Damage. +2 Defend. Add 1 Badlands.'
+    description: '2 Damage. Defend 8. Add 1 Wilds. Isolate target land. -If you have- 2 Earth, 2 Plant: +2 Damage. +2 Defend. Add 1 Badlands.'
   },
   {
     name: 'The Wounded Wild Turns on its Assailants',
     cost: 4,
     speed: 'Slow',
     elements: ['Fire', 'Plant', 'Animal'],
-    description:
-      'Add 2 Badlands. Gather up to 2 Beasts. 1 Damage per Blight / Beasts / Wilds. -If you have- 2 Fire, 3 Plant, 2 Animal: 2 Fear per Invader destroyed by the Power (max. 8 Fear).'
+    description: 'Add 2 Badlands. Gather up to 2 Beasts. 1 Damage per Blight / Beasts / Wilds. -If you have- 2 Fire, 3 Plant, 2 Animal: 2 Fear per Invader destroyed by the Power (max. 8 Fear).'
   },
   {
     name: 'Utter a Curse of Dread and Bone',
@@ -1216,8 +1105,7 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     cost: 5,
     speed: 'Slow',
     elements: ['Fire'],
-    description:
-      '3 Fear. 5 Damage. If target land is Jungle / Wetland, add 1 Blight. -If you have- 4 Fire: +2 Fear and +5 Damage.'
+    description: '3 Fear. 5 Damage. If target land is Jungle / Wetland, add 1 Blight. -If you have- 4 Fire: +2 Fear and +5 Damage.'
   },
   {
     name: 'Blazing Renewal',
@@ -1232,24 +1120,21 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     cost: 5,
     speed: 'Slow',
     elements: ['Water', 'Animal'],
-    description:
-      'Add 1 Beasts. If Invaders are present, 2 Fear per Beasts (max. 8 Fear). 3 Damage per Beasts. 1 Damage per Blight. -If you have- 3 Water, 3 Animal: Repeat this power.'
+    description: 'Add 1 Beasts. If Invaders are present, 2 Fear per Beasts (max. 8 Fear). 3 Damage per Beasts. 1 Damage per Blight. -If you have- 3 Water, 3 Animal: Repeat this power.'
   },
   {
     name: 'Twisted Flowers Murmur Ultimatums',
     cost: 5,
     speed: 'Slow',
     elements: ['Sun', 'Moon', 'Air', 'Earth', 'Plant'],
-    description:
-      '4 Fear. Add 1 Strife. If the Terror Level is 2 or higher, remove 2 Invaders. -If you have- 3 Moon, 2 Air, 3 Plant: +3 Fear, before the Terror Level check. 3 Damage.'
+    description: '4 Fear. Add 1 Strife. If the Terror Level is 2 or higher, remove 2 Invaders. -If you have- 3 Moon, 2 Air, 3 Plant: +3 Fear, before the Terror Level check. 3 Damage.'
   },
   {
     name: "Focus the Land's Anguish",
     cost: 5,
     speed: 'Slow',
     elements: ['Sun'],
-    description:
-      'If this Power Destroys any Town / City, 5 Fear. Gather up to 5 Blight. 1 Damage per Blight.  -If you have- 3 Sun: +1 Damage per Blight.'
+    description: 'If this Power Destroys any Town / City, 5 Fear. Gather up to 5 Blight. 1 Damage per Blight.  -If you have- 3 Sun: +1 Damage per Blight.'
   },
   {
     name: 'Spill Bitterness into the Earth',
@@ -1264,16 +1149,14 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     cost: 6,
     speed: 'Fast',
     elements: ['Fire', 'Air'],
-    description:
-      "3 Fear. 5 Damage. -If you have- 3 Fire, 3 Air: Destroy 1 Town in each adjacent land. Increase this power's Range to 3 Range."
+    description: "3 Fear. 5 Damage. -If you have- 3 Fire, 3 Air: Destroy 1 Town in each adjacent land. Increase this power's Range to 3 Range."
   },
   {
     name: 'Tsunami',
     cost: 6,
     speed: 'Slow',
     elements: ['Water', 'Earth'],
-    description:
-      '2 Fear. 8 Damage. Destroy 2 Dahan. -If you have- 3 Water, 2 Earth: In each otdher Coastal land on the same board: 1 Fear, 4 Damage, and Destroy 1 Dahan.'
+    description: '2 Fear. 8 Damage. Destroy 2 Dahan. -If you have- 3 Water, 2 Earth: In each otdher Coastal land on the same board: 1 Fear, 4 Damage, and Destroy 1 Dahan.'
   },
   {
     name: 'Manifest Incarnation',
@@ -1309,16 +1192,14 @@ export const MAJOR_CARDS: Array<PowerCard> = [
     cost: 6,
     speed: 'Fast',
     elements: ['Sun', 'Air', 'Plant'],
-    description:
-      'Gather 5 Town, 5 Dahan, 5 Beasts, and 15 Explorer. -If you have- 2 Sun, 3 Air, 2 Plant: Invaders skip all Actions in target land. Isolate target land.'
+    description: 'Gather 5 Town, 5 Dahan, 5 Beasts, and 15 Explorer. -If you have- 2 Sun, 3 Air, 2 Plant: Invaders skip all Actions in target land. Isolate target land.'
   },
   {
     name: 'Fire and Flood',
     cost: 7,
     speed: 'Slow',
     elements: ['Sun', 'Fire', 'Water'],
-    description:
-      '4 Damage in each target land. (Range must be measured from the same SacredSite.) -If you have- 3 Fire: +4 Damage in either target land. 3 Water: +4 Damage in either target land.'
+    description: '4 Damage in each target land. (Range must be measured from the same SacredSite.) -If you have- 3 Fire: +4 Damage in either target land. 3 Water: +4 Damage in either target land.'
   },
   {
     name: 'Volcanic Eruption',
@@ -1576,16 +1457,14 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Slow',
         elements: ['Fire', 'Air'],
-        description:
-          'Push up to 2 Dahan. 1 Fear if you pushed any Dahan into a land with Town / City'
+        description: 'Push up to 2 Dahan. 1 Fear if you pushed any Dahan into a land with Town / City'
       },
       {
         name: "Lightning's Boon",
         cost: 1,
         speed: 'Fast',
         elements: ['Fire', 'Air'],
-        description:
-          'Target Spirit may use up to 2 Slow Powers as if they were Fast Powers this turn'
+        description: 'Target Spirit may use up to 2 Slow Powers as if they were Fast Powers this turn'
       },
       {
         name: 'Shatter Homesteads',
@@ -1619,8 +1498,7 @@ export const SPIRIT: Array<SpiritType> = [
         cards: [
           {
             name: 'LIGHTNING-TORN SKIES INCITE PANDEMONIUM',
-            description:
-              '3Fire2Air 2 Fear. Add 1 Strife.:break:4Fire3Air 2 Fear. Add 1 Strife.:break:5Fire4Air1Moon 3 Fear. Add 1 Strife. :break:5Fire5Air2Moon 4 Fear. Add 1 Strife.',
+            description: '3Fire2Air 2 Fear. Add 1 Strife.:break:4Fire3Air 2 Fear. Add 1 Strife.:break:5Fire4Air1Moon 3 Fear. Add 1 Strife. :break:5Fire5Air2Moon 4 Fear. Add 1 Strife.',
             target: {
               speed: 'Slow',
               range: 1,
@@ -1678,16 +1556,14 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Fast',
         elements: ['Sun', 'Water', 'Plant'],
-        description:
-          'If you target yourself, gain 1 Energy. If you target another Spirit, they gain 1 Energy per Power Card they played this turn.'
+        description: 'If you target yourself, gain 1 Energy. If you target another Spirit, they gain 1 Energy per Power Card they played this turn.'
       },
       {
         name: "River's Bounty",
         cost: 0,
         speed: 'Slow',
         elements: ['Sun', 'Water', 'Animal'],
-        description:
-          'Gather up to 2 Dahan. If there are now at least 2 Dahan, add 1 Dahan and gain 1 Energy.'
+        description: 'Gather up to 2 Dahan. If there are now at least 2 Dahan, add 1 Dahan and gain 1 Energy.'
       },
       {
         name: 'Wash Away',
@@ -1767,32 +1643,28 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Fast',
         elements: ['Moon', 'Air'],
-        description:
-          '1 Fear. Dahan take no damage from Ravaging Invaders this turn.'
+        description: '1 Fear. Dahan take no damage from Ravaging Invaders this turn.'
       },
       {
         name: 'Favors Called Due',
         cost: 1,
         speed: 'Slow',
         elements: ['Moon', 'Air', 'Animal'],
-        description:
-          'Gather up to 4 Dahan. If Invaders are present and Dahan now outnumber them, 3 Fear.'
+        description: 'Gather up to 4 Dahan. If Invaders are present and Dahan now outnumber them, 3 Fear.'
       },
       {
         name: 'Mantle of Dread',
         cost: 1,
         speed: 'Slow',
         elements: ['Moon', 'Fire', 'Air'],
-        description:
-          '2 Fear. Target Spirit may Push 1 Explorer and 1 Town from a land where it has Presence.'
+        description: '2 Fear. Target Spirit may Push 1 Explorer and 1 Town from a land where it has Presence.'
       },
       {
         name: 'Crops Wither and Fade',
         cost: 1,
         speed: 'Slow',
         elements: ['Moon', 'Fire', 'Plant'],
-        description:
-          '2 Fear. Replace 1 Town with 1 Explorer. -or- Replace 1 City with 1 Town.'
+        description: '2 Fear. Replace 1 Town with 1 Explorer. -or- Replace 1 City with 1 Town.'
       }
     ],
     aspects: [
@@ -1884,8 +1756,7 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Fast',
         elements: ['Sun', 'Air', 'Animal'],
-        description:
-          'Defend 3. During Ravage, Dahan in target land deal damage simultaneously with Invaders.'
+        description: 'Defend 3. During Ravage, Dahan in target land deal damage simultaneously with Invaders.'
       },
       {
         name: 'Sudden Ambush',
@@ -1899,17 +1770,13 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 3,
         speed: 'Slow',
         elements: ['Sun', 'Fire', 'Air'],
-        description:
-          '1 Fear. Each Dahan deals damage equal to the number of your Presence in target land.'
+        description: '1 Fear. Each Dahan deals damage equal to the number of your Presence in target land.'
       }
     ],
     aspects: [
       {
         title: 'Warrior',
-        requirements: [
-          'Replace: Lead the Furious Assault',
-          'Setup: Replace 1 of your Presence with your Incarna and 1 Dahan.'
-        ],
+        requirements: ['Replace: Lead the Furious Assault', 'Setup: Replace 1 of your Presence with your Incarna and 1 Dahan.'],
         setupFunction: setupWarrior
       },
       {
@@ -1925,8 +1792,7 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Fast',
         elements: ['Moon', 'Air', 'Water'],
-        description:
-          'Gather 1 Explorer. If target land is the Ocean, you may Gather another Explorer.'
+        description: 'Gather 1 Explorer. If target land is the Ocean, you may Gather another Explorer.'
       },
       {
         name: 'Swallow the Land-Dwellers',
@@ -1954,10 +1820,7 @@ export const SPIRIT: Array<SpiritType> = [
     aspects: [
       {
         title: 'Deeps',
-        requirements: [
-          `Replace: POUND SHIPS TO SPLINTERS`,
-          `Replace: OCEAN BREAKS THE SHORE`
-        ],
+        requirements: [`Replace: POUND SHIPS TO SPLINTERS`, `Replace: OCEAN BREAKS THE SHORE`],
         cards: [
           {
             name: 'WATER EATS AWAY THE DEEP ROOTS OF THE EARTH',
@@ -2005,24 +1868,21 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Fast',
         elements: ['Moon', 'Air'],
-        description:
-          'Gather up to 2 Dahan. -or- If target land has Town / City, 1 Fear for each Dahan, to a maximum of 3 Fear.'
+        description: 'Gather up to 2 Dahan. -or- If target land has Town / City, 1 Fear for each Dahan, to a maximum of 3 Fear.'
       },
       {
         name: 'Predatory Nightmares',
         cost: 2,
         speed: 'Slow',
         elements: ['Moon', 'Fire', 'Earth', 'Animal'],
-        description:
-          '2 Damage. Push up to 2 Dahan. (When your powers would destroy Invaders, instead they generate Fear and/or Push those Invaders.)'
+        description: '2 Damage. Push up to 2 Dahan. (When your powers would destroy Invaders, instead they generate Fear and/or Push those Invaders.)'
       },
       {
         name: 'Dread Apparitions',
         cost: 2,
         speed: 'Fast',
         elements: ['Moon', 'Air'],
-        description:
-          'When Powers generate Fear in target land, Defend 1 per Fear. 1 Fear. (Fear from To Dream a Thousand Deaths counts. Fear from destroying Town / City does not.)'
+        description: 'When Powers generate Fear in target land, Defend 1 per Fear. 1 Fear. (Fear from To Dream a Thousand Deaths counts. Fear from destroying Town / City does not.)'
       }
     ],
     aspects: [
@@ -2074,24 +1934,21 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Slow',
         elements: ['Water', 'Plant'],
-        description:
-          '1 Damage to 1 Town / City. If target land is Mountain / Sands, instead, 1 Damage to each Town / City.'
+        description: '1 Damage to 1 Town / City. If target land is Mountain / Sands, instead, 1 Damage to each Town / City.'
       },
       {
         name: 'Gift of Proliferation',
         cost: 1,
         speed: 'Fast',
         elements: ['Moon', 'Plant'],
-        description:
-          'Target Spirit adds 1 Presence up to 1 Range from their Presence.'
+        description: 'Target Spirit adds 1 Presence up to 1 Range from their Presence.'
       },
       {
         name: 'Overgrow in a Night',
         cost: 2,
         speed: 'Fast',
         elements: ['Moon', 'Plant'],
-        description:
-          'Add 1 Presence. -or- If target land has your Presence and Invaders, 3 Fear.'
+        description: 'Add 1 Presence. -or- If target land has your Presence and Invaders, 3 Fear.'
       }
     ],
     aspects: [
@@ -2117,11 +1974,7 @@ export const SPIRIT: Array<SpiritType> = [
       },
       {
         title: 'Regrowth',
-        requirements: [
-          'Replace: STEADY REGENERATION',
-          'Replace: ALL ENVELOPING GREEN',
-          'Setup: Take 13 destroy_presence'
-        ],
+        requirements: ['Replace: STEADY REGENERATION', 'Replace: ALL ENVELOPING GREEN', 'Setup: Take 13 destroy_presence'],
         cards: [
           {
             name: 'Unbelievable Regrowth',
@@ -2155,33 +2008,27 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Fast',
         elements: ['Moon', 'Fire', 'Animal'],
-        description:
-          'You may Gather 1 Beasts. If target land has Beasts, Invaders do not Build there this turn.'
+        description: 'You may Gather 1 Beasts. If target land has Beasts, Invaders do not Build there this turn.'
       },
       {
         name: 'Teeth Gleam from Darkness',
         cost: 1,
         speed: 'Slow',
         elements: ['Moon', 'Plant', 'Animal'],
-        description:
-          '1 Fear. Add 1 Beasts. -or- If target land has both Beasts and Invaders: 3 Fear.'
+        description: '1 Fear. Add 1 Beasts. -or- If target land has both Beasts and Invaders: 3 Fear.'
       },
       {
         name: 'Terrifying Chase',
         cost: 1,
         speed: 'Slow',
         elements: ['Sun', 'Animal'],
-        description:
-          'Push 2 Explorer / Town / Dahan. Push another 2 Explorer / Town / Dahan per Beasts in target land. If you Pushed any Invaders, 2 Fear.'
+        description: 'Push 2 Explorer / Town / Dahan. Push another 2 Explorer / Town / Dahan per Beasts in target land. If you Pushed any Invaders, 2 Fear.'
       }
     ],
     aspects: [
       {
         title: 'unconstrained',
-        requirements: [
-          `Replace: Call Forth Predators`,
-          `Setup: Do not add a beast as part of this Spirit Setup`
-        ],
+        requirements: [`Replace: Call Forth Predators`, `Setup: Do not add a beast as part of this Spirit Setup`],
         cards: [
           {
             name: 'Unconstrained by Ravaged Lands',
@@ -2189,17 +2036,13 @@ export const SPIRIT: Array<SpiritType> = [
           },
           {
             name: 'Predators Arise',
-            description:
-              'Each Spirit Phase, either Prepare 1 Beasts or Add any number of your prepared Beasts to one of your lands.'
+            description: 'Each Spirit Phase, either Prepare 1 Beasts or Add any number of your prepared Beasts to one of your lands.'
           }
         ]
       },
       {
         title: 'Encircle',
-        requirements: [
-          `Replace Special Rule: ALLY OF THE BEAST`,
-          `Replace : RANGING HUNT`
-        ],
+        requirements: [`Replace Special Rule: ALLY OF THE BEAST`, `Replace : RANGING HUNT`],
         cards: [
           {
             name: 'Pack Hunting',
@@ -2237,16 +2080,14 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Fast',
         elements: ['Fire', 'Plant'],
-        description:
-          '2 Fear. Push 1 Explorer / Town per Terror Level from target land to adjacent lands without your Presence. If there are no such adjacent lands, +2 Fear.'
+        description: '2 Fear. Push 1 Explorer / Town per Terror Level from target land to adjacent lands without your Presence. If there are no such adjacent lands, +2 Fear.'
       },
       {
         name: 'Flash-Fires',
         cost: 2,
         speed: 'Slow',
         elements: ['Fire', 'Air'],
-        description:
-          '1 Fear. 1 Damage. -If you have- 2 Air: This Power is Fast.'
+        description: '1 Fear. 1 Damage. -If you have- 2 Air: This Power is Fast.'
       },
       {
         name: 'Asphyxiating Smoke',
@@ -2292,8 +2133,7 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Slow',
         elements: ['Moon', 'Fire', 'Animal'],
-        description:
-          '1 Fear if Invaders are present. If you can gather 1 Beasts, do so, then push 1 Explorer. Otherwise, add 1 Beasts.'
+        description: '1 Fear if Invaders are present. If you can gather 1 Beasts, do so, then push 1 Explorer. Otherwise, add 1 Beasts.'
       },
       {
         name: 'Impersonate Authority',
@@ -2307,16 +2147,14 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Slow',
         elements: ['Moon', 'Fire', 'Air', 'Animal'],
-        description:
-          '1 Invader with Strife deals Damage to other Invaders (not to each Invader). 1 Fear per Invader this Power Destroyed.'
+        description: '1 Invader with Strife deals Damage to other Invaders (not to each Invader). 1 Fear per Invader this Power Destroyed.'
       },
       {
         name: 'Overenthusiastic Arson',
         cost: 1,
         speed: 'Fast',
         elements: ['Fire', 'Air'],
-        description:
-          'Destroy 1 Town. Discard the top card of the Minor Power Deck. If it provides Fire: 1 Fear, 2 Damage, and add 1 Blight.'
+        description: 'Destroy 1 Town. Discard the top card of the Minor Power Deck. If it provides Fire: 1 Fear, 2 Damage, and add 1 Blight.'
       }
     ]
   },
@@ -2336,16 +2174,14 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Slow',
         elements: ['Moon', 'Air', 'Water'],
-        description:
-          'For each adjacent land with your Presence, 1 Damage to a different Invader. Push 2 Dahan.'
+        description: 'For each adjacent land with your Presence, 1 Damage to a different Invader. Push 2 Dahan.'
       },
       {
         name: 'Unnerving Pall',
         cost: 1,
         speed: 'Fast',
         elements: ['Moon', 'Air', 'Animal'],
-        description:
-          '1 Fear. Up to 3 damaged Invaders do not participate in Ravage. -or- 1 Fear. Defend 1 per Presence you have in target land (when this Power is used).'
+        description: '1 Fear. Up to 3 damaged Invaders do not participate in Ravage. -or- 1 Fear. Defend 1 per Presence you have in target land (when this Power is used).'
       },
       {
         name: 'Dissolving Vapors',
@@ -2362,8 +2198,7 @@ export const SPIRIT: Array<SpiritType> = [
         cards: [
           {
             name: 'Mists Steadily Drift',
-            description:
-              'Up to twice during the Fast phase and up to twice during Slow phase, Push 1 of your Presence.'
+            description: 'Up to twice during the Fast phase and up to twice during Slow phase, Push 1 of your Presence.'
           },
           {
             name: 'Stranded in the Shifting Mist',
@@ -2389,8 +2224,7 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Slow',
         elements: ['Fire', 'Water', 'Animal'],
-        description:
-          '1 Fear if Invaders are present. For each Disease, Push 2 Explorer / Town / Dahan. 1 Disease may move with each Pushed piece.'
+        description: '1 Fear if Invaders are present. For each Disease, Push 2 Explorer / Town / Dahan. 1 Disease may move with each Pushed piece.'
       },
       {
         name: 'Fetid Breath Spreads Infection',
@@ -2454,16 +2288,14 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Fast',
         elements: ['Moon', 'Air', 'Earth'],
-        description:
-          'Prepare 1 Element Marker. Discard up to 3 Element Markers. Target Spirit gains those Elements. (They can be any combination of Elements - the same or different.)'
+        description: 'Prepare 1 Element Marker. Discard up to 3 Element Markers. Target Spirit gains those Elements. (They can be any combination of Elements - the same or different.)'
       },
       {
         name: 'Share Secrets of Survival',
         cost: 0,
         speed: 'Fast',
         elements: ['Sun', 'Air', 'Earth'],
-        description:
-          'Each time Dahan would be Destroyed in target land, Destroy 2 fewer Dahan. -or- Gather up to 2 Dahan.  -If you have- 3 Air: You may do both.'
+        description: 'Each time Dahan would be Destroyed in target land, Destroy 2 fewer Dahan. -or- Gather up to 2 Dahan.  -If you have- 3 Air: You may do both.'
       },
       {
         name: "Study the Invaders' Fears",
@@ -2477,22 +2309,17 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Slow',
         elements: ['Moon', 'Water', 'Earth', 'Plant'],
-        description:
-          "If you target yourself, gain a Minor Power. Otherwise: Target Spirit gains a Power Card. If it's a Major Power, they may pay 2 Energy instead of Forgetting a Power Card."
+        description: "If you target yourself, gain a Minor Power. Otherwise: Target Spirit gains a Power Card. If it's a Major Power, they may pay 2 Energy instead of Forgetting a Power Card."
       }
     ],
     aspects: [
       {
         title: 'Mentor',
-        requirements: [
-          'Replace: LONG AGES OF KNOWLEDGE',
-          'Replace: OBSERVE THE EVER-CHANGING WORLD'
-        ],
+        requirements: ['Replace: LONG AGES OF KNOWLEDGE', 'Replace: OBSERVE THE EVER-CHANGING WORLD'],
         cards: [
           {
             name: 'PAST TEACHINGS SPRING FORTH UNBIDDEN',
-            description:
-              'When you gain Power Cards, draw 2 fewer cards (min. 2) and gain 1 more of them (normally draw 2 cards and gain both). (Forget only one Power Card when gaining Major Powers.)'
+            description: 'When you gain Power Cards, draw 2 fewer cards (min. 2) and gain 1 more of them (normally draw 2 cards and gain both). (Forget only one Power Card when gaining Major Powers.)'
           },
           {
             name: 'SHARE MENTORSHIP AND EXPERTISE',
@@ -2524,32 +2351,28 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Slow',
         elements: ['Moon'],
-        description:
-          'At end of turn after discarding: Reclaim up to 2 cards to your hand. You may then Forget a Unique Power Card to Reclaim up to 3 additional cards.'
+        description: 'At end of turn after discarding: Reclaim up to 2 cards to your hand. You may then Forget a Unique Power Card to Reclaim up to 3 additional cards.'
       },
       {
         name: 'Shape the Self Anew',
         cost: 0,
         speed: 'Slow',
         elements: ['Moon'],
-        description:
-          'Gain a Minor Power. You may Forget this Power Card to gain 3 Energy.  -If you have- 4 Moon: You may gain a Major Power instead of a Minor Power.'
+        description: 'Gain a Minor Power. You may Forget this Power Card to gain 3 Energy.  -If you have- 4 Moon: You may gain a Major Power instead of a Minor Power.'
       },
       {
         name: 'Boon of Reimagining',
         cost: 1,
         speed: 'Slow',
         elements: ['Moon'],
-        description:
-          'Target Spirit may Forget a Power Card from hand or discard. If they do, they draw 6 Minor Power Cards and gain 2 of them. If you target another Spirit, they gain 1 Energy.'
+        description: 'Target Spirit may Forget a Power Card from hand or discard. If they do, they draw 6 Minor Power Cards and gain 2 of them. If you target another Spirit, they gain 1 Energy.'
       },
       {
         name: 'Peace of the Nighttime Sky',
         cost: 1,
         speed: 'Fast',
         elements: ['Moon'],
-        description:
-          'If the Terror Level is 1, Invaders do not Ravage in target land this turn. You may Repeat this Power. If you do, Forget this Power Card and Gain 1 Moon.'
+        description: 'If the Terror Level is 1, Invaders do not Ravage in target land this turn. You may Repeat this Power. If you do, Forget this Power Card and Gain 1 Moon.'
       }
     ]
   },
@@ -2568,24 +2391,21 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Fast',
         elements: ['Sun', 'Earth', 'Animal'],
-        description:
-          "Defend 1 per Dahan. Dahan in target land cannot be changed. (When they would be Damaged, Destroyed, Removed, Replaced, or moved, instead don't)"
+        description: "Defend 1 per Dahan. Dahan in target land cannot be changed. (When they would be Damaged, Destroyed, Removed, Replaced, or moved, instead don't)"
       },
       {
         name: 'Scarred and Stony Land',
         cost: 2,
         speed: 'Slow',
         elements: ['Moon', 'Earth'],
-        description:
-          '2 Damage. Add 1 Badlands. Remove 1 Blight in target land from the game. (It goes to the box, not the Blight Card.)'
+        description: '2 Damage. Add 1 Badlands. Remove 1 Blight in target land from the game. (It goes to the box, not the Blight Card.)'
       },
       {
         name: 'Plows Shatter on Rocky Ground',
         cost: 2,
         speed: 'Slow',
         elements: ['Earth'],
-        description:
-          '1 Damage to each Town / City. Push up to 1 Town. -or- Destroy 1 Town.'
+        description: '1 Damage to each Town / City. Push up to 1 Town. -or- Destroy 1 Town.'
       }
     ]
   },
@@ -2597,42 +2417,34 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Slow',
         elements: ['Moon', 'Fire', 'Air', 'Plant'],
-        description:
-          'Target Spirit chooses to either: add 1 Wilds to one of their lands. -or- Replace 1 of their Presence with 1 Disease.'
+        description: 'Target Spirit chooses to either: add 1 Wilds to one of their lands. -or- Replace 1 of their Presence with 1 Disease.'
       },
       {
         name: 'Perils of the Deepest Island',
         cost: 1,
         speed: 'Slow',
         elements: ['Moon', 'Plant', 'Animal'],
-        description:
-          '1 Fear. Add 1 Badlands. Add 1 Beasts within 1 Range. Push up to 2 Dahan.'
+        description: '1 Fear. Add 1 Badlands. Add 1 Beasts within 1 Range. Push up to 2 Dahan.'
       },
       {
         name: 'Swallowed by the Wilderness',
         cost: 1,
         speed: 'Fast',
         elements: ['Fire', 'Air', 'Plant', 'Animal'],
-        description:
-          '2 Fear. 1 Damage per Beasts / Disease / Wilds / Badlands. (Count max. 5 tokens.)'
+        description: '2 Fear. 1 Damage per Beasts / Disease / Wilds / Badlands. (Count max. 5 tokens.)'
       },
       {
         name: 'Softly Beckon Ever Inward',
         cost: 2,
         speed: 'Slow',
         elements: ['Moon', 'Air'],
-        description:
-          'Gather up to 2 Explorer. Gather up to 2 Town. Gather up to 2 Beasts. Gather up to 2 Dahan.'
+        description: 'Gather up to 2 Explorer. Gather up to 2 Town. Gather up to 2 Beasts. Gather up to 2 Dahan.'
       }
     ],
     aspects: [
       {
         title: 'Lair',
-        requirements: [
-          'Setup: Put Lair in an Inland land on your starting board. Remove 3 Presence.',
-          'Replace: FORSAKE SOCIETY TO CHASE AFTER DREAMS',
-          'Replace: ENTHRALL THE FOREIGN EXPLORERS'
-        ],
+        requirements: ['Setup: Put Lair in an Inland land on your starting board. Remove 3 Presence.', 'Replace: FORSAKE SOCIETY TO CHASE AFTER DREAMS', 'Replace: ENTHRALL THE FOREIGN EXPLORERS'],
         cards: [
           {
             name: 'A SINGLE ALLURING LAIR',
@@ -2660,18 +2472,12 @@ export const SPIRIT: Array<SpiritType> = [
             title: 'Any effect that move presence cannot move Lair.',
             description:
               "As rule have mentioned: Invaders/Dahan/Beasts/Presence (of any Spirit) at your Incarna can't move. (You can reposition your Incarna by adding it with your second Growth option instead of adding Presence.)",
-            links: [
-              'https://boardgamegeek.com/thread/3156615/two-questions-about-lair-adding-it-and-moving-it'
-            ]
+            links: ['https://boardgamegeek.com/thread/3156615/two-questions-about-lair-adding-it-and-moving-it']
           },
           {
-            title:
-              'The final threshold of the Lair Aspect allow move an Invader more than once.',
-            description:
-              'If at least 12 Explorers/Dahan are present, the Gathers are resolved sequentially, you can choose the same Invader each time to be the one being gathered',
-            links: [
-              'https://querki.net/u/darker/spirit-island-faq/#!lair-gathering-an-invader-multiple-times'
-            ]
+            title: 'The final threshold of the Lair Aspect allow move an Invader more than once.',
+            description: 'If at least 12 Explorers/Dahan are present, the Gathers are resolved sequentially, you can choose the same Invader each time to be the one being gathered',
+            links: ['https://querki.net/u/darker/spirit-island-faq/#!lair-gathering-an-invader-multiple-times']
           }
         ]
       }
@@ -2685,32 +2491,28 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Fast',
         elements: ['Sun', 'Fire', 'Air', 'Animal'],
-        description:
-          '1 Fear. For each Beasts past the first, Push 1 Explorer / Town.'
+        description: '1 Fear. For each Beasts past the first, Push 1 Explorer / Town.'
       },
       {
         name: 'A Dreadful Tide of Scurrying Flesh',
         cost: 0,
         speed: 'Fast',
         elements: ['Moon', 'Air', 'Water', 'Animal'],
-        description:
-          'Remove up to half (round down) of Beasts in target land. For each Beasts Removed, 2 Fear and skip one Invader Action.'
+        description: 'Remove up to half (round down) of Beasts in target land. For each Beasts Removed, 2 Fear and skip one Invader Action.'
       },
       {
         name: 'Boon of Swarming Bedevilment',
         cost: 0,
         speed: 'Fast',
         elements: ['Air', 'Water', 'Animal'],
-        description:
-          "For the rest of this turn, each of target Spirit's Presence grants Defend 1 in its land. Target Spirit may Push up to 1 of their Presence."
+        description: "For the rest of this turn, each of target Spirit's Presence grants Defend 1 in its land. Target Spirit may Push up to 1 of their Presence."
       },
       {
         name: 'Guide the Way on Feathered Wings',
         cost: 0,
         speed: 'Fast',
         elements: ['Sun', 'Air', 'Animal'],
-        description:
-          'Move 1 Beasts up to two lands. As it moves, up to 2 Dahan may move with it, for part or all of the way. (The Beasts / Dahan may move to an adjacent land and then back.)'
+        description: 'Move 1 Beasts up to two lands. As it moves, up to 2 Dahan may move with it, for part or all of the way. (The Beasts / Dahan may move to an adjacent land and then back.)'
       },
       {
         name: 'Ever-Multiplying Swarm',
@@ -2729,16 +2531,14 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Fast',
         elements: ['Air', 'Water', 'Earth'],
-        description:
-          '1 fear. Push 2 Dahan. Defend 3. If target land is Wetland, Isolate it.'
+        description: '1 fear. Push 2 Dahan. Defend 3. If target land is Wetland, Isolate it.'
       },
       {
         name: 'Foundations Sink into Mud',
         cost: 1,
         speed: 'Slow',
         elements: ['Water', 'Earth'],
-        description:
-          '2 damage to Town. If target land is Wetland, you may instead deal 1 Damage to each Town / City.'
+        description: '2 damage to Town. If target land is Wetland, you may instead deal 1 Damage to each Town / City.'
       },
       {
         name: 'Gift of Abundance',
@@ -2753,8 +2553,7 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Fast',
         elements: ['Moon', 'Air', 'Water'],
-        description:
-          'Isolate target land. Push up to 1 Explorer and up to 2 Dahan.'
+        description: 'Isolate target land. Push up to 1 Explorer and up to 2 Dahan.'
       }
     ]
   },
@@ -2774,40 +2573,35 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Slow',
         elements: ['Sun', 'Air', 'Earth', 'Plant'],
-        description:
-          'Move up to 2 Invaders / Dahan / Presence / Beasts to a land within 2 Range that has the same terrain.'
+        description: 'Move up to 2 Invaders / Dahan / Presence / Beasts to a land within 2 Range that has the same terrain.'
       },
       {
         name: 'A Circuitous and Wending Journey',
         cost: 0,
         speed: 'Slow',
         elements: ['Moon', 'Air'],
-        description:
-          'Push up to half (round up) of Invaders from target land. Do likewise (separately) for Dahan, Presence, and Beasts.'
+        description: 'Push up to half (round up) of Invaders from target land. Do likewise (separately) for Dahan, Presence, and Beasts.'
       },
       {
         name: 'Offer Passage Between Worlds',
         cost: 1,
         speed: 'Fast',
         elements: ['Sun', 'Moon', 'Air'],
-        description:
-          'Move up to 4 Dahan between target land and one of your lands. -or- The next time Dahan would be Destroyed in target land, Destroy 2 fewer Dahan.'
+        description: 'Move up to 4 Dahan between target land and one of your lands. -or- The next time Dahan would be Destroyed in target land, Destroy 2 fewer Dahan.'
       },
       {
         name: 'Ways of Shore and Heartland',
         cost: 1,
         speed: 'Slow',
         elements: ['Air', 'Water', 'Earth'],
-        description:
-          'Push up to 2 Invaders / Dahan / Presence / Beasts to a land that is also Coastal / Inland (whichever the target land is.)'
+        description: 'Push up to 2 Invaders / Dahan / Presence / Beasts to a land that is also Coastal / Inland (whichever the target land is.)'
       },
       {
         name: 'Aid from the Spirit-Speakers',
         cost: 2,
         speed: 'Fast',
         elements: ['Sun', 'Fire', 'Air', 'Animal'],
-        description:
-          'For each Dahan, you may move 1 Invader / Dahan / Presence / Beasts to a land within 2 Range that has Dahan.'
+        description: 'For each Dahan, you may move 1 Invader / Dahan / Presence / Beasts to a land within 2 Range that has Dahan.'
       }
     ]
   },
@@ -2840,8 +2634,7 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 3,
         speed: 'Slow',
         elements: ['Sun', 'Moon', 'Fire', 'Earth', 'Plant'],
-        description:
-          '2 Damage. If target land has at least 3 Dahan, +3 Damage and 2 Fear.'
+        description: '2 Damage. If target land has at least 3 Dahan, +3 Damage and 2 Fear.'
       }
     ],
     aspects: [
@@ -2925,32 +2718,28 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Slow',
         elements: ['Water', 'Earth', 'Plant'],
-        description:
-          'If there are 2 Blight or fewer in target land, remove 1 Blight.'
+        description: 'If there are 2 Blight or fewer in target land, remove 1 Blight.'
       },
       {
         name: 'Boon of Growing Power',
         cost: 1,
         speed: 'Slow',
         elements: ['Sun', 'Moon', 'Plant'],
-        description:
-          'Target Spirit gains a Power Card. If you target another Spirit, they also gain 1 Energy.'
+        description: 'Target Spirit gains a Power Card. If you target another Spirit, they also gain 1 Energy.'
       },
       {
         name: 'Sacrosanct Wilderness',
         cost: 2,
         speed: 'Fast',
         elements: ['Sun', 'Earth', 'Plant'],
-        description:
-          'Push 2 Dahan. 2 Damage per Wilds in target land. -or- Add 1 Wilds.'
+        description: 'Push 2 Dahan. 2 Damage per Wilds in target land. -or- Add 1 Wilds.'
       },
       {
         name: 'Towering Wrath',
         cost: 3,
         speed: 'Slow',
         elements: ['Sun', 'Fire', 'Plant'],
-        description:
-          '2 Fear. For each of your SacredSite in / adjacent to target land, 2 Damage. Destroy all Dahan.'
+        description: '2 Fear. For each of your SacredSite in / adjacent to target land, 2 Damage. Destroy all Dahan.'
       }
     ],
     aspects: [
@@ -2968,24 +2757,21 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Fast',
         elements: ['Moon', 'Earth'],
-        description:
-          'Target Spirit gains a Minor Power. Target Spirit chooses to either: Play it immediately by paying its cost. -or- Gain 1 Moon and 1 Earth.'
+        description: 'Target Spirit gains a Minor Power. Target Spirit chooses to either: Play it immediately by paying its cost. -or- Gain 1 Moon and 1 Earth.'
       },
       {
         name: 'Gift of Flowing Power',
         cost: 1,
         speed: 'Fast',
         elements: ['Fire', 'Water'],
-        description:
-          'Target Spirit gains 1 Energy. Target Spirit chooses to either: Play another Power Card by paying its cost. -or- Gain 1 Fire and 1 Water.'
+        description: 'Target Spirit gains 1 Energy. Target Spirit chooses to either: Play another Power Card by paying its cost. -or- Gain 1 Fire and 1 Water.'
       },
       {
         name: 'Elemental Aegis',
         cost: 1,
         speed: 'Fast',
         elements: ['Fire', 'Water', 'Earth'],
-        description:
-          'Defend 2 in target land and all adjacent lands. For every Presence on your "Deep Slumber" track, Defend 1 in target land and all adjacent lands.'
+        description: 'Defend 2 in target land and all adjacent lands. For every Presence on your "Deep Slumber" track, Defend 1 in target land and all adjacent lands.'
       },
       {
         name: 'Absorb Essence',
@@ -3001,10 +2787,7 @@ export const SPIRIT: Array<SpiritType> = [
         title: 'Locus',
         setupFunction: setupLocus,
         images: ['Locus 1', 'Locus 2'],
-        requirements: [
-          `Replace: SERPENT WAKES IN POWER`,
-          `Setup: Put Locus and the Presence from the Fire space of your Presence track on the starting board in land #5`
-        ],
+        requirements: [`Replace: SERPENT WAKES IN POWER`, `Setup: Put Locus and the Presence from the Fire space of your Presence track on the starting board in land #5`],
         cards: [
           {
             name: `LOCUS OF THE SERPENT'S REGARD`,
@@ -3044,24 +2827,21 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Fast',
         elements: ['Moon', 'Fire', 'Earth'],
-        description:
-          'Split 1 Energy per Fire you have between yourself and target Spirit, as evenly as possible. Target Spirit gains +1 Range with their powers that originate from a Mountain.'
+        description: 'Split 1 Energy per Fire you have between yourself and target Spirit, as evenly as possible. Target Spirit gains +1 Range with their powers that originate from a Mountain.'
       },
       {
         name: 'Rain of Ash',
         cost: 2,
         speed: 'Slow',
         elements: ['Fire', 'Air', 'Earth'],
-        description:
-          '2 Fear if Invaders are present. Push 2 Dahan and 2 Explorer / Town to land(s) without your Presence.'
+        description: '2 Fear if Invaders are present. Push 2 Dahan and 2 Explorer / Town to land(s) without your Presence.'
       },
       {
         name: 'Pyroclastic Bombardment',
         cost: 3,
         speed: 'Fast',
         elements: ['Fire', 'Air', 'Earth'],
-        description:
-          '1 Damage to each Town / City / Dahan. 1 Damage. 1 Damage to Dahan.'
+        description: '1 Damage to each Town / City / Dahan. 1 Damage. 1 Damage to Dahan.'
       }
     ]
   },
@@ -3245,16 +3025,14 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Slow',
         elements: ['Moon', 'Fire', 'Earth', 'Plant'],
-        description:
-          'Target Spirit may Add 1 presence in one of their lands. You may do likewise.'
+        description: 'Target Spirit may Add 1 presence in one of their lands. You may do likewise.'
       },
       {
         name: 'Terrifying Rampage',
         cost: 1,
         speed: 'Fast',
         elements: ['Moon', 'Fire', 'Earth'],
-        description:
-          "1 Fear. Up to 2 Invaders don't participate in Ravage. (Choose when Ravaging; they don't do Damage or take counterattack Damage.) Push 3 Dahan."
+        description: "1 Fear. Up to 2 Invaders don't participate in Ravage. (Choose when Ravaging; they don't do Damage or take counterattack Damage.) Push 3 Dahan."
       },
       {
         name: 'Surging Lahar',
@@ -3273,24 +3051,21 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Fast',
         elements: ['Sun', 'Air'],
-        description:
-          'Skip up to one Ravage Action. If you have 5 sun, instead, skip up to one Invader Action.'
+        description: 'Skip up to one Ravage Action. If you have 5 sun, instead, skip up to one Invader Action.'
       },
       {
         name: "Focus the Sun's Rays",
         cost: 0,
         speed: 'Slow',
         elements: ['Sun', 'Fire', 'Air'],
-        description:
-          '1 Damage. 2 Damage to Town. Move up to 3 Dahan directly to target land (from anywhere on the island). You may Bring 1 explorer (total) with those Dahan.'
+        description: '1 Damage. 2 Damage to Town. Move up to 3 Dahan directly to target land (from anywhere on the island). You may Bring 1 explorer (total) with those Dahan.'
       },
       {
         name: 'Unbearable Gaze',
         cost: 1,
         speed: 'Slow',
         elements: ['Sun', 'Fire'],
-        description:
-          'Push 2 Dahan from origin or target land (or 1 Dahan from each).'
+        description: 'Push 2 Dahan from origin or target land (or 1 Dahan from each).'
       },
       {
         name: 'Wither Bodies, Scar Stones',
@@ -3316,8 +3091,7 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Fast',
         elements: ['Sun', 'Fire', 'Animal'],
-        description:
-          '1 Damage in one of target Spirit’s lands. If you target another Spirit, in that land also: Destroy 1 of their presence. 1 Damage. Gather 1 beast.'
+        description: '1 Damage in one of target Spirit’s lands. If you target another Spirit, in that land also: Destroy 1 of their presence. 1 Damage. Gather 1 beast.'
       },
       {
         name: "Draw to the Water's Edge",
@@ -3344,8 +3118,7 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Slow',
         elements: ['Moon', 'Air'],
-        description:
-          'Add/Move 1 explorer to target land. 1 Fear. If exactly 1 Invader is present, Abduct it. Otherwise, Push up to 2 explorers/towns to different lands. Push up to 2 explorers.'
+        description: 'Add/Move 1 explorer to target land. 1 Fear. If exactly 1 Invader is present, Abduct it. Otherwise, Push up to 2 explorers/towns to different lands. Push up to 2 explorers.'
       },
       {
         name: 'Reach From The Infinite Darkness',
@@ -3360,8 +3133,7 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Fast',
         elements: ['Moon', 'Air', 'Water'],
-        description:
-          '2 Fear. Abduct 1 Invader. If you have 3 Moon and 3 Water: Abduct 1 Invader.'
+        description: '2 Fear. Abduct 1 Invader. If you have 3 Moon and 3 Water: Abduct 1 Invader.'
       },
       {
         name: 'Terror of the Hunted',
@@ -3381,8 +3153,7 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Slow',
         elements: ['Moon', 'Water', 'Earth'],
-        description:
-          'Target Spirit may Push 1 town. Bringing up to 1 explorer/town. You may do likewise.'
+        description: 'Target Spirit may Push 1 town. Bringing up to 1 explorer/town. You may do likewise.'
       },
       {
         name: 'Inspire a Winding Dance',
@@ -3396,16 +3167,14 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 3,
         speed: 'Fast',
         elements: ['Sun', 'Fire', 'Earth', 'Plant'],
-        description:
-          'If you target yourself, gain 3 Energy. Otherwise, target Spirit gains 1 Energy per Power Card you have in play (max. 6). (Don’t count destroyed ones).'
+        description: 'If you target yourself, gain 3 Energy. Otherwise, target Spirit gains 1 Energy per Power Card you have in play (max. 6). (Don’t count destroyed ones).'
       },
       {
         name: 'Radiating Tremors',
         cost: 2,
         speed: 'Slow',
         elements: ['Moon', 'Fire', 'Earth'],
-        description:
-          '2 Damage. You may Push any number of [explorers/towns], dividing them as evenly as possible between adjacent lands.'
+        description: '2 Damage. You may Push any number of [explorers/towns], dividing them as evenly as possible between adjacent lands.'
       },
       {
         name: 'Resounding Footfalls Sow Dismay',
@@ -3419,8 +3188,7 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         speed: 'Fast',
         elements: ['Sun', 'Moon', 'Air', 'Mountain'],
-        description:
-          'If you have at least as many [presence] as Power Cards in play, 1 Fear and Add 1 [explorer/town]. Push up to 3 [Dahans].'
+        description: 'If you have at least as many [presence] as Power Cards in play, 1 Fear and Add 1 [explorer/town]. Push up to 3 [Dahans].'
       }
     ],
     setup: setupDancesUpEarthquakes
@@ -3433,24 +3201,21 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Slow',
         elements: ['Sun', 'Air', 'Earth', 'Plant'],
-        description:
-          'If no blight is present, add 1 wilds. If no invaders are present, add 1 wilds. If you have 3 sun, you may do both.'
+        description: 'If no blight is present, add 1 wilds. If no invaders are present, add 1 wilds. If you have 3 sun, you may do both.'
       },
       {
         name: 'Boon of Resilient Power',
         cost: 1,
         speed: 'Slow',
         elements: ['Sun', 'Moon', 'Water', 'Plant'],
-        description:
-          'Target Spirit may Add 1 presence to one of your lands. If you target yourself, gain a Major Power. Otherwise, target Spirit gains a Power Card.'
+        description: 'Target Spirit may Add 1 presence to one of your lands. If you target yourself, gain a Major Power. Otherwise, target Spirit gains a Power Card.'
       },
       {
         name: 'Entwine the Fates of All',
         cost: 1,
         speed: 'Fast',
         elements: ['Moon', 'Water', 'Earth', 'Plant'],
-        description:
-          'In one of target Spirit’s lands, Defend 2 per presence (from all Spirits).'
+        description: 'In one of target Spirit’s lands, Defend 2 per presence (from all Spirits).'
       },
       {
         name: 'Radiant and Hallowed Grove',
@@ -3470,8 +3235,7 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 2,
         speed: 'Slow',
         elements: ['Sun', 'Air', 'Animal'],
-        description:
-          '2 Fear if Invaders are present. For each town/city in origin land, Push up to 1 town/city.'
+        description: '2 Fear if Invaders are present. For each town/city in origin land, Push up to 1 town/city.'
       },
       {
         name: 'Coordinated Raid',
@@ -3493,8 +3257,7 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Fast',
         elements: ['Moon', 'Air', 'Animal'],
-        description:
-          '2 Fear if Invaders are present. 1 Fear if Dahan outnumber Invaders. Isolate target land.'
+        description: '2 Fear if Invaders are present. 1 Fear if Dahan outnumber Invaders. Isolate target land.'
       }
     ],
     setup: setupHearthVigil
@@ -3507,32 +3270,28 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 0,
         speed: 'Fast',
         elements: ['Sun', 'Moon', 'Air', 'Animal'],
-        description:
-          'Invaders with disease don’t participate in Ravage. (Check when Ravaging; they don’t do Damage or take counterattack Damage.)'
+        description: 'Invaders with disease don’t participate in Ravage. (Check when Ravaging; they don’t do Damage or take counterattack Damage.)'
       },
       {
         name: 'Frightful Keening',
         cost: 1,
         speed: 'Slow',
         elements: ['Sun', 'Fire', 'Air'],
-        description:
-          'Push Dahan. If this pushes Dahan into a land with Invaders, add 2 Fear there (before adding Dahan).'
+        description: 'Push Dahan. If this pushes Dahan into a land with Invaders, add 2 Fear there (before adding Dahan).'
       },
       {
         name: 'Twist Perceptions',
         cost: 1,
         speed: 'Slow',
         elements: ['Moon', 'Air', 'Animal'],
-        description:
-          'Add 1 Fear. You may Push the Invader you added Fear to. (If you add Fear to Town/City, you can push that Invader first with Senseless Roaming before pushing it with this Power.)'
+        description: 'Add 1 Fear. You may Push the Invader you added Fear to. (If you add Fear to Town/City, you can push that Invader first with Senseless Roaming before pushing it with this Power.)'
       },
       {
         name: "Turmoil's Touch",
         cost: 0,
         speed: 'Slow',
         elements: ['Sun', 'Moon', 'Air', 'Plant'],
-        description:
-          'Target Spirit may either pay 1 Energy or discard a Power Card (from hand) to Take a Minor Power into their discard. You may do likewise.'
+        description: 'Target Spirit may either pay 1 Energy or discard a Power Card (from hand) to Take a Minor Power into their discard. You may do likewise.'
       }
     ]
   }
@@ -3550,15 +3309,7 @@ export const ADVERSARY: Array<Adversary> = [
       [4, 4, 4]
     ],
     difficultly: [1, 2, 4, 6, 7, 8, 9],
-    invaders: [
-      '',
-      '',
-      '111322223333',
-      '11322223333',
-      '1132223333',
-      '132223333',
-      '32223333'
-    ],
+    invaders: ['', '', '111322223333', '11322223333', '1132223333', '132223333', '32223333'],
     id: 'prussia',
     detail: {
       title: 'The Kingdom of Brandenburg-Prussia',
@@ -3748,8 +3499,7 @@ export const ADVERSARY: Array<Adversary> = [
       {},
       {},
       {
-        piece:
-          'Add 1Townicon.png to the highest-numbered land without Townicon.png. Add 1Townicon.png to land #1'
+        piece: 'Add 1Townicon.png to the highest-numbered land without Townicon.png. Add 1Townicon.png to land #1'
       },
       {},
       {},
@@ -3813,13 +3563,11 @@ export const ADVERSARY: Array<Adversary> = [
       {},
       {},
       {
-        piece:
-          'Add 1Cityicon.png to land #4. If land #4 has Blight.png, put that Blight.png in land #5 instead'
+        piece: 'Add 1Cityicon.png to land #4. If land #4 has Blight.png, put that Blight.png in land #5 instead'
       },
       {},
       {
-        piece:
-          'After adding all other Invaders, discard the top card of the Invader Deck. On each board, add 1Townicon.png to the land of that terrain with the fewest Invaders'
+        piece: 'After adding all other Invaders, discard the top card of the Invader Deck. On each board, add 1Townicon.png to the land of that terrain with the fewest Invaders'
       },
       {},
       {
@@ -3839,15 +3587,7 @@ export const ADVERSARY: Array<Adversary> = [
       [5, 6, 3]
     ],
     difficultly: [2, 3, 5, 6, 8, 9, 10],
-    invaders: [
-      '',
-      '',
-      '',
-      '11222233333',
-      '11222233333',
-      '11222233333',
-      '11222233333'
-    ],
+    invaders: ['', '', '', '11222233333', '11222233333', '11222233333', '11222233333'],
     id: 'habsburg',
     detail: {
       title: 'The Habsburg Monarchy (Livestock Colony)',
@@ -3894,8 +3634,7 @@ export const ADVERSARY: Array<Adversary> = [
       {},
       {},
       {
-        piece:
-          'Add 1Townicon.png to land #2 and 1Townicon.png to the highest-numbered land without Setup symbols'
+        piece: 'Add 1Townicon.png to land #2 and 1Townicon.png to the highest-numbered land without Setup symbols'
       },
       {
         invaders: '11-2222-33333'
@@ -3970,8 +3709,7 @@ export const ADVERSARY: Array<Adversary> = [
       {},
       {},
       {
-        piece:
-          'Add 1Explorericon.png to each land without Dahan. Add 1Disease and 1Cityicon.png to the highest-numbered land with a Townicon.png Setup symbol'
+        piece: 'Add 1Explorericon.png to each land without Dahan. Add 1Disease and 1Cityicon.png to the highest-numbered land with a Townicon.png Setup symbol'
       },
       {},
       {
@@ -4042,8 +3780,7 @@ export const ADVERSARY: Array<Adversary> = [
     setup: [
       {},
       {
-        piece:
-          'Add 1Beasts and 1Explorericon.png to the highest-numbered land without Townicon.png/Cityicon.png'
+        piece: 'Add 1Beasts and 1Explorericon.png to the highest-numbered land without Townicon.png/Cityicon.png'
       },
       {},
       {},
@@ -4066,15 +3803,7 @@ export const ADVERSARY: Array<Adversary> = [
       [6, 6, 4]
     ],
     difficultly: [1, 3, 4, 6, 7, 8, 10],
-    invaders: [
-      '',
-      '',
-      '11221C233333',
-      '11221C233333',
-      '11223C23333',
-      '11223C23333',
-      '11223C23333'
-    ],
+    invaders: ['', '', '11221C233333', '11221C233333', '11223C23333', '11223C23333', '11223C23333'],
     id: 'scotland',
     detail: {
       title: 'The Kingdom of Scotland',
@@ -4232,37 +3961,14 @@ export const EXTRA_POWERS: PowerCard[] = [
     description: ''
   }
 ]
-type InvaderCard =
-  | 'S-1'
-  | 'W-1'
-  | 'J-1'
-  | 'M-1'
-  | 'S-2'
-  | 'W-2'
-  | 'J-2'
-  | 'M-2'
-  | 'C-2'
-  | 'SW-3'
-  | 'SJ-3'
-  | 'SM-3'
-  | 'WJ-3'
-  | 'WM-3'
-  | 'JM-3'
+type InvaderCard = 'S-1' | 'W-1' | 'J-1' | 'M-1' | 'S-2' | 'W-2' | 'J-2' | 'M-2' | 'C-2' | 'SW-3' | 'SJ-3' | 'SM-3' | 'WJ-3' | 'WM-3' | 'JM-3'
 export const INVADER_CARD: Array<Array<InvaderCard>> = [
   ['S-1', 'W-1', 'J-1', 'M-1'],
   ['S-2', 'W-2', 'J-2', 'M-2', 'C-2'],
   ['SW-3', 'SJ-3', 'SM-3', 'WJ-3', 'WM-3', 'JM-3']
 ]
 export const MAP = ['A', 'B', 'C', 'D', 'E', 'F']
-export const PHASE_ENUM = [
-  'Grow',
-  'Play Power',
-  'Fast Power',
-  'Blight',
-  'Event',
-  'Invader Action',
-  'Time Passed'
-]
+export const PHASE_ENUM = ['Grow', 'Play Power', 'Fast Power', 'Blight', 'Event', 'Invader Action', 'Time Passed']
 export const CARD_RATIO = 5 / 7
 export const MENU_1 = {
   PLAY: 0,

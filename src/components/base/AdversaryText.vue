@@ -18,9 +18,7 @@ const props = defineProps({
     default: false
   }
 })
-const { iconList, compileText, iconMapping } = useTextCompile(
-  (props.message as Message).text
-)
+const { iconList, compileText, iconMapping } = useTextCompile((props.message as Message).text)
 const specIcon = computed(() => {
   return iconList.concat(Object.values(iconMapping))
 })

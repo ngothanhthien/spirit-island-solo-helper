@@ -6,17 +6,7 @@ export interface PowerCard {
   description: string
 }
 export type Speed = 'Slow' | 'Fast'
-const ELEMENT_VALUES = [
-  'Fire',
-  'Moon',
-  'Air',
-  'Sun',
-  'Earth',
-  'Water',
-  'Animal',
-  'Plant',
-  'Any'
-]
+const ELEMENT_VALUES = ['Fire', 'Moon', 'Air', 'Sun', 'Earth', 'Water', 'Animal', 'Plant', 'Any']
 export type Element = (typeof ELEMENT_VALUES)[number]
 export function isElement(value: Element): value is Element {
   return ELEMENT_VALUES.includes(value)
@@ -79,15 +69,7 @@ export interface Aspect {
       speed: 'Slow' | 'Fast'
       range: number | null
       scaredSite: boolean | null
-      targetLand:
-        | 'Another Spirit'
-        | 'Any'
-        | 'no-blight'
-        | 'yourself'
-        | 'Invaders'
-        | 'any-spirit'
-        | 'Coastal'
-        | 'j-w'
+      targetLand: 'Another Spirit' | 'Any' | 'no-blight' | 'yourself' | 'Invaders' | 'any-spirit' | 'Coastal' | 'j-w'
     }
   }[]
   faq?: FAQ[]
@@ -159,13 +141,7 @@ export interface ChartData {
   lastUpdate?: Date
 }
 
-export type ButtonStyle =
-  | 'primary'
-  | 'secondary'
-  | 'warning'
-  | 'success'
-  | 'impending'
-  | 'daysThatNeverWere'
+export type ButtonStyle = 'primary' | 'secondary' | 'warning' | 'success' | 'impending' | 'daysThatNeverWere'
 
 export interface AspectOption {
   label: string

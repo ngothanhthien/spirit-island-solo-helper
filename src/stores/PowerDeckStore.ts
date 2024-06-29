@@ -47,11 +47,7 @@ function createDeckStore(name: string) {
     },
     actions: {
       newDeck() {
-        const unShuffle = Array.from(
-          Array(
-            name === 'minor' ? MINOR_CARDS.length : MAJOR_CARDS.length
-          ).keys()
-        )
+        const unShuffle = Array.from(Array(name === 'minor' ? MINOR_CARDS.length : MAJOR_CARDS.length).keys())
         const shuffled = shuffle(unShuffle)
         this.draw = shuffled.map((i) => `${name}-${i}`)
         discardPowerStore.discard = []
@@ -78,5 +74,4 @@ function createDeckStore(name: string) {
   })
 }
 
-export const usePowerDeckStore = (type: string) =>
-  type === 'minor' ? createDeckStore('minor')() : createDeckStore('major')()
+export const usePowerDeckStore = (type: string) => (type === 'minor' ? createDeckStore('minor')() : createDeckStore('major')())

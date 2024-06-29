@@ -1,45 +1,24 @@
 <script setup lang="ts">
-import { onMounted, watch, defineAsyncComponent, reactive } from 'vue'
+import { onMounted, watch } from 'vue'
 import type { Aspect } from '@/types'
 import CardGroupView from '@/components/CardGroupView.vue'
 import ElementTrack from '@/components/ElementTrack.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 import { changePosition, getSpiritAvatar } from '@/utils'
-import EventZoomModal from '@/components/EventZoomModal.vue'
-import ModalDiscardCommon from '@/components/ModalDiscardCommon.vue'
-import ModalEarnedFear from '@/components/ModalEarnedFear.vue'
-import ModalFearReveal from '@/components/ModalFearReveal.vue'
-import ModalFearDeck from '@/components/ModalFearDeck.vue'
 import AspectPower from '@/components/AspectPower.vue'
-import AspectDetail from '@/components/AspectDetail.vue'
 import PowerDiscard from '@/components/PowerDiscard.vue'
-
-const HabsburgReminder = defineAsyncComponent(
-  () => import('@/components/HabsburgReminder.vue')
-)
-const Russia5Modal = defineAsyncComponent(
-  () => import('@/components/Russia5Modal.vue')
-)
-const ImpedingCardModal = defineAsyncComponent(
-  () => import('@/components/ImpendingCardModal.vue')
-)
+import SpiritPanelTrigger from '@/components/SpiritPanel/Trigger.vue'
+import GameViewModals from '@/components/GameView/Modals.vue'
 
 import { OnClickOutside } from '@vueuse/components'
-import ModalDiscardPower from '@/components/ModalDiscardPower.vue'
-import CardZoomModal from '@/components/CardZoomModal.vue'
 import PowerPick from '@/components/PowerPick.vue'
-import ModalZoomBlightCard from '@/components/ModalZoomBlightCard.vue'
 import GameCard from '@/components/base/GameCard.vue'
 import InvaderBar from '@/components/InvaderBar.vue'
-import InvaderControl from '@/components/InvaderControl.vue'
 import { MENU_1 } from '@/constant'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
-import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
 import MessageInfo from '@/components/MessageInfo.vue'
-import GameSettingModal from '@/components/GameSettingModal.vue'
 
-import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { useBlightDeckStore } from '@/stores/BlightDeckStore'
@@ -54,30 +33,16 @@ import { exitPicking, timePassed } from '@/utils/interact'
 import { canInGameView } from '@/utils/middleware'
 import { tryUploadResult } from '@/utils/result'
 import { useTakePowerMenu } from '@/composable/useTakePowerMenu'
-import AdversarySetupInfo from '@/components/AdversarySetupInfo.vue'
 import DayThatNeverWereTrigger from '@/components/DayThatNeverWereTrigger.vue'
 import { useAspectView } from '@/composable/useAspectView'
+import { useModalStore } from '@/stores/ModalStore'
 
 const playerCard = usePlayerCardStore()
 const eventDeck = useEventDeckStore()
-const modalDiscard = useModalDiscardStore()
-const cardZoom = useCardZoomStore()
 const fearDeck = useFearDeckStore()
 const gameOption = useGameOptionStore()
 const blightDeck = useBlightDeckStore()
-
-const modal = reactive({
-  discardPower: false,
-  aspectDetail: false,
-  zoomBlightCard: false,
-  impendingCardModel: false,
-  fearDeck: false,
-  invaderControl: false,
-  gameSettings: false,
-  adversarySetup: false,
-  habsburgReminder: false,
-  earnedFear: false
-})
+const modal = useModalStore()
 
 const { isShow2xAspect } = useAspectView()
 
@@ -96,8 +61,7 @@ function quickShowEarnedFear() {
   modal.earnedFear = true
 }
 
-const { isShowQuickPower, quickTake, closeQuickPower, toggleQuickPower } =
-  useTakePowerMenu()
+const { isShowQuickPower, quickTake, closeQuickPower, toggleQuickPower } = useTakePowerMenu()
 
 const {
   discardViewSwipeDown,
@@ -133,30 +97,16 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div
-    id="game-view"
-    class="relative h-screen bg-gray-100 flex flex-col overflow-hidden"
-  >
+  <div id="game-view" class="relative h-screen bg-gray-100 flex flex-col overflow-hidden">
     <div class="h-screen flex flex-col">
-      <div
-        id="game-header"
-        class="h-12 bg-orange-800 flex items-center z-40 text-white w-full"
-      >
+      <div id="game-header" class="h-12 bg-orange-800 flex items-center z-40 text-white w-full">
         <div class="flex items-center h-full pr-3">
           <div class="w-10 flex justify-center">
-            <span
-              class="icon-settings text-xl"
-              @click="modal.gameSettings = true"
-            />
+            <span class="icon-settings text-xl" @click="modal.gameSettings = true" />
           </div>
-          <button
-            class="h-full px-2 flex items-center bg-orange-600"
-            @click="playerCard.addEnergy"
-          >
+          <button class="h-full px-2 flex items-center bg-orange-600" @click="playerCard.addEnergy">
             <span class="icon-bolt" /> {{ playerCard.energy }}
-            <span class="text-xs relative -top-2"
-              >+{{ playerCard.energyThisTurn }}</span
-            >
+            <span class="text-xs relative -top-2">+{{ playerCard.energyThisTurn }}</span>
           </button>
           <element-track class="ml-3" />
         </div>
@@ -172,216 +122,79 @@ onMounted(async () => {
         </div>
       </div>
       <div id="game-area" class="flex flex-1 relative">
-        <div
-          id="game-quick-bar"
-          class="w-14 bg-gray-900 flex flex-col justify-end space-y-4"
-        >
-          <div
-            class="h-14 w-full flex justify-center relative"
-            @click="buttonQuickBlightClick"
-          >
-            <game-card
-              v-if="blightDeck.current"
-              :id="blightDeck.current"
-              class="h-full"
-            />
-            <img
-              v-else
-              src="/img/card-back/blight.webp"
-              alt="Card back"
-              class="h-full"
-            />
+        <div id="game-quick-bar" class="w-14 bg-gray-900 flex flex-col justify-end space-y-4">
+          <div class="h-14 w-full flex justify-center relative" @click="buttonQuickBlightClick">
+            <game-card v-if="blightDeck.current" :id="blightDeck.current" class="h-full" />
+            <img v-else src="/img/card-back/blight.webp" alt="Card back" class="h-full" />
           </div>
-          <div
-            class="h-14 w-full flex justify-center relative"
-            @click="eventDeck.revealEvent"
-          >
-            <img
-              src="/img/card-back/event.webp"
-              alt="Card back"
-              class="h-full"
-            />
-            <div
-              v-if="eventDeck.discard.length === 0"
-              class="absolute text-xs font-semibold text-white flex items-center justify-center w-full h-full"
-            >
-              First
-            </div>
-            <span
-              v-if="eventDeck.isPingEvent"
-              class="absolute -top-1 right-0 flex h-3 w-3"
-            >
-              <span
-                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-500 opacity-75"
-              />
-              <span
-                class="relative inline-flex rounded-full h-3 w-3 bg-purple-600"
-              />
+          <div class="h-14 w-full flex justify-center relative" @click="eventDeck.revealEvent">
+            <img src="/img/card-back/event.webp" alt="Card back" class="h-full" />
+            <div v-if="eventDeck.discard.length === 0" class="absolute text-xs font-semibold text-white flex items-center justify-center w-full h-full">First</div>
+            <span v-if="eventDeck.isPingEvent" class="absolute -top-1 right-0 flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-500 opacity-75" />
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-purple-600" />
             </span>
           </div>
-          <div
-            class="h-14 w-full flex justify-center relative"
-            @click="quickShowEarnedFear"
-          >
-            <img
-              src="/img/card-back/fear.webp"
-              alt="Card back"
-              class="h-full"
-            />
-            <div
-              class="text-2xl font-semibold text-white absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-            >
+          <div class="h-14 w-full flex justify-center relative" @click="quickShowEarnedFear">
+            <img src="/img/card-back/fear.webp" alt="Card back" class="h-full" />
+            <div class="text-2xl font-semibold text-white absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               {{ fearDeck.totalEarned }}
             </div>
           </div>
-          <OnClickOutside
-            class="h-14 w-full relative"
-            @trigger="closeQuickPower"
-          >
-            <div
-              class="relative overflow-hidden h-full"
-              @click="toggleQuickPower"
-            >
-              <img
-                :src="`/img/card-back/minor.webp`"
-                alt="Card back"
-                class="h-full absolute"
-                style="transform: rotate(-10deg)"
-              />
-              <img
-                :src="`/img/card-back/major.webp`"
-                alt="Card back"
-                class="h-full absolute"
-                style="transform: translateX(20px) rotate(10deg)"
-              />
+          <OnClickOutside class="h-14 w-full relative" @trigger="closeQuickPower">
+            <div class="relative overflow-hidden h-full" @click="toggleQuickPower">
+              <img :src="`/img/card-back/minor.webp`" alt="Card back" class="h-full absolute" style="transform: rotate(-10deg)" />
+              <img :src="`/img/card-back/major.webp`" alt="Card back" class="h-full absolute" style="transform: translateX(20px) rotate(10deg)" />
             </div>
-            <div
-              v-if="isShowQuickPower"
-              class="bg-gray-900/30 absolute z-20 top-0 right-0 translate-x-full h-full flex px-1"
-            >
-              <div
-                v-if="useDiscardPowerStore().discard.length > 0"
-                class="flex items-center justify-center border-2"
-                @click="modal.discardPower = true"
-              >
-                <span
-                  class="text-2xl w-9 text-center text-white icon-layers-off"
-                />
+            <div v-if="isShowQuickPower" class="bg-gray-900/30 absolute z-20 top-0 right-0 translate-x-full h-full flex px-1">
+              <div v-if="useDiscardPowerStore().discard.length > 0" class="flex items-center justify-center border-2" @click="modal.discardPower = true">
+                <span class="text-2xl w-9 text-center text-white icon-layers-off" />
               </div>
-              <img
-                :src="`/img/card-back/minor.webp`"
-                alt="Card back"
-                class="h-full ml-1"
-                @click="quickTake('minor')"
-              />
-              <img
-                :src="`/img/card-back/major.webp`"
-                alt="Card back"
-                class="h-full ml-1"
-                @click="quickTake('major')"
-              />
+              <img :src="`/img/card-back/minor.webp`" alt="Card back" class="h-full ml-1" @click="quickTake('minor')" />
+              <img :src="`/img/card-back/major.webp`" alt="Card back" class="h-full ml-1" @click="quickTake('major')" />
             </div>
           </OnClickOutside>
         </div>
         <div id="game-showing-area" class="w-full relative h-full flex">
           <div class="w-full relative h-full">
-            <div
-              id="game-showing-top"
-              class="bg-neutral-100 flex px-2 relative h-1/2"
-            >
-              <div
-                v-if="currentMenu1 === MENU_1.PLAY"
-                class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0"
-              >
+            <div id="game-showing-top" class="bg-neutral-100 flex px-2 relative h-1/2">
+              <div v-if="currentMenu1 === MENU_1.PLAY" class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0">
                 <span v-if="playerCard.isPicking">Picking Power</span>
                 <span v-else>Player Play</span>
               </div>
-              <div
-                v-if="playerCard.isPicking && currentMenu1 === MENU_1.PLAY"
-                class="flex items-stretch relative w-full"
-              >
+              <div v-if="playerCard.isPicking && currentMenu1 === MENU_1.PLAY" class="flex items-stretch relative w-full">
                 <power-pick />
-                <span
-                  class="icon-x text-3xl absolute right-1 -top-1 text-red-600 z-50"
-                  style="stroke-width: 3px"
-                  @click="exitPicking()"
-                />
+                <span class="icon-x text-3xl absolute right-1 -top-1 text-red-600 z-50" style="stroke-width: 3px" @click="exitPicking()" />
               </div>
-              <div
-                v-show="!playerCard.isPicking && currentMenu1 === MENU_1.PLAY"
-                class="w-full flex"
-              >
+              <div v-show="!playerCard.isPicking && currentMenu1 === MENU_1.PLAY" class="w-full flex">
                 <div class="relative flex-1">
                   <card-group-view
                     from="play"
                     :cards="playerCard.play"
                     @swipe-down="playViewSwipeDown"
                     @swipe-up="playViewSwipeUp"
-                    @change-position="
-                      (cardId, posId) =>
-                        changePosition(playerCard.play, cardId, posId)
-                    "
+                    @change-position="(cardId, posId) => changePosition(playerCard.play, cardId, posId)"
                   />
                 </div>
-                <template
-                  v-for="(player, index) in playerCard.players"
-                  :key="`player-${index}`"
-                >
-                  <div
-                    v-if="
-                      gameOption.aspectsDetail[index] &&
-                      player.showAspect &&
-                      player.aspectMode === '1x'
-                    "
-                    v-show="playerCard.current === index"
-                    class="w-1/3 relative"
-                  >
-                    <aspect-power
-                      :aspect="gameOption.aspectsDetail[index] as Aspect"
-                      @show-aspect-detail="modal.aspectDetail = true"
-                    />
+                <template v-for="(player, index) in playerCard.players" :key="`player-${index}`">
+                  <div v-if="gameOption.aspectsDetail[index] && player.showAspect && player.aspectMode === '1x'" v-show="playerCard.current === index" class="w-1/3 relative">
+                    <aspect-power :aspect="gameOption.aspectsDetail[index] as Aspect" @show-aspect-detail="modal.aspectDetail = true" />
                   </div>
                 </template>
               </div>
-              <div
-                v-if="currentMenu1 === MENU_1.TAB_2"
-                class="flex items-stretch relative w-full"
-              >
+              <div v-if="currentMenu1 === MENU_1.TAB_2" class="flex items-stretch relative w-full">
                 <div class="space-x-2 absolute h-full w-full">
-                  <div
-                    class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0"
-                  >
-                    Player Discard
-                  </div>
-                  <power-discard
-                    :discard="playerCard.discard"
-                    @swipe-down="discardViewSwipeDown"
-                    @swipe-up="discardViewSwipeUp"
-                  />
+                  <div class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0">Player Discard</div>
+                  <power-discard :discard="playerCard.discard" @swipe-down="discardViewSwipeDown" @swipe-up="discardViewSwipeUp" />
                 </div>
               </div>
               <div v-if="!isShow2xAspect" class="w-8" />
             </div>
 
-            <div
-              id="game-showing-bottom"
-              class="bg-stone-300 flex px-2 relative h-1/2"
-            >
+            <div id="game-showing-bottom" class="bg-stone-300 flex px-2 relative h-1/2">
               <div class="flex flex-1 relative">
-                <card-group-view
-                  from="hand"
-                  :cards="playerCard.hand"
-                  class="pt-2"
-                  @swipe-down="playerCard.forgetCardFromHand"
-                  @swipe-up="handSwipeUp"
-                  @change-position="handChangePosition"
-                />
-                <base-button
-                  v-if="playerCard.canReclaim"
-                  button-style="secondary"
-                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                  @click="playerCard.reclaim()"
-                >
+                <card-group-view from="hand" :cards="playerCard.hand" class="pt-2" @swipe-down="playerCard.forgetCardFromHand" @swipe-up="handSwipeUp" @change-position="handChangePosition" />
+                <base-button v-if="playerCard.canReclaim" button-style="secondary" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" @click="playerCard.reclaim()">
                   Reclaim All
                 </base-button>
               </div>
@@ -392,29 +205,16 @@ onMounted(async () => {
             <div
               v-for="(spirit, index) in gameOption.spirits"
               :key="`spirit-${spirit}`"
-              :class="[
-                playerCard.current === index
-                  ? 'border-orange-800'
-                  : 'border-gray-800/50'
-              ]"
+              :class="[playerCard.current === index ? 'border-orange-800' : 'border-gray-800/50']"
               class="w-12 h-12 rounded-full bg-white border-2 overflow-hidden"
               @click="playerCard.changeCurrent(index)"
             >
-              <img
-                :src="`/img/spirit_avatar/${getSpiritAvatar(spirit)}`"
-                alt="Spirit avatar"
-                :class="[
-                  playerCard.current === index ? 'opacity-100' : 'opacity-50'
-                ]"
-                class="h-full max-w-max"
-              />
+              <img :src="`/img/spirit_avatar/${getSpiritAvatar(spirit)}`" alt="Spirit avatar" :class="[playerCard.current === index ? 'opacity-100' : 'opacity-50']" class="h-full max-w-max" />
             </div>
           </div>
 
           <div class="absolute -right-10 bottom-1 space-x-2 z-10 flex">
-            <day-that-never-were-trigger
-              v-if="useDaysThatNeverWereStore().hasDaysThatNeverWere"
-            />
+            <day-that-never-were-trigger v-if="useDaysThatNeverWereStore().hasDaysThatNeverWere" />
             <div
               v-if="useImpendingCardStore().hasImpendingFeature"
               class="w-11 h-11 rounded-full bg-red-500 border-2 border-purple-700 overflow-hidden flex items-center justify-center text-2xl"
@@ -433,30 +233,21 @@ onMounted(async () => {
                 <span class="path10" />
               </span>
             </div>
-            <div
-              class="h-11 w-11 p-2 rounded-full text-white bg-purple-800 border-2 border-purple-900 flex justify-center items-center"
-              @click="timePassed()"
-            >
+            <div class="cs-trigger text-white bg-purple-800 border-purple-900" @click="timePassed()">
               <span class="icon-hourglass-high text-xl" />
             </div>
+            <spirit-panel-trigger />
           </div>
 
-          <template
-            v-for="(player, index) in playerCard.players"
-            :key="`player2x-${index}`"
-          >
+          <template v-for="(player, index) in playerCard.players" :key="`player2x-${index}`">
             <div
               v-if="player.showAspect && player.aspectMode === '2x'"
-              v-show="
-                playerCard.current === index && currentMenu1 === MENU_1.PLAY
-              "
+              v-show="playerCard.current === index && currentMenu1 === MENU_1.PLAY"
               class="w-1/3 shrink-0 flex"
               @click="modal.aspectDetail = true"
             >
               <div class="relative flex-1">
-                <aspect-power
-                  :aspect="gameOption.aspectsDetail[index] as Aspect"
-                />
+                <aspect-power :aspect="gameOption.aspectsDetail[index] as Aspect" />
               </div>
               <div class="w-6">
                 <div class="h-1/2 bg-neutral-100" />
@@ -465,81 +256,20 @@ onMounted(async () => {
             </div>
           </template>
         </div>
-        <div
-          id="game-control-right-bar"
-          class="ml-auto grid grid-rows-2 text-white relative"
-        >
+        <div id="game-control-right-bar" class="ml-auto grid grid-rows-2 text-white relative">
           <div class="bg-neutral-700 px-2 flex items-center">
             <transition name="switch" mode="out-in">
-              <span
-                v-if="currentMenu1 === MENU_1.PLAY"
-                class="icon-album text-4xl"
-                @click="switchMenu(1)"
-              />
+              <span v-if="currentMenu1 === MENU_1.PLAY" class="icon-album text-4xl" @click="switchMenu(1)" />
             </transition>
             <transition name="switch" mode="out-in">
-              <span
-                v-if="currentMenu1 === MENU_1.TAB_2"
-                class="icon-album-off text-4xl"
-                @click="switchMenu(1)"
-              />
+              <span v-if="currentMenu1 === MENU_1.TAB_2" class="icon-album-off text-4xl" @click="switchMenu(1)" />
             </transition>
           </div>
-          <div
-            class="flex flex-col justify-center items-center bg-stone-900 px-2"
-          />
+          <div class="flex flex-col justify-center items-center bg-stone-900 px-2" />
         </div>
         <message-info />
       </div>
     </div>
-    <div id="modal">
-      <modal-discard-common v-if="modalDiscard.getType === 'common'" />
-      <modal-discard-power
-        v-if="modal.discardPower"
-        @close="modal.discardPower = false"
-      />
-      <modal-zoom-blight-card
-        v-if="modal.zoomBlightCard"
-        @close="modal.zoomBlightCard = false"
-      />
-      <modal-earned-fear
-        v-if="modal.earnedFear"
-        @close="modal.earnedFear = false"
-      />
-      <modal-fear-deck
-        v-if="modal.fearDeck && fearDeck.draw.length > 0"
-        @close="modal.fearDeck = false"
-      />
-      <modal-fear-reveal v-if="fearDeck.currentReveal" />
-      <game-setting-modal
-        v-if="modal.gameSettings"
-        @close="modal.gameSettings = false"
-      />
-      <card-zoom-modal v-if="cardZoom.isShow" />
-      <event-zoom-modal v-if="eventDeck.reveal" />
-      <aspect-detail
-        v-if="modal.aspectDetail"
-        @close="modal.aspectDetail = false"
-      />
-      <russia5-modal v-if="gameOption.hasRussia5" />
-      <invader-control
-        v-if="modal.invaderControl"
-        @close="modal.invaderControl = false"
-      />
-      <adversary-setup-info
-        v-if="modal.adversarySetup"
-        @close="modal.adversarySetup = false"
-      />
-      <habsburg-reminder
-        v-if="modal.habsburgReminder && gameOption.hasHabsburg5"
-        @close="modal.habsburgReminder = false"
-      />
-      <impeding-card-modal
-        v-if="
-          useImpendingCardStore().index !== null && modal.impendingCardModel
-        "
-        @close="modal.impendingCardModel = false"
-      />
-    </div>
+    <game-view-modals id="modal" />
   </div>
 </template>

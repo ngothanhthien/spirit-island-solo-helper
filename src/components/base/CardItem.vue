@@ -98,15 +98,8 @@ function getPosition(element: Element) {
     class="cs-transition relative shadow-lg shadow-stone-600 rounded-xl overflow-hidden flex-grow-0 flex-shrink-0 flex w-fit"
   >
     <game-card :id="card" />
-    <div
-      v-if="isCheck"
-      class="absolute left-0 top-0 h-full w-full bg-gray-500/70"
-    />
-    <div
-      v-if="props.canCheck"
-      class="absolute bottom-1 left-1 p-1 bg-green-800/20 rounded"
-      @click.stop="playerCard.toggleUsed(card)"
-    >
+    <div v-if="isCheck" class="absolute left-0 top-0 h-full w-full bg-gray-500/70" />
+    <div v-if="props.canCheck" class="absolute bottom-1 left-1 p-1 bg-green-800/20 rounded" @click.stop="playerCard.toggleUsed(card)">
       <span class="text-green-400 icon-check text-lg" />
     </div>
   </div>

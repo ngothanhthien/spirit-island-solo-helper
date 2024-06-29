@@ -45,15 +45,13 @@ const iconMapping = {
 }
 export default function (message: string) {
   const compileText = computed(() =>
-    message
-      .split(new RegExp(`(?<=${iconList.join('|')})|(?=${iconList.join('|')})`))
-      .map((item) => {
-        if (Object.keys(iconMapping).includes(item)) {
-          // @ts-ignore
-          return iconMapping[item]
-        }
-        return item
-      })
+    message.split(new RegExp(`(?<=${iconList.join('|')})|(?=${iconList.join('|')})`)).map((item) => {
+      if (Object.keys(iconMapping).includes(item)) {
+        // @ts-ignore
+        return iconMapping[item]
+      }
+      return item
+    })
   )
 
   return {

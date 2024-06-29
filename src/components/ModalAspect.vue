@@ -34,33 +34,17 @@ function next() {
   current.value = (current.value + 1) % aspectsImages.length
 }
 function prev() {
-  current.value =
-    (current.value - 1 + aspectsImages.length) % aspectsImages.length
+  current.value = (current.value - 1 + aspectsImages.length) % aspectsImages.length
 }
 </script>
 
 <template>
   <div class="absolute top-0 left-0 bg-gray-900/70 w-full h-full">
-    <div
-      class="h-[95%] left-1/2 -translate-x-1/2 relative top-1/2 -translate-y-1/2 flex flex-col"
-    >
-      <div class="text-lg text-white font-semibold text-center">
-        {{ current + 1 }} of {{ aspectsImages.length }}
-      </div>
+    <div class="h-[95%] left-1/2 -translate-x-1/2 relative top-1/2 -translate-y-1/2 flex flex-col">
+      <div class="text-lg text-white font-semibold text-center">{{ current + 1 }} of {{ aspectsImages.length }}</div>
       <div class="flex justify-center flex-1 overflow-hidden relative">
-        <div
-          ref="aspectEl"
-          class="relative flex h-full max-w-[90%] overflow-x-auto space-x-2 hide-scrollbar transition duration-500"
-          :style="`left: ${-left}px`"
-          @click="emit('choose', current)"
-        >
-          <img
-            v-for="image in aspectsImages[current]"
-            :key="image"
-            :src="`/img/aspects/${image}`"
-            alt="Aspect details"
-            class="rounded-2xl h-full"
-          />
+        <div ref="aspectEl" class="relative flex h-full max-w-[90%] overflow-x-auto space-x-2 hide-scrollbar transition duration-500" :style="`left: ${-left}px`" @click="emit('choose', current)">
+          <img v-for="image in aspectsImages[current]" :key="image" :src="`/img/aspects/${image}`" alt="Aspect details" class="rounded-2xl h-full" />
         </div>
       </div>
     </div>

@@ -12,25 +12,11 @@ export default {
 <template>
   <div class="inline-block text-center -translate-y-2">
     <div class="text-[11px] font-bold translate-y-1">
-      <img
-        v-if="num === 'air'"
-        :src="`/img/elements/air.webp`"
-        class="h-3 inline-block -translate-y-0.5 -my-0.5"
-      />
+      <img v-if="num === 'air'" :src="`/img/elements/air.webp`" class="h-3 inline-block -translate-y-0.5 -my-0.5" />
       <span v-else>{{ num }}</span>
     </div>
-    <svg
-      class="w-full h-2"
-      version="1.0"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 256.000000 43.000000"
-      preserveAspectRatio="xMidYMid meet"
-    >
-      <g
-        transform="translate(0.000000,43.000000) scale(0.100000,-0.100000)"
-        fill="currentColor"
-        stroke="none"
-      >
+    <svg class="w-full h-2" version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256.000000 43.000000" preserveAspectRatio="xMidYMid meet">
+      <g transform="translate(0.000000,43.000000) scale(0.100000,-0.100000)" fill="currentColor" stroke="none">
         <path
           d="M306 403 c-4 -5 -69 -8 -144 -8 -162 -1 -166 -4 -103 -89 40 -54 44
 -79 15 -90 -19 -7 -18 -35 1 -42 12 -5 8 -16 -20 -56 -56 -77 -51 -82 85 -83

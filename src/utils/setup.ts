@@ -14,10 +14,7 @@ export function setupViolence(playerPos: number) {
   }
   removeCard(players.hand, cardId1)
 
-  const cardId2 = getPowerIdByName(
-    'Bats Scout for Raids by Darkness',
-    'minor-major'
-  )
+  const cardId2 = getPowerIdByName('Bats Scout for Raids by Darkness', 'minor-major')
   if (!cardId2) {
     console.error('Card --Bats Scout for Raids by Darkness-- not found')
     return false

@@ -3,10 +3,7 @@ import type { Aspect, AspectOption } from '@/types'
 import { SPIRIT } from '@/constant'
 import { DEBUG } from '@/configs/general'
 
-export function useAspectSelect(
-  spirits: Ref<Array<UnwrapRef<number>>>,
-  aspectsSelected: Ref<Array<number>>
-) {
+export function useAspectSelect(spirits: Ref<Array<UnwrapRef<number>>>, aspectsSelected: Ref<Array<number>>) {
   const currentAspectList = ref<Aspect[]>([])
   const currentAspectSpiritIndex = ref<number>(-1)
 

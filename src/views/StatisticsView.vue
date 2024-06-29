@@ -18,16 +18,7 @@ const spiritsChart = ref<SpiritsChart>({})
 const totalGame = ref(0)
 const lastTime = ref('unknown')
 const lastUpdate = ref('Failed')
-const ADVERSARIES = [
-  'England',
-  'France',
-  'Habsburg',
-  'Habsburg Mining',
-  'Prussia',
-  'Russia',
-  'Sweden',
-  'Scotland'
-]
+const ADVERSARIES = ['England', 'France', 'Habsburg', 'Habsburg Mining', 'Prussia', 'Russia', 'Sweden', 'Scotland']
 const SPIRIT_NAMES = SPIRIT.map((spirit) => spirit.name)
 const localStorage = useLocalStorageStore()
 initChart()
@@ -60,9 +51,7 @@ function renderChart(data: ChartData) {
 
   const pendingResult = localStorage.pendingResult
   if (pendingResult.length > 0) {
-    lastTime.value = getDayAgo(
-      pendingResult[pendingResult.length - 1].createdAt
-    )
+    lastTime.value = getDayAgo(pendingResult[pendingResult.length - 1].createdAt)
   } else {
     lastTime.value = getDayAgo(data.last.createdAt)
   }
@@ -82,27 +71,16 @@ function getWin(result: Result) {
 <template>
   <div class="h-screen w-full bg-amber-100 flex flex-col px-4 py-2">
     <div class="flex">
-      <div
-        class="ml-auto text-orange-800"
-        @click="router.push({ name: 'HomeView' })"
-      >
-        Back to menu
-      </div>
+      <div class="ml-auto text-orange-800" @click="router.push({ name: 'HomeView' })">Back to menu</div>
     </div>
     <div class="flex-1 flex" style="max-height: 90vh">
-      <div
-        class="block overflow-y-auto h-full flex-1 border border-gray-500 rounded"
-      >
+      <div class="block overflow-y-auto h-full flex-1 border border-gray-500 rounded">
         <table class="table-auto w-full">
           <thead class="sticky top-0">
             <tr class="border-b border-gray-500">
               <th />
               <th v-for="adversary in ADVERSARIES" :key="adversary">
-                <img
-                  :src="`/img/adversary/${adversaryNameToImage(adversary)}`"
-                  alt="Adversary Image"
-                  class="h-8"
-                />
+                <img :src="`/img/adversary/${adversaryNameToImage(adversary)}`" alt="Adversary Image" class="h-8" />
               </th>
             </tr>
           </thead>
@@ -117,29 +95,17 @@ function getWin(result: Result) {
               }"
             >
               <td class="border-r border-gray-500 pr-1 flex items-center">
-                <img
-                  :src="`/img/spirit_avatar/${getSpiritAvatarByName(spirit)}`"
-                  alt="spirit avatar"
-                  class="h-8 inline-block mr-1 flex-1"
-                />({{ spiritsChart[spirit] ? spiritsChart[spirit].total : 0 }})
+                <img :src="`/img/spirit_avatar/${getSpiritAvatarByName(spirit)}`" alt="spirit avatar" class="h-8 inline-block mr-1 flex-1" />({{
+                  spiritsChart[spirit] ? spiritsChart[spirit].total : 0
+                }})
               </td>
               <template v-if="spiritsChart[spirit]">
-                <td
-                  v-for="adversary in ADVERSARIES"
-                  :key="spirit + adversary"
-                  class="text-center"
-                >
+                <td v-for="adversary in ADVERSARIES" :key="spirit + adversary" class="text-center">
                   {{ getWin(spiritsChart[spirit][adversary] as Result) }}
                 </td>
               </template>
               <template v-else>
-                <td
-                  v-for="adversary in ADVERSARIES"
-                  :key="adversary"
-                  class="text-center"
-                >
-                  x
-                </td>
+                <td v-for="adversary in ADVERSARIES" :key="adversary" class="text-center">x</td>
               </template>
             </tr>
           </tbody>

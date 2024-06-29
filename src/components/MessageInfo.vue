@@ -6,11 +6,7 @@ const messageStore = useMessageStore()
 
 <template>
   <Transition name="toast">
-    <div
-      v-if="messageStore.message"
-      class="absolute top-8 z-[9999] text-white text-lg font-semibold w-full text-center bg-gray-900/40"
-      @click="messageStore.clearMessage"
-    >
+    <div v-if="messageStore.message" class="absolute top-8 z-[9999] text-white text-lg font-semibold w-full text-center bg-gray-900/40" @click="messageStore.clearMessage">
       {{ messageStore.message }}
     </div>
   </Transition>

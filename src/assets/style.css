@@ -8,6 +8,11 @@
     margin: 0;
   }
 }
+@layer components {
+  .cs-trigger {
+    @apply h-11 w-11 rounded-full flex justify-center items-center border-2;
+  }
+}
 body {
   /* Prevent chrome from pull-to-refresh effect */
   overscroll-behavior-y: none;

@@ -30,24 +30,11 @@ const { lengthY } = useSwipe(modalContentEl, {
 </script>
 
 <template>
-  <div
-    ref="backgroundEl"
-    class="bg-gray-900/30 absolute top-0 left-0 w-full h-full flex justify-center items-center z-50"
-  >
-    <div
-      ref="modalEl"
-      :class="{ 'h-[90%]': isHeightFixed }"
-      class="w-[80%] max-h-[90%] overflow-hidden flex flex-col"
-    >
-      <div
-        class="bg-gray-900 text-white py-2 px-4 text-lg relative rounded-t-md"
-      >
+  <div ref="backgroundEl" class="bg-gray-900/30 absolute top-0 left-0 w-full h-full flex justify-center items-center z-50">
+    <div ref="modalEl" :class="{ 'h-[90%]': isHeightFixed }" class="w-[80%] max-h-[90%] overflow-hidden flex flex-col">
+      <div class="bg-gray-900 text-white py-2 px-4 text-lg relative rounded-t-md">
         <slot name="header" />
-        <span
-          v-if="showCloseIcon"
-          class="icon-x text-2xl absolute right-4 top-3 cursor-pointer hover:opacity-70 transition"
-          @click="emit('close')"
-        />
+        <span v-if="showCloseIcon" class="icon-x text-2xl absolute right-4 top-3 cursor-pointer hover:opacity-70 transition" @click="emit('close')" />
       </div>
       <div
         ref="modalContentEl"

@@ -18,15 +18,10 @@ export function useSetupGame(
   aspects: Ref<Array<number>>,
   numberSpirit: Ref<number | undefined>,
   adversary: Ref<number | undefined>,
-  adversaryLevel: number
+  adversaryLevel: Ref<number>
 ) {
   const canStartGame = computed(() => {
-    return (
-      numberSpirit.value !== undefined &&
-      adversary.value !== undefined &&
-      islands.value.length > 0 &&
-      spirits.value.length > 0
-    )
+    return numberSpirit.value !== undefined && adversary.value !== undefined && islands.value.length > 0 && spirits.value.length > 0
   })
 
   function randomSetup() {
@@ -62,7 +57,7 @@ export function useSetupGame(
       gameOption.setSetupState({
         numberSpirit: numberSpirit.value as number,
         adversary: adversary.value as number,
-        adversaryLevel: adversaryLevel,
+        adversaryLevel: adversaryLevel.value,
         islands: islands.value,
         spirits: spirits.value,
         aspects: aspects.value
@@ -74,20 +69,13 @@ export function useSetupGame(
     eventDeck.newDeck(gameOption.hasFranceEvent)
     majorDeck.newDeck()
     minorDeck.newDeck()
-    const invaderPos =
-      ADVERSARY[adversary.value as number].invaders?.[adversaryLevel]
-    invaderCard.newDeck(
-      invaderPos && invaderPos !== '' ? invaderPos : undefined
-    )
+    const invaderPos = ADVERSARY[adversary.value as number].invaders?.[adversaryLevel.value]
+    invaderCard.newDeck(invaderPos && invaderPos !== '' ? invaderPos : undefined)
     if (gameOption.hasEngland3) {
       invaderCard.extraBuild = []
     }
     useDaysThatNeverWereStore().reset()
-    fearDeck.newDeck(
-      gameOption.fearSetup,
-      numberSpirit.value as number,
-      gameOption.hasEngland6
-    )
+    fearDeck.newDeck(gameOption.fearSetup, numberSpirit.value as number, gameOption.hasEngland6)
     gameState.isNewGame = true
     playerCard.reset()
 

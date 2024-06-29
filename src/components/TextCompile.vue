@@ -18,21 +18,9 @@ const { compileText, iconList } = useTextCompile(props.message)
       <template v-if="part === ':break:'">
         <div class="mt-1" />
       </template>
-      <range-icon
-        v-else-if="part === 'plus1Rangeicon'"
-        num="+1"
-        class="w-8 -mb-2 -mt-1"
-      />
-      <range-icon
-        v-else-if="part === 'normal1Rangeicon'"
-        num="1"
-        class="w-8 -mb-2 -mt-1"
-      />
-      <range-icon
-        v-else-if="part === 'air_range'"
-        num="air"
-        class="w-8 -mb-2 -mt-1"
-      />
+      <range-icon v-else-if="part === 'plus1Rangeicon'" num="+1" class="w-8 -mb-2 -mt-1" />
+      <range-icon v-else-if="part === 'normal1Rangeicon'" num="1" class="w-8 -mb-2 -mt-1" />
+      <range-icon v-else-if="part === 'air_range'" num="air" class="w-8 -mb-2 -mt-1" />
       <template v-else>
         <span :class="`icon-${part.toLowerCase()}`">
           <span class="path1"></span>

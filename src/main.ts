@@ -34,9 +34,7 @@ app.config.warnHandler = (msg) => {
   console.log(msg)
 }
 
-app.config.performance = !(
-  import.meta.env.VITE_APP_ENVIRONMENT === 'production'
-)
+app.config.performance = !(import.meta.env.VITE_APP_ENVIRONMENT === 'production')
 
 window.addEventListener(
   'contextmenu',

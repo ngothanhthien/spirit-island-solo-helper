@@ -5,8 +5,8 @@ import { ADVERSARY } from '@/constant'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import AdversaryText from '@/components/base/AdversaryText.vue'
 import { onClickOutside, useWindowSize } from '@vueuse/core'
+import { useModalStore } from '@/stores/ModalStore'
 
-const emit = defineEmits(['close'])
 const FIXED_WIDTH = 1100
 const FIXED_HEIGHT = 600
 
@@ -19,7 +19,7 @@ const scale = computed(() => {
 })
 
 onClickOutside(adversaryEl, () => {
-  emit('close')
+  close()
 })
 const currentAdversary = computed(() => {
   return ADVERSARY[gameOption.adversary || 0]
@@ -42,12 +42,7 @@ const levelDetail = computed(() => {
     }
 
     //handle Habsburg Mining
-    if (
-      gameOption.adversary &&
-      ADVERSARY[gameOption.adversary].id === 'habsburg-mining' &&
-      gameOption.adversaryLevel >= 5 &&
-      level === 3
-    ) {
+    if (gameOption.adversary && ADVERSARY[gameOption.adversary].id === 'habsburg-mining' && gameOption.adversaryLevel >= 5 && level === 3) {
       isHighlight = false
     }
 
@@ -69,6 +64,10 @@ const diffArr = computed(() => {
 const fearArr = computed(() => {
   return currentAdversary.value.fear.slice(1)
 })
+
+function close() {
+  useModalStore().adversary = false
+}
 </script>
 <template>
   <div class="absolute top-0 left-0 w-full h-full z-40 bg-gray-900/50">
@@ -105,13 +104,7 @@ const fearArr = computed(() => {
       </div>
       <div
         class="flex justify-end items-end"
-        style="
-          background-color: rgb(225, 220, 190);
-          border-top: 20px solid black;
-          border-color: rgb(225, 220, 190);
-          box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.6);
-          z-index: 2;
-        "
+        style="background-color: rgb(225, 220, 190); border-top: 20px solid black; border-color: rgb(225, 220, 190); box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.6); z-index: 2"
       >
         BASE DIFFICULTY {{ baseDiff }}
       </div>
@@ -129,39 +122,19 @@ const fearArr = computed(() => {
         "
       >
         <div>
-          <img
-            :src="`/img/adversary/${flagImg}-flag.webp`"
-            alt="Adversary Flag"
-            width="170"
-            height="108"
-          />
+          <img :src="`/img/adversary/${flagImg}-flag.webp`" alt="Adversary Flag" width="170" height="108" />
         </div>
       </div>
       <div
         class="pt-1 pl-4"
-        style="
-          grid-column: 1 / 4;
-          border-left: 20px solid black;
-          border-color: rgb(145, 125, 100);
-          background-color: rgb(235, 230, 215);
-          box-shadow: 20px 3px 0 0 rgba(90, 90, 90, 1);
-          z-index: 1;
-        "
+        style="grid-column: 1 / 4; border-left: 20px solid black; border-color: rgb(145, 125, 100); background-color: rgb(235, 230, 215); box-shadow: 20px 3px 0 0 rgba(90, 90, 90, 1); z-index: 1"
       >
         <div class="font-bold italic mt-2">Additional Loss Condition</div>
         <div>
           <adversary-text :message="loss" :is-highlight="loss.name !== null" />
         </div>
       </div>
-      <div
-        class="pt-1 pl-5"
-        style="
-          grid-column: 4 / 6;
-          background-color: rgb(235, 230, 215);
-          box-shadow: 0 3px 0 0 rgba(90, 90, 90, 1);
-          z-index: 1;
-        "
-      >
+      <div class="pt-1 pl-5" style="grid-column: 4 / 6; background-color: rgb(235, 230, 215); box-shadow: 0 3px 0 0 rgba(90, 90, 90, 1); z-index: 1">
         <div class="flex items-center mt-2">
           <div class="font-bold italic">Escalation</div>
           <span class="fill-current icon-escalation text-2xl ml-2 -mt-2" />
@@ -170,48 +143,18 @@ const fearArr = computed(() => {
           <adversary-text :message="escalation" :is-highlight="true" />
         </div>
       </div>
-      <div
-        class="z-0"
-        style="
-          background-color: rgb(235, 230, 215);
-          border-right: 20px solid black;
-          border-color: rgb(145, 125, 100);
-          box-shadow: -20px 3px 0 0 rgba(90, 90, 90, 1);
-        "
-      >
+      <div class="z-0" style="background-color: rgb(235, 230, 215); border-right: 20px solid black; border-color: rgb(145, 125, 100); box-shadow: -20px 3px 0 0 rgba(90, 90, 90, 1)">
         <div class="relative" style="top: 526px; left: 170px">
-          <div
-            class="flex justify-center items-center"
-            style="height: 30px; width: 30px"
-          />
+          <div class="flex justify-center items-center" style="height: 30px; width: 30px" />
         </div>
       </div>
-      <div
-        style="
-          grid-column: 1 / -1;
-          border-left: 20px solid;
-          border-right: 20px solid;
-          border-color: rgb(145, 125, 100) black black rgb(145, 125, 100);
-        "
-      >
+      <div style="grid-column: 1 / -1; border-left: 20px solid; border-right: 20px solid; border-color: rgb(145, 125, 100) black black rgb(145, 125, 100)">
         <div class="mx-6 mt-0.5">
           <div class="grid" style="grid-template-columns: 10% 12% 79%">
-            <div
-              class="items-center text-center flex justify-center font-bold italic"
-              style="grid-column: 1 / 2"
-            >
-              Level<br />(Difficulty)
-            </div>
-            <div
-              class="font-bold italic flex justify-center items-center"
-              style="grid-column: 2 / 3"
-            >
-              Fear Cards
-            </div>
+            <div class="items-center text-center flex justify-center font-bold italic" style="grid-column: 1 / 2">Level<br />(Difficulty)</div>
+            <div class="font-bold italic flex justify-center items-center" style="grid-column: 2 / 3">Fear Cards</div>
             <div class="italic flex items-center" style="grid-column: 3 / -1">
-              <div>
-                <span class="font-bold">Game Effects</span> (cumulative)
-              </div>
+              <div><span class="font-bold">Game Effects</span> (cumulative)</div>
             </div>
           </div>
         </div>
@@ -219,70 +162,34 @@ const fearArr = computed(() => {
       <div
         v-for="i in 6"
         :key="i"
-        style="
-          grid-column: 1 / -1;
-          border-left: 20px solid black;
-          border-right: 20px solid black;
-          border-color: rgb(145, 125, 100);
-        "
+        style="grid-column: 1 / -1; border-left: 20px solid black; border-right: 20px solid black; border-color: rgb(145, 125, 100)"
         :class="{ 'text-gray-300': i > gameOption.adversaryLevel }"
       >
         <div class="mx-6 mt-0.5">
           <div class="grid" style="grid-template-columns: 10% 12% 79%">
-            <div
-              class="flex justify-center items-center"
-              style="grid-column: 1 / 2"
-            >
+            <div class="flex justify-center items-center" style="grid-column: 1 / 2">
               <div class="text-4xl font-bold">
                 {{ i }}
               </div>
-              <div class="text-xl flex relative mt-6">
-                ({{ diffArr[i - 1] }})
-              </div>
+              <div class="text-xl flex relative mt-6">({{ diffArr[i - 1] }})</div>
             </div>
-            <div
-              class="flex justify-center items-center"
-              style="
-                grid-column: 2 / 3;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-              "
-            >
+            <div class="flex justify-center items-center" style="grid-column: 2 / 3; display: flex; justify-content: center; align-items: center">
               {{ fearArr[i - 1] }}
             </div>
             <div style="grid-column: 3 / -1" class="flex items-center">
-              <adversary-text
-                :message="levelDetail[i - 1]"
-                :is-highlight="levelDetail[i - 1].isHighlight"
-              />
+              <adversary-text :message="levelDetail[i - 1]" :is-highlight="levelDetail[i - 1].isHighlight" />
             </div>
           </div>
           <div v-if="i != 6" class="mt-1">
-            <div
-              style="
-                border-bottom: 1px solid black;
-                border-color: rgb(50, 50, 50);
-              "
-            />
+            <div style="border-bottom: 1px solid black; border-color: rgb(50, 50, 50)" />
           </div>
         </div>
       </div>
 
       <div
-        style="
-          grid-column: 1 / -1;
-          border-left: 20px solid black;
-          border-right: 20px solid black;
-          border-bottom: 20px solid black;
-          border-radius: 0 0 18px 18px;
-          border-color: rgb(145, 125, 100);
-        "
+        style="grid-column: 1 / -1; border-left: 20px solid black; border-right: 20px solid black; border-bottom: 20px solid black; border-radius: 0 0 18px 18px; border-color: rgb(145, 125, 100)"
       />
-      <div
-        class="inline-block absolute top-0 right-0 text-gray-500 z-50"
-        @click="emit('close')"
-      >
+      <div class="inline-block absolute top-0 right-0 text-gray-500 z-50" @click="close()">
         <span class="icon-x text-4xl" />
       </div>
     </div>

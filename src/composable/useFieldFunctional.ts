@@ -17,10 +17,7 @@ export function useFieldFunctional() {
     currentMenu1.value = MENU_1.PLAY
   }
 
-  function handSwipeUp(
-    cardId: string,
-    posId: { id: string; isFront: boolean }
-  ) {
+  function handSwipeUp(cardId: string, posId: { id: string; isFront: boolean }) {
     if (playerCard.isPicking && currentMenu1.value === MENU_1.PLAY) {
       playerCard.putCardToPicking(cardId)
       return
@@ -32,10 +29,7 @@ export function useFieldFunctional() {
     playerCard.playCard(cardId, posId)
   }
 
-  function handChangePosition(
-    cardId: string,
-    posId: { id: string; isFront: boolean }
-  ) {
+  function handChangePosition(cardId: string, posId: { id: string; isFront: boolean }) {
     playerCard.changePosition('hand', cardId, posId)
   }
 
@@ -43,10 +37,7 @@ export function useFieldFunctional() {
     playerCard.putFromPlayToDiscard(card)
   }
 
-  function playViewSwipeDown(
-    card: string,
-    posId: { id: string; isFront: boolean }
-  ) {
+  function playViewSwipeDown(card: string, posId: { id: string; isFront: boolean }) {
     playerCard.returnCardFromPlay(card, posId)
   }
 

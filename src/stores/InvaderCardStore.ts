@@ -56,12 +56,7 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
         })
     },
     canNext(state) {
-      return (
-        state.explore.length > 0 ||
-        state.build.length > 0 ||
-        state.ravage.length > 0 ||
-        (state.extraBuild !== null && state.extraBuild.length > 0)
-      )
+      return state.explore.length > 0 || state.build.length > 0 || state.ravage.length > 0 || (state.extraBuild !== null && state.extraBuild.length > 0)
     },
     isShowHabsburg(state) {
       return state.explore.length === 0 && state.draw.length === 6
@@ -78,11 +73,7 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
       this.box = [[], [], []]
       this.pos = pos
       this.lock = []
-      const shuffled = [
-        [...(shuffle(INVADER_CARD[0]) as string[])],
-        [...(shuffle(INVADER_CARD[1]) as string[])],
-        [...(shuffle(INVADER_CARD[2]) as string[])]
-      ]
+      const shuffled = [[...(shuffle(INVADER_CARD[0]) as string[])], [...(shuffle(INVADER_CARD[1]) as string[])], [...(shuffle(INVADER_CARD[2]) as string[])]]
       const deck = [] as string[]
 
       //Habsburg Mining setup
@@ -152,11 +143,7 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
     reShuffle() {
       let pos = this.pos.slice(-this.draw.length)
       const draw = this.draw.slice().reverse()
-      const raw: Array<Array<string>> = [
-        [...this.box[0]],
-        [...this.box[1]],
-        [...this.box[2]]
-      ]
+      const raw: Array<Array<string>> = [[...this.box[0]], [...this.box[1]], [...this.box[2]]]
       //check if deck has not changed
       for (let i = 0; i < draw.length; i++) {
         const stage = draw[i].split('-')[1]
@@ -164,19 +151,13 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
           continue
         }
         if (parseInt(stage) !== parseInt(pos[i])) {
-          useMessageStore().setMessage(
-            'Deck has changed. Cannot reset the deck.'
-          )
+          useMessageStore().setMessage('Deck has changed. Cannot reset the deck.')
           return
         }
         raw[parseInt(stage) - 1].push(draw[i])
       }
 
-      const shuffled = [
-        [...(shuffle(raw[0]) as string[])],
-        [...(shuffle(raw[1]) as string[])],
-        [...(shuffle(raw[2]) as string[])]
-      ]
+      const shuffled = [[...(shuffle(raw[0]) as string[])], [...(shuffle(raw[1]) as string[])], [...(shuffle(raw[2]) as string[])]]
       const deck = [] as string[]
       Array.from(pos).forEach((pos) => {
         if (pos === 'C') {

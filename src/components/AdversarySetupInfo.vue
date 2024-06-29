@@ -3,8 +3,8 @@ import AdversaryText from '@/components/base/AdversaryText.vue'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { computed } from 'vue'
 import { ADVERSARY } from '@/constant'
+import { useModalStore } from '@/stores/ModalStore'
 
-defineEmits(['close'])
 const gameOption = useGameOptionStore()
 const adversaryName = computed(() => {
   if (gameOption.adversary !== undefined) {
@@ -40,24 +40,12 @@ const adversarySetup = computed(() => {
 </script>
 
 <template>
-  <div
-    v-if="adversarySetup"
-    class="absolute w-full h-full bg-gray-900/30 top-0 left-0"
-    @click.self="$emit('close')"
-  >
-    <div
-      class="bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md max-w-[60%]"
-    >
-      <div
-        class="bg-orange-800 text-white font-semibold text-lg py-1 px-2 rounded-t-md"
-      >
-        {{ `${adversaryName} ${gameOption.adversaryLevel}` }} setup
-      </div>
+  <div v-if="adversarySetup" class="absolute w-full h-full bg-gray-900/30 top-0 left-0" @click.self="useModalStore().adversarySetup = false">
+    <div class="bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md max-w-[60%]">
+      <div class="bg-orange-800 text-white font-semibold text-lg py-1 px-2 rounded-t-md">{{ `${adversaryName} ${gameOption.adversaryLevel}` }} setup</div>
       <div class="px-3 py-1.5">
         <adversary-text :message="adversarySetup" />
       </div>
     </div>
   </div>
 </template>
-
-<style scoped></style>

@@ -1,25 +1,11 @@
 <template>
   <div class="inline-block text-stone-700 shadow-md">
-    <div
-      class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1"
-    >
-      <button
-        :disabled="counter === min"
-        class="bg-white h-full px-2 rounded-l disabled:text-gray-400 flex items-center"
-        @click="counter--"
-      >
+    <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+      <button :disabled="counter === min" class="bg-white h-full px-2 rounded-l disabled:text-gray-400 flex items-center" @click="counter--">
         <span class="icon-minus text-xl" />
       </button>
-      <input
-        v-model="counter"
-        type="number"
-        class="outline-none focus:outline-none text-center w-full bg-white flex items-center"
-      />
-      <button
-        :disabled="counter === max"
-        class="bg-white h-full px-2 rounded-r disabled:text-gray-400 flex items-center"
-        @click="counter++"
-      >
+      <input v-model="counter" type="number" class="outline-none focus:outline-none text-center w-full bg-white flex items-center" />
+      <button :disabled="counter === max" class="bg-white h-full px-2 rounded-r disabled:text-gray-400 flex items-center" @click="counter++">
         <span class="icon-plus text-xl" />
       </button>
     </div>

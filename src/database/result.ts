@@ -4,20 +4,14 @@ import { type PendingResult, type Result } from '@/types'
 import { useLocalStorageStore } from '@/stores/LocalStorageStore'
 
 // @ts-ignore
-export async function addResult(
-  result: Result | PendingResult,
-  { fromPending = false } = {}
-) {
+export async function addResult(result: Result | PendingResult, { fromPending = false } = {}) {
   try {
     const payload = {
       ...result,
       real_created_at: ''
     }
     if (fromPending) {
-      payload.real_created_at = convertToDatabaseTime(
-        (result as PendingResult).createdAt,
-        (result as PendingResult).offset
-      )
+      payload.real_created_at = convertToDatabaseTime((result as PendingResult).createdAt, (result as PendingResult).offset)
     }
     await axios.post(API_CREATE_MATCH_LOG, payload)
     if (fromPending) {

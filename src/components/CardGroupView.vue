@@ -26,20 +26,12 @@ const slightLeft = computed(() => {
   if (cardWidth.value * handSize.value <= viewWidth.value) {
     return DEFAULT_OVERLAP
   }
-  return (
-    (cardWidth.value * handSize.value - viewWidth.value) / (handSize.value - 1)
-  )
+  return (cardWidth.value * handSize.value - viewWidth.value) / (handSize.value - 1)
 })
 </script>
 
 <template>
-  <transition-group
-    ref="handEl"
-    name="fade"
-    tag="div"
-    class="flex w-full absolute h-full"
-    appear
-  >
+  <transition-group ref="handEl" name="fade" tag="div" class="flex w-full absolute h-full" appear>
     <card-item
       v-for="(card, index) in cards"
       :key="card"

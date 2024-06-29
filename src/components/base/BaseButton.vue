@@ -20,10 +20,7 @@ const style = reactive({
 </script>
 
 <template>
-  <button
-    class="py-1.5 px-3 rounded text-white w-fit transition shadow-md disabled:cursor-not-allowed"
-    :class="[style[buttonStyle]]"
-  >
+  <button class="py-1.5 px-3 rounded text-white w-fit transition shadow-md disabled:cursor-not-allowed" :class="[style[buttonStyle]]">
     <slot />
   </button>
 </template>

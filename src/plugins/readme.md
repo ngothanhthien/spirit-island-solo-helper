@@ -411,46 +411,25 @@ You can perform range `<`, `<=`, `>`, `>=` or not equals `!=` comparisons only o
 //***VALID*** Range filters on only one field
 import { query, where } from 'firebase/firestore'
 
-const q1 = query(
-  citiesRef,
-  where('state', '>=', 'CA'),
-  where('state', '<=', 'IN')
-)
-const q2 = query(
-  citiesRef,
-  where('state', '==', 'CA'),
-  where('population', '>', 1000000)
-)
+const q1 = query(citiesRef, where('state', '>=', 'CA'), where('state', '<=', 'IN'))
+const q2 = query(citiesRef, where('state', '==', 'CA'), where('population', '>', 1000000))
 
 //***INVALID*** Range filters on different fields
 import { query, where } from 'firebase/firestore'
 
-const q = query(
-  citiesRef,
-  where('state', '>=', 'CA'),
-  where('population', '>', 100000)
-)
+const q = query(citiesRef, where('state', '>=', 'CA'), where('population', '>', 100000))
 ```
 
 ### OR queries
 
 ```js
-const q = query(
-  citiesRef,
-  or(where('capital', '==', true), where('population', '>=', 1000000))
-)
+const q = query(citiesRef, or(where('capital', '==', true), where('population', '>=', 1000000)))
 ```
 
 You can combine OR queries with compound queries to filter on combinations of OR and AND operations. For example:
 
 ```js
-const q = query(
-  collection(db, 'cities'),
-  and(
-    where('state', '==', 'CA'),
-    or(where('capital', '==', true), where('population', '>=', 1000000))
-  )
-)
+const q = query(collection(db, 'cities'), and(where('state', '==', 'CA'), or(where('capital', '==', true), where('population', '>=', 1000000))))
 ```
 
 ### Order and limit data
@@ -482,12 +461,7 @@ You can combine where() filters with orderBy() and limit(). In the following exa
 ```js
 import { query, where, orderBy, limit } from 'firebase/firestore'
 
-const q = query(
-  citiesRef,
-  where('population', '>', 100000),
-  orderBy('population'),
-  limit(2)
-)
+const q = query(citiesRef, where('population', '>', 100000), orderBy('population'), limit(2))
 ```
 
 If you include a filter with a range comparison (<, <=, >, >=), your first ordering must be on the same field:
@@ -496,11 +470,7 @@ If you include a filter with a range comparison (<, <=, >, >=), your first order
 //*** VALID ***
 import { query, where, orderBy } from 'firebase/firestore'
 
-const q = query(
-  citiesRef,
-  where('population', '>', 100000),
-  orderBy('population')
-)
+const q = query(citiesRef, where('population', '>', 100000), orderBy('population'))
 
 //*** INVALID ***
 import { query, where, orderBy } from 'firebase/firestore'
@@ -521,14 +491,7 @@ const q = query(citiesRef, orderBy('population'), startAt(1000000))
 ##### Advanced pagination
 
 ```js
-import {
-  collection,
-  query,
-  orderBy,
-  startAfter,
-  limit,
-  getDocs
-} from 'firebase/firestore'
+import { collection, query, orderBy, startAfter, limit, getDocs } from 'firebase/firestore'
 
 // Query the first page of docs
 const first = query(collection(db, 'cities'), orderBy('population'), limit(25))
@@ -540,12 +503,7 @@ console.log('last', lastVisible)
 
 // Construct a new query starting at this document,
 // get the next 25 cities.
-const next = query(
-  collection(db, 'cities'),
-  orderBy('population'),
-  startAfter(lastVisible),
-  limit(25)
-)
+const next = query(collection(db, 'cities'), orderBy('population'), startAfter(lastVisible), limit(25))
 ```
 
 ### Aggregation

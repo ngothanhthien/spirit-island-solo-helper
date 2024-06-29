@@ -16,16 +16,8 @@ function close(e: Event) {
 <template>
   <OnClickOutside @trigger="close">
     <div v-for="(spirit, index) in SPIRIT" :key="spirit.name">
-      <div
-        v-if="!spirits.includes(index)"
-        class="h-12 bg-white right-2 border-2 overflow-hidden"
-        @click="emit('selectSpirit', index)"
-      >
-        <img
-          :src="`/img/spirit_avatar/${getSpiritAvatar(index)}`"
-          alt="Spirit avatar"
-          class="h-full max-w-max"
-        />
+      <div v-if="!spirits.includes(index)" class="h-12 bg-white right-2 border-2 overflow-hidden" @click="emit('selectSpirit', index)">
+        <img :src="`/img/spirit_avatar/${getSpiritAvatar(index)}`" alt="Spirit avatar" class="h-full max-w-max" />
       </div>
     </div>
   </OnClickOutside>

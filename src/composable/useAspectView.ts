@@ -8,16 +8,9 @@ export function useAspectView() {
   let isHasAspect = null as null | Ref<boolean>
   let isShow2xAspect = null as null | Ref<boolean | null>
   if (gameOption.isHasAspect) {
-    isHasAspect = computed(() =>
-      Boolean(gameOption.aspectsDetail[playerCard.current])
-    )
+    isHasAspect = computed(() => Boolean(gameOption.aspectsDetail[playerCard.current]))
     isShow2xAspect = computed(() => {
-      return (
-        playerCard.aspectMode === '2x' &&
-        isHasAspect &&
-        isHasAspect.value &&
-        playerCard.showAspect
-      )
+      return playerCard.aspectMode === '2x' && isHasAspect && isHasAspect.value && playerCard.showAspect
     })
   }
 

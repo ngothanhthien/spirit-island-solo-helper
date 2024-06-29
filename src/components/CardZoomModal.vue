@@ -18,9 +18,7 @@ interface ButtonInfo {
   class?: string
   fn: () => void
 }
-const ImpendingCard = defineAsyncComponent(
-  () => import('@/components/ImpendingCard.vue')
-)
+const ImpendingCard = defineAsyncComponent(() => import('@/components/ImpendingCard.vue'))
 
 const content = ref<HTMLElement | null>(null)
 const cardEl = ref<HTMLElement | null>(null)
@@ -37,11 +35,7 @@ const type = computed(() => {
   return cardZoom.current?.split('-')[0]
 })
 const isPowerCard = computed(() => {
-  return (
-    type.value === 'minor' ||
-    type.value === 'major' ||
-    type.value?.includes('unique')
-  )
+  return type.value === 'minor' || type.value === 'major' || type.value?.includes('unique')
 })
 
 onClickOutside(content, () => {
@@ -61,10 +55,7 @@ const cardZoomClass = computed(() => {
 })
 
 function doImpendingCard() {
-  if (
-    playerCard.players[impendingCardStore.index as number].energy <
-    impendingEnergy.value
-  ) {
+  if (playerCard.players[impendingCardStore.index as number].energy < impendingEnergy.value) {
     useMessageStore().setMessage('Not enough energy')
     return
   }
@@ -73,10 +64,7 @@ function doImpendingCard() {
     playerCard.reduceEnergy(impendingCardStore.index as number)
   }
   impendingCardStore.add(cardZoom.current as string, impendingEnergy.value)
-  playerCard.removeCardFromHand(
-    cardZoom.current as string,
-    impendingCardStore.index as number
-  )
+  playerCard.removeCardFromHand(cardZoom.current as string, impendingCardStore.index as number)
   cardZoom.reset()
 }
 
@@ -182,46 +170,18 @@ const buttonInfo = computed<ButtonInfo | null>(() => {
 </script>
 
 <template>
-  <div
-    class="absolute h-full w-full bg-gray-900/30 top-0 left-0 flex items-center justify-center z-[100]"
-  >
+  <div class="absolute h-full w-full bg-gray-900/30 top-0 left-0 flex items-center justify-center z-[100]">
     <div ref="content" class="h-[90%] flex">
       <div class="flex flex-col items-center">
         <div v-if="cardZoom.from?.includes('player-discard')" class="w-24">
-          <base-button
-            button-style="secondary"
-            class="mb-1 w-full"
-            @click="forgetFromDiscard()"
-          >
-            Forget
-          </base-button>
+          <base-button button-style="secondary" class="mb-1 w-full" @click="forgetFromDiscard()"> Forget </base-button>
         </div>
-        <div
-          ref="cardEl"
-          class="relative flex"
-          :class="cardZoomClass"
-          :style="`left: ${-left}px;`"
-        >
-          <game-card
-            v-if="impendingCardStore.index === null || cardZoom.from !== 'hand'"
-            :id="cardZoom.current as string"
-            class="rounded-xl h-full"
-          />
-          <impending-card
-            v-else
-            :card="cardZoom.current as string"
-            :energy="impendingEnergy"
-            class="rounded-xl h-full"
-            @increase-energy="impendingEnergy++"
-            @decrease-energy="impendingEnergy--"
-          />
+        <div ref="cardEl" class="relative flex" :class="cardZoomClass" :style="`left: ${-left}px;`">
+          <game-card v-if="impendingCardStore.index === null || cardZoom.from !== 'hand'" :id="cardZoom.current as string" class="rounded-xl h-full" />
+          <impending-card v-else :card="cardZoom.current as string" :energy="impendingEnergy" class="rounded-xl h-full" @increase-energy="impendingEnergy++" @decrease-energy="impendingEnergy--" />
         </div>
         <div v-if="buttonInfo" :class="buttonInfo.class ?? 'w-24'">
-          <base-button
-            :button-style="buttonInfo.style ?? 'secondary'"
-            class="mt-1 w-full"
-            @click="buttonInfo.fn"
-          >
+          <base-button :button-style="buttonInfo.style ?? 'secondary'" class="mt-1 w-full" @click="buttonInfo.fn">
             {{ buttonInfo.text }}
           </base-button>
         </div>

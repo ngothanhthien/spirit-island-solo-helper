@@ -1,12 +1,4 @@
-import {
-  EVENT_CARDS,
-  MAJOR_CARDS,
-  MINOR_CARDS,
-  SPIRIT,
-  FEAR_CARDS,
-  BLIGHT_CARDS,
-  EXTRA_POWERS
-} from '@/constant'
+import { EVENT_CARDS, MAJOR_CARDS, MINOR_CARDS, SPIRIT, FEAR_CARDS, BLIGHT_CARDS, EXTRA_POWERS } from '@/constant'
 import { Random } from 'random-js'
 const random = new Random()
 export const getCardImage = (name: string, path: string) => {
@@ -90,10 +82,7 @@ export const getSpiritAvatarByName = (name: string) => {
   return name.replace(/'/g, '').replace(/[\s']/g, '_') + '_small.webp'
 }
 
-export const getPowerIdByName = (
-  name: string,
-  type?: 'unique' | 'minor-major' | 'extra'
-) => {
+export const getPowerIdByName = (name: string, type?: 'unique' | 'minor-major' | 'extra') => {
   const search = name.toLowerCase()
   if (type === 'extra') {
     for (let i = 0; i < EXTRA_POWERS.length; i++) {
@@ -220,8 +209,7 @@ function downloadObjectAsJson(obj: object, exportName: string) {
   }
 
   const formattedJson = customStringify(obj, 2)
-  const dataStr =
-    'data:text/json;charset=utf-8,' + encodeURIComponent(formattedJson)
+  const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(formattedJson)
   const downloadAnchorNode = document.createElement('a')
   downloadAnchorNode.setAttribute('href', dataStr)
   downloadAnchorNode.setAttribute('download', exportName + '.json')
@@ -242,11 +230,4 @@ function toAbsolute(num: number, compare: number) {
   return (num / 100) * compare
 }
 
-export {
-  insertAfter,
-  insertBefore,
-  downloadObjectAsJson,
-  toFixed,
-  toPercent,
-  toAbsolute
-}
+export { insertAfter, insertBefore, downloadObjectAsJson, toFixed, toPercent, toAbsolute }

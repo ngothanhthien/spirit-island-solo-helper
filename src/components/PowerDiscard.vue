@@ -13,10 +13,7 @@ const discardEl = ref<HTMLElement | null>()
 </script>
 
 <template>
-  <div
-    ref="discardEl"
-    class="flex h-full flex-shrink-0 space-x-2 absolute pl-2 overflow-x-auto hide-scrollbar pb-96 -mb-96 box-content"
-  >
+  <div ref="discardEl" class="flex h-full flex-shrink-0 space-x-2 absolute pl-2 overflow-x-auto hide-scrollbar pb-96 -mb-96 box-content">
     <card-item
       v-for="card in discard"
       :key="card"

@@ -48,16 +48,10 @@ const processDirectory = async (directory, size) => {
   const [numSpritesWidth, numSpritesHeight] = size.split('x').map(Number)
 
   const files = await readdir(directory)
-  const imageFiles = files.filter((file) =>
-    ['.png', '.jpg', '.jpeg'].includes(extname(file).toLowerCase())
-  )
+  const imageFiles = files.filter((file) => ['.png', '.jpg', '.jpeg'].includes(extname(file).toLowerCase()))
 
   for (const file of imageFiles) {
-    await cutSpriteSheet(
-      join(directory, file),
-      numSpritesWidth,
-      numSpritesHeight
-    )
+    await cutSpriteSheet(join(directory, file), numSpritesWidth, numSpritesHeight)
   }
 }
 

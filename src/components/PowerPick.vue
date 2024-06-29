@@ -30,26 +30,11 @@ function powerPickSwipeUp(cardId: string) {
 </script>
 
 <template>
-  <div
-    class="flex h-full w-full flex-shrink-0 absolute pb-96 -mb-96 box-content"
-  >
-    <div
-      key="button-add-power"
-      class="flex shrink-0 items-center justify-center border-2 rounded-xl overflow-hidden"
-      @click="addPowerToPicking"
-    >
-      <img
-        :src="`/img/card-back/${type}.webp`"
-        alt="Power Back"
-        class="h-full"
-      />
+  <div class="flex h-full w-full flex-shrink-0 absolute pb-96 -mb-96 box-content">
+    <div key="button-add-power" class="flex shrink-0 items-center justify-center border-2 rounded-xl overflow-hidden" @click="addPowerToPicking">
+      <img :src="`/img/card-back/${type}.webp`" alt="Power Back" class="h-full" />
     </div>
-    <transition-group
-      name="fade"
-      tag="div"
-      appear
-      class="flex h-full hide-scrollbar overflow-x-auto w-full pb-96 -mb-96 box-content"
-    >
+    <transition-group name="fade" tag="div" appear class="flex h-full hide-scrollbar overflow-x-auto w-full pb-96 -mb-96 box-content">
       <card-item
         v-for="card in playerCard.picking"
         :key="card"

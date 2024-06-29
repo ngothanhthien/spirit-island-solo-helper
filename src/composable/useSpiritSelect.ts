@@ -1,9 +1,6 @@
 import { readonly, type Ref, ref, type UnwrapRef } from 'vue'
 
-export function useSpiritSelect(
-  spirits: Ref<Array<UnwrapRef<number>>>,
-  aspectsSelected: Ref<Array<number>>
-) {
+export function useSpiritSelect(spirits: Ref<Array<UnwrapRef<number>>>, aspectsSelected: Ref<Array<number>>) {
   const spiritSelect = ref<number | null>(null)
 
   function closeSpiritSelect() {

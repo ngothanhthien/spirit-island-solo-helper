@@ -33,9 +33,6 @@ export const useModalDiscardStore = defineStore('modalDiscard', {
     }
   },
   actions: {
-    setDeck(deck: string[]) {
-      this.deck = [...deck]
-    },
     removeFromModal(card: string) {
       removeCard(this.deck, card)
     },
