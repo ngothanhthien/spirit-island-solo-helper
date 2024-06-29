@@ -12,6 +12,9 @@
   .cs-trigger {
     @apply h-11 w-11 rounded-full flex justify-center items-center border-2;
   }
+  .cs-modal {
+    @apply absolute top-0 left-0 h-full w-full flex justify-center items-center bg-gray-900/40;
+  }
 }
 body {
   /* Prevent chrome from pull-to-refresh effect */

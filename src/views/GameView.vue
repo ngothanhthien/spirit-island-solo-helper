@@ -269,7 +269,7 @@ onMounted(async () => {
         </div>
         <message-info />
       </div>
+      <game-view-modals id="modal" />
     </div>
-    <game-view-modals id="modal" />
   </div>
 </template>

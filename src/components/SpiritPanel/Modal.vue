@@ -1,5 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+</script>
 
 <template>
-  <div class="absolute w-full h-screen bg-red-700">ABC</div>
+  <div class="cs-modal z-40" @click.self="">
+    <div class="bg-white rounded-lg p-4 w-96">
+
+    </div>
+  </div>
 </template>

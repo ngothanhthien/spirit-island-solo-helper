@@ -12,6 +12,7 @@ import GameSettingModal from '@/components/GameSettingModal.vue'
 import CardZoomModal from '@/components/CardZoomModal.vue'
 import EventZoomModal from '@/components/EventZoomModal.vue'
 import AdversarySetupInfo from '@/components/AdversarySetupInfo.vue'
+import SpiritPanelModal from '@/components/SpiritPanel/Modal.vue'
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useModalStore } from '@/stores/ModalStore'
@@ -66,5 +67,6 @@ const daysThatNeverWereDeck = useDaysThatNeverWereStore()
     <SaltDepositModal v-if="modal.saltDeposit" />
     <Sweden4Modal v-if="gameOption.hasSweden4" />
     <vision-of-a-shifting-future-modal v-if="modal.visionShiftingFuture" />
+    <spirit-panel-modal v-if="modal.panel" />
   </div>
 </template>

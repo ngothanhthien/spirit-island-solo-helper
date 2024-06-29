@@ -2,24 +2,18 @@
 import { computed, ref } from 'vue'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
-import { SPIRIT } from '@/constant'
-import type { SpiritType } from '@/types'
 import { useModalStore } from '@/stores/ModalStore'
+import { useSpiritInfo } from '@/composable/useSpiritInfo'
 
 const gameOption = useGameOptionStore()
 const player = usePlayerCardStore()
 
-const spiritIndex = computed(() => gameOption.spirits[player.current])
-const aspectIndex = computed(() => gameOption.aspects[player.current])
 const expanding = ref<number | null>(-1)
+const { spiritInfo, aspectInfo } = useSpiritInfo()
 
 const faqs = computed(() => {
-  const faq1 = SPIRIT[spiritIndex.value].faq ?? []
-  if (aspectIndex.value < 0) return faq1
-  const spiritData = SPIRIT[spiritIndex.value] as SpiritType
-  if (!spiritData.aspects) return faq1
-  const aspectData = spiritData.aspects[aspectIndex.value]
-  const faq2 = aspectData.faq ?? []
+  const faq1 = spiritInfo.value.faq ?? []
+  const faq2 = aspectInfo.value?.faq ?? []
   return [...faq1, ...faq2]
 })
 
@@ -73,5 +67,3 @@ function close() {
     </div>
   </div>
 </template>
-
-<style scoped></style>
