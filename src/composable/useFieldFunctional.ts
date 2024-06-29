@@ -1,11 +1,11 @@
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { readonly, ref } from 'vue'
-import { MENU_1 } from '@/constant'
-import { changePosition } from '@/utils'
+import { MENU_1, MENU_2 } from '@/constant'
 
 // functional discard field, hand field, play field, settings field
 export function useFieldFunctional() {
   const currentMenu1 = ref(MENU_1.PLAY)
+  const currentMenu2 = ref(MENU_2.HAND)
 
   const playerCard = usePlayerCardStore()
 
@@ -62,6 +62,7 @@ export function useFieldFunctional() {
     playViewSwipeDown,
     handChangePosition,
 
-    currentMenu1: readonly(currentMenu1)
+    currentMenu1: readonly(currentMenu1),
+    currentMenu2
   }
 }

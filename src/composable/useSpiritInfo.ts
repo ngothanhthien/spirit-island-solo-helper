@@ -6,9 +6,10 @@ import { SPIRIT } from '@/constant'
 export function useSpiritInfo() {
   const player = usePlayerCardStore()
   const gameOption = useGameOptionStore()
+  const spiritIndex = computed(() => gameOption.spirits[player.current])
+
   const spiritInfo = computed(() => {
-    const index = gameOption.spirits[player.current]
-    return SPIRIT[index]
+    return SPIRIT[spiritIndex.value]
   })
 
   const aspectInfo = computed(() => {
@@ -20,6 +21,7 @@ export function useSpiritInfo() {
   })
 
   return {
+    spiritIndex,
     spiritInfo,
     aspectInfo
   }

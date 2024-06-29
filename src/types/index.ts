@@ -11,7 +11,7 @@ export type Element = (typeof ELEMENT_VALUES)[number]
 export function isElement(value: Element): value is Element {
   return ELEMENT_VALUES.includes(value)
 }
-
+export type Disk = Array<Array<number | string | null>>
 export type CardListStatus = 'pick-power' | 'view-discard' | ''
 export interface Player {
   hand: string[]
@@ -24,6 +24,11 @@ export interface Player {
   permanentElements: { [K in Element]?: number }
   showAspect: boolean
   aspectMode: '1x' | '2x'
+  disk: Disk
+  originalDisk: Disk
+  totalCardPlay: number
+  income: number,
+  hasTakeIncome: boolean
 }
 export interface Adversary {
   title: string
@@ -80,6 +85,16 @@ export interface FAQ {
   description: string | null
   links: string[]
 }
+export interface SpiritTypeLocation {
+  last: {
+    x: number
+    y: number
+  }
+  WIDTH: number
+  TOP: number
+  BOT: number
+  SPACE_Y: number
+}
 export interface SpiritType {
   name: string
   cards: Array<PowerCard>
@@ -87,21 +102,12 @@ export interface SpiritType {
   setup?: (playerIndex: number) => void
   faq?: FAQ[]
   panel?: {
-    location: {
-      last: {
-        x: number
-        y: number
-      }
-      WIDTH: number
-      TOP: number
-      BOT: number
-      SPACE_Y: number
-    }
+    location: SpiritTypeLocation
     value: {
       BASE_ENERGY: number
-      ENERGY: number[]
+      ENERGY: Array<number | string>
       BASE_CARD_PLAY: number
-      CARD_PLAY: number[]
+      CARD_PLAY: Array<number | string>
     }
   }
 }

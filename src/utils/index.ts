@@ -75,11 +75,15 @@ export const removeCard = (array: string[], card: string) => {
 
 export const getSpiritAvatar = (id: number) => {
   const name = SPIRIT[id].name
-  return name.replace(/'/g, '').replace(/[\s']/g, '_') + '_small.webp'
+  return nameParser(name) + '_small.webp'
 }
 
 export const getSpiritAvatarByName = (name: string) => {
-  return name.replace(/'/g, '').replace(/[\s']/g, '_') + '_small.webp'
+  return nameParser(name) + '_small.webp'
+}
+
+export function nameParser(name: string) {
+  return name.replace(/'/g, '').replace(/[\s']/g, '_')
 }
 
 export const getPowerIdByName = (name: string, type?: 'unique' | 'minor-major' | 'extra') => {

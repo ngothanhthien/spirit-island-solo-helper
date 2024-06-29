@@ -28,6 +28,8 @@ async function logMatch(win: boolean) {
     })
     usePowerDeckStore('minor').$reset()
     usePowerDeckStore('major').$reset()
+    close()
+    useModalStore().gameSettings = false
     await router.push('/HomeView')
   } catch (error) {
     useMessageStore().setMessage('Log failed')

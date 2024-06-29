@@ -1,13 +1,33 @@
 import { defineStore } from 'pinia'
-import { insertAfter, insertBefore, removeCard } from '@/utils'
+import { changePosition, getCard, insertAfter, insertBefore, removeCard } from '@/utils'
 import type { Element, Player, PowerCard } from '@/types'
-import { getCard, changePosition } from '@/utils'
 import { useMessageStore } from './MessageStore'
 import { useDiscardPowerStore } from './PowerDeckStore'
+import { SPIRIT } from '@/constant'
+import { useGameOptionStore } from '@/stores/GameOptionStore'
 
-function createPlayer(): Player {
+function createPlayer(index: number): Player {
+  const { cards, panel } = SPIRIT[index]
+  const hand: string[] = []
+  for (let i = 0; i < cards.length; i++) {
+    hand.push(`unique${index}-${i}`)
+  }
+  const disk = []
+  const originalDisk = []
+  let totalCardPlay = 0
+  let income = 0
+  if (panel) {
+    const { ENERGY, CARD_PLAY, BASE_CARD_PLAY, BASE_ENERGY } = panel.value
+    totalCardPlay = BASE_CARD_PLAY
+    income = BASE_ENERGY
+    disk.push([...ENERGY])
+    disk.push([...CARD_PLAY])
+    originalDisk.push([...ENERGY])
+    originalDisk.push([...CARD_PLAY])
+  }
+
   return {
-    hand: [],
+    hand,
     discard: [],
     play: [],
     used: [],
@@ -16,7 +36,12 @@ function createPlayer(): Player {
     energyThisTurn: 0,
     permanentElements: createDefaultElement(),
     showAspect: true,
-    aspectMode: '1x'
+    aspectMode: '1x',
+    hasTakeIncome: false,
+    disk,
+    originalDisk,
+    totalCardPlay,
+    income
   }
 }
 function createDefaultElement(): { [K in Element]: number } {
@@ -95,6 +120,15 @@ export const usePlayerCardStore = defineStore('playerCard', {
     canReclaim(state) {
       const player = state.players[state.current]
       return player.hand.length === 0 && player.play.length === 0 && player.discard.length > 0
+    },
+    disk(state) {
+      return state.players[state.current].disk
+    },
+    rawIndex(state) {
+      return useGameOptionStore().spirits[state.current]
+    },
+    hasTakeIncome(state) {
+      return state.players[state.current].hasTakeIncome
     }
   },
   actions: {
@@ -102,9 +136,15 @@ export const usePlayerCardStore = defineStore('playerCard', {
       this.current = 0
       this.players = []
     },
-    addPlayer() {
-      this.players.push(createPlayer())
-      return this.players.length - 1
+    addPlayer(spiritIndex: number) {
+      this.players.push(createPlayer(spiritIndex))
+      const index = this.players.length - 1
+      this.current = index
+      const rawIndex = useGameOptionStore().spirits[index]
+      const { setup } = SPIRIT[rawIndex]
+      if (setup) {
+        setup(index)
+      }
     },
     changeCurrent(index: number) {
       this.current = index
@@ -126,10 +166,8 @@ export const usePlayerCardStore = defineStore('playerCard', {
         player.play = []
         player.used = []
         player.energyThisTurn = 0
+        player.hasTakeIncome = false
       })
-    },
-    setHand(cards: string[]) {
-      this.players[this.current].hand = [...cards]
     },
     take(card: string) {
       this.players[this.current].hand.push(card)
@@ -253,6 +291,35 @@ export const usePlayerCardStore = defineStore('playerCard', {
           insertBefore(player[type], card, posId.id)
         }
       }
+    },
+    diskClick(pos: number, row: number) {
+      const player = this.players[this.current]
+      const value = player.disk[row][pos]
+      const isGet = value !== null
+      if (isGet) {
+        player.disk[row][pos] = null
+      } else {
+        player.disk[row][pos] = player.originalDisk[row][pos]
+      }
+      this.handleDiskEffect(player.originalDisk[row][pos], isGet, row)
+    },
+    handleDiskEffect(value: string | number | null, isGet: boolean, row: number) {
+      if (!value) return
+      const player = this.players[this.current]
+      switch (row) {
+        case 0: // ENERGY
+          player.income += isGet ? value as number : -value as number
+          break
+        case 1:
+          player.totalCardPlay += isGet ? value as number : -value as number
+          break
+      }
+    },
+    takeIncome() {
+      const player = this.players[this.current]
+      player.hasTakeIncome = true
+      player.energy+= player.income
+      player.energyThisTurn+= player.income
     }
   },
   persist: true

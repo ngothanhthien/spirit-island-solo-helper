@@ -14,7 +14,7 @@ import { OnClickOutside } from '@vueuse/components'
 import PowerPick from '@/components/PowerPick.vue'
 import GameCard from '@/components/base/GameCard.vue'
 import InvaderBar from '@/components/InvaderBar.vue'
-import { MENU_1 } from '@/constant'
+import { MENU_1, MENU_2 } from '@/constant'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import MessageInfo from '@/components/MessageInfo.vue'
@@ -36,6 +36,7 @@ import { useTakePowerMenu } from '@/composable/useTakePowerMenu'
 import DayThatNeverWereTrigger from '@/components/DayThatNeverWereTrigger.vue'
 import { useAspectView } from '@/composable/useAspectView'
 import { useModalStore } from '@/stores/ModalStore'
+import { useSpiritInfo } from '@/composable/useSpiritInfo'
 
 const playerCard = usePlayerCardStore()
 const eventDeck = useEventDeckStore()
@@ -43,6 +44,7 @@ const fearDeck = useFearDeckStore()
 const gameOption = useGameOptionStore()
 const blightDeck = useBlightDeckStore()
 const modal = useModalStore()
+const { spiritInfo } = useSpiritInfo()
 
 const { isShow2xAspect } = useAspectView()
 
@@ -61,6 +63,16 @@ function quickShowEarnedFear() {
   modal.earnedFear = true
 }
 
+function onTimePassedButtonClick() {
+  timePassed()
+  currentMenu2.value = MENU_2.HAND
+}
+
+function onReclaimButtonClick() {
+  playerCard.reclaim()
+  currentMenu2.value = MENU_2.HAND
+}
+
 const { isShowQuickPower, quickTake, closeQuickPower, toggleQuickPower } = useTakePowerMenu()
 
 const {
@@ -73,7 +85,8 @@ const {
   playViewSwipeDown,
   handChangePosition,
 
-  currentMenu1
+  currentMenu1,
+  currentMenu2
 } = useFieldFunctional()
 
 watch(() => playerCard.isPicking, switchToPlayField)
@@ -190,13 +203,22 @@ onMounted(async () => {
               </div>
               <div v-if="!isShow2xAspect" class="w-8" />
             </div>
-
             <div id="game-showing-bottom" class="bg-stone-300 flex px-2 relative h-1/2">
-              <div class="flex flex-1 relative">
+              <div v-if="currentMenu2 === MENU_2.HAND" class="flex flex-1 relative">
                 <card-group-view from="hand" :cards="playerCard.hand" class="pt-2" @swipe-down="playerCard.forgetCardFromHand" @swipe-up="handSwipeUp" @change-position="handChangePosition" />
                 <base-button v-if="playerCard.canReclaim" button-style="secondary" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" @click="playerCard.reclaim()">
                   Reclaim All
                 </base-button>
+              </div>
+              <div class="flex justify-center items-center w-full" v-if="currentMenu2 === MENU_2.FUNCTION">
+                <div class="w-40 mx-auto space-y-4">
+                  <base-button class="w-full" :disabled="!playerCard.canReclaim" button-style="secondary" @click="onReclaimButtonClick">
+                    Reclaims
+                  </base-button>
+                  <base-button class="w-full" button-style="secondary" @click="onTimePassedButtonClick">
+                    Time Passed
+                  </base-button>
+                </div>
               </div>
             </div>
           </div>
@@ -233,10 +255,7 @@ onMounted(async () => {
                 <span class="path10" />
               </span>
             </div>
-            <div class="cs-trigger text-white bg-purple-800 border-purple-900" @click="timePassed()">
-              <span class="icon-hourglass-high text-xl" />
-            </div>
-            <spirit-panel-trigger />
+            <spirit-panel-trigger v-if="spiritInfo.panel" />
           </div>
 
           <template v-for="(player, index) in playerCard.players" :key="`player2x-${index}`">
@@ -265,7 +284,14 @@ onMounted(async () => {
               <span v-if="currentMenu1 === MENU_1.TAB_2" class="icon-album-off text-4xl" @click="switchMenu(1)" />
             </transition>
           </div>
-          <div class="flex flex-col justify-center items-center bg-stone-900 px-2" />
+          <div class="flex flex-col justify-center items-center bg-stone-900 px-2">
+            <transition name="switch" mode="out-in">
+              <span v-if="currentMenu2 === MENU_2.HAND" class="icon-album text-4xl" @click="currentMenu2 = MENU_2.FUNCTION" />
+            </transition>
+            <transition name="switch" mode="out-in">
+              <span v-if="currentMenu2 === MENU_2.FUNCTION" class="icon-album-off text-4xl" @click="currentMenu2 = MENU_2.HAND" />
+            </transition>
+          </div>
         </div>
         <message-info />
       </div>

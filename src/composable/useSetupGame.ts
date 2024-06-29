@@ -80,18 +80,7 @@ export function useSetupGame(
     playerCard.reset()
 
     spirits.value.forEach((spiritIndex) => {
-      const { cards, setup } = SPIRIT[spiritIndex]
-      const hand = []
-      const playerIndex = playerCard.addPlayer()
-      for (let i = 0; i < cards.length; i++) {
-        hand.push(`unique${spiritIndex}-${i}`)
-      }
-      playerCard.changeCurrent(playerIndex)
-      playerCard.setHand(hand)
-
-      if (setup) {
-        setup(playerIndex)
-      }
+      playerCard.addPlayer(spiritIndex)
     })
 
     playerCard.changeCurrent(0)

@@ -16,7 +16,6 @@ const modal = useModalStore()
 const appEnviroment = ref(import.meta.env.VITE_APP_ENVIRONMENT)
 
 const modeIncrease = ref(true)
-const showConfirmLogMatch = ref(false)
 const aspectMode = ref(playerCard.aspectMode)
 const showAspect = ref(playerCard.showAspect)
 
@@ -32,10 +31,11 @@ function adjustElement(element: string) {
 
 function onClickExitGame() {
   if (appEnviroment.value === 'dev') {
+    close()
     router.push({ name: 'HomeView' })
     return
   }
-  showConfirmLogMatch.value = true
+  useModalStore().confirmLog = true
 }
 
 watch(aspectMode, (value) => {

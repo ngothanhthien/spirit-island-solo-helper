@@ -3974,3 +3974,7 @@ export const MENU_1 = {
   PLAY: 0,
   TAB_2: 1 //discard
 }
+export const MENU_2 = {
+  HAND: 0,
+  FUNCTION: 1
+}
