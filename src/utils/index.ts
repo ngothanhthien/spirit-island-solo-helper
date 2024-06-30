@@ -66,7 +66,7 @@ export const shuffle = (array: Array<string | number>) => {
   return shuffled
 }
 
-export const removeCard = (array: string[], card: string) => {
+export const removeCard = (array: Array<string | number>, card: string | number) => {
   const index = array.indexOf(card)
   if (index > -1) {
     array.splice(index, 1)
@@ -122,10 +122,6 @@ export const getPowerIdByName = (name: string, type?: 'unique' | 'minor-major' |
       }
     }
   }
-}
-
-export const getSpiritById = (id: number) => {
-  return SPIRIT[id]
 }
 
 export const nameToImage = (name: string) => {
@@ -197,22 +193,7 @@ function insertBefore(arr: string[], newElement: string, insertBefore: string) {
 }
 
 function downloadObjectAsJson(obj: object, exportName: string) {
-  function customStringify(obj: object, space = 2) {
-    return JSON.stringify(
-      obj,
-      (key, value) => {
-        if (Array.isArray(value)) {
-          return JSON.stringify(value)
-        }
-        return value
-      },
-      space
-    )
-      .replace(/"\[/g, '[')
-      .replace(/]"/g, ']')
-  }
-
-  const formattedJson = customStringify(obj, 2)
+  const formattedJson = JSON.stringify(obj, null, 2)
   const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(formattedJson)
   const downloadAnchorNode = document.createElement('a')
   downloadAnchorNode.setAttribute('href', dataStr)

@@ -31,8 +31,12 @@ const routes = [
     name: 'TestView'
   },
   {
-    path: '/tools',
-    component: lazyLoad('ToolsView')
+    path: '/panel',
+    component: lazyLoad('PanelToolView')
+  },
+  {
+    path: '/card',
+    component: lazyLoad('CardToolView')
   },
   {
     path: '/:catchAll(.*)',

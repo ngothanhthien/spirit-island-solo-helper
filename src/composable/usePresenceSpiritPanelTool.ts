@@ -1,51 +1,62 @@
-import { reactive, type Ref } from 'vue'
-import { toAbsolute, toPercent } from '@/utils'
+import { reactive, ref, type Ref } from 'vue'
+import { toPercent } from '@/utils'
 import { useElementSize, useMouseInElement } from '@vueuse/core'
-import type { SpiritTypeLocation } from '@/types'
+import type { Presence } from '@/types'
+import { useSpiritPanel } from '@/composable/useSpiritPanel'
 
 export function usePresenceSpiritPanelTool(container: Ref) {
   const map = reactive({
-    last: { x: 51.45, y: 30.5 },
-    WIDTH: 7.3,
-    TOP: 5,
-    BOT: 5,
-    SPACE_Y: 15
+    presences: [
+      {
+        point: { x: 50.9, y: 30.83 },
+        type: 'energy',
+        value: 2
+      }
+    ],
+    scale: 6,
+    energy: 1,
+    cardPlay: 1
   })
-  const { x, y } = useMouseInElement(container)
-  const { width, height } = useElementSize(container)
 
+  const lastPoint = reactive({
+    x: 0,
+    y: 0
+  })
+  const { x, y, isOutside } = useMouseInElement(container)
+  const { width, height } = useElementSize(container)
   function save() {
-    map.last = {
-      x: toPercent(x.value, width.value),
-      y: toPercent(y.value, height.value)
+    if (!isOutside.value) {
+      lastPoint.x = toPercent(x.value, width.value)
+      lastPoint.y = toPercent(y.value, height.value)
     }
   }
-  function cal(i: number, bot = false) {
-    const _x = toAbsolute(map.last.x, width.value)
-    const _y = toAbsolute(map.last.y, height.value)
-    const _SPACE_Y = bot ? toAbsolute(map.SPACE_Y, height.value) : 0
-    const _WIDTH = toAbsolute(map.WIDTH, width.value)
-    return `left: ${_x + i * _WIDTH - _WIDTH / 2}px; top: ${_y + _SPACE_Y - _WIDTH / 2}px; width: ${_WIDTH}px; height: ${_WIDTH}px;`
+
+  const { cal } = useSpiritPanel(container, map.scale)
+
+  function label(presence: Presence) {
+    let prefix = ''
+    switch (presence.type) {
+      case 'energy':
+        prefix = 'E'
+        break
+      case 'element':
+        break
+      case 'card-play':
+        prefix = 'C'
+        break
+    }
+
+    return `${prefix}${presence.value}`
   }
 
+  const SPACE_Y = ref(5)
+
   return {
+    SPACE_Y,
     map,
     cal,
-    save
-  }
-}
-
-export function useSpiritPanel(container: Ref, location: SpiritTypeLocation) {
-  const { width, height } = useElementSize(container)
-  function cal(i: number, bot = false) {
-    const _x = toAbsolute(location.last.x, width.value)
-    const _y = toAbsolute(location.last.y, height.value)
-    const _SPACE_Y = bot ? toAbsolute(location.SPACE_Y, height.value) : 0
-    const _WIDTH = toAbsolute(location.WIDTH, width.value)
-    return `left: ${_x + i * _WIDTH - _WIDTH / 2}px; top: ${_y + _SPACE_Y - _WIDTH / 2}px; width: ${_WIDTH}px; height: ${_WIDTH}px;`
-  }
-
-  return {
-    cal
+    save,
+    label,
+    last: lastPoint
   }
 }

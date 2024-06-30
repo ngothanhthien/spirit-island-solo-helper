@@ -2690,25 +2690,112 @@ export const SPIRIT: Array<SpiritType> = [
         ],
         setupFunction: setupNourishing
       }
-    ],
+    ]
+  },
+  {
+    name: 'Covets Gleaming Shards Of Earth',
     panel: {
-      location: {
-        last: {
-          x: 51.43,
-          y: 30.3
+      presences: [
+        {
+          point: { x: 50.9, y: 30.83 },
+          type: 'energy',
+          value: 2
         },
-        WIDTH: 7.3,
-        TOP: 5,
-        BOT: 5,
-        SPACE_Y: 15.5
+        {
+          point: { x: 50.74, y: 50.23 },
+          type: 'element',
+          value: 'Air'
+        },
+        {
+          point: { x: 58.14, y: 50.23 },
+          type: 'card-play',
+          value: 2
+        },
+        {
+          point: { x: 65.54, y: 50.23 },
+          type: 'element',
+          value: 'Sun'
+        },
+        {
+          point: { x: 58.2, y: 36.18 },
+          type: 'element',
+          value: 'Animal'
+        },
+        {
+          point: { x: 58.2, y: 25.48 },
+          type: 'element',
+          value: 'Fire'
+        },
+        {
+          point: { x: 72.84, y: 55.58 },
+          type: 'element',
+          value: 'Animal'
+        },
+        {
+          point: { x: 72.84, y: 44.88 },
+          type: 'element',
+          value: 'Fire'
+        },
+        {
+          type: 'energy',
+          value: 3,
+          point: { x: 65.5, y: 30.83 }
+        },
+        {
+          type: 'element',
+          value: 'Earth',
+          point: { x: 72.8, y: 30.83 }
+        },
+        {
+          type: 'another',
+          value: '',
+          point: { x: 80.1, y: 30.83 }
+        },
+        {
+          type: 'energy',
+          value: 5,
+          point: { x: 87.4, y: 30.83 }
+        },
+        {
+          type: 'card-play',
+          value: 3,
+          point: { x: 80.14, y: 50.23 }
+        }
+      ],
+      scale: 7.3,
+      energy: 1,
+      cardPlay: 1
+    },
+    cards: [
+      {
+        cost: 1,
+        elements: ['Sun', 'Earth', 'Animal'],
+        speed: 'Fast',
+        name: 'Melt Earth to Slag',
+        description: ''
       },
-      value: {
-        BASE_ENERGY: 2,
-        ENERGY: [1, 1, 2, 1, 1],
-        BASE_CARD_PLAY: 1,
-        CARD_PLAY: [0, 1, 0, 1, 1]
+      {
+        cost: 2,
+        elements: ['Sun', 'Fire', 'Earth'],
+        speed: 'Slow',
+        name: 'Petition for Smoldering Wrath',
+        description: ''
+      },
+      {
+        cost: 1,
+        elements: ['Moon', 'Fire', 'Air', 'Earth'],
+        speed: 'Fast',
+        name: 'Unnerving Attention',
+        description: ''
+      },
+      {
+        cost: 1,
+        elements: ['Air', 'Earth', 'Animal'],
+        speed: 'Slow',
+        name: 'Favors of Steel and Bone',
+        description: ''
       }
-    }
+    ]
   },
   {
     name: 'Keeper Of The Forbidden Wilds',

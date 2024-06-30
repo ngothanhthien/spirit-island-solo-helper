@@ -177,7 +177,14 @@ const buttonInfo = computed<ButtonInfo | null>(() => {
           <base-button button-style="secondary" class="mb-1 w-full" @click="forgetFromDiscard()"> Forget </base-button>
         </div>
         <div ref="cardEl" class="relative flex" :class="cardZoomClass" :style="`left: ${-left}px;`">
-          <impending-card v-if="impendingCardStore.hasImpendingFeature && cardZoom.from === 'hand'" :card="cardZoom.current as string" :energy="impendingEnergy" class="rounded-xl h-full" @increase-energy="impendingEnergy++" @decrease-energy="impendingEnergy--" />
+          <impending-card
+            v-if="impendingCardStore.hasImpendingFeature && cardZoom.from === 'hand'"
+            :card="cardZoom.current as string"
+            :energy="impendingEnergy"
+            class="rounded-xl h-full"
+            @increase-energy="impendingEnergy++"
+            @decrease-energy="impendingEnergy--"
+          />
           <game-card v-else :id="cardZoom.current as string" class="rounded-xl h-full" />
         </div>
         <div v-if="buttonInfo" :class="buttonInfo.class ?? 'w-24'">

@@ -36,9 +36,17 @@ fs.readdir(directoryPath, async (err, files) => {
       )
 
       try {
+        // const metadata = await sharp(filePath).metadata()
         await sharp(filePath)
+          // .extract({ // crop
+          //   left: 0,
+          //   top: 300,
+          //   bottom: 300,
+          //   width: metadata.width,
+          //   height: metadata.height - 600,
+          // })
           // .linear(1.05)
-          // .resize(450) //power
+          // .resize(600) //power
           // .resize(300)//avatar
           // .resize(250)
           // .rotate(-90)

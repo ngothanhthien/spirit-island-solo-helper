@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
 import { changePosition, getCard, insertAfter, insertBefore, removeCard } from '@/utils'
-import type { Element, Player, PowerCard } from '@/types'
+import type { Element, Player, PowerCard, Presence } from '@/types'
 import { useMessageStore } from './MessageStore'
 import { useDiscardPowerStore } from './PowerDeckStore'
 import { SPIRIT } from '@/constant'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
+import { useSpiritInfo } from '@/composable/useSpiritInfo'
 
 function createPlayer(index: number): Player {
   const { cards, panel } = SPIRIT[index]
@@ -12,18 +13,12 @@ function createPlayer(index: number): Player {
   for (let i = 0; i < cards.length; i++) {
     hand.push(`unique${index}-${i}`)
   }
-  const disk = []
-  const originalDisk = []
   let totalCardPlay = 0
   let income = 0
   if (panel) {
-    const { ENERGY, CARD_PLAY, BASE_CARD_PLAY, BASE_ENERGY } = panel.value
-    totalCardPlay = BASE_CARD_PLAY
-    income = BASE_ENERGY
-    disk.push([...ENERGY])
-    disk.push([...CARD_PLAY])
-    originalDisk.push([...ENERGY])
-    originalDisk.push([...CARD_PLAY])
+    const { energy, cardPlay, presences } = panel
+    totalCardPlay = cardPlay
+    income = energy
   }
 
   return {
@@ -38,8 +33,7 @@ function createPlayer(index: number): Player {
     showAspect: true,
     aspectMode: '1x',
     hasTakeIncome: false,
-    disk,
-    originalDisk,
+    disk: [],
     totalCardPlay,
     income
   }
@@ -129,6 +123,9 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     hasTakeIncome(state) {
       return state.players[state.current].hasTakeIncome
+    },
+    income(state) {
+      return state.players[state.current].income
     }
   },
   actions: {
@@ -292,34 +289,72 @@ export const usePlayerCardStore = defineStore('playerCard', {
         }
       }
     },
-    diskClick(pos: number, row: number) {
+    diskClick(index: number) {
       const player = this.players[this.current]
-      const value = player.disk[row][pos]
-      const isGet = value !== null
-      if (isGet) {
-        player.disk[row][pos] = null
+      const { spiritInfo } = useSpiritInfo()
+      const panel = spiritInfo.value.panel
+      if (!panel) return
+      const { presences } = panel
+      const hasDisk = player.disk.includes(index)
+      if (hasDisk) {
+        removeCard(player.disk, index)
       } else {
-        player.disk[row][pos] = player.originalDisk[row][pos]
+        player.disk.push(index)
       }
-      this.handleDiskEffect(player.originalDisk[row][pos], isGet, row)
+      this.handleDiskEffect(presences[index], hasDisk, panel)
     },
-    handleDiskEffect(value: string | number | null, isGet: boolean, row: number) {
-      if (!value) return
+    handleDiskEffect(presence: Presence, hasDisk: boolean, { presences, energy, cardPlay }: { presences: Presence[]; energy: number; cardPlay: number }) {
       const player = this.players[this.current]
-      switch (row) {
-        case 0: // ENERGY
-          player.income += isGet ? value as number : -value as number
+      console.log(presence.type)
+      switch (presence.type) {
+        case 'energy':
+          if (hasDisk) {
+            let maxIncome = energy
+            for (let i = 0; i < player.disk.length; i++) {
+              const index = player.disk[i]
+              const original = presences[index]
+              if (original.type === 'energy') {
+                maxIncome = Math.max(maxIncome, original.value as number)
+              }
+            }
+            console.log(maxIncome)
+            player.income = maxIncome
+          } else {
+            console.log(presence.value)
+            player.income = presence.value as number
+          }
           break
-        case 1:
-          player.totalCardPlay += isGet ? value as number : -value as number
+        case 'card-play':
+          if (hasDisk) {
+            let maxCardPlay = cardPlay
+            for (let i = 0; i < player.disk.length; i++) {
+              const index = player.disk[i]
+              const original = presences[index]
+              if (original.type === 'card-play') {
+                maxCardPlay = Math.max(maxCardPlay, original.value as number)
+              }
+            }
+            player.totalCardPlay = maxCardPlay
+          } else {
+            player.totalCardPlay = presence.value as number
+          }
+          break
+        case 'element':
+          if (hasDisk) {
+            this.decreaseElement(presence.value as Element)
+          } else {
+            this.increaseElement(presence.value as Element)
+          }
+          break
+        case 'another':
           break
       }
     },
     takeIncome() {
       const player = this.players[this.current]
       player.hasTakeIncome = true
-      player.energy+= player.income
-      player.energyThisTurn+= player.income
+      player.energy += player.income
+      player.energyThisTurn += player.income
     }
   },
   persist: true

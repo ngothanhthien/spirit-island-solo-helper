@@ -21,6 +21,8 @@ import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { useModalDiscardStore } from '@/stores/ModalDiscardStore'
 import DaysThatNeverWere from '@/components/DaysThatNeverWere.vue'
 import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
+import GleamingHoard from '@/components/GleamingHoard/Modal.vue'
+import { useGleamingHoardStore } from '@/components/GleamingHoard/Store'
 const VisionOfAShiftingFutureModal = defineAsyncComponent(() => import('@/components/Spirit/VisionsShiftingFutureModal.vue'))
 const Sweden4Modal = defineAsyncComponent(() => import('@/components/Adversary/Sweden4Modal.vue'))
 const SaltDepositModal = defineAsyncComponent(() => import('@/components/Adversary/SaltDepositModal.vue'))
@@ -38,6 +40,7 @@ const ImpedingCardModal = defineAsyncComponent(() => import('@/components/Impend
 const modal = useModalStore()
 const gameOption = useGameOptionStore()
 const daysThatNeverWereDeck = useDaysThatNeverWereStore()
+const gleamingHoardStore = useGleamingHoardStore()
 </script>
 
 <template>
@@ -68,5 +71,6 @@ const daysThatNeverWereDeck = useDaysThatNeverWereStore()
     <Sweden4Modal v-if="gameOption.hasSweden4" />
     <vision-of-a-shifting-future-modal v-if="modal.visionShiftingFuture" />
     <spirit-panel-modal v-if="modal.panel" />
+    <gleaming-hoard v-if="gleamingHoardStore.isShowModal" />
   </div>
 </template>

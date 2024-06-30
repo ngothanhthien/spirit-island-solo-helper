@@ -11,6 +11,7 @@ import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
+import { useGleamingHoardStore } from '@/components/GleamingHoard/Store'
 
 export function useSetupGame(
   spirits: Ref<Array<number>>,
@@ -75,6 +76,7 @@ export function useSetupGame(
       invaderCard.extraBuild = []
     }
     useDaysThatNeverWereStore().reset()
+    useGleamingHoardStore().reset()
     fearDeck.newDeck(gameOption.fearSetup, numberSpirit.value as number, gameOption.hasEngland6)
     gameState.isNewGame = true
     playerCard.reset()

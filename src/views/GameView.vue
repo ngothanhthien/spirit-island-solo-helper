@@ -9,6 +9,7 @@ import AspectPower from '@/components/AspectPower.vue'
 import PowerDiscard from '@/components/PowerDiscard.vue'
 import SpiritPanelTrigger from '@/components/SpiritPanel/Trigger.vue'
 import GameViewModals from '@/components/GameView/Modals.vue'
+import GleamingHoardTrigger from '@/components/GleamingHoard/Trigger.vue'
 
 import { OnClickOutside } from '@vueuse/components'
 import PowerPick from '@/components/PowerPick.vue'
@@ -212,12 +213,8 @@ onMounted(async () => {
               </div>
               <div class="flex justify-center items-center w-full" v-if="currentMenu2 === MENU_2.FUNCTION">
                 <div class="w-40 mx-auto space-y-4">
-                  <base-button class="w-full" :disabled="!playerCard.canReclaim" button-style="secondary" @click="onReclaimButtonClick">
-                    Reclaims
-                  </base-button>
-                  <base-button class="w-full" button-style="secondary" @click="onTimePassedButtonClick">
-                    Time Passed
-                  </base-button>
+                  <base-button class="w-full" :disabled="!playerCard.canReclaim" button-style="secondary" @click="onReclaimButtonClick"> Reclaims </base-button>
+                  <base-button class="w-full" button-style="secondary" @click="onTimePassedButtonClick"> Time Passed </base-button>
                 </div>
               </div>
             </div>
@@ -256,6 +253,7 @@ onMounted(async () => {
               </span>
             </div>
             <spirit-panel-trigger v-if="spiritInfo.panel" />
+            <gleaming-hoard-trigger />
           </div>
 
           <template v-for="(player, index) in playerCard.players" :key="`player2x-${index}`">

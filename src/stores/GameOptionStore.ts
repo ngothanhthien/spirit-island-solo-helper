@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ADVERSARY, SPIRIT } from '@/constant'
 import type { Aspect } from '@/types'
+import { useSpiritInfo } from '@/composable/useSpiritInfo'
 
 export const useGameOptionStore = defineStore('gameOption', {
   state: () => ({
