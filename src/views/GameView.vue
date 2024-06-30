@@ -38,6 +38,7 @@ import DayThatNeverWereTrigger from '@/components/DayThatNeverWereTrigger.vue'
 import { useAspectView } from '@/composable/useAspectView'
 import { useModalStore } from '@/stores/ModalStore'
 import { useSpiritInfo } from '@/composable/useSpiritInfo'
+import { useGleamingHoardStore } from '@/components/GleamingHoard/Store'
 
 const playerCard = usePlayerCardStore()
 const eventDeck = useEventDeckStore()
@@ -253,7 +254,7 @@ onMounted(async () => {
               </span>
             </div>
             <spirit-panel-trigger v-if="spiritInfo.panel" />
-            <gleaming-hoard-trigger />
+            <gleaming-hoard-trigger v-if="useGleamingHoardStore().hasGleamingHoard" />
           </div>
 
           <template v-for="(player, index) in playerCard.players" :key="`player2x-${index}`">

@@ -3,6 +3,7 @@ import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useImpendingCardStore } from '@/stores/ImpendingCardStore'
+import { useGleamingHoardStore } from '@/components/GleamingHoard/Store'
 
 export function setupDaysThatNeverWere(playerIndex: number) {
   const minor = usePowerDeckStore('minor')
@@ -21,6 +22,10 @@ export function setupDaysThatNeverWere(playerIndex: number) {
   }
 
   deck.current = playerIndex
+}
+
+export function setupGleamingHoard(playerIndex: number) {
+  useGleamingHoardStore().current = playerIndex
 }
 
 export function setupHearthVigil(playerIndex: number) {

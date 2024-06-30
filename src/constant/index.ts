@@ -2,7 +2,13 @@ import type { PowerCard, Adversary, BlightCard, SpiritType } from '@/types'
 import { setupDarkFire, setupIntensify, setupLocus, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
 import { setupSparking } from '@/utils/setup'
 import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox, returnTopInvaderCardToBox } from '@/utils/event'
-import { setupDancesUpEarthquakes, setupDaysThatNeverWere, setupHearthVigil, setupWoundedWaters } from '@/utils/spirit'
+import {
+  setupDancesUpEarthquakes,
+  setupDaysThatNeverWere,
+  setupGleamingHoard,
+  setupHearthVigil,
+  setupWoundedWaters
+} from '@/utils/spirit'
 import { setupInvadersFindTheLand } from '@/utils/blight'
 
 export const MINOR_CARDS: Array<PowerCard> = [
@@ -2795,7 +2801,8 @@ export const SPIRIT: Array<SpiritType> = [
         name: 'Favors of Steel and Bone',
         description: ''
       }
-    ]
+    ],
+    setup: setupGleamingHoard
   },
   {
     name: 'Keeper Of The Forbidden Wilds',

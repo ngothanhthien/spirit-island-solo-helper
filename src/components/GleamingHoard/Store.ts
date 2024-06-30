@@ -33,6 +33,7 @@ export const useGleamingHoardStore = defineStore('gleamingHoard', {
     reset() {
       this.map = DEFAULT_MAP
       this.current = null
+      this.extra = 0
     },
     showModal() {
       this.isShowModal = true
