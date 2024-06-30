@@ -26,7 +26,6 @@ onKeyStroke(['s'], (e) => {
   downloadObjectAsJson(exported.value, 'Card')
 })
 function next() {
-  current.value = (current.value + 1) % images.length
   // @ts-ignore
   exported.value.push({
     ...toRaw(data),
@@ -36,6 +35,7 @@ function next() {
   data.cost = 0
   data.elements = []
   data.speed = 'Fast'
+  current.value = (current.value + 1) % images.length
 }
 </script>
 

@@ -2777,29 +2777,29 @@ export const SPIRIT: Array<SpiritType> = [
         cost: 1,
         elements: ['Sun', 'Earth', 'Animal'],
         speed: 'Fast',
-        name: 'Melt Earth to Slag',
+        name: 'Favors of Steel and Bone',
         description: ''
       },
       {
         cost: 2,
         elements: ['Sun', 'Fire', 'Earth'],
         speed: 'Slow',
-        name: 'Petition for Smoldering Wrath',
+        name: 'Melt Earth to Slag',
         description: ''
       },
       {
         cost: 1,
         elements: ['Moon', 'Fire', 'Air', 'Earth'],
         speed: 'Fast',
-        name: 'Unnerving Attention',
+        name: 'Petition for Smoldering Wrath',
         description: ''
       },
       {
         cost: 1,
         elements: ['Air', 'Earth', 'Animal'],
         speed: 'Slow',
-        name: 'Favors of Steel and Bone',
-        description: ''
+        description: '',
+        name: 'Unnerving Attention',
       }
     ],
     setup: setupGleamingHoard
