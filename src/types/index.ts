@@ -13,9 +13,6 @@ export interface PowerCard {
 export type Speed = 'Slow' | 'Fast'
 const ELEMENT_VALUES = ['Fire', 'Moon', 'Air', 'Sun', 'Earth', 'Water', 'Animal', 'Plant', 'Any']
 export type Element = (typeof ELEMENT_VALUES)[number]
-export function isElement(value: Element): value is Element {
-  return ELEMENT_VALUES.includes(value)
-}
 export interface Player {
   hand: string[]
   discard: string[]
@@ -31,6 +28,7 @@ export interface Player {
   totalCardPlay: number
   income: number
   hasTakeIncome: boolean
+  innate: InnatePower[]
 }
 export interface Adversary {
   title: string
@@ -92,6 +90,13 @@ export interface Presence {
   type?: 'energy' | 'element' | 'card-play' | 'another'
   value?: number | Element
 }
+export type ElementMap = {
+  [key in Exclude<Element, 'Any'>]: number
+}
+export interface InnatePower {
+  name: string
+  elements: ElementMap[]
+}
 export interface SpiritType {
   name: string
   cards: Array<PowerCard>
@@ -104,6 +109,7 @@ export interface SpiritType {
     energy: number
     cardPlay: number
   }
+  innate?: InnatePower[]
 }
 
 export interface Result {

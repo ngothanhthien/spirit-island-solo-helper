@@ -3,12 +3,13 @@ import { changePosition, getCard, insertAfter, insertBefore, removeCard } from '
 import type { Element, Player, PowerCard, Presence } from '@/types'
 import { useMessageStore } from './MessageStore'
 import { useDiscardPowerStore } from './PowerDeckStore'
-import { SPIRIT } from '@/constant'
+import { EXTRA_INNATE, SPIRIT } from '@/constant'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { useSpiritInfo } from '@/composable/useSpiritInfo'
+import { useAnyElement } from '@/components/AnyElement/functional'
 
 function createPlayer(index: number): Player {
-  const { cards, panel } = SPIRIT[index]
+  const { cards, panel, innate } = SPIRIT[index]
   const hand: string[] = []
   for (let i = 0; i < cards.length; i++) {
     hand.push(`unique${index}-${i}`)
@@ -35,7 +36,8 @@ function createPlayer(index: number): Player {
     hasTakeIncome: false,
     disk: [],
     totalCardPlay,
-    income
+    income,
+    innate: innate ?? [],
   }
 }
 function createDefaultElement(): { [K in Element]: number } {
@@ -100,6 +102,13 @@ export const usePlayerCardStore = defineStore('playerCard', {
       Object.entries(state.players[state.current].permanentElements).forEach(([key, value]) => {
         elements[key] += value || 0
       })
+      const { mapAnyElement: extra } = useAnyElement()
+      console.log(extra.value[state.current])
+      extra.value[state.current].forEach((e) => {
+        if (e !== 'Any') {
+          elements[e]++
+        }
+      })
       return elements
     },
     permanentElements(state) {
@@ -126,6 +135,9 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     income(state) {
       return state.players[state.current].income
+    },
+    innate(state) {
+      return state.players[state.current].innate
     }
   },
   actions: {
@@ -355,6 +367,20 @@ export const usePlayerCardStore = defineStore('playerCard', {
       player.hasTakeIncome = true
       player.energy += player.income
       player.energyThisTurn += player.income
+    },
+    addInnate(name: string) {
+      const player = this.players[this.current]
+      const innate = EXTRA_INNATE.find((innate) => innate.name === name)
+      if (innate) {
+        player.innate.push(innate)
+      }
+    },
+    removeInnate(name: string) {
+      const player = this.players[this.current]
+      const index = player.innate.findIndex((innate) => innate.name === name)
+      if (index !== -1) {
+        player.innate.splice(index, 1)
+      }
     }
   },
   persist: true

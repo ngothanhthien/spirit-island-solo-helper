@@ -18,7 +18,9 @@ export const useGleamingHoardStore = defineStore('gleamingHoard', {
   state: () => ({
     current: null as number | null,
     isShowModal: false,
-    map: DEFAULT_MAP,
+    map: {
+      ...DEFAULT_MAP
+    },
     extra: 0
   }),
   getters: {
@@ -31,9 +33,12 @@ export const useGleamingHoardStore = defineStore('gleamingHoard', {
   },
   actions: {
     reset() {
-      this.map = DEFAULT_MAP
+      this.map = {
+        ...DEFAULT_MAP
+      }
       this.current = null
       this.extra = 0
+      this.isShowModal = false
     },
     showModal() {
       this.isShowModal = true

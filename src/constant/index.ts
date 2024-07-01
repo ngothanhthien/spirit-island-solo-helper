@@ -1,14 +1,8 @@
-import type { PowerCard, Adversary, BlightCard, SpiritType } from '@/types'
+import type { PowerCard, Adversary, BlightCard, SpiritType, InnatePower } from '@/types'
 import { setupDarkFire, setupIntensify, setupLocus, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
 import { setupSparking } from '@/utils/setup'
 import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox, returnTopInvaderCardToBox } from '@/utils/event'
-import {
-  setupDancesUpEarthquakes,
-  setupDaysThatNeverWere,
-  setupGleamingHoard,
-  setupHearthVigil,
-  setupWoundedWaters
-} from '@/utils/spirit'
+import { setupDancesUpEarthquakes, setupDaysThatNeverWere, setupGleamingHoard, setupHearthVigil, setupWoundedWaters } from '@/utils/spirit'
 import { setupInvadersFindTheLand } from '@/utils/blight'
 
 export const MINOR_CARDS: Array<PowerCard> = [
@@ -2799,7 +2793,35 @@ export const SPIRIT: Array<SpiritType> = [
         elements: ['Air', 'Earth', 'Animal'],
         speed: 'Slow',
         description: '',
-        name: 'Unnerving Attention',
+        name: 'Unnerving Attention'
+      }
+    ],
+    innate: [
+      {
+        name: 'Scent of Shinning Earth',
+        elements: [
+          {
+            Earth: 1
+          },
+          {
+            Sun: 1,
+            Earth: 2,
+            Animal: 1
+          },
+          {
+            Fire: 2,
+            Air: 2,
+            Earth: 2
+          },
+          {
+            Sun: 2,
+            Fire: 2,
+            Earth: 3
+          },
+          {
+            Earth: 4
+          }
+        ]
       }
     ],
     setup: setupGleamingHoard
@@ -3386,6 +3408,66 @@ export const SPIRIT: Array<SpiritType> = [
         speed: 'Slow',
         elements: ['Sun', 'Moon', 'Air', 'Plant'],
         description: 'Target Spirit may either pay 1 Energy or discard a Power Card (from hand) to Take a Minor Power into their discard. You may do likewise.'
+      }
+    ]
+  }
+]
+export const EXTRA_INNATE: InnatePower[] = [
+  {
+    name: 'Violent Outburst',
+    elements: [
+      {
+        Fire: 1,
+        Earth: 1
+      },
+      {
+        Fire: 2,
+        Earth: 2
+      },
+      {
+        Fire: 3,
+        Air: 2,
+        Earth: 3
+      }
+    ]
+  },
+  {
+    name: 'Harrowing Gaze',
+    elements: [
+      {
+        Air: 1,
+        Earth: 1,
+        Animal: 1
+      },
+      {
+        Air: 2,
+        Earth: 1,
+        Animal: 2
+      },
+      {
+        Air: 3,
+        Earth: 3,
+        Animal: 3
+      }
+    ]
+  },
+  {
+    name: 'Imposing Demands',
+    elements: [
+      {
+        Sun: 1,
+        Earth: 1,
+        Animal: 1
+      },
+      {
+        Sun: 2,
+        Earth: 1,
+        Animal: 2
+      },
+      {
+        Sun: 3,
+        Earth: 2,
+        Animal: 3
       }
     ]
   }

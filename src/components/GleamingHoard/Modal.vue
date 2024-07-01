@@ -61,7 +61,8 @@ const BOTTOM = ref<Point[]>([
 ])
 interface Ability {
   value: Exclude<Element, 'Any'>
-  point: Point
+  point: Point,
+  callback?: (arg0: boolean) => void
 }
 const ABILITY = ref<Ability[]>([
   {
@@ -104,6 +105,13 @@ const ABILITY = ref<Ability[]>([
     point: {
       x: 67.9,
       y: 17
+    },
+    callback: (isTake: boolean) => {
+      if (isTake) {
+        player.addInnate('Violent Outburst')
+      } else {
+        player.removeInnate('Violent Outburst')
+      }
     }
   },
   {
@@ -111,6 +119,13 @@ const ABILITY = ref<Ability[]>([
     point: {
       x: 67.9,
       y: 41.2
+    },
+    callback: (isTake: boolean) => {
+      if (isTake) {
+        player.addInnate('Harrowing Gaze')
+      } else {
+        player.removeInnate('Harrowing Gaze')
+      }
     }
   },
   {
@@ -118,6 +133,13 @@ const ABILITY = ref<Ability[]>([
     point: {
       x: 67.9,
       y: 65.2
+    },
+    callback: (isTake: boolean) => {
+      if (isTake) {
+        player.addInnate('Imposing Demands')
+      } else {
+        player.removeInnate('Imposing Demands')
+      }
     }
   }
 ])
@@ -135,6 +157,14 @@ function bottomClick(i: number) {
     gleamingHoard.increaseExtra()
   } else {
     gleamingHoard.decreaseExtra()
+  }
+}
+
+function abilityClick(i: number, isTake: boolean) {
+  const ability = ABILITY.value[i]
+  gleamingHoard.toggleMap(ability.value)
+  if (ability.callback) {
+    ability.callback(isTake)
   }
 }
 </script>
@@ -157,7 +187,7 @@ function bottomClick(i: number) {
         :style="cal(ability.point)"
         :class="{ 'bg-red-700': gleamingHoard.map[ability.value] }"
         class="absolute text-white rounded-full flex justify-center items-center"
-        @click="gleamingHoard.toggleMap(ability.value)"
+        @click="abilityClick(index, !gleamingHoard.map[ability.value])"
       />
     </div>
   </div>

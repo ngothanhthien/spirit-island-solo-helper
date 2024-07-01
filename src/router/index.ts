@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+// @ts-ignore
 import SetupView from '@/views/SetupView.vue'
 
 function lazyLoad(view: string) {
@@ -37,6 +38,10 @@ const routes = [
   {
     path: '/card',
     component: lazyLoad('CardToolView')
+  },
+  {
+    path: '/innate',
+    component: lazyLoad('InnateToolView')
   },
   {
     path: '/:catchAll(.*)',

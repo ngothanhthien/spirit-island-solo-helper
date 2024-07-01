@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import type { Aspect } from '@/types'
 import CardGroupView from '@/components/CardGroupView.vue'
 import ElementTrack from '@/components/ElementTrack.vue'
@@ -10,6 +10,7 @@ import PowerDiscard from '@/components/PowerDiscard.vue'
 import SpiritPanelTrigger from '@/components/SpiritPanel/Trigger.vue'
 import GameViewModals from '@/components/GameView/Modals.vue'
 import GleamingHoardTrigger from '@/components/GleamingHoard/Trigger.vue'
+import AnyElementTrigger from '@/components/AnyElement/Trigger.vue'
 
 import { OnClickOutside } from '@vueuse/components'
 import PowerPick from '@/components/PowerPick.vue'
@@ -39,6 +40,8 @@ import { useAspectView } from '@/composable/useAspectView'
 import { useModalStore } from '@/stores/ModalStore'
 import { useSpiritInfo } from '@/composable/useSpiritInfo'
 import { useGleamingHoardStore } from '@/components/GleamingHoard/Store'
+import InnateReminder from '@/components/InnateReminder.vue'
+import { useElementSize } from '@vueuse/core'
 
 const playerCard = usePlayerCardStore()
 const eventDeck = useEventDeckStore()
@@ -47,7 +50,8 @@ const gameOption = useGameOptionStore()
 const blightDeck = useBlightDeckStore()
 const modal = useModalStore()
 const { spiritInfo } = useSpiritInfo()
-
+const topContainer = ref(null)
+const { height } = useElementSize(topContainer)
 const { isShow2xAspect } = useAspectView()
 
 function buttonQuickBlightClick() {
@@ -172,7 +176,7 @@ onMounted(async () => {
         </div>
         <div id="game-showing-area" class="w-full relative h-full flex">
           <div class="w-full relative h-full">
-            <div id="game-showing-top" class="bg-neutral-100 flex px-2 relative h-1/2">
+            <div ref="topContainer" id="game-showing-top" class="bg-neutral-100 flex relative h-1/2">
               <div v-if="currentMenu1 === MENU_1.PLAY" class="absolute text-6xl top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 whitespace-nowrap font-bold text-gray-300 z-0">
                 <span v-if="playerCard.isPicking">Picking Power</span>
                 <span v-else>Player Play</span>
@@ -182,6 +186,9 @@ onMounted(async () => {
                 <span class="icon-x text-3xl absolute right-1 -top-1 text-red-600 z-50" style="stroke-width: 3px" @click="exitPicking()" />
               </div>
               <div v-show="!playerCard.isPicking && currentMenu1 === MENU_1.PLAY" class="w-full flex">
+                <div v-if="playerCard.innate && playerCard.innate.length > 0" :style="`height: ${height}px; min-height: 30px;`" class="relative flex flex-col flex-wrap gap-1">
+                  <innate-reminder :innate="innate" v-for="innate in playerCard.innate" />
+                </div>
                 <div class="relative flex-1">
                   <card-group-view
                     from="play"
@@ -191,11 +198,11 @@ onMounted(async () => {
                     @change-position="(cardId, posId) => changePosition(playerCard.play, cardId, posId)"
                   />
                 </div>
-                <template v-for="(player, index) in playerCard.players" :key="`player-${index}`">
-                  <div v-if="gameOption.aspectsDetail[index] && player.showAspect && player.aspectMode === '1x'" v-show="playerCard.current === index" class="w-1/3 relative">
-                    <aspect-power :aspect="gameOption.aspectsDetail[index] as Aspect" @show-aspect-detail="modal.aspectDetail = true" />
-                  </div>
-                </template>
+                <!--                <template v-for="(player, index) in playerCard.players" :key="`player-${index}`">-->
+                <!--                  <div v-if="gameOption.aspectsDetail[index] && player.showAspect && player.aspectMode === '1x'" v-show="playerCard.current === index" class="w-1/3 relative">-->
+                <!--                    <aspect-power :aspect="gameOption.aspectsDetail[index] as Aspect" @show-aspect-detail="modal.aspectDetail = true" />-->
+                <!--                  </div>-->
+                <!--                </template>-->
               </div>
               <div v-if="currentMenu1 === MENU_1.TAB_2" class="flex items-stretch relative w-full">
                 <div class="space-x-2 absolute h-full w-full">
@@ -203,7 +210,6 @@ onMounted(async () => {
                   <power-discard :discard="playerCard.discard" @swipe-down="discardViewSwipeDown" @swipe-up="discardViewSwipeUp" />
                 </div>
               </div>
-              <div v-if="!isShow2xAspect" class="w-8" />
             </div>
             <div id="game-showing-bottom" class="bg-stone-300 flex px-2 relative h-1/2">
               <div v-if="currentMenu2 === MENU_2.HAND" class="flex flex-1 relative">
@@ -253,6 +259,7 @@ onMounted(async () => {
                 <span class="path10" />
               </span>
             </div>
+            <any-element-trigger />
             <spirit-panel-trigger v-if="spiritInfo.panel" />
             <gleaming-hoard-trigger v-if="useGleamingHoardStore().hasGleamingHoard" />
           </div>
