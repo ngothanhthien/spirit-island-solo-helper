@@ -38,12 +38,28 @@
   transform-origin: 0 -100px; /* điều chỉnh khoảng cách từ tâm đến các div xung quanh */
 }
 
-.circle:nth-child(2) { transform: rotate(0deg) translateX(-50%); }
-.circle:nth-child(3) { transform: rotate(-45deg) translateX(-50%); }
-.circle:nth-child(4) { transform: rotate(-90deg) translateX(-50%); }
-.circle:nth-child(5) { transform: rotate(-135deg) translateX(-50%); }
-.circle:nth-child(6) { transform: rotate(-180deg) translateX(-50%); }
-.circle:nth-child(7) { transform: rotate(-225deg) translateX(-50%); }
-.circle:nth-child(8) { transform: rotate(-270deg) translateX(-50%); }
-.circle:nth-child(9) { transform: rotate(-315deg) translateX(-50%); }
+.circle:nth-child(2) {
+  transform: rotate(0deg) translateX(-50%);
+}
+.circle:nth-child(3) {
+  transform: rotate(-45deg) translateX(-50%);
+}
+.circle:nth-child(4) {
+  transform: rotate(-90deg) translateX(-50%);
+}
+.circle:nth-child(5) {
+  transform: rotate(-135deg) translateX(-50%);
+}
+.circle:nth-child(6) {
+  transform: rotate(-180deg) translateX(-50%);
+}
+.circle:nth-child(7) {
+  transform: rotate(-225deg) translateX(-50%);
+}
+.circle:nth-child(8) {
+  transform: rotate(-270deg) translateX(-50%);
+}
+.circle:nth-child(9) {
+  transform: rotate(-315deg) translateX(-50%);
+}
 </style>

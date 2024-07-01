@@ -1,5 +1,5 @@
 import type { PowerCard, Adversary, BlightCard, SpiritType, InnatePower } from '@/types'
-import { setupDarkFire, setupIntensify, setupLocus, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
+import { setupDarkFire, setupIntensify, setupLocus, setupMight, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
 import { setupSparking } from '@/utils/setup'
 import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox, returnTopInvaderCardToBox } from '@/utils/event'
 import { setupDancesUpEarthquakes, setupDaysThatNeverWere, setupGleamingHoard, setupHearthVigil, setupWoundedWaters } from '@/utils/spirit'
@@ -2374,6 +2374,65 @@ export const SPIRIT: Array<SpiritType> = [
         elements: ['Moon'],
         description: 'If the Terror Level is 1, Invaders do not Ravage in target land this turn. You may Repeat this Power. If you do, Forget this Power Card and Gain 1 Moon.'
       }
+    ],
+    innate: [
+      {
+        name: 'Air Moves, Earth Endures',
+        elements: [
+          {
+            Air: 3
+          },
+          {
+            Earth: 3
+          }
+        ],
+        fast: true
+      },
+      {
+        name: 'Fire Burns, Water Soothes',
+        elements: [
+          {
+            Fire: 3
+          },
+          {
+            Water: 3
+          }
+        ],
+        fast: false
+      },
+      {
+        name: 'Wood Seeks Growth, Humans Seek Freedom',
+        elements: [
+          {
+            Plant: 3
+          },
+          {
+            Animal: 3
+          }
+        ],
+        fast: false
+      },
+      {
+        name: 'Sidereal Guidance',
+        elements: [
+          {
+            Moon: 2
+          },
+          {
+            Moon: 3
+          }
+        ],
+        fast: false
+      },
+      {
+        name: 'Stars Blaze in the Daytime Sky',
+        elements: [
+          {
+            Sun: 4
+          }
+        ],
+        fast: false
+      }
     ]
   },
   {
@@ -2665,7 +2724,8 @@ export const SPIRIT: Array<SpiritType> = [
               targetLand: 'yourself'
             }
           }
-        ]
+        ],
+        setupFunction: setupMight
       },
       {
         title: 'Nourishing',
@@ -2689,6 +2749,29 @@ export const SPIRIT: Array<SpiritType> = [
           }
         ],
         setupFunction: setupNourishing
+      }
+    ],
+    innate: [
+      {
+        name: 'Gift of Strength',
+        elements: [
+          {
+            Sun: 1,
+            Earth: 2,
+            Plant: 2
+          },
+          {
+            Sun: 2,
+            Earth: 3,
+            Plant: 2
+          },
+          {
+            Sun: 2,
+            Earth: 4,
+            Plant: 3
+          }
+        ],
+        fast: true
       }
     ]
   },
@@ -2799,6 +2882,7 @@ export const SPIRIT: Array<SpiritType> = [
     innate: [
       {
         name: 'Scent of Shinning Earth',
+        fast: true,
         elements: [
           {
             Earth: 1
@@ -3414,7 +3498,48 @@ export const SPIRIT: Array<SpiritType> = [
 ]
 export const EXTRA_INNATE: InnatePower[] = [
   {
+    name: 'Imbue with Nourishing Vitality',
+    elements: [
+      {
+        Water: 1,
+        Plant: 1
+      },
+      {
+        Water: 1,
+        Plant: 2
+      },
+      {
+        Water: 1,
+        Earth: 1,
+        Plant: 2
+      }
+    ],
+    fast: true
+  },
+  {
+    name: 'Earth Move with Vigor and Might',
+    elements: [
+      {
+        Plant: 1
+      },
+      {
+        Sun: 1,
+        Earth: 2
+      },
+      {
+        Plant: 2,
+        Earth: 3
+      },
+      {
+        Sun: 1,
+        Plant: 3
+      }
+    ],
+    fast: true
+  },
+  {
     name: 'Violent Outburst',
+    fast: false,
     elements: [
       {
         Fire: 1,
@@ -3433,6 +3558,7 @@ export const EXTRA_INNATE: InnatePower[] = [
   },
   {
     name: 'Harrowing Gaze',
+    fast: false,
     elements: [
       {
         Air: 1,
@@ -3453,6 +3579,7 @@ export const EXTRA_INNATE: InnatePower[] = [
   },
   {
     name: 'Imposing Demands',
+    fast: false,
     elements: [
       {
         Sun: 1,

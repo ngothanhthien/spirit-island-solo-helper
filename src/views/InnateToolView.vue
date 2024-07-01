@@ -23,7 +23,8 @@ onMounted(() => {
 async function add() {
   innate.value.push({
     name: '',
-    elements: [{}]
+    elements: [{}],
+    fast: true
   })
   await nextTick()
   document.getElementById(`name-${innate.value.length - 1}`)?.focus()
@@ -55,8 +56,12 @@ function elementClick(element: string, index: number, elementIndex: number, mode
     <h1>Innate Tool</h1>
     <div v-for="(item, index) in innate" class="border border-red-700 p-2 mx-2">
       <base-button @click="addElements(index)" class="mb-4"> Add Element </base-button>
+      <div>
+        <label for="fast">Fast:</label>
+        <input type="checkbox" v-model="item.fast" />
+      </div>
       <div class="flex mb-2">
-        <label for="name">Name:</label>
+        <label :for="`name-${index}`">Name:</label>
         <div class="ml-2 border-b border-gray-400">
           <input class="outline-none" :id="`name-${index}`" v-model="item.name" autocomplete="off" />
         </div>

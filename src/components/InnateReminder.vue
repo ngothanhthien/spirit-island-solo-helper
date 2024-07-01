@@ -9,20 +9,22 @@ const props = defineProps({
 const elements = computed(() => {
   return props.innate?.elements
 })
-const currentElements = usePlayerCardStore().elements
+const currentElements = computed(() => {
+  return usePlayerCardStore().elements
+})
 
 function isFullActive(element: ElementMap) {
   if (!elements.value) return false
-  return Object.keys(element).every(key => {
-    return currentElements[key] >= element[key]
+  return Object.keys(element).every((key) => {
+    return currentElements.value[key] >= element[key]
   })
 }
 </script>
 
 <template>
-  <div class="space-y-1 w-fit bg-amber-100 rounded py-1">
-    <div class="flex space-x-2 px-2" v-for="element in elements" :class="{'bg-lime-500': isFullActive(element)}">
-      <div v-for="key in Object.keys(element)" :class="{'opacity-30': currentElements[key] < element[key]}" class="w-4 h-4 flex items-center justify-center">
+  <div class="space-y-1 w-fit rounded py-1" :class="innate?.fast ? 'bg-orange-500/20' : 'bg-purple-900/20'">
+    <div class="flex space-x-2 px-2" v-for="element in elements" :class="{ 'bg-lime-500': isFullActive(element) }">
+      <div v-for="key in Object.keys(element)" :class="{ 'opacity-40': currentElements[key] < element[key] }" class="w-4 h-4 flex items-center justify-center">
         <span class="text-xs">{{ element[key] }}</span>
         <span :class="`icon-${key.toLowerCase()}`" class="text-sm">
           <span class="path1"></span>

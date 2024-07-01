@@ -61,7 +61,7 @@ const BOTTOM = ref<Point[]>([
 ])
 interface Ability {
   value: Exclude<Element, 'Any'>
-  point: Point,
+  point: Point
   callback?: (arg0: boolean) => void
 }
 const ABILITY = ref<Ability[]>([

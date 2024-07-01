@@ -186,7 +186,12 @@ onMounted(async () => {
                 <span class="icon-x text-3xl absolute right-1 -top-1 text-red-600 z-50" style="stroke-width: 3px" @click="exitPicking()" />
               </div>
               <div v-show="!playerCard.isPicking && currentMenu1 === MENU_1.PLAY" class="w-full flex">
-                <div v-if="playerCard.innate && playerCard.innate.length > 0" :style="`height: ${height}px; min-height: 30px;`" class="relative flex flex-col flex-wrap gap-1">
+                <div
+                  v-if="playerCard.innate && playerCard.innate.length > 0"
+                  :style="`height: ${height}px; min-height: 30px;`"
+                  class="relative flex flex-col flex-wrap gap-1"
+                  @click="modal.aspectDetail = true"
+                >
                   <innate-reminder :innate="innate" v-for="innate in playerCard.innate" />
                 </div>
                 <div class="relative flex-1">
@@ -198,11 +203,11 @@ onMounted(async () => {
                     @change-position="(cardId, posId) => changePosition(playerCard.play, cardId, posId)"
                   />
                 </div>
-                <!--                <template v-for="(player, index) in playerCard.players" :key="`player-${index}`">-->
-                <!--                  <div v-if="gameOption.aspectsDetail[index] && player.showAspect && player.aspectMode === '1x'" v-show="playerCard.current === index" class="w-1/3 relative">-->
-                <!--                    <aspect-power :aspect="gameOption.aspectsDetail[index] as Aspect" @show-aspect-detail="modal.aspectDetail = true" />-->
-                <!--                  </div>-->
-                <!--                </template>-->
+                <!--                                <template v-for="(player, index) in playerCard.players" :key="`player-${index}`">-->
+                <!--                                  <div v-if="gameOption.aspectsDetail[index] && player.showAspect && player.aspectMode === '1x'" v-show="playerCard.current === index" class="w-1/3 relative">-->
+                <!--                                    <aspect-power :aspect="gameOption.aspectsDetail[index] as Aspect" @show-aspect-detail="modal.aspectDetail = true" />-->
+                <!--                                  </div>-->
+                <!--                                </template>-->
               </div>
               <div v-if="currentMenu1 === MENU_1.TAB_2" class="flex items-stretch relative w-full">
                 <div class="space-x-2 absolute h-full w-full">

@@ -46,6 +46,13 @@ export function setupNourishing(playerPos: number) {
   const deck = usePowerDeckStore(type)
   removeCard(deck.draw, cardId2)
   players.hand.push(cardId2)
+  playerCard.addInnate('Imbue with Nourishing Vitality')
+  return true
+}
+
+export function setupMight(playerPos: number) {
+  const playerCard = usePlayerCardStore()
+  playerCard.addInnate('Earth Move with Vigor and Might', playerPos)
 
   return true
 }

@@ -96,6 +96,7 @@ export type ElementMap = {
 export interface InnatePower {
   name: string
   elements: ElementMap[]
+  fast: boolean
 }
 export interface SpiritType {
   name: string

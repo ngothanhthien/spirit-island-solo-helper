@@ -37,7 +37,7 @@ function createPlayer(index: number): Player {
     disk: [],
     totalCardPlay,
     income,
-    innate: innate ?? [],
+    innate: innate ?? []
   }
 }
 function createDefaultElement(): { [K in Element]: number } {
@@ -102,9 +102,8 @@ export const usePlayerCardStore = defineStore('playerCard', {
       Object.entries(state.players[state.current].permanentElements).forEach(([key, value]) => {
         elements[key] += value || 0
       })
-      const { mapAnyElement: extra } = useAnyElement()
-      console.log(extra.value[state.current])
-      extra.value[state.current].forEach((e) => {
+      const { elements: extra } = useAnyElement()
+      extra.value.forEach((e) => {
         if (e !== 'Any') {
           elements[e]++
         }
@@ -368,8 +367,8 @@ export const usePlayerCardStore = defineStore('playerCard', {
       player.energy += player.income
       player.energyThisTurn += player.income
     },
-    addInnate(name: string) {
-      const player = this.players[this.current]
+    addInnate(name: string, playerIndex: number | undefined = undefined) {
+      const player = this.players[playerIndex ?? this.current]
       const innate = EXTRA_INNATE.find((innate) => innate.name === name)
       if (innate) {
         player.innate.push(innate)
