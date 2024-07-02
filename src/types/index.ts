@@ -29,6 +29,7 @@ export interface Player {
   income: number
   hasTakeIncome: boolean
   innate: InnatePower[]
+  saved: unknown[]
 }
 export interface Adversary {
   title: string
@@ -89,6 +90,7 @@ export interface Presence {
   point: Point
   type?: 'energy' | 'element' | 'card-play' | 'another'
   value?: number | Element
+  callback?: (reverse: boolean) => void
 }
 export type ElementMap = {
   [key in Exclude<Element, 'Any'>]: number

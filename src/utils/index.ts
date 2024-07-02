@@ -1,5 +1,6 @@
 import { EVENT_CARDS, MAJOR_CARDS, MINOR_CARDS, SPIRIT, FEAR_CARDS, BLIGHT_CARDS, EXTRA_POWERS } from '@/constant'
 import { Random } from 'random-js'
+import type { Point } from '@/types'
 const random = new Random()
 export const getCardImage = (name: string, path: string) => {
   const sanitized = name.toLowerCase().replace(/[-',]/g, '').replace(/\s/g, '_')
@@ -215,4 +216,12 @@ function toAbsolute(num: number, compare: number) {
   return (num / 100) * compare
 }
 
-export { insertAfter, insertBefore, downloadObjectAsJson, toFixed, toPercent, toAbsolute }
+function calBlock(point: Point, _width: number, _height: number, width: number, height: number) {
+  const _x = toAbsolute(point.x, width)
+  const _y = toAbsolute(point.y, height)
+  const _WIDTH = toAbsolute(_width, width)
+  const _HEIGHT = toAbsolute(_height, height)
+  return `left: ${_x - _WIDTH / 2}px; top: ${_y - _HEIGHT / 2}px; width: ${_WIDTH}px; height: ${_HEIGHT}px;`
+}
+
+export { insertAfter, insertBefore, downloadObjectAsJson, toFixed, toPercent, toAbsolute, calBlock }

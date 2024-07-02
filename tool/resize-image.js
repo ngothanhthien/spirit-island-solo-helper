@@ -50,7 +50,7 @@ fs.readdir(directoryPath, async (err, files) => {
           // .resize(300)//avatar
           // .resize(250)
           // .rotate(-90)
-          .resize(1200)// spirit panel
+          .resize(1500)// spirit panel
           .webp()
           .toFile(outputFilePath)
 

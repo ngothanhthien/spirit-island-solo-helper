@@ -54,14 +54,14 @@ function getAvailableElements(element: csElement) {
           v-for="(element, index) in getAvailableElements(elementCurrent)"
           :key="element"
           class="absolute top-1/2 left-1/2"
-          :style="`transform: translate(-50%, -50%) rotate(${20 * index - 45}deg); width: 180px; height: 180px;`"
+          :style="`transform: translate(-50%, -50%) rotate(${15 * index - 35}deg); width: 220px; height: 220px;`"
           @click="customClick"
         >
           <span
             :data-element="element"
             :data-index="elementIndex"
             :class="`icon-${element.toLowerCase()}`"
-            :style="`transform: rotate(${45 - 20 * index}deg)`"
+            :style="`transform: rotate(${35 - 15 * index}deg)`"
             class="relative text-2xl bg-amber-500 rounded-full p-2 inline-block"
           >
             <span class="path1" />

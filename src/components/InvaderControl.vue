@@ -19,8 +19,6 @@ const playerCard = usePlayerCardStore()
 const { doSweden4 } = useSweden4()
 
 const showSaltDeposit = ref(false)
-const showInvaderDiscard = ref(false)
-const showInvaderDraw = ref(false)
 const showingVision = ref(false)
 const modal = useModalStore()
 
@@ -149,7 +147,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
         <div class="flex-1 px-4 py-2 flex space-x-2 text-2xl">
           <div class="basis-full flex flex-col">
             <div class="text-base">&nbsp;</div>
-            <button class="flex justify-center items-center text-orange-600 w-full flex-1" :disabled="invaderCard.discard.length === 0" @click="showInvaderDiscard = true">
+            <button class="flex justify-center items-center text-orange-600 w-full flex-1" :disabled="invaderCard.discard.length === 0" @click="modal.invaderDiscard = true">
               <span class="text-4xl">{{ invaderCard.discard.length }}</span>
               <span class="icon-trash text-4xl" />
             </button>
@@ -266,7 +264,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             <div
               v-if="invaderCard.explore.length === 0 && invaderCard.draw.length > 0"
               class="relative flex-1 text-semibold rounded-lg overflow-hidden font-serif h-full text-white bg-gray-900 flex items-center justify-center"
-              @click="showInvaderDraw = true"
+              @click="modal.invaderDraw = true"
             >
               {{ invaderCard.getBackCardTop }}
               <div class="absolute top-0 right-0 p-2" @click.stop="shuffle">

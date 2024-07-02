@@ -2,7 +2,7 @@ import type { PowerCard, Adversary, BlightCard, SpiritType, InnatePower } from '
 import { setupDarkFire, setupIntensify, setupLocus, setupMight, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
 import { setupSparking } from '@/utils/setup'
 import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox, returnTopInvaderCardToBox } from '@/utils/event'
-import { setupDancesUpEarthquakes, setupDaysThatNeverWere, setupGleamingHoard, setupHearthVigil, setupWoundedWaters } from '@/utils/spirit'
+import { energyChange, setupDancesUpEarthquakes, setupDaysThatNeverWere, setupGleamingHoard, setupHearthVigil, setupWoundedWaters } from '@/utils/spirit'
 import { setupInvadersFindTheLand } from '@/utils/blight'
 
 export const MINOR_CARDS: Array<PowerCard> = [
@@ -195,7 +195,7 @@ export const MINOR_CARDS: Array<PowerCard> = [
     name: "Gift of Nature's Connection",
     cost: 0,
     speed: 'Fast',
-    elements: [],
+    elements: ['Any'],
     description: 'Target Spirit gains either 2 Energy or 2 of a single Element (their choice). If you target another Spirit, you gain an Element of your choice.'
   },
   {
@@ -2433,7 +2433,113 @@ export const SPIRIT: Array<SpiritType> = [
         ],
         fast: false
       }
-    ]
+    ],
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 36.6,
+            y: 23.5
+          },
+          type: 'another'
+        },
+        {
+          type: 'another',
+          point: {
+            x: 36.6,
+            y: 36.2
+          }
+        },
+        {
+          type: 'another',
+          point: {
+            x: 35.3,
+            y: 47.7
+          },
+          callback: (reverse) => {
+            energyChange(1, reverse)
+          }
+        },
+        {
+          type: 'another',
+          point: {
+            x: 42.8,
+            y: 47.7
+          },
+          callback: (reverse) => {
+            energyChange(1, reverse)
+          }
+        },
+        {
+          type: 'another',
+          point: {
+            x: 42.8,
+            y: 61.8
+          },
+          callback: (reverse) => {
+            energyChange(1, reverse)
+          }
+        },
+        {
+          type: 'another',
+          point: {
+            x: 35.3,
+            y: 61.8
+          },
+          callback: (reverse) => {
+            energyChange(1, reverse)
+          }
+        },
+        {
+          type: 'energy',
+          value: 2,
+          point: {
+            x: 50.1,
+            y: 77.5
+          }
+        },
+        {
+          type: 'another',
+          point: {
+            x: 57.6,
+            y: 77.5
+          }
+        },
+        {
+          type: 'energy',
+          value: 4,
+          point: {
+            x: 65.2,
+            y: 77.5
+          }
+        },
+        {
+          type: 'another',
+          point: {
+            x: 50.1,
+            y: 91
+          }
+        },
+        {
+          type: 'another',
+          point: {
+            x: 57.6,
+            y: 91
+          }
+        },
+        {
+          type: 'card-play',
+          value: 3,
+          point: {
+            x: 65.2,
+            y: 91
+          }
+        }
+      ],
+      scale: 6,
+      energy: 1,
+      cardPlay: 2
+    }
   },
   {
     name: "Stone's Unyielding Defiance",
@@ -2890,7 +2996,7 @@ export const SPIRIT: Array<SpiritType> = [
           {
             Sun: 1,
             Earth: 2,
-            Animal: 1
+            Animal: 2
           },
           {
             Fire: 2,

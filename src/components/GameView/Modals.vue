@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup>
 import { useImpendingCardStore } from '@/stores/ImpendingCardStore'
-import { defineAsyncComponent } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 import InvaderControl from '@/components/InvaderControl.vue'
 import ModalDiscardCommon from '@/components/ModalDiscardCommon.vue'
 import ModalDiscardPower from '@/components/ModalDiscardPower.vue'
@@ -12,7 +12,6 @@ import GameSettingModal from '@/components/GameSettingModal.vue'
 import CardZoomModal from '@/components/CardZoomModal.vue'
 import EventZoomModal from '@/components/EventZoomModal.vue'
 import AdversarySetupInfo from '@/components/AdversarySetupInfo.vue'
-import SpiritPanelModal from '@/components/SpiritPanel/Modal.vue'
 import { useCardZoomStore } from '@/stores/CardZoomStore'
 import { useEventDeckStore } from '@/stores/EventDeckStore'
 import { useModalStore } from '@/stores/ModalStore'
@@ -23,6 +22,8 @@ import DaysThatNeverWere from '@/components/DaysThatNeverWere.vue'
 import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
 import GleamingHoard from '@/components/GleamingHoard/Modal.vue'
 import { useGleamingHoardStore } from '@/components/GleamingHoard/Store'
+import { usePlayerCardStore } from '@/stores/PlayerCardStore'
+import { useSpiritInfo } from '@/composable/useSpiritInfo'
 const VisionOfAShiftingFutureModal = defineAsyncComponent(() => import('@/components/Spirit/VisionsShiftingFutureModal.vue'))
 const Sweden4Modal = defineAsyncComponent(() => import('@/components/Adversary/Sweden4Modal.vue'))
 const SaltDepositModal = defineAsyncComponent(() => import('@/components/Adversary/SaltDepositModal.vue'))
@@ -41,6 +42,17 @@ const modal = useModalStore()
 const gameOption = useGameOptionStore()
 const daysThatNeverWereDeck = useDaysThatNeverWereStore()
 const gleamingHoardStore = useGleamingHoardStore()
+const player = usePlayerCardStore()
+const isHasAspect = computed(() => Boolean(gameOption.aspectsDetail[player.current]))
+const { spiritInfo } = useSpiritInfo()
+const spiritPanelModal = defineAsyncComponent(() => {
+  switch (spiritInfo.value.name) {
+    case 'Starlight Seeks Its Form':
+      return import('@/components/SpiritPanel/Starlight.vue')
+    default:
+      return import('@/components/SpiritPanel/Modal.vue')
+  }
+})
 </script>
 
 <template>
@@ -54,7 +66,7 @@ const gleamingHoardStore = useGleamingHoardStore()
     <game-setting-modal v-if="modal.gameSettings" />
     <card-zoom-modal v-if="useCardZoomStore().isShow" />
     <event-zoom-modal v-if="useEventDeckStore().reveal" />
-    <aspect-detail v-if="modal.aspectDetail" />
+    <aspect-detail v-if="modal.aspectDetail && isHasAspect" />
     <russia5-modal v-if="gameOption.hasRussia5" />
     <invader-control v-if="modal.invaderControl" />
     <adversary-setup-info v-if="modal.adversarySetup" />

@@ -37,7 +37,8 @@ function createPlayer(index: number): Player {
     disk: [],
     totalCardPlay,
     income,
-    innate: innate ?? []
+    innate: innate ?? [],
+    saved: []
   }
 }
 function createDefaultElement(): { [K in Element]: number } {
@@ -137,6 +138,9 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     innate(state) {
       return state.players[state.current].innate
+    },
+    saved(state) {
+      return state.players[state.current].saved
     }
   },
   actions: {
@@ -358,6 +362,9 @@ export const usePlayerCardStore = defineStore('playerCard', {
           }
           break
         case 'another':
+          if (presence.callback) {
+            presence.callback(hasDisk)
+          }
           break
       }
     },

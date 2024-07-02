@@ -41,3 +41,16 @@ export function setupWoundedWaters(playerIndex: number) {
 export function setupDancesUpEarthquakes(playerIndex: number) {
   useImpendingCardStore().setIndex(playerIndex)
 }
+
+export function energyChange(energy: number, reverse: boolean) {
+  const player = usePlayerCardStore()
+  if (reverse) {
+    for (let i = 0; i < energy; i++) {
+      player.reduceEnergy()
+    }
+  } else {
+    for (let i = 0; i < energy; i++) {
+      player.addEnergy()
+    }
+  }
+}

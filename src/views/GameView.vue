@@ -8,6 +8,7 @@ import { changePosition, getSpiritAvatar } from '@/utils'
 import AspectPower from '@/components/AspectPower.vue'
 import PowerDiscard from '@/components/PowerDiscard.vue'
 import SpiritPanelTrigger from '@/components/SpiritPanel/Trigger.vue'
+// @ts-ignore
 import GameViewModals from '@/components/GameView/Modals.vue'
 import GleamingHoardTrigger from '@/components/GleamingHoard/Trigger.vue'
 import AnyElementTrigger from '@/components/AnyElement/Trigger.vue'

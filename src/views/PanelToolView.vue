@@ -11,7 +11,15 @@ onKeyStroke(['s'], (e) => {
   e.preventDefault()
   downloadObjectAsJson(toRaw(map), NAME)
 })
-const { map, save, cal, label, last, SPACE_Y } = usePresenceSpiritPanelTool(container)
+onKeyStroke(['f'], (e) => {
+  e.preventDefault()
+  downloadObjectAsJson(toRaw(block), NAME)
+})
+onKeyStroke(['b'], (e) => {
+  e.preventDefault()
+  addBlock()
+})
+const { map, save, cal, calBlock, label, last, SPACE_Y } = usePresenceSpiritPanelTool(container)
 const presences = computed(() => map.presences) as ComputedRef<Presence[]>
 const currentPoint = ref(0)
 const space_x = ref(0)
@@ -38,13 +46,91 @@ function undo() {
     map.presences.pop()
   }
 }
+
+const block = ref([
+  {
+    width: 8,
+    height: 8,
+    point: {
+      x: 45.8,
+      y: 23.8
+    }
+  },
+  {
+    width: 16,
+    height: 8,
+    point: {
+      x: 60,
+      y: 23.8
+    }
+  },
+  {
+    width: 8,
+    height: 8,
+    point: {
+      x: 45.8,
+      y: 36
+    }
+  },
+  {
+    width: 16,
+    height: 8,
+    point: {
+      x: 60,
+      y: 36
+    }
+  },
+  {
+    width: 7,
+    height: 8,
+    point: {
+      x: 50.5,
+      y: 48
+    }
+  },
+  {
+    width: 12,
+    height: 8,
+    point: {
+      x: 62,
+      y: 48
+    }
+  },
+  {
+    width: 7,
+    height: 8,
+    point: {
+      x: 50.5,
+      y: 61
+    }
+  },
+  {
+    width: 12,
+    height: 8,
+    point: {
+      x: 62,
+      y: 61
+    }
+  }
+])
+const currentBlock = ref(0)
+function addBlock() {
+  block.value.push({
+    width: 10,
+    height: 10,
+    point: {
+      x: 50,
+      y: 50
+    }
+  })
+}
 </script>
 
 <template>
   <div class="flex">
     <div @click="save" class="h-[600px]">
       <div ref="container" class="relative h-full w-fit">
-        <img alt="" class="h-full w-auto bottom-0 right-0 whitespace-nowrap" src="/img/spirits/gleaming_hoard.webp" />
+        <img alt="" class="h-full w-auto bottom-0 right-0 whitespace-nowrap" src="/img/spirits/starlight_seeks_its_form_small.webp" />
         <div
           v-for="(item, index) in presences"
           :style="cal(item.point)"
@@ -56,6 +142,15 @@ function undo() {
         >
           {{ label(item) }}
         </div>
+        <div
+          v-for="(item, index) in block"
+          :style="calBlock(item.point, item.width, item.height)"
+          :class="{
+            'bg-red-700': currentBlock === index,
+            'bg-green-700': currentBlock !== index
+          }"
+          class="absolute text-white rounded flex justify-center items-center"
+        ></div>
       </div>
       <div class="absolute top-4 left-4 bg-gray-800/30 p-4 rounded-lg">
         <div>X: {{ last.x }}</div>
@@ -94,6 +189,32 @@ function undo() {
             </div>
             <div>X: <input class="w-20" v-model="item.point.x" type="number" /></div>
             <div>Y: <input class="w-20" v-model="item.point.y" type="number" /></div>
+          </div>
+          <div v-for="(item, index) in block" @click="currentBlock = index" class="w-1/4 border border-blue-700 p-2">
+            <div class="flex mb-2">
+              <label :for="`width-${index}`">Width:</label>
+              <div class="ml-2 border-b border-gray-400">
+                <input class="outline-none w-10" :id="`width-${index}`" v-model="item.width" type="number" />
+              </div>
+            </div>
+            <div class="flex mb-2">
+              <label :for="`height-${index}`">Height:</label>
+              <div class="ml-2 border-b border-gray-400">
+                <input class="outline-none w-10" :id="`height-${index}`" v-model="item.height" type="number" />
+              </div>
+            </div>
+            <div class="flex mb-2">
+              <label :for="`x-${index}`">X:</label>
+              <div class="ml-2 border-b border-gray-400">
+                <input class="outline-none w-10" :id="`height-${index}`" v-model="item.point.x" type="number" />
+              </div>
+            </div>
+            <div class="flex mb-2">
+              <label :for="`y-${index}`">Y:</label>
+              <div class="ml-2 border-b border-gray-400">
+                <input class="outline-none w-10" :id="`height-${index}`" v-model="item.point.y" type="number" />
+              </div>
+            </div>
           </div>
         </div>
       </div>

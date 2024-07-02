@@ -13,7 +13,7 @@ const spiritName = computed(() => nameParser(spiritInfo.value.name).toLowerCase(
 const { presences, scale } = spiritInfo.value.panel as { presences: Presence[]; scale: number }
 const player = usePlayerCardStore()
 const container = ref(null)
-const { cal } = useSpiritPanel(container, scale)
+const { cal, width, height } = useSpiritPanel(container, scale)
 const currentBoard = ref(0)
 
 function isExist(i: number) {
@@ -31,7 +31,7 @@ function switchBoard() {
 
 <template>
   <div class="cs-modal z-40" @click.self="useModalStore().panel = false">
-    <div ref="container" class="bg-white rounded-lg h-[95%] relative">
+    <div ref="container" id="spirit-panel-modal-container" class="bg-white rounded-lg h-[95%] relative">
       <template v-if="currentBoard === 0">
         <img class="h-full" :src="`/img/spirits/${spiritName}_small.webp`" alt="Spirit panel" />
         <div
@@ -42,6 +42,7 @@ function switchBoard() {
           class="absolute cursor-pointer text-white rounded-full flex justify-center items-center"
           @click="diskClick(index as number)"
         />
+        <slot :containerWidth="width" :containerHeight="height" />
         <div v-if="!player.hasTakeIncome" @click="player.takeIncome()" class="absolute left-2 top-2 flex text-lg items-center bg-amber-600 text-white font-bold px-4 py-1 rounded-md cursor-pointer">
           <span class="icon-bolt"></span>
           <div>+{{ player.income }}</div>
