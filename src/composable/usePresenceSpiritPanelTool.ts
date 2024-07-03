@@ -8,100 +8,11 @@ export function usePresenceSpiritPanelTool(container: Ref) {
   const map = reactive({
     presences: [
       {
-        point: {
-          x: 36.6,
-          y: 23.5
-        },
-        type: 'another'
-      },
-      {
-        type: 'another',
-        point: {
-          x: 36.6,
-          y: 36.2
-        }
-      },
-      {
-        type: 'another',
-        point: {
-          x: 35.3,
-          y: 47.7
-        }
-      },
-      {
-        type: 'another',
-        point: {
-          x: 42.8,
-          y: 47.7
-        }
-      },
-      {
-        type: 'another',
-        value: 0,
-        point: {
-          x: 42.8,
-          y: 61.8
-        }
-      },
-      {
-        type: 'another',
-        value: 0,
-        point: {
-          x: 35.3,
-          y: 61.8
-        }
-      },
-      {
-        type: 'energy',
-        value: '2',
-        point: {
-          x: 50.1,
-          y: 77.5
-        }
-      },
-      {
-        type: 'another',
-        value: 0,
-        point: {
-          x: 57.6,
-          y: 77.5
-        }
-      },
-      {
-        type: 'energy',
-        value: '4',
-        point: {
-          x: 65.2,
-          y: 77.5
-        }
-      },
-      {
-        type: 'another',
-        value: 0,
-        point: {
-          x: 50.1,
-          y: 91
-        }
-      },
-      {
-        type: 'another',
-        value: 0,
-        point: {
-          x: 57.6,
-          y: 91
-        }
-      },
-      {
-        type: 'card-play',
-        value: '3',
-        point: {
-          x: 65.2,
-          y: 91
-        }
+        point: { x: 79.6, y: 23 }
       }
     ],
-    scale: 6,
-    energy: 1,
+    scale: 5,
+    energy: 0,
     cardPlay: 1
   })
 
@@ -133,7 +44,7 @@ export function usePresenceSpiritPanelTool(container: Ref) {
         break
     }
 
-    return `${prefix}${presence.value}`
+    return `${prefix}${presence.value ?? ''}`
   }
 
   const SPACE_Y = ref(5)

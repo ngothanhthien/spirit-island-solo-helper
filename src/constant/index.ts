@@ -2,7 +2,17 @@ import type { PowerCard, Adversary, BlightCard, SpiritType, InnatePower } from '
 import { setupDarkFire, setupIntensify, setupLocus, setupMight, setupNourishing, setupSpreadingHostility, setupSunshine, setupTangles, setupViolence, setupWarrior } from '@/utils/setup'
 import { setupSparking } from '@/utils/setup'
 import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox, returnTopInvaderCardToBox } from '@/utils/event'
-import { energyChange, setupDancesUpEarthquakes, setupDaysThatNeverWere, setupGleamingHoard, setupHearthVigil, setupWoundedWaters } from '@/utils/spirit'
+import {
+  addAnyElement,
+  addSwitchElement,
+  energyChange,
+  setupDancesUpEarthquakes,
+  setupDaysThatNeverWere,
+  setupGleamingHoard,
+  setupHearthVigil,
+  setupWoundedWaters,
+  woundedWatersPresence3
+} from '@/utils/spirit'
 import { setupInvadersFindTheLand } from '@/utils/blight'
 
 export const MINOR_CARDS: Array<PowerCard> = [
@@ -3414,7 +3424,124 @@ export const SPIRIT: Array<SpiritType> = [
         description: 'Push 1 Explorer and 1 Town.'
       }
     ],
-    setup: setupWoundedWaters
+    setup: setupWoundedWaters,
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 51.5,
+            y: 46.7
+          },
+          callback: (reverse: boolean) => {
+            addSwitchElement(reverse, 'Water', 'Animal')
+          }
+        },
+        {
+          point: {
+            x: 59.5,
+            y: 46.7
+          }
+        },
+        {
+          point: {
+            x: 67.5,
+            y: 46.7
+          },
+          callback: woundedWatersPresence3
+        },
+        {
+          type: 'energy',
+          point: {
+            x: 75,
+            y: 39.1
+          },
+          value: 3
+        },
+        {
+          type: 'energy',
+          point: {
+            x: 83,
+            y: 39.1
+          },
+          value: 4,
+          callback: (reverse: boolean) => {
+            addSwitchElement(reverse, 'Fire', 'Plant')
+          }
+        },
+        {
+          point: {
+            x: 91,
+            y: 39.1
+          },
+          type: 'energy',
+          value: 5,
+          callback: addAnyElement
+        },
+        {
+          point: {
+            x: 75,
+            y: 54
+          },
+          type: 'card-play',
+          value: 3
+        },
+        {
+          point: {
+            x: 83,
+            y: 54
+          }
+        },
+        {
+          point: {
+            x: 91,
+            y: 54
+          },
+          type: 'card-play',
+          value: 4
+        }
+      ],
+      scale: 6,
+      energy: 0,
+      cardPlay: 1
+    },
+    innate: [
+      {
+        name: 'Swirl and Spill',
+        elements: [
+          {
+            Water: 2
+          },
+          {
+            Water: 3,
+            Animal: 1
+          },
+          {
+            Water: 5,
+            Plant: 2,
+            Animal: 2
+          }
+        ],
+        fast: false
+      },
+      {
+        name: 'Sanguinary Taint',
+        elements: [
+          {
+            Animal: 2
+          },
+          {
+            Water: 1,
+            Animal: 3
+          },
+          {
+            Fire: 2,
+            Water: 2,
+            Animal: 5
+          }
+        ],
+        fast: false
+      }
+    ]
   },
   {
     name: 'Breath of Darkness Down Your Spine',
@@ -3703,6 +3830,50 @@ export const EXTRA_INNATE: InnatePower[] = [
         Animal: 3
       }
     ]
+  },
+  {
+    name: 'Afflict with Bloodthirst',
+    elements: [
+      {
+        Animal: 1
+      },
+      {
+        Animal: 3,
+        Fire: 1
+      },
+      {
+        Sun: 1,
+        Fire: 2,
+        Animal: 4
+      },
+      {
+        Fire: 1,
+        Animal: 2
+      }
+    ],
+    fast: true
+  },
+  {
+    name: 'Call to a Fastness of Renewal',
+    elements: [
+      {
+        Water: 1
+      },
+      {
+        Water: 2,
+        Plant: 1
+      },
+      {
+        Water: 3,
+        Plant: 1
+      },
+      {
+        Water: 4,
+        Plant: 2,
+        Sun: 1
+      }
+    ],
+    fast: true
   }
 ]
 export const ADVERSARY: Array<Adversary> = [

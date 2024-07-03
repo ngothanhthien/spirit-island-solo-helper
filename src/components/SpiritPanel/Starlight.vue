@@ -1,7 +1,7 @@
 <script setup>
 import BaseModal from '@/components/SpiritPanel/Modal.vue'
 import { ref } from 'vue'
-import { calBlock, toAbsolute } from '@/utils'
+import { calBlock } from '@/utils'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 
 const clickAbleMap = ref([
@@ -118,5 +118,3 @@ function isFaded(index) {
     </template>
   </base-modal>
 </template>
-
-<style scoped></style>

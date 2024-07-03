@@ -216,11 +216,11 @@ function toAbsolute(num: number, compare: number) {
   return (num / 100) * compare
 }
 
-function calBlock(point: Point, _width: number, _height: number, width: number, height: number) {
+function calBlock(point: Point, _width: number, _height: number | null, width: number, height: number) {
   const _x = toAbsolute(point.x, width)
   const _y = toAbsolute(point.y, height)
   const _WIDTH = toAbsolute(_width, width)
-  const _HEIGHT = toAbsolute(_height, height)
+  const _HEIGHT = _height ? toAbsolute(_height, height) : _WIDTH
   return `left: ${_x - _WIDTH / 2}px; top: ${_y - _HEIGHT / 2}px; width: ${_WIDTH}px; height: ${_HEIGHT}px;`
 }
 

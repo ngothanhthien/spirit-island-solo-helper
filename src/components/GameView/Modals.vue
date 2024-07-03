@@ -24,6 +24,7 @@ import GleamingHoard from '@/components/GleamingHoard/Modal.vue'
 import { useGleamingHoardStore } from '@/components/GleamingHoard/Store'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useSpiritInfo } from '@/composable/useSpiritInfo'
+import BaseZoom from '@/components/base/BaseZoom.vue'
 const VisionOfAShiftingFutureModal = defineAsyncComponent(() => import('@/components/Spirit/VisionsShiftingFutureModal.vue'))
 const Sweden4Modal = defineAsyncComponent(() => import('@/components/Adversary/Sweden4Modal.vue'))
 const SaltDepositModal = defineAsyncComponent(() => import('@/components/Adversary/SaltDepositModal.vue'))
@@ -47,6 +48,8 @@ const isHasAspect = computed(() => Boolean(gameOption.aspectsDetail[player.curre
 const { spiritInfo } = useSpiritInfo()
 const spiritPanelModal = defineAsyncComponent(() => {
   switch (spiritInfo.value.name) {
+    case 'Wounded Waters Bleeding':
+      return import('@/components/SpiritPanel/WoundedWatersBleed.vue')
     case 'Starlight Seeks Its Form':
       return import('@/components/SpiritPanel/Starlight.vue')
     default:
@@ -84,5 +87,6 @@ const spiritPanelModal = defineAsyncComponent(() => {
     <vision-of-a-shifting-future-modal v-if="modal.visionShiftingFuture" />
     <spirit-panel-modal v-if="modal.panel" />
     <gleaming-hoard v-if="gleamingHoardStore.isShowModal" />
+    <base-zoom v-if="modal.baseZoom" />
   </div>
 </template>

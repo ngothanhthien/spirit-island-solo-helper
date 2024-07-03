@@ -102,5 +102,3 @@ function elementClick(element: string, index: number, elementIndex: number, mode
     </div>
   </div>
 </template>
-
-<style scoped></style>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAnyElement } from '@/components/AnyElement/functional'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import type { Element as csElement } from '@/types'
 import { removeCard } from '@/utils'
 

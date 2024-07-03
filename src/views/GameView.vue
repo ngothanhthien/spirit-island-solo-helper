@@ -8,6 +8,7 @@ import { changePosition, getSpiritAvatar } from '@/utils'
 import AspectPower from '@/components/AspectPower.vue'
 import PowerDiscard from '@/components/PowerDiscard.vue'
 import SpiritPanelTrigger from '@/components/SpiritPanel/Trigger.vue'
+import SwitchElementTrigger from '@/components/SwitchElement/Trigger.vue'
 // @ts-ignore
 import GameViewModals from '@/components/GameView/Modals.vue'
 import GleamingHoardTrigger from '@/components/GleamingHoard/Trigger.vue'
@@ -266,6 +267,7 @@ onMounted(async () => {
               </span>
             </div>
             <any-element-trigger />
+            <switch-element-trigger />
             <spirit-panel-trigger v-if="spiritInfo.panel" />
             <gleaming-hoard-trigger v-if="useGleamingHoardStore().hasGleamingHoard" />
           </div>

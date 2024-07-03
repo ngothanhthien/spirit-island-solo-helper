@@ -13,7 +13,7 @@ onKeyStroke(['s'], (e) => {
 })
 onKeyStroke(['f'], (e) => {
   e.preventDefault()
-  downloadObjectAsJson(toRaw(block), NAME)
+  downloadObjectAsJson(block.value, NAME)
 })
 onKeyStroke(['b'], (e) => {
   e.preventDefault()
@@ -34,11 +34,11 @@ function autoGen() {
       x: point.x + SPACE_X * (i + 1) + margin_x.value,
       y: point.y + SPACE_Y.value
     }
-    map.presences.push({
-      type: '',
-      value: 0,
-      point: newPoint
-    })
+    // map.presences.push({
+    //   type: '',
+    //   value: 0,
+    //   point: newPoint
+    // })
   }
 }
 function undo() {
@@ -49,67 +49,11 @@ function undo() {
 
 const block = ref([
   {
-    width: 8,
-    height: 8,
-    point: {
-      x: 45.8,
-      y: 23.8
-    }
-  },
-  {
-    width: 16,
-    height: 8,
-    point: {
-      x: 60,
-      y: 23.8
-    }
-  },
-  {
-    width: 8,
-    height: 8,
-    point: {
-      x: 45.8,
-      y: 36
-    }
-  },
-  {
-    width: 16,
-    height: 8,
-    point: {
-      x: 60,
-      y: 36
-    }
-  },
-  {
-    width: 7,
-    height: 8,
-    point: {
-      x: 50.5,
-      y: 48
-    }
-  },
-  {
-    width: 12,
-    height: 8,
-    point: {
-      x: 62,
-      y: 48
-    }
-  },
-  {
-    width: 7,
-    height: 8,
-    point: {
-      x: 50.5,
-      y: 61
-    }
-  },
-  {
-    width: 12,
-    height: 8,
-    point: {
-      x: 62,
-      y: 61
+    "width": 37,
+    "height": 52,
+    "point": {
+      "x": 19,
+      "y": 41
     }
   }
 ])
@@ -130,7 +74,7 @@ function addBlock() {
   <div class="flex">
     <div @click="save" class="h-[600px]">
       <div ref="container" class="relative h-full w-fit">
-        <img alt="" class="h-full w-auto bottom-0 right-0 whitespace-nowrap" src="/img/spirits/starlight_seeks_its_form_small.webp" />
+        <img alt="" class="h-full w-auto bottom-0 right-0 whitespace-nowrap" src="/img/spirits/wounded_waters_bleeding_small.webp" />
         <div
           v-for="(item, index) in presences"
           :style="cal(item.point)"
@@ -149,8 +93,10 @@ function addBlock() {
             'bg-red-700': currentBlock === index,
             'bg-green-700': currentBlock !== index
           }"
-          class="absolute text-white rounded flex justify-center items-center"
-        ></div>
+          class="absolute text-white rounded flex justify-center items-center overflow-hidden"
+        >
+          <img style="width: 105%; top: -1%; position: absolute; max-width: none" src="/img/spirits/serene_waters.webp" />
+        </div>
       </div>
       <div class="absolute top-4 left-4 bg-gray-800/30 p-4 rounded-lg">
         <div>X: {{ last.x }}</div>

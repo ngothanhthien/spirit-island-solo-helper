@@ -7,6 +7,7 @@ import { EXTRA_INNATE, SPIRIT } from '@/constant'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { useSpiritInfo } from '@/composable/useSpiritInfo'
 import { useAnyElement } from '@/components/AnyElement/functional'
+import { useSwitchElement } from '@/components/SwitchElement/functional'
 
 function createPlayer(index: number): Player {
   const { cards, panel, innate } = SPIRIT[index]
@@ -104,6 +105,12 @@ export const usePlayerCardStore = defineStore('playerCard', {
         elements[key] += value || 0
       })
       const { elements: extra } = useAnyElement()
+      const { switchElements } = useSwitchElement()
+      switchElements.value.forEach(({ selected }) => {
+        if (selected !== 'Any') {
+          elements[selected]++
+        }
+      })
       extra.value.forEach((e) => {
         if (e !== 'Any') {
           elements[e]++
@@ -320,7 +327,6 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     handleDiskEffect(presence: Presence, hasDisk: boolean, { presences, energy, cardPlay }: { presences: Presence[]; energy: number; cardPlay: number }) {
       const player = this.players[this.current]
-      console.log(presence.type)
       switch (presence.type) {
         case 'energy':
           if (hasDisk) {
@@ -332,10 +338,8 @@ export const usePlayerCardStore = defineStore('playerCard', {
                 maxIncome = Math.max(maxIncome, original.value as number)
               }
             }
-            console.log(maxIncome)
             player.income = maxIncome
           } else {
-            console.log(presence.value)
             player.income = presence.value as number
           }
           break
@@ -362,10 +366,10 @@ export const usePlayerCardStore = defineStore('playerCard', {
           }
           break
         case 'another':
-          if (presence.callback) {
-            presence.callback(hasDisk)
-          }
           break
+      }
+      if (presence.callback) {
+        presence.callback(hasDisk)
       }
     },
     takeIncome() {
@@ -387,6 +391,12 @@ export const usePlayerCardStore = defineStore('playerCard', {
       if (index !== -1) {
         player.innate.splice(index, 1)
       }
+    },
+    setIncome(value: number) {
+      this.players[this.current].income = value
+    },
+    setCardPlay(value: number) {
+      this.players[this.current].totalCardPlay = value
     }
   },
   persist: true
