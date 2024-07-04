@@ -1,4 +1,4 @@
-import { reactive, ref, type Ref } from 'vue'
+import { reactive, type Ref } from 'vue'
 import { toPercent } from '@/utils'
 import { useElementSize, useMouseInElement } from '@vueuse/core'
 import type { Presence } from '@/types'
@@ -8,10 +8,10 @@ export function usePresenceSpiritPanelTool(container: Ref) {
   const map = reactive({
     presences: [
       {
-        point: { x: 79.6, y: 23 }
+        point: { x: 51.5, y: 32.6 }
       }
-    ],
-    scale: 5,
+    ] as Presence[],
+    scale: 6,
     energy: 0,
     cardPlay: 1
   })
@@ -47,10 +47,7 @@ export function usePresenceSpiritPanelTool(container: Ref) {
     return `${prefix}${presence.value ?? ''}`
   }
 
-  const SPACE_Y = ref(5)
-
   return {
-    SPACE_Y,
     map,
     cal,
     calBlock,

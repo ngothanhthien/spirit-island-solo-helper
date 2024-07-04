@@ -3,9 +3,11 @@ import { setupDarkFire, setupIntensify, setupLocus, setupMight, setupNourishing,
 import { setupSparking } from '@/utils/setup'
 import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox, returnTopInvaderCardToBox } from '@/utils/event'
 import {
-  addAnyElement,
+  addElement,
   addSwitchElement,
   energyChange,
+  increaseCardPlay,
+  increaseIncome,
   setupDancesUpEarthquakes,
   setupDaysThatNeverWere,
   setupGleamingHoard,
@@ -14,6 +16,7 @@ import {
   woundedWatersPresence3
 } from '@/utils/spirit'
 import { setupInvadersFindTheLand } from '@/utils/blight'
+import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 
 export const MINOR_CARDS: Array<PowerCard> = [
   {
@@ -136,14 +139,6 @@ export const MINOR_CARDS: Array<PowerCard> = [
     elements: ['Sun', 'Moon', 'Air'],
     description: '2 Fear. The next time an Invader is destroyed in target land this turn, 1 Fear.'
   },
-  // {
-  //   name: 'Growth through Sacrifice',
-  //   cost: 0,
-  //   speed: 'Fast',
-  //   elements: ['Moon', 'Fire', 'Water', 'Plant'],
-  //   description:
-  //     'Destroy 1 of your Presence. Target Spirit chooses to either: Remove 1 Blight from one of their lands. -or- Add 1 Presence to one of their lands. -If you have- 2 Sun: They may do both, in the same land.',
-  // },
   {
     name: 'Swarming Wasps',
     cost: 0,
@@ -2166,6 +2161,134 @@ export const SPIRIT: Array<SpiritType> = [
         elements: ['Fire', 'Air'],
         description: 'Destroy 1 Town. Discard the top card of the Minor Power Deck. If it provides Fire: 1 Fear, 2 Damage, and add 1 Blight.'
       }
+    ],
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 51.5,
+            y: 28.3
+          },
+          type: 'element',
+          value: 'Moon'
+        },
+        {
+          point: {
+            x: 59.08,
+            y: 28.3
+          },
+          value: 2,
+          type: 'energy'
+        },
+        {
+          point: {
+            x: 66.66,
+            y: 28.3
+          },
+          type: 'element',
+          value: 'Any'
+        },
+        {
+          point: {
+            x: 74.24,
+            y: 28.3
+          },
+          type: 'element',
+          value: 'Fire'
+        },
+        {
+          point: {
+            x: 81.82,
+            y: 28.3
+          },
+          type: 'energy',
+          value: 3
+        },
+        {
+          point: {
+            x: 51.5,
+            y: 42.4
+          }
+        },
+        {
+          point: {
+            x: 59.08,
+            y: 42.4
+          },
+          type: 'card-play',
+          value: 3
+        },
+        {
+          point: {
+            x: 66.66,
+            y: 42.4
+          }
+        },
+        {
+          point: {
+            x: 74.24,
+            y: 42.4
+          },
+          type: 'card-play',
+          value: 4
+        },
+        {
+          point: {
+            x: 81.82,
+            y: 42.4
+          },
+          type: 'element',
+          value: 'Air'
+        },
+        {
+          point: {
+            x: 89.4,
+            y: 42.4
+          },
+          type: 'card-play',
+          value: 5
+        }
+      ],
+      scale: 6,
+      energy: 1,
+      cardPlay: 2
+    },
+    innate: [
+      {
+        name: "Let's See What Happens",
+        elements: [
+          {
+            Moon: 1,
+            Fire: 1,
+            Air: 2
+          },
+          {
+            Moon: 2,
+            Fire: 1,
+            Air: 2
+          }
+        ],
+        fast: true
+      },
+      {
+        name: "Why Don't You and Them Fight",
+        elements: [
+          {
+            Moon: 3
+          },
+          {
+            Air: 3
+          },
+          {
+            Sun: 3,
+            Fire: 3
+          },
+          {
+            Animal: 3
+          }
+        ],
+        fast: true
+      }
     ]
   },
   {
@@ -2216,6 +2339,143 @@ export const SPIRIT: Array<SpiritType> = [
           }
         ]
       }
+    ],
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 49.5,
+            y: 29.5
+          },
+          value: 1,
+          type: 'energy'
+        },
+        {
+          point: {
+            x: 57.1,
+            y: 29.5
+          },
+          type: 'element',
+          value: 'Water'
+        },
+        {
+          point: {
+            x: 64.7,
+            y: 29.5
+          },
+          type: 'energy',
+          value: 2
+        },
+        {
+          point: {
+            x: 72.3,
+            y: 29.5
+          },
+          type: 'element',
+          value: 'Air'
+        },
+        {
+          point: {
+            x: 49.5,
+            y: 45.77
+          },
+          type: 'card-play',
+          value: 2
+        },
+        {
+          point: {
+            x: 57.1,
+            y: 45.77
+          }
+        },
+        {
+          point: {
+            x: 64.7,
+            y: 45.77
+          },
+          type: 'element',
+          value: 'Moon'
+        },
+        {
+          point: {
+            x: 72.3,
+            y: 45.77
+          },
+          type: 'card-play',
+          value: 3
+        },
+        {
+          point: {
+            x: 79.9,
+            y: 45.77
+          },
+          type: 'card-play',
+          value: 4
+        },
+        {
+          point: {
+            x: 87.5,
+            y: 45.77
+          }
+        },
+        {
+          point: {
+            x: 95.1,
+            y: 45.77
+          },
+          type: 'card-play',
+          value: 5
+        }
+      ],
+      scale: 6,
+      energy: 0,
+      cardPlay: 1
+    },
+    innate: [
+      {
+        name: 'Suffocating Shroud',
+        elements: [
+          {
+            Water: 1,
+            Air: 2,
+            Moon: 1
+          },
+          {
+            Moon: 2,
+            Air: 3,
+            Water: 2
+          },
+          {
+            Water: 3,
+            Air: 4,
+            Moon: 4
+          },
+          {
+            Moon: 5,
+            Air: 6,
+            Water: 4
+          }
+        ],
+        fast: false
+      },
+      {
+        name: 'Lost in the Swirling Haze',
+        elements: [
+          {
+            Air: 1,
+            Water: 2
+          },
+          {
+            Air: 2,
+            Water: 3
+          },
+          {
+            Air: 3,
+            Water: 4
+          }
+        ],
+        fast: false
+      }
     ]
   },
   {
@@ -2249,6 +2509,133 @@ export const SPIRIT: Array<SpiritType> = [
         speed: 'Fast',
         elements: ['Fire', 'Air', 'Earth', 'Animal'],
         description: '1 Fear. Invaders skip Ravage Actions.'
+      }
+    ],
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 51.6,
+            y: 29.5
+          },
+          type: 'energy',
+          value: 2
+        },
+        {
+          point: {
+            x: 59.2,
+            y: 29.5
+          },
+          type: 'element',
+          value: 'Animal'
+        },
+        {
+          point: {
+            x: 66.7,
+            y: 29.5
+          },
+          type: 'energy',
+          value: 3
+        },
+        {
+          point: {
+            x: 74.3,
+            y: 29.5
+          },
+          type: 'energy',
+          value: 4
+        },
+        {
+          point: {
+            x: 51.6,
+            y: 45.8
+          },
+          value: 2,
+          type: 'card-play'
+        },
+        {
+          point: {
+            x: 59.2,
+            y: 45.8
+          },
+          type: 'element',
+          value: 'Fire'
+        },
+        {
+          point: {
+            x: 66.8,
+            y: 45.8
+          }
+        },
+        {
+          point: {
+            x: 74.4,
+            y: 45.8
+          },
+          type: 'card-play',
+          value: 3
+        },
+        {
+          point: {
+            x: 82,
+            y: 45.8
+          }
+        },
+        {
+          point: {
+            x: 89.6,
+            y: 45.8
+          },
+          type: 'card-play',
+          value: 4
+        }
+      ],
+      scale: 6,
+      energy: 1,
+      cardPlay: 1
+    },
+    innate: [
+      {
+        name: 'Epidemics Run Rampant',
+        elements: [
+          {
+            Fire: 1,
+            Animal: 3
+          },
+          {
+            Fire: 2,
+            Water: 1,
+            Animal: 4
+          },
+          {
+            Fire: 3,
+            Animal: 5,
+            Water: 3
+          }
+        ],
+        fast: true
+      },
+      {
+        name: 'Savage Revenges',
+        elements: [
+          {
+            Air: 3
+          },
+          {
+            Fire: 3,
+            Animal: 1
+          },
+          {
+            Fire: 4,
+            Animal: 2
+          },
+          {
+            Fire: 5,
+            Air: 2,
+            Animal: 2
+          }
+        ],
+        fast: false
       }
     ]
   },
@@ -2730,6 +3117,153 @@ export const SPIRIT: Array<SpiritType> = [
         elements: ['Moon', 'Air', 'Water'],
         description: 'Isolate target land. Push up to 1 Explorer and up to 2 Dahan.'
       }
+    ],
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 49.5,
+            y: 38.5
+          },
+          type: 'element',
+          value: 'Water'
+        },
+        {
+          point: {
+            x: 57.1,
+            y: 38.5
+          },
+          type: 'element',
+          value: 'Plant'
+        },
+        {
+          point: {
+            x: 64.7,
+            y: 38.5
+          },
+          type: 'element',
+          value: 'Water'
+        },
+        {
+          point: {
+            x: 72.3,
+            y: 38.5
+          },
+          type: 'energy',
+          value: 2,
+          callback: (reverse) => {
+            addElement('Air', reverse)
+          }
+        },
+        {
+          point: {
+            x: 79.9,
+            y: 38.5
+          },
+          type: 'element',
+          value: 'Water'
+        },
+        {
+          point: {
+            x: 87.4,
+            y: 38.5
+          },
+          type: 'element',
+          value: 'Earth'
+        },
+        {
+          point: {
+            x: 95,
+            y: 38.5
+          },
+          type: 'energy',
+          value: 2,
+          callback: (reverse) => {
+            addElement('Water', reverse)
+            addElement('Water', reverse)
+          }
+        },
+        {
+          point: {
+            x: 49.5,
+            y: 52
+          }
+        },
+        {
+          point: {
+            x: 57.1,
+            y: 52
+          },
+          type: 'element',
+          value: 'Water'
+        },
+        {
+          point: {
+            x: 64.7,
+            y: 52
+          },
+          type: 'card-play',
+          value: '2'
+        },
+        {
+          point: {
+            x: 72.3,
+            y: 52
+          }
+        },
+        {
+          point: {
+            x: 79.9,
+            y: 52
+          },
+          type: 'card-play',
+          value: 3
+        }
+      ],
+      scale: 6,
+      energy: 1,
+      cardPlay: 1
+    },
+    innate: [
+      {
+        name: 'Rain and Mud Suppress Conflict',
+        elements: [
+          {
+            Water: 3,
+            Air: 1
+          },
+          {
+            Water: 5,
+            Earth: 1
+          },
+          {
+            Air: 3,
+            Water: 9,
+            Earth: 2
+          }
+        ],
+        fast: true
+      },
+      {
+        name: "Water Nourishes Life's Growth",
+        elements: [
+          {
+            Water: 3,
+            Plant: 2
+          },
+          {
+            Water: 5,
+            Earth: 1,
+            Plant: 2
+          },
+          {
+            Water: 7,
+            Earth: 2,
+            Plant: 3
+          }
+        ],
+        fast: true
+      }
     ]
   },
   {
@@ -2777,6 +3311,161 @@ export const SPIRIT: Array<SpiritType> = [
         speed: 'Fast',
         elements: ['Sun', 'Fire', 'Air', 'Animal'],
         description: 'For each Dahan, you may move 1 Invader / Dahan / Presence / Beasts to a land within 2 Range that has Dahan.'
+      }
+    ],
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 51.8,
+            y: 29
+          },
+          type: 'element',
+          value: 'Sun'
+        },
+        {
+          // index 1
+          point: {
+            x: 65.9,
+            y: 29
+          },
+          type: 'element',
+          value: 'Water',
+          callback: (reverse) => {
+            const player = usePlayerCardStore()
+            if (player.disk.includes(8)) {
+              increaseIncome(1, reverse)
+            } else {
+              increaseIncome(2, reverse)
+            }
+          }
+        },
+        {
+          point: {
+            x: 80,
+            y: 29
+          },
+          callback: (reverse) => {
+            increaseIncome(2, reverse)
+          }
+        },
+        {
+          point: {
+            x: 94.1,
+            y: 29
+          },
+          type: 'element',
+          value: 'Any',
+          callback: (reverse) => {
+            increaseIncome(1, reverse)
+          }
+        },
+        {
+          point: {
+            x: 51.8,
+            y: 49.2
+          },
+          type: 'element',
+          value: 'Earth'
+        },
+        {
+          point: {
+            x: 65.9,
+            y: 49.2
+          },
+          callback: (reverse) => {
+            increaseCardPlay(1, reverse)
+          }
+        },
+        {
+          point: {
+            x: 80,
+            y: 49.2
+          },
+          callback: (reverse) => {
+            increaseCardPlay(1, reverse)
+          }
+        },
+        {
+          point: {
+            x: 94.1,
+            y: 49.2
+          }
+        },
+        {
+          // index 8
+          point: {
+            x: 59,
+            y: 39.2
+          },
+          type: 'element',
+          value: 'Moon',
+          callback: (reverse) => {
+            const player = usePlayerCardStore()
+            if (!player.disk.includes(1)) {
+              increaseIncome(1, reverse)
+            }
+          }
+        },
+        {
+          point: {
+            x: 73.1,
+            y: 39.2
+          },
+          type: 'element',
+          value: 'Air'
+        },
+        {
+          point: {
+            x: 87.2,
+            y: 39.2
+          },
+          callback: (reverse) => {
+            increaseIncome(1, reverse)
+          }
+        }
+      ],
+      scale: 6,
+      energy: 0,
+      cardPlay: 1
+    },
+    innate: [
+      {
+        name: 'Lay Paths The Cannot Help But Walk',
+        elements: [
+          {
+            Moon: 2,
+            Air: 2
+          },
+          {
+            Sun: 2,
+            Air: 2
+          },
+          {
+            Moon: 2,
+            Air: 4,
+            Water: 3
+          }
+        ],
+        fast: true
+      },
+      {
+        name: '',
+        elements: [
+          {
+            Air: 1,
+            Water: 2
+          },
+          {
+            Air: 2,
+            Earth: 2
+          },
+          {
+            Air: 3,
+            Plant: 2
+          }
+        ],
+        fast: true
       }
     ]
   },
@@ -2961,7 +3650,7 @@ export const SPIRIT: Array<SpiritType> = [
           point: { x: 80.14, y: 50.23 }
         }
       ],
-      scale: 7.3,
+      scale: 6,
       energy: 1,
       cardPlay: 1
     },
@@ -3390,6 +4079,156 @@ export const SPIRIT: Array<SpiritType> = [
         elements: ['Sun', 'Fire', 'Earth'],
         description: '1 Damage. or Add 1 Blight.'
       }
+    ],
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 51.5,
+            y: 32.5
+          },
+          type: 'energy',
+          value: 2,
+          callback: (reverse: boolean) => {
+            addElement('Sun', reverse)
+          }
+        },
+        {
+          point: {
+            x: 59.35,
+            y: 32.5
+          },
+          type: 'energy',
+          value: 3,
+          callback: (reverse: boolean) => {
+            addElement('Fire', reverse)
+          }
+        },
+        {
+          point: {
+            x: 67.2,
+            y: 32.5
+          },
+          type: 'element',
+          value: 'Sun'
+        },
+        {
+          point: {
+            x: 75.05,
+            y: 32.5
+          },
+          type: 'energy',
+          value: 4,
+          callback: (reverse: boolean) => {
+            addElement('Any', reverse)
+          }
+        },
+        {
+          point: {
+            x: 82.9,
+            y: 32.5
+          },
+          type: 'energy',
+          value: 5
+        },
+        {
+          point: {
+            x: 51.5,
+            y: 48.4
+          },
+          type: 'card-play',
+          value: 1
+        },
+        {
+          point: {
+            x: 59.35,
+            y: 48.4
+          },
+          type: 'card-play',
+          value: 2
+        },
+        {
+          point: {
+            x: 67.2,
+            y: 48.4
+          },
+          type: 'element',
+          value: 'Sun'
+        },
+        {
+          point: {
+            x: 75.05,
+            y: 48.4
+          },
+          type: 'card-play',
+          value: 3
+        },
+        {
+          point: {
+            x: 82.9,
+            y: 48.4
+          }
+        },
+        {
+          point: {
+            x: 90.75,
+            y: 48.4
+          },
+          type: 'card-play',
+          value: 4
+        }
+      ],
+      scale: 6,
+      energy: 1,
+      cardPlay: 1
+    },
+    innate: [
+      {
+        name: 'Scorching Convergence',
+        elements: [
+          {
+            Sun: 2
+          },
+          {
+            Sun: 3,
+            Fire: 1
+          },
+          {
+            Sun: 4,
+            Fire: 2,
+            Air: 1
+          },
+          {
+            Sun: 5,
+            Fire: 3,
+            Air: 2
+          }
+        ],
+        fast: false
+      },
+      {
+        name: 'Consider a Harmonious Nature',
+        elements: [
+          {
+            Sun: 3,
+            Moon: 1
+          },
+          {
+            Sun: 3,
+            Water: 1
+          },
+          {
+            Sun: 3,
+            Plant: 1
+          },
+          {
+            Sun: 3,
+            Water: 1,
+            Plant: 1
+          }
+        ],
+        fast: true
+      }
     ]
   },
   {
@@ -3475,7 +4314,9 @@ export const SPIRIT: Array<SpiritType> = [
           },
           type: 'energy',
           value: 5,
-          callback: addAnyElement
+          callback: (reverse: boolean) => {
+            addElement('Any', reverse)
+          }
         },
         {
           point: {
@@ -3576,6 +4417,149 @@ export const SPIRIT: Array<SpiritType> = [
         description:
           'If Explorers are present, Add 1 Beast and Add 1 Fear. Add 1 Fear per Terror Level. If target land is Mountain, Add 1 Fear. (Beast only Escapes with the Invader it’s attached to.)'
       }
+    ],
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 51.2,
+            y: 38.9
+          },
+          value: 2,
+          type: 'energy'
+        },
+        {
+          point: {
+            x: 59.05,
+            y: 38.9
+          },
+          type: 'element',
+          value: 'Moon'
+        },
+        {
+          point: {
+            x: 66.9,
+            y: 38.9
+          },
+          type: 'energy',
+          value: 3
+        },
+        {
+          point: {
+            x: 74.75,
+            y: 38.9
+          }
+        },
+        {
+          point: {
+            x: 82.7,
+            y: 38.9
+          },
+          type: 'energy',
+          value: 4,
+          callback: (reverse: boolean) => {
+            addElement('Animal', reverse)
+          }
+        },
+        {
+          point: {
+            x: 90.6,
+            y: 38.9
+          },
+          type: 'energy',
+          value: 5,
+          callback: (reverse: boolean) => {
+            addElement('Air', reverse)
+          }
+        },
+        {
+          point: {
+            x: 51.2,
+            y: 54.5
+          }
+        },
+        {
+          point: {
+            x: 59.05,
+            y: 54.5
+          },
+          type: 'card-play',
+          value: 3
+        },
+        {
+          point: {
+            x: 66.9,
+            y: 54.5
+          },
+          type: 'element',
+          value: 'Moon'
+        },
+        {
+          point: {
+            x: 74.75,
+            y: 54.5
+          }
+        },
+        {
+          point: {
+            x: 82.7,
+            y: 54.5
+          },
+          type: 'card-play',
+          value: 4,
+          callback: (reverse: boolean) => {
+            addElement('Air', reverse)
+          }
+        }
+      ],
+      scale: 6,
+      energy: 1,
+      cardPlay: 2
+    },
+    innate: [
+      {
+        name: 'Leave a Trail of Deathly Silence',
+        elements: [
+          {
+            Moon: 2,
+            Animal: 1
+          },
+          {
+            Moon: 3,
+            Animal: 1,
+            Air: 1
+          },
+          {
+            Moon: 4,
+            Air: 2,
+            Animal: 2
+          },
+          {
+            Moon: 5,
+            Air: 2,
+            Animal: 3
+          }
+        ],
+        fast: true
+      },
+      {
+        name: 'Lost in the Endless Dark',
+        elements: [
+          {
+            Moon: 2,
+            Air: 1
+          },
+          {
+            Moon: 4,
+            Air: 3
+          },
+          {
+            Moon: 3,
+            Animal: 2
+          }
+        ],
+        fast: false
+      }
     ]
   },
   {
@@ -3657,6 +4641,141 @@ export const SPIRIT: Array<SpiritType> = [
         elements: ['Sun', 'Moon', 'Fire', 'Plant'],
         description:
           'Add 2 Fear if Invaders are present or adjacent. In both target and one adjacent land, you may Remove an Invader with Health less than or equal to the Terror Level. (Damage doesn’t reduce Health.)'
+      }
+    ],
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 51.2,
+            y: 40.9
+          },
+          type: 'energy',
+          value: 2
+        },
+        {
+          point: {
+            x: 59.05,
+            y: 40.9
+          },
+          type: 'element',
+          value: 'Earth'
+        },
+        {
+          point: {
+            x: 66.9,
+            y: 40.9
+          },
+          type: 'energy',
+          value: 4
+        },
+        {
+          point: {
+            x: 74.75,
+            y: 40.9
+          },
+          type: 'element',
+          value: 'Plant'
+        },
+        {
+          point: {
+            x: 82.7,
+            y: 40.9
+          },
+          type: 'energy',
+          value: 6
+        },
+        {
+          point: {
+            x: 51.2,
+            y: 56.7
+          },
+          type: 'card-play',
+          value: 2
+        },
+        {
+          point: {
+            x: 59.05,
+            y: 56.7
+          },
+          type: 'element',
+          value: 'Sun'
+        },
+        {
+          point: {
+            x: 66.9,
+            y: 56.7
+          },
+          type: 'card-play',
+          value: 3
+        },
+        {
+          point: {
+            x: 74.75,
+            y: 56.7
+          },
+          type: 'element',
+          value: 'Plant'
+        },
+        {
+          point: {
+            x: 82.6,
+            y: 56.7
+          },
+          type: 'card-play',
+          value: 4
+        }
+      ],
+      scale: 6,
+      energy: 1,
+      cardPlay: 1
+    },
+    innate: [
+      {
+        name: 'Shelter Under Towering Branches',
+        elements: [
+          {
+            Sun: 1,
+            Plant: 1
+          },
+          {
+            Plant: 2,
+            Sun: 1,
+            Earth: 1
+          },
+          {
+            Sun: 2,
+            Earth: 1,
+            Plant: 3
+          },
+          {
+            Plant: 4,
+            Earth: 2,
+            Sun: 3
+          }
+        ],
+        fast: false
+      },
+      {
+        name: 'Revoke Sanctuary and Cast Out',
+        elements: [
+          {
+            Sun: 1,
+            Moon: 1,
+            Plant: 2
+          },
+          {
+            Sun: 2,
+            Moon: 1,
+            Plant: 3
+          },
+          {
+            Sun: 2,
+            Moon: 2,
+            Plant: 4
+          }
+        ],
+        fast: false
       }
     ]
   },
@@ -4548,7 +5667,6 @@ export const INVADER_CARD: Array<Array<InvaderCard>> = [
   ['SW-3', 'SJ-3', 'SM-3', 'WJ-3', 'WM-3', 'JM-3']
 ]
 export const MAP = ['A', 'B', 'C', 'D', 'E', 'F']
-export const PHASE_ENUM = ['Grow', 'Play Power', 'Fast Power', 'Blight', 'Event', 'Invader Action', 'Time Passed']
 export const CARD_RATIO = 5 / 7
 export const MENU_1 = {
   PLAY: 0,

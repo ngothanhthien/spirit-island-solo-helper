@@ -6,9 +6,7 @@ import { useImpendingCardStore } from '@/stores/ImpendingCardStore'
 import { useGleamingHoardStore } from '@/components/GleamingHoard/Store'
 import type { Element } from '@/types'
 import { useSwitchElement } from '@/components/SwitchElement/functional'
-import { useSpiritInfo } from '@/composable/useSpiritInfo'
 import { EXTRA_INNATE, SPIRIT } from '@/constant'
-import { removeCard } from '@/utils/index'
 
 export function setupDaysThatNeverWere(playerIndex: number) {
   const minor = usePowerDeckStore('minor')
@@ -60,6 +58,29 @@ export function energyChange(energy: number, reverse: boolean) {
   }
 }
 
+export function increaseIncome(income: number, reverse: boolean) {
+  const player = usePlayerCardStore()
+  const current = player.income
+  const set = current + (reverse ? -income : income)
+  player.setIncome(set < 0 ? 0 : set)
+}
+
+export function addElement(element: Element, reverse: boolean) {
+  const player = usePlayerCardStore()
+  if (reverse) {
+    player.decreaseElement(element)
+  } else {
+    player.increaseElement(element)
+  }
+}
+
+export function increaseCardPlay(cardPlay: number, reverse: boolean) {
+  const player = usePlayerCardStore()
+  const current = player.cardPlay
+  const set = current + (reverse ? -cardPlay : cardPlay)
+  player.setCardPlay(set < 1 ? 1 : set)
+}
+
 export function woundedWatersPresence3(reverse: boolean) {
   const player = usePlayerCardStore()
   player.setIncome(reverse ? 0 : 1)
@@ -75,22 +96,15 @@ export function addSwitchElement(reverse: boolean, element_1: Element, element_2
   }
 }
 
-export function addAnyElement(reverse: boolean) {
-  const player = usePlayerCardStore()
-  if (reverse) {
-    player.increaseElement('Any')
-  } else {
-    player.decreaseElement('Any')
-  }
-}
-
 export function exchangeInnate(added: string, removed: string) {
   const player = usePlayerCardStore()
   const localInnate = SPIRIT[player.rawIndex].innate ?? []
   const libInnate = EXTRA_INNATE
-  localInnate.forEach(innate => { libInnate.push(innate) })
-  const addedResult = libInnate.find(innate => innate.name === added)
-  const removedIndex = player.innate.findIndex(innate => innate.name === removed)
+  localInnate.forEach((innate) => {
+    libInnate.push(innate)
+  })
+  const addedResult = libInnate.find((innate) => innate.name === added)
+  const removedIndex = player.innate.findIndex((innate) => innate.name === removed)
   if (addedResult && removedIndex !== -1) {
     player.innate[removedIndex] = addedResult
   }

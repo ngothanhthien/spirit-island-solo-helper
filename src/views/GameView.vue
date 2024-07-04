@@ -44,6 +44,7 @@ import { useSpiritInfo } from '@/composable/useSpiritInfo'
 import { useGleamingHoardStore } from '@/components/GleamingHoard/Store'
 import InnateReminder from '@/components/InnateReminder.vue'
 import { useElementSize } from '@vueuse/core'
+import TemporaryElement from '@/components/AnyElement/TemporaryElement.vue'
 
 const playerCard = usePlayerCardStore()
 const eventDeck = useEventDeckStore()
@@ -226,9 +227,16 @@ onMounted(async () => {
                 </base-button>
               </div>
               <div class="flex justify-center items-center w-full" v-if="currentMenu2 === MENU_2.FUNCTION">
-                <div class="w-40 mx-auto space-y-4">
-                  <base-button class="w-full" :disabled="!playerCard.canReclaim" button-style="secondary" @click="onReclaimButtonClick"> Reclaims </base-button>
-                  <base-button class="w-full" button-style="secondary" @click="onTimePassedButtonClick"> Time Passed </base-button>
+                <div class="w-1/2">
+                  <div class="w-40 mx-auto space-y-4">
+                    <base-button class="w-full" :disabled="playerCard.discard.length === 0" button-style="secondary" @click="onReclaimButtonClick"> Reclaims </base-button>
+                    <base-button class="w-full" button-style="secondary" @click="onTimePassedButtonClick"> Time Passed </base-button>
+                  </div>
+                </div>
+                <div class="w-1/2">
+                  <div class="w-60 mx-auto space-y-4">
+                    <base-button class="w-full" button-style="secondary" @click="playerCard.tempElements.push('Any')">Temporary Element</base-button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -267,6 +275,7 @@ onMounted(async () => {
               </span>
             </div>
             <any-element-trigger />
+            <temporary-element />
             <switch-element-trigger />
             <spirit-panel-trigger v-if="spiritInfo.panel" />
             <gleaming-hoard-trigger v-if="useGleamingHoardStore().hasGleamingHoard" />

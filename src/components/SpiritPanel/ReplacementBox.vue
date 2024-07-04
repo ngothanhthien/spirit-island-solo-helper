@@ -4,18 +4,22 @@ import type { ReplacementBoxContainer } from '@/components/SpiritPanel/type'
 import { calBlock } from '@/utils'
 import { useModalStore } from '@/stores/ModalStore'
 
-defineProps({
+const props = defineProps({
   container: {
     type: Object as PropType<ReplacementBoxContainer>,
     required: true
   },
   csStyle: {
     type: String,
-    required: true
+    required: false
+  },
+  csClass: {
+    type: String,
+    required: false
   },
   path: {
     type: String,
-    required: true
+    required: false
   },
   panelWidth: {
     type: Number,
@@ -26,14 +30,21 @@ defineProps({
     required: true
   }
 })
+
+function showDetail() {
+  if (props.path) {
+    useModalStore().baseZoom = [props.path]
+  }
+}
 </script>
 
 <template>
   <div
     :style="calBlock(container.point, container.width, container.height, panelWidth, panelHeight)"
     class="absolute text-white rounded flex justify-center items-center overflow-hidden"
-    @click="useModalStore().baseZoom = path"
+    @click="showDetail"
   >
-    <img alt="replacement box" :style="csStyle" style="max-width: none" :src="path" />
+    <img v-if="path" alt="replacement box" :style="csStyle" style="max-width: none" :src="path" />
+    <slot />
   </div>
 </template>

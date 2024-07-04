@@ -52,10 +52,20 @@ const spiritPanelModal = defineAsyncComponent(() => {
       return import('@/components/SpiritPanel/WoundedWatersBleed.vue')
     case 'Starlight Seeks Its Form':
       return import('@/components/SpiritPanel/Starlight.vue')
+    case 'Shroud Of Silent Mist':
+      const aspect = gameOption.aspectsDetail[player.current]
+      if (!aspect) {
+        return defaultSpiritPanel()
+      }
+      return import('@/components/SpiritPanel/Mist.vue')
     default:
-      return import('@/components/SpiritPanel/Modal.vue')
+      return defaultSpiritPanel()
   }
 })
+
+function defaultSpiritPanel() {
+  return import('@/components/SpiritPanel/Modal.vue')
+}
 </script>
 
 <template>
@@ -87,6 +97,6 @@ const spiritPanelModal = defineAsyncComponent(() => {
     <vision-of-a-shifting-future-modal v-if="modal.visionShiftingFuture" />
     <spirit-panel-modal v-if="modal.panel" />
     <gleaming-hoard v-if="gleamingHoardStore.isShowModal" />
-    <base-zoom v-if="modal.baseZoom" />
+    <base-zoom v-if="modal.baseZoom.length > 0" />
   </div>
 </template>

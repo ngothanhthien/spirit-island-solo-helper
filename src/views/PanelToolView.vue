@@ -9,7 +9,30 @@ const container = ref(null)
 const NAME = 'vital_strength_of_the_earth'
 onKeyStroke(['s'], (e) => {
   e.preventDefault()
-  downloadObjectAsJson(toRaw(map), NAME)
+  const raw = toRaw(map)
+  const parsed = {
+    ...raw,
+    presences: raw.presences.map((item) => {
+      const { type, value, point } = item
+      if (!type) {
+        return {
+          point: {
+            x: Number(point.x),
+            y: Number(point.y)
+          }
+        }
+      }
+      return {
+        ...item,
+        value: type === 'energy' || type === 'card-play' ? Number(value) : value,
+        point: {
+          x: Number(point.x),
+          y: Number(point.y)
+        }
+      }
+    })
+  }
+  downloadObjectAsJson(parsed, NAME)
 })
 onKeyStroke(['f'], (e) => {
   e.preventDefault()
@@ -19,11 +42,11 @@ onKeyStroke(['b'], (e) => {
   e.preventDefault()
   addBlock()
 })
-const { map, save, cal, calBlock, label, last, SPACE_Y } = usePresenceSpiritPanelTool(container)
+const { map, save, cal, calBlock, label, last } = usePresenceSpiritPanelTool(container)
 const presences = computed(() => map.presences) as ComputedRef<Presence[]>
 const currentPoint = ref(0)
-const space_x = ref(0)
-const total = ref(0)
+const space_x = ref(7.85)
+const total = ref(1)
 const margin_x = ref(0)
 function autoGen() {
   const point = map.presences[currentPoint.value].point
@@ -32,13 +55,13 @@ function autoGen() {
   for (let i = 0; i < TOTAL; i++) {
     const newPoint = {
       x: point.x + SPACE_X * (i + 1) + margin_x.value,
-      y: point.y + SPACE_Y.value
+      y: point.y
     }
-    // map.presences.push({
-    //   type: '',
-    //   value: 0,
-    //   point: newPoint
-    // })
+    const lastPoint = map.presences[map.presences.length - 1]
+    map.presences.push({
+      ...lastPoint,
+      point: newPoint
+    })
   }
 }
 function undo() {
@@ -49,11 +72,11 @@ function undo() {
 
 const block = ref([
   {
-    "width": 37,
-    "height": 52,
-    "point": {
-      "x": 19,
-      "y": 41
+    width: 37,
+    height: 52,
+    point: {
+      x: 19,
+      y: 41
     }
   }
 ])
@@ -74,7 +97,7 @@ function addBlock() {
   <div class="flex">
     <div @click="save" class="h-[600px]">
       <div ref="container" class="relative h-full w-fit">
-        <img alt="" class="h-full w-auto bottom-0 right-0 whitespace-nowrap" src="/img/spirits/wounded_waters_bleeding_small.webp" />
+        <img alt="" class="h-full w-auto bottom-0 right-0 whitespace-nowrap" src="/img/spirits/towering_roots_of_the_jungle_small.webp" />
         <div
           v-for="(item, index) in presences"
           :style="cal(item.point)"
@@ -86,17 +109,17 @@ function addBlock() {
         >
           {{ label(item) }}
         </div>
-        <div
-          v-for="(item, index) in block"
-          :style="calBlock(item.point, item.width, item.height)"
-          :class="{
-            'bg-red-700': currentBlock === index,
-            'bg-green-700': currentBlock !== index
-          }"
-          class="absolute text-white rounded flex justify-center items-center overflow-hidden"
-        >
-          <img style="width: 105%; top: -1%; position: absolute; max-width: none" src="/img/spirits/serene_waters.webp" />
-        </div>
+        <!--        <div-->
+        <!--          v-for="(item, index) in block"-->
+        <!--          :style="calBlock(item.point, item.width, item.height)"-->
+        <!--          :class="{-->
+        <!--            'bg-red-700': currentBlock === index,-->
+        <!--            'bg-green-700': currentBlock !== index-->
+        <!--          }"-->
+        <!--          class="absolute text-white rounded flex justify-center items-center overflow-hidden"-->
+        <!--        >-->
+        <!--          <img style="width: 105%; top: -1%; position: absolute; max-width: none" src="/img/spirits/serene_waters.webp" />-->
+        <!--        </div>-->
       </div>
       <div class="absolute top-4 left-4 bg-gray-800/30 p-4 rounded-lg">
         <div>X: {{ last.x }}</div>
@@ -107,7 +130,6 @@ function addBlock() {
       <div id="presence-tool" class="flex">
         <div>Scale: <input class="w-20" v-model="map.scale" type="number" /></div>
         <div>
-          <div>SPACE_Y: <input class="w-20" v-model="SPACE_Y" type="number" /></div>
           <div>SPACE_X: <input class="w-20" v-model="space_x" type="number" /></div>
           <div>Margin X: <input class="w-20" v-model="margin_x" type="number" /></div>
           <div>Total: <input class="w-20" v-model="total" type="number" /></div>
@@ -127,14 +149,43 @@ function addBlock() {
           </div>
         </div>
         <div class="flex flex-wrap">
-          <div @click="currentPoint = index" v-for="(item, index) in presences" class="w-1/4 border border-red-700 p-2">
-            <div>Type: <input class="w-20" v-model="item.type" type="text" /></div>
-            <div>
-              Value:
-              <input class="w-20" v-model="item.value" :type="item.type === 'energy' ? 'number' : 'text'" />
+          <div @click="currentPoint = index" v-for="(item, index) in presences" class="w-1/4 border border-red-700 p-2 space-y-2">
+            <div class="flex space-x-2">
+              <label :class="{ 'text-red-700': !item.type }">
+                None
+                <input class="w-20" v-model="item.type" type="radio" hidden :value="null" />
+              </label>
+              <label :class="{ 'text-red-700': item.type === 'element' }">
+                Element
+                <input class="w-20" v-model="item.type" type="radio" hidden value="element" />
+              </label>
+              <label :class="{ 'text-red-700': item.type === 'card-play' }">
+                Card
+                <input class="w-20" v-model="item.type" type="radio" hidden value="card-play" />
+              </label>
+              <label :class="{ 'text-red-700': item.type === 'energy' }">
+                Energy
+                <input class="w-20" v-model="item.type" type="radio" hidden value="energy" />
+              </label>
             </div>
-            <div>X: <input class="w-20" v-model="item.point.x" type="number" /></div>
-            <div>Y: <input class="w-20" v-model="item.point.y" type="number" /></div>
+            <div class="flex mb-2">
+              <label :for="`type-${index}`">Value:</label>
+              <div class="ml-2 border-b border-gray-400">
+                <input class="w-20 outline-none" v-model="item.value" :type="item.type === 'energy' || item.type === 'card-play' ? 'number' : 'text'" />
+              </div>
+            </div>
+            <div class="flex mb-2">
+              <label :for="`x-${index}`">X:</label>
+              <div class="ml-2 border-b border-gray-400">
+                <input class="w-10 outline-none" v-model="item.point.x" type="number" />
+              </div>
+            </div>
+            <div class="flex mb-2">
+              <label :for="`y-${index}`">Y:</label>
+              <div class="ml-2 border-b border-gray-400">
+                <input class="w-10 outline-none" v-model="item.point.y" type="number" />
+              </div>
+            </div>
           </div>
           <div v-for="(item, index) in block" @click="currentBlock = index" class="w-1/4 border border-blue-700 p-2">
             <div class="flex mb-2">

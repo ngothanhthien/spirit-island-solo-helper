@@ -39,7 +39,8 @@ function createPlayer(index: number): Player {
     totalCardPlay,
     income,
     innate: innate ?? [],
-    saved: []
+    saved: [],
+    tempElements: [] as Element[]
   }
 }
 function createDefaultElement(): { [K in Element]: number } {
@@ -116,6 +117,12 @@ export const usePlayerCardStore = defineStore('playerCard', {
           elements[e]++
         }
       })
+      const tempElements = state.players[state.current].tempElements
+      tempElements.forEach((e) => {
+        if (e !== 'Any') {
+          elements[e]++
+        }
+      })
       return elements
     },
     permanentElements(state) {
@@ -148,6 +155,12 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     saved(state) {
       return state.players[state.current].saved
+    },
+    tempElements(state) {
+      return state.players[state.current].tempElements
+    },
+    cardPlay(state) {
+      return state.players[state.current].totalCardPlay
     }
   },
   actions: {
@@ -186,6 +199,7 @@ export const usePlayerCardStore = defineStore('playerCard', {
         player.used = []
         player.energyThisTurn = 0
         player.hasTakeIncome = false
+        player.tempElements = []
       })
     },
     take(card: string) {
@@ -397,6 +411,10 @@ export const usePlayerCardStore = defineStore('playerCard', {
     },
     setCardPlay(value: number) {
       this.players[this.current].totalCardPlay = value
+    },
+    selectTempElement(element: Element, elementIndex: number) {
+      const player = this.players[this.current]
+      player.tempElements[elementIndex] = element
     }
   },
   persist: true

@@ -30,6 +30,7 @@ export interface Player {
   hasTakeIncome: boolean
   innate: InnatePower[]
   saved: unknown[]
+  tempElements: Element[]
 }
 export interface Adversary {
   title: string

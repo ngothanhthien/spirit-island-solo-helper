@@ -6,6 +6,7 @@ import type { Point } from '@/types'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import ReplacementBox from '@/components/SpiritPanel/ReplacementBox.vue'
 import { exchangeInnate } from '@/utils/spirit'
+import { useModalStore } from '@/stores/ModalStore'
 
 const SCALE = 5
 const clickAbleMap = ref<Point[]>([
@@ -55,14 +56,14 @@ onMounted(() => {
 
 const isShowWatersTasteOfRuin = computed(() => has5Element.value && has3Animal.value)
 const isShowWatersRenew = computed(() => has5Element.value && has3Water.value)
-const has5Element = computed(() => !player.saved.some(i => i === 0))
-const has3Animal = computed(() => player.saved.filter(i => i === 2).length > 2)
-const has3Water = computed(() => player.saved.filter(i => i === 1).length > 2)
-const has3Element = computed(() => player.saved.filter(i => i as number > 0).length > 2)
+const has5Element = computed(() => !player.saved.some((i) => i === 0))
+const has3Animal = computed(() => player.saved.filter((i) => i === 2).length > 2)
+const has3Water = computed(() => player.saved.filter((i) => i === 1).length > 2)
+const has3Element = computed(() => player.saved.filter((i) => (i as number) > 0).length > 2)
 const isFirst3ElementAnimalMore = computed(() => {
   if (!has3Element.value) return false
-  const water = player.saved.slice(0, 3).filter(i => i === 1).length
-  const animal = player.saved.slice(0, 3).filter(i => i === 2).length
+  const water = player.saved.slice(0, 3).filter((i) => i === 1).length
+  const animal = player.saved.slice(0, 3).filter((i) => i === 2).length
   return animal > water
 })
 const isShowRoilingWaters = computed(() => has3Element.value && isFirst3ElementAnimalMore.value)
@@ -95,6 +96,10 @@ watch(isShowWatersRenew, (value) => {
     exchangeInnate('Swirl and Spill', 'Sanguinary Taint')
   }
 })
+
+function showHelp() {
+  useModalStore().baseZoom = ['/img/spirits/waters_taste_of_ruin.webp', '/img/spirits/waters_renew.webp', '/img/spirits/roiling_waters.webp', '/img/spirits/serene_waters.webp']
+}
 </script>
 
 <template>
@@ -107,6 +112,9 @@ watch(isShowWatersRenew, (value) => {
           <span class="path3" />
           <span class="path4" />
         </span>
+      </div>
+      <div class="absolute" style="top: 1%; left: 14%">
+        <span class="icon-help text-4xl text-orange-900" @click="showHelp" />
       </div>
       <replacement-box
         v-if="isShowWatersTasteOfRuin"
