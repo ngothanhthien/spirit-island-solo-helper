@@ -7,8 +7,6 @@ import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { getSpiritAvatar } from '@/utils'
 import { useModalStore } from '@/stores/ModalStore'
 
-defineEmits(['close'])
-
 const playerCard = usePlayerCardStore()
 const fearDeck = useFearDeckStore()
 const gameOption = useGameOptionStore()
@@ -31,7 +29,6 @@ function adjustElement(element: string) {
 
 function onClickExitGame() {
   if (appEnviroment.value === 'dev') {
-    close()
     router.push({ name: 'HomeView' })
     return
   }

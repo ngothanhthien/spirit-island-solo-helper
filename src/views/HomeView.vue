@@ -8,6 +8,7 @@ import { usePowerDeckStore } from '@/stores/PowerDeckStore'
 import { PWAInstallElement } from '@khmyznikov/pwa-install'
 import { ref } from 'vue'
 import injectWakeScreen from '@/plugins/wakeScreen'
+import { useModalStore } from '@/stores/ModalStore'
 
 const eventDeck = useEventDeckStore()
 const fearDeck = useFearDeckStore()
@@ -26,6 +27,7 @@ onMounted(() => {
   if (window.matchMedia('(display-mode: standalone)').matches) {
     isUnderStandaloneMode.value = true
   }
+  useModalStore().$reset()
 })
 
 injectWakeScreen()
