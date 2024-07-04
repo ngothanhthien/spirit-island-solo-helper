@@ -49,9 +49,9 @@ fs.readdir(directoryPath, async (err, files) => {
           // .resize(600) //power
           // .resize(300)//avatar
           // .resize(250)
-          // .rotate(-90)
-          .resize(1500)// spirit panel
-          .webp()
+          .rotate(-90)
+          // .resize(1500)// spirit panel
+          // .webp()
           .toFile(outputFilePath)
 
         console.log(
