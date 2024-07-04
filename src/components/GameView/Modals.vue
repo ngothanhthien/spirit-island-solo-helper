@@ -57,7 +57,7 @@ const spiritPanelModal = defineAsyncComponent(() => {
       if (!aspect) {
         return defaultSpiritPanel()
       }
-      return import('@/components/SpiritPanel/Mist.vue')
+      return import('@/components/SpiritPanel/MistStranded.vue')
     default:
       return defaultSpiritPanel()
   }
