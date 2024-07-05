@@ -31,7 +31,7 @@ function switchBoard() {
 
 <template>
   <div class="cs-modal z-40" @click.self="useModalStore().panel = false">
-    <div ref="container" id="spirit-panel-modal-container" class="bg-white rounded-lg h-[95%] relative">
+    <div ref="container" id="spirit-panel-modal-container" class="bg-white rounded-lg h-[95%] relative overflow-hidden">
       <template v-if="currentBoard === 0">
         <img class="h-full" :src="`/img/spirits/${spiritName}_small.webp`" alt="Spirit panel" />
         <div

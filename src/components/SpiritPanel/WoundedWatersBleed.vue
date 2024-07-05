@@ -91,9 +91,9 @@ watch(isShowWatersTasteOfRuin, (value) => {
 })
 watch(isShowWatersRenew, (value) => {
   if (value) {
-    exchangeInnate('Sanguinary Taint', 'Swirl and Spill')
+    exchangeInnate('Call to a Fastness of Renewal', 'Sanguinary Taint')
   } else {
-    exchangeInnate('Swirl and Spill', 'Sanguinary Taint')
+    exchangeInnate('Sanguinary Taint', 'Call to a Fastness of Renewal')
   }
 })
 
@@ -137,8 +137,8 @@ function showHelp() {
           width: 32.5,
           height: 40,
           point: {
-            x: 54,
-            y: 79
+            x: 83,
+            y: 82
           }
         }"
         cs-style="width: 113%; top: -36%; position: absolute;"
