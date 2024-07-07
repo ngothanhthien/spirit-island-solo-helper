@@ -399,8 +399,8 @@ export const usePlayerCardStore = defineStore('playerCard', {
         player.innate.push(innate)
       }
     },
-    removeInnate(name: string) {
-      const player = this.players[this.current]
+    removeInnate(name: string, playerIndex: number | undefined = undefined) {
+      const player = this.players[playerIndex ?? this.current]
       const index = player.innate.findIndex((innate) => innate.name === name)
       if (index !== -1) {
         player.innate.splice(index, 1)

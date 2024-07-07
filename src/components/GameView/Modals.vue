@@ -53,14 +53,26 @@ const spiritPanelModal = defineAsyncComponent(() => {
     case 'Starlight Seeks Its Form':
       return import('@/components/SpiritPanel/Starlight.vue')
     case 'Shroud Of Silent Mist':
-      const aspect = gameOption.aspectsDetail[player.current]
-      if (!aspect) {
-        return defaultSpiritPanel()
+      const aspect1 = gameOption.aspectsDetail[player.current]
+      if (!aspect1) {
+        return import('@/components/SpiritPanel/MistStranded.vue')
       }
-      return import('@/components/SpiritPanel/MistStranded.vue')
-    default:
-      return defaultSpiritPanel()
+      break
+    case 'Heart Of The Wildfire':
+      const aspect2 = gameOption.aspectsDetail[player.current]
+      if (aspect2) {
+        return import('@/components/SpiritPanel/WildfireTransforming.vue')
+      }
+      break
+    case "Ocean's Hungry Grasp":
+      const aspect3 = gameOption.aspectsDetail[player.current]
+      if (aspect3) {
+        return import('@/components/SpiritPanel/OceanDeeps.vue')
+      }
+      break
   }
+
+  return defaultSpiritPanel()
 })
 
 function defaultSpiritPanel() {

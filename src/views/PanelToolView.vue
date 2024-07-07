@@ -80,6 +80,7 @@ const block = ref([
     }
   }
 ])
+
 const currentBlock = ref(0)
 function addBlock() {
   block.value.push({
@@ -97,7 +98,7 @@ function addBlock() {
   <div class="flex">
     <div @click="save" class="h-[600px]">
       <div ref="container" class="relative h-full w-fit">
-        <img alt="" class="h-full w-auto bottom-0 right-0 whitespace-nowrap" src="/img/spirits/towering_roots_of_the_jungle_small.webp" />
+        <img alt="" class="h-full w-auto bottom-0 right-0 whitespace-nowrap" src="/img/spirits/heart_of_the_wildfire_small.webp" />
         <div
           v-for="(item, index) in presences"
           :style="cal(item.point)"

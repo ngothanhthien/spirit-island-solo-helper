@@ -201,3 +201,20 @@ export function setupLocus(playerPos: number) {
 
   return true
 }
+
+export function setupTransforming(playerPos: number) {
+  const player = usePlayerCardStore()
+  player.addInnate('Exaltation of the Transforming Flame', playerPos)
+  player.removeInnate('The Burned Land Regrows', playerPos)
+
+  return true
+}
+
+export function setupDeeps(playerPos: number) {
+  const player = usePlayerCardStore()
+  player.players[playerPos].innate = []
+  player.addInnate('Water Eats Away the Deep Roots of Earth', playerPos)
+  player.addInnate('Reclaimed by the Deeps', playerPos)
+
+  return true
+}
