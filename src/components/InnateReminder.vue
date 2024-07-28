@@ -28,7 +28,7 @@ function isFullActive(element: ElementMap) {
 
 <template>
   <div class="space-y-1 w-fit rounded py-1" :class="innate?.fast ? 'bg-orange-700/20' : 'bg-purple-900/20'">
-    <div class="flex px-2 relative" v-for="element in elements" >
+    <div class="flex px-2 relative" v-for="element in elements">
       <div
         v-for="(key, index) in sortKeys(element)"
         :class="{

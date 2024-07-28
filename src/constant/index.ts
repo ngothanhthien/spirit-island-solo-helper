@@ -154,58 +154,58 @@ export const EXTRA_INNATE: InnatePower[] = [
     fast: true
   },
   {
-    "name": "Exaltation of the Transforming Flame",
-    "elements": [
+    name: 'Exaltation of the Transforming Flame',
+    elements: [
       {
-        "Fire": 4,
-        "Plant": 1
+        Fire: 4,
+        Plant: 1
       },
       {
-        "Fire": 3,
-        "Earth": 1,
-        "Plant": 2
+        Fire: 3,
+        Earth: 1,
+        Plant: 2
       },
       {
-        "Sun": 1,
-        "Fire": 3,
-        "Animal": 1
+        Sun: 1,
+        Fire: 3,
+        Animal: 1
       }
     ],
-    "fast": true
+    fast: true
   },
   {
-    "name": "Water Eats Away the Deep Roots of Earth",
-    "elements": [
+    name: 'Water Eats Away the Deep Roots of Earth',
+    elements: [
       {
-        "Water": 2
+        Water: 2
       },
       {
-        "Water": 3
+        Water: 3
       },
       {
-        "Water": 4,
-        "Earth": 3,
-        "Moon": 3
+        Water: 4,
+        Earth: 3,
+        Moon: 3
       }
     ],
-    "fast": false
+    fast: false
   },
   {
-    "name": "Reclaimed by the Deeps",
-    "elements": [
+    name: 'Reclaimed by the Deeps',
+    elements: [
       {
-        "Water": 2
+        Water: 2
       },
       {
-        "Water": 4,
-        "Earth": 2
+        Water: 4,
+        Earth: 2
       },
       {
-        "Water": 3,
-        "Moon": 2
+        Water: 3,
+        Moon: 2
       }
     ],
-    "fast": false
+    fast: false
   }
 ]
 export const EXTRA_POWERS: PowerCard[] = [

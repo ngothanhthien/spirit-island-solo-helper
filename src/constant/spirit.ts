@@ -1,20 +1,31 @@
 import type { SpiritType } from '@/types'
 import {
   setupDarkFire,
-  setupDeeps, setupIntensify, setupLocus, setupMight, setupNourishing,
-  setupSparking, setupSpreadingHostility,
+  setupDeeps,
+  setupIntensify,
+  setupLocus,
+  setupMight,
+  setupNourishing,
+  setupSparking,
+  setupSpreadingHostility,
   setupSunshine,
-  setupTangles, setupTransforming,
+  setupTangles,
+  setupTransforming,
   setupViolence,
   setupWarrior
 } from '@/utils/setup'
 import {
-  addElement, addSwitchElement,
+  addElement,
+  addSwitchElement,
   energyChange,
   increaseCardPlay,
-  increaseIncome, setupDancesUpEarthquakes,
+  increaseIncome,
+  setupDancesUpEarthquakes,
   setupDaysThatNeverWere,
-  setupGleamingHoard, setupHearthVigil, setupWoundedWaters, woundedWatersPresence3
+  setupGleamingHoard,
+  setupHearthVigil,
+  setupWoundedWaters,
+  woundedWatersPresence3
 } from '@/utils/spirit'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 
@@ -423,137 +434,137 @@ export const SPIRIT: Array<SpiritType> = [
       }
     ],
     panel: {
-      "presences": [
+      presences: [
         {
-          "point": {
-            "x": 51.5,
-            "y": 43.2
+          point: {
+            x: 51.5,
+            y: 43.2
           },
-          "type": "element",
-          "value": "Moon"
+          type: 'element',
+          value: 'Moon'
         },
         {
-          "point": {
-            "x": 58.86,
-            "y": 43.2
+          point: {
+            x: 58.86,
+            y: 43.2
           },
-          "type": "element",
-          "value": "Water"
+          type: 'element',
+          value: 'Water'
         },
         {
-          "point": {
-            "x": 66.12,
-            "y": 43.2
+          point: {
+            x: 66.12,
+            y: 43.2
           },
-          "type": "energy",
-          "value": 1
+          type: 'energy',
+          value: 1
         },
         {
-          "point": {
-            "x": 73.38,
-            "y": 43.2
+          point: {
+            x: 73.38,
+            y: 43.2
           },
-          "type": "element",
-          "value": "Moon"
+          type: 'element',
+          value: 'Moon'
         },
         {
-          "point": {
-            "x": 80.64,
-            "y": 43.2
+          point: {
+            x: 80.64,
+            y: 43.2
           },
-          "type": "element",
-          "value": "Water"
+          type: 'element',
+          value: 'Water'
         },
         {
-          "point": {
-            "x": 87.9,
-            "y": 43.2
+          point: {
+            x: 87.9,
+            y: 43.2
           },
-          "type": "energy",
-          "value": 2
+          type: 'energy',
+          value: 2
         },
         {
-          "point": {
-            "x": 51.5,
-            "y": 57
+          point: {
+            x: 51.5,
+            y: 57
           },
-          "type": "card-play",
-          "value": 2
+          type: 'card-play',
+          value: 2
         },
         {
-          "point": {
-            "x": 58.76,
-            "y": 57
+          point: {
+            x: 58.76,
+            y: 57
           }
         },
         {
-          "point": {
-            "x": 66.02,
-            "y": 57
+          point: {
+            x: 66.02,
+            y: 57
           },
-          "type": "card-play",
-          "value": 3
+          type: 'card-play',
+          value: 3
         },
         {
-          "point": {
-            "x": 73.28,
-            "y": 57
+          point: {
+            x: 73.28,
+            y: 57
           },
-          "type": "card-play",
-          "value": 4
+          type: 'card-play',
+          value: 4
         },
         {
-          "point": {
-            "x": 80.54,
-            "y": 57
+          point: {
+            x: 80.54,
+            y: 57
           },
-          "type": "card-play",
-          "value": 5
+          type: 'card-play',
+          value: 5
         }
       ],
-      "scale": 6,
-      "energy": 0,
-      "cardPlay": 1
+      scale: 6,
+      energy: 0,
+      cardPlay: 1
     },
     innate: [
       {
-        "name": "Pound Ships to Splinters",
-        "elements": [
+        name: 'Pound Ships to Splinters',
+        elements: [
           {
-            "Moon": 1,
-            "Air": 1,
-            "Water": 2
+            Moon: 1,
+            Air: 1,
+            Water: 2
           },
           {
-            "Moon": 2,
-            "Air": 1,
-            "Water": 3
+            Moon: 2,
+            Air: 1,
+            Water: 3
           },
           {
-            "Moon": 3,
-            "Air": 2,
-            "Water": 4
+            Moon: 3,
+            Air: 2,
+            Water: 4
           }
         ],
-        "fast": true
+        fast: true
       },
       {
-        "name": "Ocean Breaks the Shore",
-        "elements": [
+        name: 'Ocean Breaks the Shore',
+        elements: [
           {
-            "Water": 2,
-            "Earth": 1
+            Water: 2,
+            Earth: 1
           },
           {
-            "Water": 3,
-            "Earth": 2
+            Water: 3,
+            Earth: 2
           },
           {
-            "Water": 4,
-            "Earth": 3
+            Water: 4,
+            Earth: 3
           }
         ],
-        "fast": false
+        fast: false
       }
     ]
   },
@@ -831,35 +842,35 @@ export const SPIRIT: Array<SpiritType> = [
       }
     ],
     panel: {
-      "presences": [
+      presences: [
         {
-          "point": {
-            "x": 51.2,
-            "y": 30.7
+          point: {
+            x: 51.2,
+            y: 30.7
           },
-          type: "element",
-          value: "Fire"
+          type: 'element',
+          value: 'Fire'
         },
         {
-          "point": {
-            "x": 58.55,
-            "y": 30.7
-          },
-          type: 'energy',
-          value: 1,
-        },
-        {
-          "point": {
-            "x": 65.8,
-            "y": 30.7
+          point: {
+            x: 58.55,
+            y: 30.7
           },
           type: 'energy',
-          value: 2,
+          value: 1
         },
         {
-          "point": {
-            "x": 73.25,
-            "y": 30.7
+          point: {
+            x: 65.8,
+            y: 30.7
+          },
+          type: 'energy',
+          value: 2
+        },
+        {
+          point: {
+            x: 73.25,
+            y: 30.7
           },
           type: 'element',
           value: 'Fire',
@@ -868,96 +879,96 @@ export const SPIRIT: Array<SpiritType> = [
           }
         },
         {
-          "point": {
-            "x": 80.6,
-            "y": 30.7
+          point: {
+            x: 80.6,
+            y: 30.7
           },
           value: 3,
-          type: 'energy',
+          type: 'energy'
         },
         {
-          "point": {
-            "x": 51.2,
-            "y": 46.6
+          point: {
+            x: 51.2,
+            y: 46.6
           },
           type: 'element',
           value: 'Fire'
         },
         {
-          "point": {
-            "x": 58.55,
-            "y": 46.6
+          point: {
+            x: 58.55,
+            y: 46.6
           },
           type: 'card-play',
-          value: 2,
+          value: 2
         },
         {
-          "point": {
-            "x": 65.8,
-            "y": 46.6
+          point: {
+            x: 65.8,
+            y: 46.6
           },
           type: 'card-play',
-          value: 3,
+          value: 3
         },
         {
-          "point": {
-            "x": 73.2,
-            "y": 46.6
+          point: {
+            x: 73.2,
+            y: 46.6
           },
           type: 'element',
           value: 'Fire'
         },
         {
-          "point": {
-            "x": 80.4,
-            "y": 46.6
+          point: {
+            x: 80.4,
+            y: 46.6
           },
           type: 'card-play',
           value: 4
         }
       ],
-      "scale": 6,
-      "energy": 0,
-      "cardPlay": 1
+      scale: 6,
+      energy: 0,
+      cardPlay: 1
     },
     innate: [
       {
-        "name": "Firestorm",
-        "elements": [
+        name: 'Firestorm',
+        elements: [
           {
-            "Plant": 1
+            Plant: 1
           },
           {
-            "Plant": 3
+            Plant: 3
           },
           {
-            "Fire": 4,
-            "Air": 2
+            Fire: 4,
+            Air: 2
           },
           {
-            "Fire": 7
+            Fire: 7
           }
         ],
-        "fast": true
+        fast: true
       },
       {
-        "name": "The Burned Land Regrows",
-        "elements": [
+        name: 'The Burned Land Regrows',
+        elements: [
           {
-            "Fire": 4,
-            "Plant": 1
+            Fire: 4,
+            Plant: 1
           },
           {
-            "Fire": 4,
-            "Plant": 2
+            Fire: 4,
+            Plant: 2
           },
           {
-            "Fire": 5,
-            "Earth": 2,
-            "Plant": 2
+            Fire: 5,
+            Earth: 2,
+            Plant: 2
           }
         ],
-        "fast": false
+        fast: false
       }
     ]
   },
@@ -1916,147 +1927,147 @@ export const SPIRIT: Array<SpiritType> = [
       }
     ],
     panel: {
-      "presences": [
+      presences: [
         {
-          "point": {
-            "x": 51.5,
-            "y": 29.6
+          point: {
+            x: 51.5,
+            y: 29.6
           },
-          "value": 1,
-          "type": "energy"
+          value: 1,
+          type: 'energy'
         },
         {
-          "point": {
-            "x": 59.1,
-            "y": 29.6
+          point: {
+            x: 59.1,
+            y: 29.6
           },
-          "value": "Air",
-          "type": "element"
+          value: 'Air',
+          type: 'element'
         },
         {
-          "point": {
-            "x": 66.7,
-            "y": 29.6
+          point: {
+            x: 66.7,
+            y: 29.6
           },
-          "value": 2,
-          "type": "energy"
+          value: 2,
+          type: 'energy'
         },
         {
-          "point": {
-            "x": 74.3,
-            "y": 29.6
+          point: {
+            x: 74.3,
+            y: 29.6
           },
-          "value": "Animal",
-          "type": "element"
+          value: 'Animal',
+          type: 'element'
         },
         {
-          "point": {
-            "x": 81.9,
-            "y": 29.6
+          point: {
+            x: 81.9,
+            y: 29.6
           },
-          "value": 3,
-          "type": "energy"
+          value: 3,
+          type: 'energy'
         },
         {
-          "point": {
-            "x": 89.5,
-            "y": 29.6
+          point: {
+            x: 89.5,
+            y: 29.6
           },
-          "value": 4,
-          "type": "energy"
+          value: 4,
+          type: 'energy'
         },
         {
-          "point": {
-            "x": 51.5,
-            "y": 45.7
+          point: {
+            x: 51.5,
+            y: 45.7
           },
-          "value": 2,
-          "type": "card-play"
+          value: 2,
+          type: 'card-play'
         },
         {
-          "point": {
-            "x": 59.1,
-            "y": 45.7
+          point: {
+            x: 59.1,
+            y: 45.7
           }
         },
         {
-          "point": {
-            "x": 66.7,
-            "y": 45.7
+          point: {
+            x: 66.7,
+            y: 45.7
           },
-          "value": 3,
-          "type": "card-play"
+          value: 3,
+          type: 'card-play'
         },
         {
-          "point": {
-            "x": 74.3,
-            "y": 45.7
+          point: {
+            x: 74.3,
+            y: 45.7
           }
         },
         {
-          "point": {
-            "x": 81.9,
-            "y": 45.7
+          point: {
+            x: 81.9,
+            y: 45.7
           },
-          "value": 4,
-          "type": "card-play"
+          value: 4,
+          type: 'card-play'
         },
         {
-          "point": {
-            "x": 89.5,
-            "y": 45.7
+          point: {
+            x: 89.5,
+            y: 45.7
           },
-          "value": 5,
-          "type": "card-play"
+          value: 5,
+          type: 'card-play'
         }
       ],
-      "scale": 6,
-      "energy": 0,
-      "cardPlay": 1
+      scale: 6,
+      energy: 0,
+      cardPlay: 1
     },
     innate: [
       {
-        "name": "The Teeming Host Arrives",
-        "elements": [
+        name: 'The Teeming Host Arrives',
+        elements: [
           {
-            "Air": 2,
-            "Animal": 1
+            Air: 2,
+            Animal: 1
           },
           {
-            "Air": 3,
-            "Water": 1,
-            "Animal": 2
+            Air: 3,
+            Water: 1,
+            Animal: 2
           },
           {
-            "Fire": 1,
-            "Air": 4,
-            "Animal": 2
+            Fire: 1,
+            Air: 4,
+            Animal: 2
           }
         ],
-        "fast": true
+        fast: true
       },
       {
-        "name": "Beset and Confound the Invaders",
-        "elements": [
+        name: 'Beset and Confound the Invaders',
+        elements: [
           {
-            "Air": 1,
-            "Animal": 2
+            Air: 1,
+            Animal: 2
           },
           {
-            "Air": 2,
-            "Animal": 3
+            Air: 2,
+            Animal: 3
           },
           {
-            "Air": 3,
-            "Animal": 4
+            Air: 3,
+            Animal: 4
           },
           {
-            "Air": 4,
-            "Animal": 5,
-            "Earth": 1
+            Air: 4,
+            Animal: 5,
+            Earth: 1
           }
         ],
-        "fast": true
+        fast: true
       }
     ]
   },

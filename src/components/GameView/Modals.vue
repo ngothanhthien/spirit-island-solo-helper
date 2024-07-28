@@ -46,38 +46,32 @@ const gleamingHoardStore = useGleamingHoardStore()
 const player = usePlayerCardStore()
 const isHasAspect = computed(() => Boolean(gameOption.aspectsDetail[player.current]))
 const { spiritInfo } = useSpiritInfo()
-const spiritPanelModal = defineAsyncComponent(() => {
+const aspect = computed(() => gameOption.aspectsDetail[player.current])
+const spiritPanelModal = computed(() => {
   switch (spiritInfo.value.name) {
     case 'Wounded Waters Bleeding':
-      return import('@/components/SpiritPanel/WoundedWatersBleed.vue')
+      return defineAsyncComponent(() => import('@/components/SpiritPanel/WoundedWatersBleed.vue'))
     case 'Starlight Seeks Its Form':
-      return import('@/components/SpiritPanel/Starlight.vue')
+      return defineAsyncComponent(() => import('@/components/SpiritPanel/Starlight.vue'))
     case 'Shroud Of Silent Mist':
-      const aspect1 = gameOption.aspectsDetail[player.current]
-      if (!aspect1) {
-        return import('@/components/SpiritPanel/MistStranded.vue')
+      if (aspect.value) {
+        return defineAsyncComponent(() => import('@/components/SpiritPanel/MistStranded.vue'))
       }
       break
     case 'Heart Of The Wildfire':
-      const aspect2 = gameOption.aspectsDetail[player.current]
-      if (aspect2) {
-        return import('@/components/SpiritPanel/WildfireTransforming.vue')
+      if (aspect.value) {
+        return defineAsyncComponent(() => import('@/components/SpiritPanel/WildfireTransforming.vue'))
       }
       break
     case "Ocean's Hungry Grasp":
-      const aspect3 = gameOption.aspectsDetail[player.current]
-      if (aspect3) {
-        return import('@/components/SpiritPanel/OceanDeeps.vue')
+      if (aspect.value) {
+        return defineAsyncComponent(() => import('@/components/SpiritPanel/OceanDeeps.vue'))
       }
       break
   }
 
-  return defaultSpiritPanel()
+  return defineAsyncComponent(() => import('@/components/SpiritPanel/Modal.vue'))
 })
-
-function defaultSpiritPanel() {
-  return import('@/components/SpiritPanel/Modal.vue')
-}
 </script>
 
 <template>

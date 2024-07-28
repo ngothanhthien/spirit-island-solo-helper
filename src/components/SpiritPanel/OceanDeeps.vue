@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import BaseModal from '@/components/SpiritPanel/Modal.vue'
 import ReplacementBox from '@/components/SpiritPanel/ReplacementBox.vue'
 </script>

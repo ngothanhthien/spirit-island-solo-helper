@@ -4,44 +4,48 @@ import type { Element } from '@/types'
 import type { SwitchElement } from '@/components/SwitchElement/type'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 
-export default defineStore('switchElement', () => {
-  const mapSwitchElement = ref<Array<SwitchElement[]>>([[], [], [], []])
+export default defineStore(
+  'switchElement',
+  () => {
+    const mapSwitchElement = ref<Array<SwitchElement[]>>([[], [], [], []])
 
-  const playerIndex = computed(() => usePlayerCardStore().current)
+    const playerIndex = computed(() => usePlayerCardStore().current)
 
-  function toggle(elementIndex: number) {
-    const elementMap = mapSwitchElement.value[playerIndex.value][elementIndex]
-    if (elementMap) {
-      elementMap.selected = elementMap.available.find((element) => element !== elementMap.selected) as Element
+    function toggle(elementIndex: number) {
+      const elementMap = mapSwitchElement.value[playerIndex.value][elementIndex]
+      if (elementMap) {
+        elementMap.selected = elementMap.available.find((element) => element !== elementMap.selected) as Element
+      }
     }
-  }
 
-  function add(element_1: Element, element_2: Element) {
-    mapSwitchElement.value[playerIndex.value].push({ available: [element_1, element_2], selected: element_1 })
-  }
-
-  function remove(element_1: Element, element_2: Element) {
-    const index = mapSwitchElement.value[playerIndex.value].findIndex((element) => element.available.includes(element_1) && element.available.includes(element_2))
-    if (index !== -1) {
-      mapSwitchElement.value[playerIndex.value].splice(index, 1)
+    function add(element_1: Element, element_2: Element) {
+      mapSwitchElement.value[playerIndex.value].push({ available: [element_1, element_2], selected: element_1 })
     }
-  }
 
-  function reset() {
-    mapSwitchElement.value = [[], [], [], []]
-  }
+    function remove(element_1: Element, element_2: Element) {
+      const index = mapSwitchElement.value[playerIndex.value].findIndex((element) => element.available.includes(element_1) && element.available.includes(element_2))
+      if (index !== -1) {
+        mapSwitchElement.value[playerIndex.value].splice(index, 1)
+      }
+    }
 
-  const switchElements = computed(() => {
-    return mapSwitchElement.value[playerIndex.value]
-  })
+    function reset() {
+      mapSwitchElement.value = [[], [], [], []]
+    }
 
-  return {
-    toggle,
-    add,
-    remove,
-    switchElements,
-    reset,
+    const switchElements = computed(() => {
+      return mapSwitchElement.value[playerIndex.value]
+    })
+
+    return {
+      toggle,
+      add,
+      remove,
+      switchElements,
+      reset
+    }
+  },
+  {
+    persist: true
   }
-}, {
-  persist: true,
-})
+)

@@ -1,10 +1,4 @@
-import {
-  addFearToTop,
-  moveBack2FearPerPlayer,
-  putEventUnderTwo,
-  returnTopFearToBox,
-  returnTopInvaderCardToBox
-} from '@/utils/event'
+import { addFearToTop, moveBack2FearPerPlayer, putEventUnderTwo, returnTopFearToBox, returnTopInvaderCardToBox } from '@/utils/event'
 
 export const EVENT_CARDS: Array<{
   name: string

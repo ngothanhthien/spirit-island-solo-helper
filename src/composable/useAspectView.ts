@@ -11,6 +11,6 @@ export function useAspectView() {
   }
 
   return {
-    isHasAspect,
+    isHasAspect
   }
 }
