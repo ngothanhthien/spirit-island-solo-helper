@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useSwitchElement } from '@/components/SwitchElement/functional'
 import type { SwitchElement } from '@/components/SwitchElement/type'
+import useSwitchElement from '@/components/SwitchElement/store'
 
 const { toggle, switchElements } = useSwitchElement()
 function getUnSelectedElement(switchElement: SwitchElement) {

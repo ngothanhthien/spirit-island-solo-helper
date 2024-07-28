@@ -1,10 +1,12 @@
+import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { Element } from '@/types'
 import type { SwitchElement } from '@/components/SwitchElement/type'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 
-const mapSwitchElement = ref<Array<SwitchElement[]>>([[], [], [], []])
-export function useSwitchElement() {
+export default defineStore('switchElement', () => {
+  const mapSwitchElement = ref<Array<SwitchElement[]>>([[], [], [], []])
+
   const playerIndex = computed(() => usePlayerCardStore().current)
 
   function toggle(elementIndex: number) {
@@ -25,6 +27,10 @@ export function useSwitchElement() {
     }
   }
 
+  function reset() {
+    mapSwitchElement.value = [[], [], [], []]
+  }
+
   const switchElements = computed(() => {
     return mapSwitchElement.value[playerIndex.value]
   })
@@ -33,6 +39,9 @@ export function useSwitchElement() {
     toggle,
     add,
     remove,
-    switchElements
+    switchElements,
+    reset,
   }
-}
+}, {
+  persist: true,
+})

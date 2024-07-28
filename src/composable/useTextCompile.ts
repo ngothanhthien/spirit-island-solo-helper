@@ -3,7 +3,7 @@ const iconList = [
   'Townicon.png',
   'Cityicon.png',
   'Explorericon.png',
-  'Blight',
+  'Blight.png',
   'Dahan',
   'Beasts',
   'Fear',
@@ -41,6 +41,7 @@ const iconMapping = {
   'Explorericon.png': 'explorer',
   'Slowicon.png': 'slow',
   'Fasticon.png': 'fast',
+  'Blight.png': 'blight',
   destroy_presence: 'destroy-presence'
 }
 export default function (message: string) {

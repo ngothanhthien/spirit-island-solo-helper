@@ -89,7 +89,7 @@ function takeCardFromPick() {
 }
 
 function playCard() {
-  playerCard.takeCardFromPicking(cardZoom.current as string)
+  playerCard.playCard(cardZoom.current as string)
   cardZoom.reset()
 }
 

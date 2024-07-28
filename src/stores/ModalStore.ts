@@ -10,7 +10,7 @@ export const useModalStore = defineStore('ModalStore', {
     gameSettings: false,
     aspectDetail: false,
     invaderControl: false,
-    adversarySetup: false,
+    adversarySetup: true,
     habsburgReminder: false,
     impendingCardModel: false,
     faq: false,

@@ -25,7 +25,7 @@ watch(isShow, (value) => {
         <adversary-text
           :message="{
             name: null,
-            text: `Add 1 Cityicon.png to a Coastal land without Cityicon.png and 1 Townicon.png to the 3 Inland lands with the fewest Blight.png`
+            text: `Add 1 Cityicon.png to a Coastal land without Cityicon.png and 1 Townicon.png to the 3 Inland lands with the fewest Blight`
           }"
         />
       </div>

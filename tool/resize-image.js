@@ -46,12 +46,12 @@ fs.readdir(directoryPath, async (err, files) => {
           //   height: metadata.height - 600,
           // })
           // .linear(1.05)
-          .resize(600) //power
+          .resize(3200) //power
           // .resize(300)//avatar
           // .resize(250)
           // .rotate(-90)
           // .resize(1500)// spirit panel
-          .webp()
+          .webp({ quality: 100 })
           .toFile(outputFilePath)
 
         console.log(
@@ -66,15 +66,11 @@ fs.readdir(directoryPath, async (err, files) => {
   }
 })
 
-function formatFileName(fileName, type) {
+function formatFileName(fileName) {
   let output = fileName.replace(/'/g, '')
   output = output.replace(/ /g, '_')
   output = output.replace(/,/g, '')
-  if (type === 'avatar') {
-    output += '_small'
-  } else {
-    output = output.toLowerCase()
-  }
+  output = output.toLowerCase()
   //extra stuff
   output = output.replace(/_\(ni\)/g, '')
   return output

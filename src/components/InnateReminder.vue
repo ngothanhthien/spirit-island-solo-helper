@@ -27,9 +27,16 @@ function isFullActive(element: ElementMap) {
 </script>
 
 <template>
-  <div class="space-y-1 w-fit rounded py-1" :class="innate?.fast ? 'bg-orange-500/20' : 'bg-purple-900/20'">
-    <div class="flex space-x-2 px-2" v-for="element in elements" :class="{ 'bg-lime-500': isFullActive(element) }">
-      <div v-for="key in sortKeys(element)" :class="{ 'opacity-40': currentElements[key] < element[key] }" class="w-4 h-4 flex items-center justify-center">
+  <div class="space-y-1 w-fit rounded py-1" :class="innate?.fast ? 'bg-orange-700/20' : 'bg-purple-900/20'">
+    <div class="flex px-2 relative" v-for="element in elements" >
+      <div
+        v-for="(key, index) in sortKeys(element)"
+        :class="{
+          'opacity-40': currentElements[key] < element[key],
+          'ml-2': index > 0
+        }"
+        class="w-4 h-4 flex items-center justify-center relative z-50"
+      >
         <span class="text-xs">{{ element[key] }}</span>
         <span :class="`icon-${key.toLowerCase()}`" class="text-sm">
           <span class="path1"></span>
@@ -38,6 +45,7 @@ function isFullActive(element: ElementMap) {
           <span class="path4"></span>
         </span>
       </div>
+      <div class="absolute w-full h-2 left-0 top-1/2 -translate-y-1/2 z-10" :class="{ 'bg-lime-500': isFullActive(element) }" />
     </div>
   </div>
 </template>

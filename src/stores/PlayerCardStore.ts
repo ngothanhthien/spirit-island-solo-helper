@@ -7,7 +7,7 @@ import { EXTRA_INNATE, SPIRIT } from '@/constant'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { useSpiritInfo } from '@/composable/useSpiritInfo'
 import { useAnyElement } from '@/components/AnyElement/functional'
-import { useSwitchElement } from '@/components/SwitchElement/functional'
+import useSwitchElement from '@/components/SwitchElement/store'
 
 function createPlayer(index: number): Player {
   const { cards, panel, innate } = SPIRIT[index]
@@ -18,7 +18,7 @@ function createPlayer(index: number): Player {
   let totalCardPlay = 0
   let income = 0
   if (panel) {
-    const { energy, cardPlay, presences } = panel
+    const { energy, cardPlay } = panel
     totalCardPlay = cardPlay
     income = energy
   }
@@ -107,7 +107,8 @@ export const usePlayerCardStore = defineStore('playerCard', {
       })
       const { elements: extra } = useAnyElement()
       const { switchElements } = useSwitchElement()
-      switchElements.value.forEach(({ selected }) => {
+      switchElements.forEach((item) => {
+        const selected = item.selected as Element
         if (selected !== 'Any') {
           elements[selected]++
         }

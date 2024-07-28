@@ -1,4 +1,4 @@
-import { computed, type Ref, type UnwrapRef } from 'vue'
+import { computed, type Ref } from 'vue'
 import { ADVERSARY, MAP, SPIRIT } from '@/constant'
 import router from '@/router'
 import { usePowerDeckStore } from '@/stores/PowerDeckStore'
@@ -12,6 +12,7 @@ import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { useFearDeckStore } from '@/stores/FearDeckStore'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useGleamingHoardStore } from '@/components/GleamingHoard/Store'
+import useSwitchElementStore from '@/components/SwitchElement/store'
 
 export function useSetupGame(
   spirits: Ref<Array<number>>,
@@ -70,6 +71,7 @@ export function useSetupGame(
     eventDeck.newDeck(gameOption.hasFranceEvent)
     majorDeck.newDeck()
     minorDeck.newDeck()
+    useSwitchElementStore().reset()
     const invaderPos = ADVERSARY[adversary.value as number].invaders?.[adversaryLevel.value]
     invaderCard.newDeck(invaderPos && invaderPos !== '' ? invaderPos : undefined)
     if (gameOption.hasEngland3) {

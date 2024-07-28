@@ -51,6 +51,9 @@ export function useFieldFunctional() {
   function switchToPlayField() {
     currentMenu1.value = MENU_1.PLAY
   }
+  function switchToHandField() {
+    currentMenu2.value = MENU_2.HAND
+  }
 
   return {
     discardViewSwipeDown,
@@ -61,6 +64,7 @@ export function useFieldFunctional() {
     playViewSwipeUp,
     playViewSwipeDown,
     handChangePosition,
+    switchToHandField,
 
     currentMenu1: readonly(currentMenu1),
     currentMenu2

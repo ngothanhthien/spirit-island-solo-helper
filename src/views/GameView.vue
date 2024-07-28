@@ -38,7 +38,6 @@ import { canInGameView } from '@/utils/middleware'
 import { tryUploadResult } from '@/utils/result'
 import { useTakePowerMenu } from '@/composable/useTakePowerMenu'
 import DayThatNeverWereTrigger from '@/components/DayThatNeverWereTrigger.vue'
-import { useAspectView } from '@/composable/useAspectView'
 import { useModalStore } from '@/stores/ModalStore'
 import { useSpiritInfo } from '@/composable/useSpiritInfo'
 import { useGleamingHoardStore } from '@/components/GleamingHoard/Store'
@@ -55,7 +54,6 @@ const modal = useModalStore()
 const { spiritInfo } = useSpiritInfo()
 const topContainer = ref(null)
 const { height } = useElementSize(topContainer)
-const { isShow2xAspect } = useAspectView()
 
 function buttonQuickBlightClick() {
   modal.zoomBlightCard = true
@@ -93,6 +91,7 @@ const {
   playViewSwipeUp,
   playViewSwipeDown,
   handChangePosition,
+  switchToHandField,
 
   currentMenu1,
   currentMenu2
@@ -109,6 +108,11 @@ watch(
 )
 canInGameView()
 injectWakeScreen()
+
+function temporaryElementClick() {
+  playerCard.tempElements.push('Any')
+  switchToHandField()
+}
 
 onMounted(async () => {
   useMessageStore().setMessage('Welcome to Spirit Island!')
@@ -206,11 +210,6 @@ onMounted(async () => {
                     @change-position="(cardId, posId) => changePosition(playerCard.play, cardId, posId)"
                   />
                 </div>
-                <!--                                <template v-for="(player, index) in playerCard.players" :key="`player-${index}`">-->
-                <!--                                  <div v-if="gameOption.aspectsDetail[index] && player.showAspect && player.aspectMode === '1x'" v-show="playerCard.current === index" class="w-1/3 relative">-->
-                <!--                                    <aspect-power :aspect="gameOption.aspectsDetail[index] as Aspect" @show-aspect-detail="modal.aspectDetail = true" />-->
-                <!--                                  </div>-->
-                <!--                                </template>-->
               </div>
               <div v-if="currentMenu1 === MENU_1.TAB_2" class="flex items-stretch relative w-full">
                 <div class="space-x-2 absolute h-full w-full">
@@ -235,7 +234,7 @@ onMounted(async () => {
                 </div>
                 <div class="w-1/2">
                   <div class="w-60 mx-auto space-y-4">
-                    <base-button class="w-full" button-style="secondary" @click="playerCard.tempElements.push('Any')">Temporary Element</base-button>
+                    <base-button class="w-full" button-style="secondary" @click="temporaryElementClick">Temporary Element</base-button>
                   </div>
                 </div>
               </div>

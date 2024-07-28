@@ -18,7 +18,6 @@ const gameOption = useGameOptionStore()
 const playerCard = usePlayerCardStore()
 const { doSweden4 } = useSweden4()
 
-const showSaltDeposit = ref(false)
 const showingVision = ref(false)
 const modal = useModalStore()
 
@@ -136,7 +135,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               Visions of a shifting future
             </base-button>
             <fear-counter />
-            <div v-if="gameOption.hasMining4" class="relative h-10" @click="showSaltDeposit = true">
+            <div v-if="gameOption.hasMining4" class="relative h-10" @click="modal.saltDeposit = true">
               <img src="/img/invader/d-2.webp" alt="Salt Deposit" class="h-full w-8" />
             </div>
             <div v-if="adversaryImage" class="w-fit h-10 bottom-2 border-t border-b border-orange-700" @click="modal.adversary = true">
@@ -145,7 +144,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
           </div>
         </div>
         <div class="flex-1 px-4 py-2 flex space-x-2 text-2xl">
-          <div class="basis-full flex flex-col">
+          <div id="invader-control-discard" class="basis-full flex flex-col">
             <div class="text-base">&nbsp;</div>
             <button class="flex justify-center items-center text-orange-600 w-full flex-1" :disabled="invaderCard.discard.length === 0" @click="modal.invaderDiscard = true">
               <span class="text-4xl">{{ invaderCard.discard.length }}</span>

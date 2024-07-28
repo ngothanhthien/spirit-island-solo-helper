@@ -5,7 +5,7 @@ import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useImpendingCardStore } from '@/stores/ImpendingCardStore'
 import { useGleamingHoardStore } from '@/components/GleamingHoard/Store'
 import type { Element } from '@/types'
-import { useSwitchElement } from '@/components/SwitchElement/functional'
+import useSwitchElement from '@/components/SwitchElement/store'
 import { EXTRA_INNATE, SPIRIT } from '@/constant'
 
 export function setupDaysThatNeverWere(playerIndex: number) {
