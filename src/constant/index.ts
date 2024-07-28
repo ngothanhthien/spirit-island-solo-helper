@@ -206,6 +206,131 @@ export const EXTRA_INNATE: InnatePower[] = [
       }
     ],
     fast: false
+  },
+  {
+    name: 'Encircle the Unsuspecting Prey',
+    elements: [
+      {
+        Plant: 1,
+        Animal: 2
+      },
+      {
+        Moon: 1,
+        Animal: 3
+      },
+      {
+        Moon: 1,
+        Plant: 2,
+        Animal: 4
+      }
+    ],
+    fast: false
+  },
+  {
+    name: "Boon of Sunshine's Promise",
+    elements: [
+      {
+        Sun: 2
+      },
+      {
+        Sun: 3,
+        Water: 1
+      },
+      {
+        Sun: 4,
+        Water: 2
+      }
+    ],
+    fast: true
+  },
+
+  {
+    name: 'Call to a Sunlit Haven',
+    elements: [
+      {
+        Sun: 1,
+        Water: 1
+      },
+      {
+        Sun: 1,
+        Water: 2,
+        Earth: 1
+      },
+      {
+        Sun: 1,
+        Animal: 1
+      },
+      {
+        Sun: 1,
+        Water: 1,
+        Plant: 2
+      }
+    ],
+    fast: true
+  },
+  {
+    name: 'Lightning-Torn Skies Incite Pandemonium',
+    elements: [
+      {
+        Fire: 3,
+        Air: 2
+      },
+      {
+        Fire: 4,
+        Air: 3
+      },
+      {
+        Fire: 5,
+        Air: 4,
+        Moon: 1
+      },
+      {
+        Fire: 5,
+        Air: 5,
+        Moon: 2
+      }
+    ],
+    fast: false
+  },
+  {
+    name: 'Exaltation of the Storm-Wind',
+    elements: [
+      {
+        Air: 1
+      },
+      {
+        Air: 3
+      },
+      {
+        Air: 4,
+        Water: 1
+      },
+      {
+        Air: 5,
+        Water: 2
+      }
+    ],
+    fast: true
+  },
+  {
+    name: 'Gift of the Sparking Sky',
+    elements: [
+      {
+        Air: 3,
+        Fire: 5,
+        Sun: 2
+      },
+      {
+        Fire: 2,
+        Air: 2
+      },
+      {
+        Sun: 1,
+        Fire: 3,
+        Air: 2
+      }
+    ],
+    fast: true
   }
 ]
 export const EXTRA_POWERS: PowerCard[] = [

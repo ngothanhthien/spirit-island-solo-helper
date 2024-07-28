@@ -12,7 +12,11 @@ import {
   setupTangles,
   setupTransforming,
   setupViolence,
-  setupWarrior
+  setupWarrior,
+  setupEncircle,
+  setupHaven,
+  setupPandemonium,
+  setupWind
 } from '@/utils/setup'
 import {
   addElement,
@@ -87,7 +91,8 @@ export const SPIRIT: Array<SpiritType> = [
               targetLand: 'Invaders'
             }
           }
-        ]
+        ],
+        setupFunction: setupPandemonium
       },
       {
         title: 'Wind',
@@ -106,7 +111,8 @@ export const SPIRIT: Array<SpiritType> = [
               targetLand: 'Another Spirit'
             }
           }
-        ]
+        ],
+        setupFunction: setupWind
       },
       {
         title: 'Sparking',
@@ -127,7 +133,122 @@ export const SPIRIT: Array<SpiritType> = [
         ],
         setupFunction: setupSparking
       }
-    ]
+    ],
+    innate: [
+      {
+        name: 'Thundering Destruction',
+        elements: [
+          {
+            Fire: 3,
+            Air: 2
+          },
+          {
+            Fire: 4,
+            Air: 3
+          },
+          {
+            Fire: 5,
+            Air: 4,
+            Water: 1
+          },
+          {
+            Fire: 5,
+            Air: 5,
+            Water: 2
+          }
+        ],
+        fast: false
+      }
+    ],
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 51,
+            y: 30
+          }
+        },
+        {
+          point: {
+            x: 58.3,
+            y: 30
+          },
+          type: 'energy',
+          value: 2
+        },
+        {
+          point: {
+            x: 65.6,
+            y: 30
+          }
+        },
+        {
+          point: {
+            x: 72.9,
+            y: 30
+          },
+          type: 'energy',
+          value: 3
+        },
+        {
+          point: {
+            x: 80.2,
+            y: 30
+          },
+          type: 'energy',
+          value: 4
+        },
+        {
+          point: {
+            x: 87.5,
+            y: 30
+          }
+        },
+        {
+          point: {
+            x: 94.7,
+            y: 30
+          },
+          type: 'energy',
+          value: 5
+        },
+        {
+          point: {
+            x: 51,
+            y: 46
+          },
+          type: 'card-play',
+          value: 3
+        },
+        {
+          point: {
+            x: 58.3,
+            y: 46
+          },
+          type: 'card-play',
+          value: 4
+        },
+        {
+          point: {
+            x: 65.6,
+            y: 46
+          },
+          type: 'card-play',
+          value: 5
+        },
+        {
+          point: {
+            x: 72.9,
+            y: 46
+          },
+          type: 'card-play',
+          value: 6
+        }
+      ],
+      scale: 6,
+      energy: 1,
+      cardPlay: 2
+    }
   },
   {
     name: 'River Surges In Sunlight',
@@ -212,7 +333,124 @@ export const SPIRIT: Array<SpiritType> = [
               targetLand: 'Any'
             }
           }
-        ]
+        ],
+        setupFunction: setupHaven
+      }
+    ],
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 50.1,
+            y: 30
+          },
+          value: 2,
+          type: 'energy'
+        },
+        {
+          point: {
+            x: 57.4,
+            y: 30
+          }
+        },
+        {
+          point: {
+            x: 64.7,
+            y: 30
+          },
+          value: 3,
+          type: 'energy'
+        },
+        {
+          point: {
+            x: 72,
+            y: 30
+          },
+          value: 4,
+          type: 'energy'
+        },
+        {
+          point: {
+            x: 79.3,
+            y: 30
+          }
+        },
+        {
+          point: {
+            x: 86.6,
+            y: 30
+          },
+          value: 5,
+          type: 'energy'
+        },
+        {
+          point: {
+            x: 50.1,
+            y: 46
+          },
+          value: 2,
+          type: 'card-play'
+        },
+        {
+          point: {
+            x: 57.4,
+            y: 46
+          }
+        },
+        {
+          point: {
+            x: 64.7,
+            y: 46
+          },
+          value: 3,
+          type: 'card-play'
+        },
+        {
+          point: {
+            x: 72,
+            y: 46
+          }
+        },
+        {
+          point: {
+            x: 79.3,
+            y: 46
+          },
+          value: 4,
+          type: 'card-play'
+        },
+        {
+          point: {
+            x: 86.6,
+            y: 46
+          },
+          value: 5,
+          type: 'card-play'
+        }
+      ],
+      scale: 6,
+      energy: 1,
+      cardPlay: 1
+    },
+    innate: [
+      {
+        name: 'Massive Flooding',
+        elements: [
+          {
+            Sun: 1,
+            Water: 2
+          },
+          {
+            Sun: 2,
+            Water: 3
+          },
+          {
+            Sun: 3,
+            Water: 4,
+            Earth: 1
+          }
+        ],
+        fast: false
       }
     ]
   },
@@ -776,7 +1014,135 @@ export const SPIRIT: Array<SpiritType> = [
               targetLand: 'Any'
             }
           }
-        ]
+        ],
+        setupFunction: setupEncircle
+      }
+    ],
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 51,
+            y: 30
+          },
+          type: 'element',
+          value: 'Animal'
+        },
+        {
+          point: {
+            x: 58.29,
+            y: 30
+          },
+          type: 'element',
+          value: 'Plant'
+        },
+        {
+          point: {
+            x: 65.58,
+            y: 30
+          },
+          type: 'energy',
+          value: 2
+        },
+        {
+          point: {
+            x: 72.87,
+            y: 30
+          },
+          type: 'element',
+          value: 'Animal'
+        },
+        {
+          point: {
+            x: 80.16,
+            y: 30
+          },
+          type: 'energy',
+          value: 3
+        },
+        {
+          point: {
+            x: 87.45,
+            y: 30
+          },
+          type: 'energy',
+          value: 4
+        },
+        {
+          point: {
+            x: 51,
+            y: 46
+          },
+          type: 'card-play',
+          value: 2
+        },
+        {
+          point: {
+            x: 58.29,
+            y: 46
+          },
+          type: 'card-play',
+          value: 3
+        },
+        {
+          point: {
+            x: 65.58,
+            y: 46
+          }
+        },
+        {
+          point: {
+            x: 72.87,
+            y: 46
+          },
+          type: 'card-play',
+          value: 4
+        },
+        {
+          point: {
+            x: 80.16,
+            y: 46
+          },
+          type: 'card-play',
+          value: 5
+        }
+      ],
+      scale: 6,
+      energy: 1,
+      cardPlay: 2
+    },
+    innate: [
+      {
+        name: 'Ranging Hunt',
+        elements: [
+          {
+            Animal: 2
+          },
+          {
+            Plant: 2,
+            Animal: 3
+          },
+          {
+            Animal: 2
+          }
+        ],
+        fast: true
+      },
+      {
+        name: 'Frenzied Assault',
+        elements: [
+          {
+            Moon: 1,
+            Fire: 1,
+            Animal: 4
+          },
+          {
+            Animal: 5,
+            Fire: 2,
+            Moon: 1
+          }
+        ],
+        fast: false
       }
     ]
   },
@@ -2900,7 +3266,127 @@ export const SPIRIT: Array<SpiritType> = [
         elements: ['Moon', 'Water', 'Earth', 'Plant'],
         description: ''
       }
-    ]
+    ],
+    innate: [
+      {
+        name: 'Spreading and Dreadful Mire',
+        elements: [
+          {
+            Water: 1
+          },
+          {
+            Moon: 1,
+            Water: 2,
+            Earth: 1
+          },
+          {
+            Moon: 2,
+            Water: 3,
+            Earth: 2
+          },
+          {
+            Water: 4,
+            Earth: 3,
+            Moon: 3,
+            Plant: 2
+          }
+        ],
+        fast: false
+      }
+    ],
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 51.4,
+            y: 29.7
+          },
+          value: 'Plant',
+          type: 'element'
+        },
+        {
+          point: {
+            x: 58.98,
+            y: 29.7
+          },
+          value: 2,
+          type: 'energy'
+        },
+        {
+          point: {
+            x: 66.56,
+            y: 29.7
+          },
+          value: 3,
+          type: 'energy'
+        },
+        {
+          point: {
+            x: 74.14,
+            y: 29.7
+          },
+          value: 'Water',
+          type: 'element'
+        },
+        {
+          point: {
+            x: 81.72,
+            y: 29.7
+          },
+          value: 4,
+          type: 'energy'
+        },
+        {
+          point: {
+            x: 89.3,
+            y: 29.7
+          },
+          value: 5,
+          type: 'energy'
+        },
+        {
+          point: {
+            x: 51.4,
+            y: 44.3
+          }
+        },
+        {
+          point: {
+            x: 58.98,
+            y: 44.3
+          },
+          value: 'Earth',
+          type: 'element'
+        },
+        {
+          point: {
+            x: 66.56,
+            y: 44.3
+          },
+          value: 3,
+          type: 'card-play'
+        },
+        {
+          point: {
+            x: 74.14,
+            y: 44.3
+          },
+          value: 'Moon',
+          type: 'element'
+        },
+        {
+          point: {
+            x: 81.72,
+            y: 44.3
+          },
+          value: 4,
+          type: 'card-play'
+        }
+      ],
+      scale: 6,
+      energy: 1,
+      cardPlay: 1
+    }
   },
   {
     name: 'Eyes Watch From the Trees',
@@ -3032,7 +3518,136 @@ export const SPIRIT: Array<SpiritType> = [
         elements: ['Fire', 'Water', 'Earth'],
         description: '2 Damage. If your Earth is present, Add 1 Fear.'
       }
-    ]
+    ],
+    innate: [
+      {
+        name: 'Smash, Stomp and Flatten',
+        elements: [
+          {
+            Fire: 2,
+            Earth: 1
+          },
+          {
+            Fire: 3,
+            Earth: 1,
+            Plant: 1
+          },
+          {
+            Fire: 4,
+            Earth: 2,
+            Plant: 1
+          },
+          {
+            Fire: 5,
+            Earth: 2,
+            Plant: 2
+          }
+        ],
+        fast: false
+      }
+    ],
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 51.2,
+            y: 43
+          },
+          type: 'energy',
+          value: 1
+        },
+        {
+          point: {
+            x: 59.1,
+            y: 43
+          },
+          type: 'energy',
+          value: 2,
+          callback: (reverse: boolean) => {
+            addElement('Fire', reverse)
+          }
+        },
+        {
+          point: {
+            x: 67,
+            y: 43
+          },
+          type: 'energy',
+          value: 3
+        },
+        {
+          point: {
+            x: 74.9,
+            y: 43
+          },
+          type: 'element',
+          value: 'Earth'
+        },
+        {
+          point: {
+            x: 82.8,
+            y: 43
+          },
+          type: 'energy',
+          value: 4,
+          callback: (reverse: boolean) => {
+            addElement('Plant', reverse)
+          }
+        },
+        {
+          point: {
+            x: 90.7,
+            y: 43
+          },
+          type: 'energy',
+          value: 5,
+          callback: (reverse: boolean) => {
+            addElement('Fire', reverse)
+          }
+        },
+        {
+          point: {
+            x: 51.2,
+            y: 57.4
+          },
+          type: 'card-play',
+          value: 2
+        },
+        {
+          point: {
+            x: 59.1,
+            y: 57.4
+          }
+        },
+        {
+          point: {
+            x: 67,
+            y: 57.4
+          },
+          type: 'card-play',
+          value: 3
+        },
+        {
+          point: {
+            x: 74.9,
+            y: 57.4
+          },
+          type: 'element',
+          value: 'Fire'
+        },
+        {
+          point: {
+            x: 82.8,
+            y: 57.4
+          },
+          type: 'card-play',
+          value: 4
+        }
+      ],
+      scale: 6,
+      energy: 0,
+      cardPlay: 1
+    }
   },
   {
     name: 'Relentless Gaze of the Sun',
@@ -3594,7 +4209,147 @@ export const SPIRIT: Array<SpiritType> = [
         description: 'If you have at least as many [presence] as Power Cards in play, 1 Fear and Add 1 [explorer/town]. Push up to 3 [Dahans].'
       }
     ],
-    setup: setupDancesUpEarthquakes
+    setup: setupDancesUpEarthquakes,
+    panel: {
+      presences: [
+        {
+          point: {
+            x: 51.4,
+            y: 29.5
+          }
+        },
+        {
+          point: {
+            x: 59.3,
+            y: 29.5
+          },
+          type: 'energy',
+          value: 2
+        },
+        {
+          point: {
+            x: 67.2,
+            y: 29.5
+          }
+        },
+        {
+          point: {
+            x: 75.1,
+            y: 29.5
+          },
+          type: 'energy',
+          value: 3
+        },
+        {
+          point: {
+            x: 83,
+            y: 29.5
+          }
+        },
+        {
+          point: {
+            x: 90.9,
+            y: 29.5
+          },
+          type: 'energy',
+          value: 4,
+          callback: (reverse: boolean) => {
+            addElement('Any', reverse)
+          }
+        },
+        {
+          point: {
+            x: 51.4,
+            y: 45
+          }
+        },
+        {
+          point: {
+            x: 59.3,
+            y: 45
+          },
+          type: 'element',
+          value: 'Moon',
+          callback: (reverse: boolean) => {
+            addElement('Fire', reverse)
+          }
+        },
+        {
+          point: {
+            x: 67.2,
+            y: 45
+          }
+        },
+        {
+          point: {
+            x: 75.1,
+            y: 45
+          },
+          type: 'element',
+          value: 'Earth'
+        },
+        {
+          point: {
+            x: 83,
+            y: 45
+          },
+          type: 'card-play',
+          value: 3
+        },
+        {
+          point: {
+            x: 90.9,
+            y: 45
+          },
+          type: 'card-play',
+          value: 4
+        }
+      ],
+      scale: 6,
+      energy: 1,
+      cardPlay: 2
+    },
+    innate: [
+      {
+        name: 'Land Creaks With Tension',
+        elements: [
+          {
+            Earth: 1
+          },
+          {
+            Moon: 1,
+            Earth: 1
+          },
+          {
+            Moon: 1,
+            Earth: 2
+          },
+          {
+            Moon: 2,
+            Earth: 3
+          }
+        ],
+        fast: true
+      },
+      {
+        name: 'Earth Shudders, Buildings Fall',
+        elements: [
+          {
+            Fire: 2,
+            Earth: 3
+          },
+          {
+            Fire: 3,
+            Earth: 4
+          },
+          {
+            Fire: 4,
+            Earth: 5
+          }
+        ],
+        fast: false
+      }
+    ]
   },
   {
     name: 'Towering Roots of the Jungle',

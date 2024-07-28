@@ -3,10 +3,11 @@ import { onKeyStroke } from '@vueuse/core'
 import { computed, type ComputedRef, ref, toRaw } from 'vue'
 import { downloadObjectAsJson } from '@/utils'
 import { usePresenceSpiritPanelTool } from '@/composable/usePresenceSpiritPanelTool'
+import InnateTool from '@/components/Tool/innate.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 import type { Presence } from '@/types'
 const container = ref(null)
-const NAME = 'vital_strength_of_the_earth'
+const current = ref('dances_up_earthquakes_small')
 onKeyStroke(['s'], (e) => {
   e.preventDefault()
   const raw = toRaw(map)
@@ -32,11 +33,11 @@ onKeyStroke(['s'], (e) => {
       }
     })
   }
-  downloadObjectAsJson(parsed, NAME)
+  downloadObjectAsJson(parsed, current.value)
 })
 onKeyStroke(['f'], (e) => {
   e.preventDefault()
-  downloadObjectAsJson(block.value, NAME)
+  downloadObjectAsJson(block.value, current.value)
 })
 onKeyStroke(['b'], (e) => {
   e.preventDefault()
@@ -77,7 +78,10 @@ const block = ref([
     point: {
       x: 19,
       y: 41
-    }
+    },
+    aspect: '',
+    width_percent: 105,
+    top: 1
   }
 ])
 
@@ -89,16 +93,27 @@ function addBlock() {
     point: {
       x: 50,
       y: 50
-    }
+    },
+    aspect: '',
+    width_percent: 105,
+    top: 1
   })
 }
 </script>
 
 <template>
+  <div>
+    <div class="flex mb-2">
+      <label for="panel-name">Panel:</label>
+      <div class="ml-2 border-b border-gray-400">
+        <input id="panel-name" class="w-80 outline-none" v-model="current" type="text" />
+      </div>
+    </div>
+  </div>
   <div class="flex">
     <div @click="save" class="h-[600px]">
       <div ref="container" class="relative h-full w-fit">
-        <img alt="" class="h-full w-auto bottom-0 right-0 whitespace-nowrap" src="/img/spirits/heart_of_the_wildfire_small.webp" />
+        <img alt="" class="h-full w-auto bottom-0 right-0 whitespace-nowrap" :src="`/img/spirits/${current}.webp`" />
         <div
           v-for="(item, index) in presences"
           :style="cal(item.point)"
@@ -119,7 +134,7 @@ function addBlock() {
         <!--          }"-->
         <!--          class="absolute text-white rounded flex justify-center items-center overflow-hidden"-->
         <!--        >-->
-        <!--          <img style="width: 105%; top: -1%; position: absolute; max-width: none" src="/img/spirits/serene_waters.webp" />-->
+        <!--          <img :style="`width: ${item.width_percent}%; top: ${item.top}%; position: absolute; max-width: none`" :src="`/img/aspects/${item.aspect}.webp`"  alt=""/>-->
         <!--        </div>-->
       </div>
       <div class="absolute top-4 left-4 bg-gray-800/30 p-4 rounded-lg">
@@ -188,34 +203,53 @@ function addBlock() {
               </div>
             </div>
           </div>
-          <div v-for="(item, index) in block" @click="currentBlock = index" class="w-1/4 border border-blue-700 p-2">
-            <div class="flex mb-2">
-              <label :for="`width-${index}`">Width:</label>
-              <div class="ml-2 border-b border-gray-400">
-                <input class="outline-none w-10" :id="`width-${index}`" v-model="item.width" type="number" />
-              </div>
-            </div>
-            <div class="flex mb-2">
-              <label :for="`height-${index}`">Height:</label>
-              <div class="ml-2 border-b border-gray-400">
-                <input class="outline-none w-10" :id="`height-${index}`" v-model="item.height" type="number" />
-              </div>
-            </div>
-            <div class="flex mb-2">
-              <label :for="`x-${index}`">X:</label>
-              <div class="ml-2 border-b border-gray-400">
-                <input class="outline-none w-10" :id="`height-${index}`" v-model="item.point.x" type="number" />
-              </div>
-            </div>
-            <div class="flex mb-2">
-              <label :for="`y-${index}`">Y:</label>
-              <div class="ml-2 border-b border-gray-400">
-                <input class="outline-none w-10" :id="`height-${index}`" v-model="item.point.y" type="number" />
-              </div>
-            </div>
-          </div>
+          <!--          <div v-for="(item, index) in block" @click="currentBlock = index" class="w-1/4 border border-blue-700 p-2">-->
+          <!--            <div class="flex mb-2">-->
+          <!--              <label :for="`aspect-${index}`">Aspect:</label>-->
+          <!--              <div class="ml-2 border-b border-gray-400">-->
+          <!--                <input class="outline-none w-full" :id="`width-${index}`" v-model="item.aspect" type="text" />-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div class="flex mb-2">-->
+          <!--              <label :for="`width-percent-${index}`">Top:</label>-->
+          <!--              <div class="ml-2 border-b border-gray-400">-->
+          <!--                <input class="outline-none w-10" :id="`width-${index}`" v-model="item.top" type="number" />-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div class="flex mb-2">-->
+          <!--              <label :for="`width-percent-${index}`">Width Percent:</label>-->
+          <!--              <div class="ml-2 border-b border-gray-400">-->
+          <!--                <input class="outline-none w-10" :id="`width-${index}`" v-model="item.width_percent" type="number" />-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div class="flex mb-2">-->
+          <!--              <label :for="`width-${index}`">Width:</label>-->
+          <!--              <div class="ml-2 border-b border-gray-400">-->
+          <!--                <input class="outline-none w-10" :id="`width-${index}`" v-model="item.width" type="number" />-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div class="flex mb-2">-->
+          <!--              <label :for="`height-${index}`">Height:</label>-->
+          <!--              <div class="ml-2 border-b border-gray-400">-->
+          <!--                <input class="outline-none w-10" :id="`height-${index}`" v-model="item.height" type="number" />-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div class="flex mb-2">-->
+          <!--              <label :for="`x-${index}`">X:</label>-->
+          <!--              <div class="ml-2 border-b border-gray-400">-->
+          <!--                <input class="outline-none w-10" :id="`height-${index}`" v-model="item.point.x" type="number" />-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div class="flex mb-2">-->
+          <!--              <label :for="`y-${index}`">Y:</label>-->
+          <!--              <div class="ml-2 border-b border-gray-400">-->
+          <!--                <input class="outline-none w-10" :id="`height-${index}`" v-model="item.point.y" type="number" />-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </div>-->
         </div>
       </div>
     </div>
   </div>
+  <innate-tool />
 </template>

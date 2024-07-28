@@ -46,12 +46,13 @@ fs.readdir(directoryPath, async (err, files) => {
           //   height: metadata.height - 600,
           // })
           // .linear(1.05)
-          .resize(3200) //power
+          .resize(600) //power
           // .resize(300)//avatar
           // .resize(250)
           // .rotate(-90)
           // .resize(1500)// spirit panel
-          .webp({ quality: 100 })
+          // .webp({ quality: 100 })
+          .webp()
           .toFile(outputFilePath)
 
         console.log(

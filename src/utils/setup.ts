@@ -67,6 +67,7 @@ export function setupSunshine(playerPos: number) {
   }
   removeCard(players.hand, card)
   players.energy++
+  playerCard.addInnate("Boon of Sunshine's Promise", playerPos)
   return true
 }
 
@@ -110,6 +111,8 @@ export function setupSparking(playerPos: number) {
   }
   players.hand.push(extra)
 
+  playerCard.addInnate('Gift of the Sparking Sky', playerPos)
+  playerCard.removeInnate('Thundering Destruction', playerPos)
   return true
 }
 
@@ -216,5 +219,32 @@ export function setupDeeps(playerPos: number) {
   player.addInnate('Water Eats Away the Deep Roots of Earth', playerPos)
   player.addInnate('Reclaimed by the Deeps', playerPos)
 
+  return true
+}
+
+export function setupEncircle(playerPos: number) {
+  const player = usePlayerCardStore()
+  player.addInnate('Encircle the Unsuspecting Prey', playerPos)
+  player.removeInnate('Ranging Hunt', playerPos)
+  return true
+}
+
+export function setupHaven(playerPos: number) {
+  const player = usePlayerCardStore()
+  player.addInnate('Call to a Sunlit Haven', playerPos)
+  player.removeInnate('Massive Flooding', playerPos)
+  return true
+}
+
+export function setupWind(playerPos: number) {
+  const player = usePlayerCardStore()
+  player.addInnate('Exaltation of the Storm-Wind', playerPos)
+  return true
+}
+
+export function setupPandemonium(playerPos: number) {
+  const player = usePlayerCardStore()
+  player.addInnate('Lightning-Torn Skies Incite Pandemonium', playerPos)
+  player.removeInnate('Thundering Destruction', playerPos)
   return true
 }

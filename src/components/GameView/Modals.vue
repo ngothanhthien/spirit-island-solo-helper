@@ -69,6 +69,26 @@ const spiritPanelModal = computed(() => {
       }
       break
   }
+  switch (aspect.value?.title?.toLowerCase()) {
+    case 'unconstrained':
+      return defineAsyncComponent(() => import('@/components/SpiritPanel/FangsUnconstrained.vue'))
+    case 'encircle':
+      return defineAsyncComponent(() => import('@/components/SpiritPanel/FangsEncircle.vue'))
+    case 'sunshine':
+      return defineAsyncComponent(() => import('@/components/SpiritPanel/RiverSunshine.vue'))
+    case 'travel':
+      return defineAsyncComponent(() => import('@/components/SpiritPanel/RiverTravel.vue'))
+    case 'haven':
+      return defineAsyncComponent(() => import('@/components/SpiritPanel/RiverHaven.vue'))
+    case 'immense':
+      return defineAsyncComponent(() => import('@/components/SpiritPanel/LightningImmense.vue'))
+    case 'pandemonium':
+      return defineAsyncComponent(() => import('@/components/SpiritPanel/LightningPandemonium.vue'))
+    case 'wind':
+      return defineAsyncComponent(() => import('@/components/SpiritPanel/LightningWind.vue'))
+    case 'sparking':
+      return defineAsyncComponent(() => import('@/components/SpiritPanel/LightningSparking.vue'))
+  }
 
   return defineAsyncComponent(() => import('@/components/SpiritPanel/Modal.vue'))
 })
