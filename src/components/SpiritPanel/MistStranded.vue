@@ -17,12 +17,12 @@ import ReplacementBox from '@/components/SpiritPanel/ReplacementBox.vue'
         }"
         :panelWidth="containerWidth"
         :panelHeight="containerHeight"
-        style="font-size: 0.62rem; color: inherit; display: block; border-radius: 0"
+        style="font-size: 0.55rem; line-height: 0.7rem; color: inherit; display: block; border-radius: 0"
         class="absolute bg-amber-100 px-1 py-1"
       >
-        <div style="font-size: 0.65rem" class="font-bold leading-3">Mists Steadily Drift</div>
+        <div style="font-size: 0.6rem" class="font-bold leading-3">Mists Steadily Drift</div>
         <div>Up to twice during <span class="icon-fast text-red-700" /> and up to twice during <span class="icon-slow text-blue-900" />, Push 1 of your <span class="icon-presence" />.</div>
-        <div style="font-size: 0.65rem" class="font-bold mt-1 leading-3">Stranded in the Shifting Mist</div>
+        <div style="font-size: 0.6rem" class="font-bold mt-1 leading-3">Stranded in the Shifting Mist</div>
         <div>Once each <span class="icon-fast text-red-700" />, Isolate one of your lands.</div>
       </replacement-box>
     </template>

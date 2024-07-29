@@ -42,6 +42,7 @@ export default defineStore(
       add,
       remove,
       switchElements,
+      mapSwitchElement,
       reset
     }
   },

@@ -106,8 +106,7 @@ export const usePlayerCardStore = defineStore('playerCard', {
         elements[key] += value || 0
       })
       const { elements: extra } = useAnyElement()
-      const { switchElements } = useSwitchElement()
-      switchElements.forEach((item) => {
+      useSwitchElement().switchElements.forEach((item) => {
         const selected = item.selected as Element
         if (selected !== 'Any') {
           elements[selected]++

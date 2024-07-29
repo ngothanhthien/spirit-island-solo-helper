@@ -32,10 +32,10 @@ import RangeIcon from '@/components/icons/RangeIcon.vue'
         }"
         :panelWidth="containerWidth"
         :panelHeight="containerHeight"
-        style="font-size: 0.62rem; color: inherit; display: block; border-radius: 0; line-height: 0.7rem"
+        style="font-size: 0.55rem; line-height: 0.7rem; color: inherit; display: block; border-radius: 0; line-height: 0.7rem"
         class="absolute bg-amber-200/90 pl-1 py-0.5"
       >
-        <div style="font-size: 0.65rem" class="font-bold leading-3">Pack Hunting</div>
+        <div style="font-size: 0.6rem" class="font-bold leading-3">Pack Hunting</div>
         <div>Your Powers get <range-icon num="+1" class="w-5 mb-2 mt-1 text-gray-800/90" /> for targeting lands with <span class="icon-beasts" />.</div>
       </replacement-box>
     </template>

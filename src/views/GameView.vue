@@ -44,6 +44,7 @@ import { useGleamingHoardStore } from '@/components/GleamingHoard/Store'
 import InnateReminder from '@/components/InnateReminder.vue'
 import { useElementSize } from '@vueuse/core'
 import TemporaryElement from '@/components/AnyElement/TemporaryElement.vue'
+import useSwitchElement from '@/components/SwitchElement/store'
 
 const playerCard = usePlayerCardStore()
 const eventDeck = useEventDeckStore()
@@ -275,7 +276,7 @@ onMounted(async () => {
             </div>
             <any-element-trigger />
             <temporary-element />
-            <switch-element-trigger />
+            <switch-element-trigger v-if="useSwitchElement().switchElements.length > 0" />
             <spirit-panel-trigger v-if="spiritInfo.panel" />
             <gleaming-hoard-trigger v-if="useGleamingHoardStore().hasGleamingHoard" />
           </div>
