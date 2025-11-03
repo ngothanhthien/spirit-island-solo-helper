@@ -8,17 +8,14 @@ import { type Ref, ref, computed } from 'vue'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { ADVERSARY } from '@/constant'
 import FearCounter from './FearCounter.vue'
-import { usePlayerCardStore } from '@/stores/PlayerCardStore'
-import { useDaysThatNeverWereStore } from '@/stores/DaysThatNeverWhereStore'
 import { useModalStore } from '@/stores/ModalStore'
 import { useSweden4 } from '@/composable/useSweden4'
+import InvaderCard from '@/components/Invader/InvaderCard.vue'
 
 const invaderCard = useInvaderCardStore()
 const gameOption = useGameOptionStore()
-const playerCard = usePlayerCardStore()
 const { doSweden4 } = useSweden4()
 
-const showingVision = ref(false)
 const modal = useModalStore()
 
 const { draw, explore, build, ravage, extraBuild, discard, box } = storeToRefs(invaderCard)
@@ -131,9 +128,6 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
         <div class="flex">
           <base-button class="capitalize mt-1 mx-2" button-style="secondary" :disabled="lastCommit.length === 0" @click="undo"> undo </base-button>
           <div class="ml-auto flex space-x-2">
-            <base-button v-if="useDaysThatNeverWereStore().current === playerCard.current" :button-style="'daysThatNeverWere'" @click="showingVision = true">
-              Visions of a shifting future
-            </base-button>
             <fear-counter />
             <div v-if="gameOption.hasMining4" class="relative h-10" @click="modal.saltDeposit = true">
               <img src="/img/invader/d-2.webp" alt="Salt Deposit" class="h-full w-8" />
@@ -143,7 +137,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             </div>
           </div>
         </div>
-        <div class="flex-1 px-4 py-2 flex space-x-2 text-2xl">
+        <div class="flex-1 px-4 py-2 flex text-2xl">
           <div id="invader-control-discard" class="basis-full flex flex-col">
             <div class="text-base">&nbsp;</div>
             <button class="flex justify-center items-center text-orange-600 w-full flex-1" :disabled="invaderCard.discard.length === 0" @click="modal.invaderDiscard = true">
@@ -154,24 +148,24 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               <span class="icon-player-track-prev" />
             </div>
           </div>
-          <div v-if="invaderCard.extraBuildView" class="flex items-center mb-3">
+          <div v-if="invaderCard.extraBuildView" class="flex items-center mb-3 relative">
             <span class="icon-chevron-left text-3xl" />
           </div>
           <div v-if="invaderCard.extraBuildView" class="basis-full flex-col flex">
             <div class="text-center text-base">Extra Build</div>
             <div v-if="gameOption.hasEngland1" class="text-center text-xs bg-red-200 rounded">England 1</div>
             <invader-box v-if="invaderCard.extraBuild?.length !== 1" :deck="invaderCard.extraBuildView" class="flex-1 rounded-lg overflow-hidden" />
-            <div v-else class="flex-1 overflow-hidden relative flex items-center">
-              <img :src="`/img/invader/${invaderCard.extraBuild[0].toLowerCase()}.webp`" alt="Invader Card" class="absolute w-full max-h-full rounded-lg" />
+            <invader-card v-else :code="invaderCard.extraBuild[0]" class="flex-1 overflow-hidden relative flex items-center" />
+            <div class="w-full flex justify-center absolute bottom-0">
+              <button class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 opacity-0" :disabled="invaderCard.extraBuildView.length === 0">
+                <span class="icon-player-track-prev text-3xl" />
+              </button>
             </div>
-            <button class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 opacity-0" :disabled="invaderCard.extraBuildView.length === 0">
-              <span class="icon-player-track-prev text-3xl" />
-            </button>
           </div>
           <div class="flex items-center mb-3">
             <span class="text-3xl icon-chevron-left" />
           </div>
-          <div class="basis-full flex-col flex">
+          <div class="basis-full flex-col flex relative">
             <div class="h-10">
               <div class="text-center text-base">Ravage</div>
               <div v-if="gameOption.hasRussia1" class="text-center text-xs bg-red-200 rounded">
@@ -190,29 +184,27 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               }"
               class="flex-1 rounded-lg overflow-hidden"
             />
-            <div v-else class="flex-1 overflow-hidden relative flex items-center">
-              <img
-                :src="`/img/invader/${invaderCard.ravage[0].toLowerCase()}.webp`"
-                alt="Invader Card"
-                :class="{
-                  'border-4 border-red-700': invaderCard.lock.includes('ravage')
-                }"
-                class="absolute w-full max-h-full rounded-lg"
-              />
+            <invader-card
+              v-else
+              :code="invaderCard.ravage[0]"
+              :isLock="invaderCard.lock.includes('ravage')"
+              class="flex-1 overflow-hidden relative flex items-center"
+             />
+            <div class="w-full flex justify-center absolute bottom-0">
+              <button
+                class="text-white bg-gray-800 px-4 w-fit rounded-lg disabled:bg-gray-800/60"
+                :disabled="invaderCard.ravage.length === 0"
+                @click="invaderCard.lockToggle('ravage')"
+              >
+                <span v-if="invaderCard.lock.includes('ravage')" class="icon-lock text-base" />
+                <span v-else class="icon-lock-off text-base" />
+              </button>
             </div>
-            <button
-              class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:bg-gray-800/60"
-              :disabled="invaderCard.ravage.length === 0"
-              @click="invaderCard.lockToggle('ravage')"
-            >
-              <span v-if="invaderCard.lock.includes('ravage')" class="icon-lock" />
-              <span v-else class="icon-lock-off" />
-            </button>
           </div>
           <div class="flex items-center mb-3">
             <span class="icon-chevron-left text-3xl" />
           </div>
-          <div class="basis-full flex-col flex">
+          <div class="basis-full flex-col flex relative justify-center">
             <div class="h-10">
               <div class="text-center text-base">Build</div>
               <div v-if="gameOption.hasEngland1" class="text-center text-xs bg-red-200 rounded">England 1</div>
@@ -233,39 +225,34 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               }"
               class="flex-1 rounded-lg overflow-hidden"
             />
-            <div v-else class="flex-1 overflow-hidden relative flex items-center">
-              <img
-                :src="`/img/invader/${invaderCard.build[0].toLowerCase()}.webp`"
-                alt="Invader Card"
-                :class="{
-                  'border-4 border-red-700': invaderCard.lock.includes('build')
-                }"
-                class="absolute w-full max-h-full rounded-lg"
-              />
+            <invader-card v-else class="flex-1 overflow-hidden relative flex items-center" :code="invaderCard.build[0]" :isLock="invaderCard.lock.includes('build')" />
+            <div class="w-full flex justify-center absolute bottom-0">
+              <button
+                class="text-white bg-gray-800 px-4 w-fit rounded-lg disabled:bg-gray-800/60"
+                :disabled="invaderCard.build.length === 0"
+                @click="invaderCard.lockToggle('build')"
+              >
+                <span v-if="invaderCard.lock.includes('build')" class="icon-lock text-base" />
+                <span v-else class="icon-lock-off text-base" />
+              </button>
             </div>
-            <button
-              class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:bg-gray-800/60"
-              :disabled="invaderCard.build.length === 0"
-              @click="invaderCard.lockToggle('build')"
-            >
-              <span v-if="invaderCard.lock.includes('build')" class="icon-lock" />
-              <span v-else class="icon-lock-off" />
-            </button>
           </div>
           <div class="flex items-center mb-3">
             <span class="icon-chevron-left text-3xl" />
           </div>
-          <div class="basis-full flex-col flex">
-            <div class="text-center text-base">Explore</div>
-            <div v-if="gameOption.hasFrance1" class="text-center text-xs bg-red-200 rounded">France 1<span v-if="gameOption.hasFrance6">, 6</span></div>
-            <div v-if="gameOption.hasScotland1" class="text-center text-xs bg-red-200 rounded">Scotland 1</div>
-            <div v-if="gameOption.hasMining6" class="text-center text-xs bg-red-200 rounded">Mining 6</div>
+          <div class="basis-full flex-col flex relative">
+            <div class="h-10">
+              <div class="text-center text-base">Explore</div>
+              <div v-if="gameOption.hasFrance1" class="text-center text-xs bg-red-200 rounded">France 1<span v-if="gameOption.hasFrance6">, 6</span></div>
+              <div v-if="gameOption.hasScotland1" class="text-center text-xs bg-red-200 rounded">Scotland 1</div>
+              <div v-if="gameOption.hasMining6" class="text-center text-xs bg-red-200 rounded">Mining 6</div>
+            </div>
             <div
               v-if="invaderCard.explore.length === 0 && invaderCard.draw.length > 0"
-              class="relative flex-1 text-semibold rounded-lg overflow-hidden font-serif h-full text-white bg-gray-900 flex items-center justify-center"
+              class="relative flex-1 text-semibold rounded-lg overflow-hidden font-serif h-full text-white flex items-center justify-center"
               @click="modal.invaderDraw = true"
             >
-              {{ invaderCard.getBackCardTop }}
+              <img :src="`/img/card-back/stage${invaderCard.getStage}.webp`" alt="Invader Card" class="rounded-lg" />
               <div class="absolute top-0 right-0 p-2" @click.stop="shuffle">
                 <span class="icon-reload" />
               </div>
@@ -273,24 +260,22 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             <div v-else-if="invaderCard.explore.length === 0 && invaderCard.draw.length === 0" class="flex-1 flex items-center justify-center text-red-700 font-bold">Empty</div>
             <template v-else>
               <invader-box v-if="invaderCard.explore.length !== 1" :deck="invaderCard.exploreView" class="flex-1 rounded-lg overflow-hidden" />
-              <div v-else class="flex-1 overflow-hidden relative flex items-center">
-                <img :src="`/img/invader/${invaderCard.explore[0].toLowerCase()}.webp`" alt="Invader Card" class="absolute w-full max-h-full rounded-lg" />
-              </div>
+              <invader-card class="flex-1 overflow-hidden relative flex items-center" :code="invaderCard.explore[0]" />
             </template>
-            <div class="flex">
+            <div class="flex absolute bottom-0 space-x-4 justify-center w-full">
               <button
                 v-if="gameOption.hasSweden4 && invaderCard.draw.length === invaderCard.pos.length"
-                class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:bg-gray-800/60 text-sm"
+                class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:bg-gray-800/60 text-sm absolute bottom-0"
                 @click="doSweden4"
               >
                 Sweden 4
               </button>
               <template v-else>
-                <button class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:opacity-0" :disabled="!invaderCard.canNext" @click="next">
-                  <span class="icon-player-track-prev" />
+                <button class="text-white bg-gray-800 px-4 w-fit rounded-lg disabled:opacity-0" :disabled="!invaderCard.canNext" @click="next">
+                  <span class="icon-player-track-prev text-base" />
                 </button>
-                <button class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 disabled:opacity-0" :disabled="invaderCard.draw.length === 0" @click="doExplore">
-                  <span class="icon-eye" />
+                <button class="text-white bg-gray-800 px-4 w-fit rounded-lg disabled:opacity-0" :disabled="invaderCard.draw.length === 0" @click="doExplore">
+                  <span class="icon-eye text-base" />
                 </button>
               </template>
             </div>

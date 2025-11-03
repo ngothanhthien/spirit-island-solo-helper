@@ -2,6 +2,7 @@
 import { useModalStore } from '@/stores/ModalStore'
 import { useGameOptionStore } from '@/stores/GameOptionStore'
 import { useInvaderCardStore } from '@/stores/InvaderCardStore'
+import InvaderCard from '@/components/Invader/InvaderCard.vue'
 
 function close() {
   useModalStore().invaderDraw = false
@@ -17,16 +18,10 @@ function close() {
           <span class="icon-x text-2xl" />
         </div>
       </div>
-      <div class="bg-white flex-1 overflow-x-auto py-2 px-3 flex hide-scrollbar">
-        <template v-for="(card, index) in useInvaderCardStore().drawView" :key="card.name">
-          <img
-            v-if="card.name === 'D-2' || (useGameOptionStore().hasScotland2 && card.name === 'C-2')"
-            :src="`/img/invader/${card.name.toLowerCase()}.webp`"
-            alt="Invader Card"
-            class="h-full rounded-lg"
-            :class="{ 'ml-2': index !== 0 }"
-          />
-          <img v-else :src="`/img/card-back/stage${card.stage}.webp`" alt="Invader Card" class="h-full rounded-lg" :class="{ 'ml-2': index !== 0 }" />
+      <div class="bg-white flex-1 overflow-x-auto py-2 px-3 flex hide-scrollbar space-x-2">
+        <template v-for="(card) in useInvaderCardStore().drawView" :key="card.name">
+          <invader-card class="h-full aspect-[2/3]" v-if="card.name === 'D-2' || (useGameOptionStore().hasScotland2 && card.name === 'C-2')" :code="card.name" />
+          <img v-else :src="`/img/card-back/stage${card.stage}.webp`" alt="Invader Card" class="h-full rounded-lg" />
         </template>
       </div>
     </div>

@@ -20,7 +20,6 @@ export const useModalStore = defineStore('ModalStore', {
     invaderDiscard: false,
     visionsOfAShiftingFutureEvent: false,
     saltDeposit: false,
-    visionShiftingFuture: false,
     baseZoom: [] as string[]
   })
 })

@@ -25,7 +25,6 @@ import { useGleamingHoardStore } from '@/components/GleamingHoard/Store'
 import { usePlayerCardStore } from '@/stores/PlayerCardStore'
 import { useSpiritInfo } from '@/composable/useSpiritInfo'
 import BaseZoom from '@/components/base/BaseZoom.vue'
-const VisionOfAShiftingFutureModal = defineAsyncComponent(() => import('@/components/Spirit/VisionsShiftingFutureModal.vue'))
 const Sweden4Modal = defineAsyncComponent(() => import('@/components/Adversary/Sweden4Modal.vue'))
 const SaltDepositModal = defineAsyncComponent(() => import('@/components/Adversary/SaltDepositModal.vue'))
 const AspectDetail = defineAsyncComponent(() => import('@/components/AspectDetail.vue'))
@@ -120,7 +119,6 @@ const spiritPanelModal = computed(() => {
     <VisionOfAShiftingFutureEvent v-if="modal.visionsOfAShiftingFutureEvent" />
     <SaltDepositModal v-if="modal.saltDeposit" />
     <Sweden4Modal v-if="gameOption.hasSweden4" />
-    <vision-of-a-shifting-future-modal v-if="modal.visionShiftingFuture" />
     <spirit-panel-modal v-if="modal.panel" />
     <gleaming-hoard v-if="gleamingHoardStore.isShowModal" />
     <base-zoom v-if="modal.baseZoom.length > 0" />

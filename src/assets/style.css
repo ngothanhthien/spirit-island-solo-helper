@@ -165,3 +165,17 @@ body {
 img.whitify {
   filter: invert(1) brightness(2);
 }
+
+.sprite-3 .tile {
+  --w: 0;
+  --x: 0;
+  --y: 0;
+  background-image: url('/sprite/i3.webp');
+  width: var(--w);
+  height: var(--w);
+
+  background-repeat: no-repeat;
+  background-size: calc(1778 / 225 * var(--w)) calc(889/225 * var(--w));
+
+  background-position: calc(var(--x) * (-1) * var(--w)) calc(var(--y) * (-1) * var(--w) - 43/45 * var(--w));
+}
