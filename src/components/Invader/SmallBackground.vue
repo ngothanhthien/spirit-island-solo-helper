@@ -27,7 +27,7 @@ const romanNumber = computed(() => {
   <div ref="el" class="aspect-square">
     <div class="sprite-3 w-fit rounded-[4px] relative overflow-hidden">
       <div class="tile"
-        :style="{ '--w': width + 'px', '--x': 0, '--y': props.stage }"
+        :style="{ '--w': width + 'px', '--x': 0, '--y': 2 }"
       />
       <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
         {{ romanNumber }}
