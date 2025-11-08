@@ -155,7 +155,11 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
             <div class="text-center text-base">Extra Build</div>
             <div v-if="gameOption.hasEngland1" class="text-center text-xs bg-red-200 rounded">England 1</div>
             <invader-box v-if="invaderCard.extraBuild?.length !== 1" :deck="invaderCard.extraBuildView" class="flex-1 rounded-lg overflow-hidden" />
-            <invader-card v-else :code="invaderCard.extraBuild[0]" class="flex-1 overflow-hidden relative flex items-center" />
+            <invader-card
+              v-else-if="invaderCard.extraBuildView[0]"
+              :code="invaderCard.extraBuildView[0]"
+              class="flex-1 overflow-hidden relative flex items-center"
+            />
             <div class="w-full flex justify-center absolute bottom-0">
               <button class="text-white bg-gray-800 px-4 py-1.5 w-fit mx-auto rounded-lg mt-1 opacity-0" :disabled="invaderCard.extraBuildView.length === 0">
                 <span class="icon-player-track-prev text-3xl" />
@@ -177,7 +181,7 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               <div v-if="gameOption.hasHabsburg" class="text-center text-xs bg-red-200 rounded">Habsburg loss<span v-if="gameOption.hasHabsburg6">, 6</span></div>
             </div>
             <invader-box
-              v-if="invaderCard.ravage.length !== 1"
+              v-if="invaderCard.ravageView.length !== 1"
               :deck="invaderCard.ravageView"
               :class="{
                 'border-4 border-red-700': invaderCard.lock.includes('ravage')
@@ -185,8 +189,8 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               class="flex-1 rounded-lg overflow-hidden"
             />
             <invader-card
-              v-else
-              :code="invaderCard.ravage[0]"
+              v-else-if="invaderCard.ravageView[0]"
+              :code="invaderCard.ravageView[0]"
               :isLock="invaderCard.lock.includes('ravage')"
               class="flex-1 overflow-hidden relative flex items-center"
              />
@@ -225,7 +229,11 @@ if (gameOption.isEngland3 && invaderCard.extraBuild !== null) {
               }"
               class="flex-1 rounded-lg overflow-hidden"
             />
-            <invader-card v-else class="flex-1 overflow-hidden relative flex items-center" :code="invaderCard.build[0]" :isLock="invaderCard.lock.includes('build')" />
+            <invader-card
+              v-else-if="invaderCard.buildView[0]"
+              class="flex-1 overflow-hidden relative flex items-center"
+              :code="invaderCard.buildView[0]" :isLock="invaderCard.lock.includes('build')"
+             />
             <div class="w-full flex justify-center absolute bottom-0">
               <button
                 class="text-white bg-gray-800 px-4 w-fit rounded-lg disabled:bg-gray-800/60"

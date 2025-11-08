@@ -31,14 +31,14 @@ export const useInvaderCardStore = defineStore('invaderCardStore', {
       return compile(state.explore)
     },
     buildView(state) {
-      return state.build.length > 1 ? compile(state.build) : [state.build[0]]
+      return state.build.length > 1 ? compile(state.build) : state.build[0] ? [state.build[0]] : []
     },
     ravageView(state) {
-      return state.ravage.length > 1 ? compile(state.ravage) : [state.ravage[0]]
+      return state.ravage.length > 1 ? compile(state.ravage) : state.ravage[0] ? [state.ravage[0]] : []
     },
     extraBuildView(state) {
       if (!state.extraBuild) return null
-      return state.extraBuild.length > 1 ? compile(state.extraBuild) : [state.extraBuild[0]]
+      return state.extraBuild.length > 1 ? compile(state.extraBuild) : state.extraBuild[0] ? [state.extraBuild[0]] : []
     },
     discardView(state) {
       return state.discard.slice().reverse()

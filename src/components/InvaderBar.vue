@@ -12,18 +12,18 @@ const invaderCard = useInvaderCardStore()
     <template v-if="invaderCard.extraBuildView">
       <div class="flex flex-col">
           <invader-box v-if="invaderCard.extraBuildView.length > 1" :deck="invaderCard.extraBuildView" label="ravage" class="text-xs flex-1" :class="[invaderCard.ravage.length > 4 ? 'w-12' : 'w-8']" />
-          <invader-card v-else :code="invaderCard.extraBuildView[0]" :is-small="true" class="h-[80%] aspect-square" />
+          <invader-card v-else-if="invaderCard.extraBuildView[0]" :code="invaderCard.extraBuildView[0]" :is-small="true" class="h-[80%] aspect-square" />
         <div class="uppercase text-[9px] text-white text-center">build</div>
       </div>
     </template>
     <div class="flex flex-col">
       <invader-box v-if="invaderCard.ravageView.length > 1" :deck="invaderCard.ravageView" label="ravage" class="text-xs flex-1" :class="[invaderCard.ravage.length > 4 ? 'w-12' : 'w-8']" />
-      <invader-card v-else :code="invaderCard.ravageView[0]" :is-small="true" class="h-[80%] aspect-square" />
+      <invader-card v-else-if="invaderCard.ravageView[0]" :code="invaderCard.ravageView[0]" :is-small="true" class="h-[80%] aspect-square" />
       <div class="uppercase text-[9px] text-white text-center">ravage</div>
     </div>
     <div class="flex flex-col">
       <invader-box v-if="invaderCard.buildView.length > 1" :deck="invaderCard.buildView" label="build" class="text-xs flex-1" :class="[invaderCard.build.length > 4 ? 'w-12' : 'w-8']" />
-      <invader-card v-else :code="invaderCard.buildView[0]" :is-small="true" class="h-[80%] aspect-square" />
+      <invader-card v-else-if="invaderCard.buildView[0]" :code="invaderCard.buildView[0]" :is-small="true" class="h-[80%] aspect-square" />
       <div class="uppercase text-[9px] text-white text-center">build</div>
     </div>
     <small-background
